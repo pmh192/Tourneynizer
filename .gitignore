@@ -1,0 +1,7 @@
+*.swp
+
+backend/target
+backend/*.class
+backend/*.idea
+backend/*.iml
+backend/scripts/*.conf
