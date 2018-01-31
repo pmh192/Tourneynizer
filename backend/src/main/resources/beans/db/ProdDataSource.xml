@@ -6,9 +6,9 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
-        <property name="driverClassName" value="#{systemEnvironment['TOURNEYNIZER_DRIVER_CLASS_NAME_TEST']}"/>
-        <property name="url" value="#{systemEnvironment['TOURNEYNIZER_URL_TEST']}"/>
-        <property name="username" value="#{systemEnvironment['TOURNEYNIZER_USERNAME_TEST']}"/>
-        <property name="password" value="#{systemEnvironment['TOURNEYNIZER_PASSWORD_TEST']}"/>
+        <property name="driverClassName" value="#{systemEnvironment['TOURNEYNIZER_DRIVER_CLASS_NAME_PROD']}"/>
+        <property name="url" value="#{systemEnvironment['TOURNEYNIZER_URL_PROD']}"/>
+        <property name="username" value="#{systemEnvironment['TOURNEYNIZER_USERNAME_PROD']}"/>
+        <property name="password" value="#{systemEnvironment['TOURNEYNIZER_PASSWORD_PROD']}"/>
     </bean>
 </beans>

@@ -6,9 +6,9 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/tourneynizer-dev"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value=""/>
+        <property name="driverClassName" value="#{systemEnvironment['TOURNEYNIZER_DRIVER_CLASS_NAME_DEV']}"/>
+        <property name="url" value="#{systemEnvironment['TOURNEYNIZER_URL_DEV']}"/>
+        <property name="username" value="#{systemEnvironment['TOURNEYNIZER_USERNAME_DEV']}"/>
+        <property name="password" value="#{systemEnvironment['TOURNEYNIZER_PASSWORD_DEV']}"/>
     </bean>
 </beans>
