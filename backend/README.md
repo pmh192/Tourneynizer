@@ -16,3 +16,6 @@ You can look up how to the first 3. For the last one, `cd` into `backend/`, and 
 Now you have 3 databases: `tourneynizer-prod`, `tourneynizer-dev`, and `tourneynizer-test`. But they're all empty.
 
 Now run `./scripts/migrate.sh`. Now all your databases will have tables in them. That's it for now!
+
+For connecting to the database, you'll need to have the proper environment variables set. Look in the
+(Dev/Prod/Test)DataSouce.xml to see which ones to set, or ask Porter for a .env file.
