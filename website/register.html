@@ -7,19 +7,24 @@
 	<body>
 		<h1 id='registerTitle'>Register an Account</h1>
 		<div id='accountForm'>
-			<ul id='accountFormList'>
-				<li><input type='text' placeholder="Email"></input></li>
-				<!--Database only has name attribute - not sure if first and last needed-->
-				<li><input type='text' placeholder="First Name"></input></li>
-				<li><input type='text' placeholder="Last Name"></input></li>
-				<li><input type='password' placeholder="Password"></input></li>
-				<li><input type='password' placeholder="Re-type Password"></input></li>
-				<!--On click of 'submit' button information will be sent to the database-->
-				<input type='submit' placeholder="..."></input><br/>
-			</ul>
+			<form onsubmit='return checkPasswordMatching()'>
+				<ul id='accountFormList'>
+
+					<li><input type='text' placeholder="Email"></input></li>
+					<!--Database only has name attribute - not sure if first and last needed-->
+					<li><input type='text' placeholder="First Name"></input></li>
+					<li><input type='text' placeholder="Last Name"></input></li>
+					<li><input type='password' placeholder="Password" id='ps1'></input></li>
+					<li><input type='password' placeholder="Re-type Password" id='ps2'></input></li>
+					<!--On click of 'submit' button information will be sent to the database-->
+					<input type='submit' value='Submit'></input>
+					
+				</ul>
+			</form>
 		</div>
 		<div id='returnHomeReg'>
 			<a href='home.html'>Return to the home page</a>
 		</div>
+		<script src='registerScripts.js'></script>
 	</body>
 </html>
