@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <!-- Beans independent of environment go here -->
-    <import resource="beans/dao/UserDao.xml" />
-
+    <bean id="UserDao" class="com.dreamteam.tourneynizer.dao.UserDao">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 </beans>

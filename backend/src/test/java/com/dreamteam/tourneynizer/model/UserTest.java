@@ -6,6 +6,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class UserTest {
+    @Test
+    public void isPersisted() throws Exception {
+        User user = new User("person@place.com", "name", "hashedPassword");
+        assertFalse(user.isPersisted());
+    }
 
     @Test
     public void constructor() throws Exception {

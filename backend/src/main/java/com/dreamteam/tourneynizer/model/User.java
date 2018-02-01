@@ -51,4 +51,53 @@ public class User {
         if (name.isEmpty()) { throw new IllegalArgumentException("Name cannot be empty"); }
         this.name = name;
     }
+
+    public boolean isPersisted() {
+        return id != null;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void persist(Long id, Timestamp timeCreated) {
+        this.id = id;
+        this.timeCreated = timeCreated;
+    }
+
+    public Timestamp getTimeCreated() {
+        return timeCreated;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    private boolean equalsHelper(Object o1, Object o2) {
+        if (o1 == null && o2 == null) return true;
+        if (o1 == null) return false;
+        return o1.equals(o2);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof User) {
+            User o = (User) other;
+
+            return equalsHelper(this.id, o.id) &&
+                    equalsHelper(this.email, o.email) &&
+                    equalsHelper(this.name, o.name) &&
+                    equalsHelper(this.hashedPassword, o.hashedPassword) &&
+                    equalsHelper(this.timeCreated, o.timeCreated);
+        }
+        return false;
+    }
 }
