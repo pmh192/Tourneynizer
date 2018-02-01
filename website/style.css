@@ -9,15 +9,22 @@ h1{
 
 #accountForm{
     border-radius: 3px;
-    background-color: #f2f2f2;
     padding: 10px; 
-	background-color: blue;
 	width: 17%;
+}
+
+#accountFormList{
+	list-style-type: none;
 }
 
 input[type=text]{
 	margin-bottom: 5px;
 }
+
+input[type=password]{
+	margin-bottom: 5px;
+}
+
 
 input[type=submit]{
 
