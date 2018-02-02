@@ -18,6 +18,22 @@ public class UserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void constructorNullargs1() throws Exception {
+        new User(null, "name", "hashedPassword");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void constructorNullargs2() throws Exception {
+        new User("person@place.com", null, "hashedPassword");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setPassNull() throws Exception {
+        User user = new User("person@place.com", "name", "hashedPassword");
+        user.setPlaintextPassword(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void constructorBadEmail() throws Exception {
         new User("invalidEmail", "name", "hashedPassword");
     }

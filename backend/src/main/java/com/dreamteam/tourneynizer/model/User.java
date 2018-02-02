@@ -30,6 +30,7 @@ public class User {
     }
 
     public void setPlaintextPassword(String password) {
+        if (password == null || password.isEmpty()) throw new IllegalArgumentException("Password cannot be empty");
         this.hashedPassword = passwordEncoder.encode(password);
     }
 
