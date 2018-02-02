@@ -38,6 +38,7 @@ public class User {
     }
 
     private void setEmail(String email) {
+        if (email == null) { throw new IllegalArgumentException("Email is required"); }
         if (email.length() >= 256) { throw new IllegalArgumentException("Email is too long"); }
         if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find()) {
             throw new IllegalArgumentException("Email is invalid");
@@ -47,8 +48,8 @@ public class User {
     }
 
     private void setName(String name) {
+        if (name == null || name.isEmpty()) { throw new IllegalArgumentException("Name cannot be empty"); }
         if (name.length() >= 256) { throw new IllegalArgumentException("Name is too long"); }
-        if (name.isEmpty()) { throw new IllegalArgumentException("Name cannot be empty"); }
         this.name = name;
     }
 
@@ -95,9 +96,18 @@ public class User {
             return equalsHelper(this.id, o.id) &&
                     equalsHelper(this.email, o.email) &&
                     equalsHelper(this.name, o.name) &&
-                    equalsHelper(this.hashedPassword, o.hashedPassword) &&
+                    // Hashed passwords are salted (randomly), we will not compare them
                     equalsHelper(this.timeCreated, o.timeCreated);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + id + "\n" +
+                "email: " + email + "\n" +
+                "name: " + name + "\n" +
+                "hashedPassword: " + hashedPassword + "\n" +
+                "timeCreated: " + timeCreated + "\n";
     }
 }
