@@ -1,12 +1,12 @@
 body{
-	background-color: lightblue;
+	background-color: #f2f2f2;
 	width:200%;
 	height:200%;
 }
 
 h1{
 	font-size: 150%;
-	color: darkblue;
+	color: #333333;
 }
 
 #accountForm{
@@ -16,6 +16,10 @@ h1{
 }
 
 #accountFormList{
+	list-style-type: none;
+}
+
+#loginFormList{
 	list-style-type: none;
 }
 
@@ -38,3 +42,41 @@ input[type=submit]:hover{
 #returnHomeReg{
 	margin-top: 20px;
 }
+
+.navbar{
+    overflow: hidden;
+    background-color: #333333;
+    display: flex;
+    align-items: center;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+}
+
+.navbar a{
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover{
+    background: #ddd;
+    color: black;
+}
+
+.navbar input{
+	vertical-align: center;
+	float: left;
+	padding: 1px 20px;
+}
+
+.main{
+    margin-top: 50px; /* Add a top margin to avoid content overlay */
+}
+
+
+
+

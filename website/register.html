@@ -5,11 +5,16 @@
 	</head>
 
 	<body>
+		<div class='navbar'>
+			<a href='home.html'>Home</a>
+			<a href='register.html'>Register</a>
+			<a href='login.html'>Login</a>
+			<input type='text' placeholder="search"></input>
+		</div>
 		<h1 id='registerTitle'>Register an Account</h1>
 		<div id='accountForm'>
 			<form onsubmit='return checkPasswordMatching()'>
 				<ul id='accountFormList'>
-
 					<li><input type='text' placeholder="Email"></input></li>
 					<!--Database only has name attribute - not sure if first and last needed-->
 					<li><input type='text' placeholder="First Name"></input></li>
