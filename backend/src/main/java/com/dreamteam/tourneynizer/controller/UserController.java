@@ -2,6 +2,7 @@ package com.dreamteam.tourneynizer.controller;
 
 import com.dreamteam.tourneynizer.error.BadRequestException;
 import com.dreamteam.tourneynizer.error.InternalErrorException;
+import com.dreamteam.tourneynizer.model.ErrorMessage;
 import com.dreamteam.tourneynizer.model.User;
 import com.dreamteam.tourneynizer.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -29,9 +30,9 @@ public class UserController {
         try {
             user = userService.insertUser(values.get("email"), values.get("name"), values.get("password"));
         } catch (BadRequestException e) {
-            return new ResponseEntity<Object>("Error", new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {
-            return new ResponseEntity<Object>("Error", new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
