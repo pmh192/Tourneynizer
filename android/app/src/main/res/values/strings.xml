@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Tourneynizer</string>
     <string name="login">Login</string>
+    <string name="createAccount">Create Account</string>
     <string name="emailPrompt">Email:</string>
     <string name="passwordPrompt">Password:</string>
     <string name="namePrompt">Name:</string>
     <string name="registerAccountPrompt">Don\'t have an account? Click here to register</string>
+    <string name="loginPrompt">Already have an account? Click here to login</string>
 </resources>
