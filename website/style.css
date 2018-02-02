@@ -67,7 +67,9 @@ input[type=submit]:hover{
     color: black;
 }
 
+/*search bar*/
 .navbar input{
+	margin-top: 3px;
 	vertical-align: center;
 	float: left;
 	padding: 1px 20px;
