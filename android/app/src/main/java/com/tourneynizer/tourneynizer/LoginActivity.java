@@ -17,7 +17,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Editable usernameText = ((EditText) findViewById(R.id.email)).getText();
+                Editable emailText = ((EditText) findViewById(R.id.email)).getText();
                 Editable passwordText = ((EditText) findViewById(R.id.password)).getText();
                 // Check to see if username and password are valid
                 // if so, advance to next activity (home page of app)

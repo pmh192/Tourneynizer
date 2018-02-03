@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Editable nameText = ((EditText) findViewById(R.id.name)).getText();
-                Editable usernameText = ((EditText) findViewById(R.id.email)).getText();
+                Editable emailText = ((EditText) findViewById(R.id.email)).getText();
                 Editable passwordText = ((EditText) findViewById(R.id.password)).getText();
                 // attempt to create account through info by sending data to back end
                 // if works, advance to next activity (home page of app)
