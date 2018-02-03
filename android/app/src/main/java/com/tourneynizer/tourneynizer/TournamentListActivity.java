@@ -2,6 +2,7 @@ package com.tourneynizer.tourneynizer;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class TournamentListActivity extends AppCompatActivity {
@@ -10,7 +11,9 @@ public class TournamentListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournament_list);
-        ListView tournamentListView = findViewById(R.id.tournamentList);
-        tournamentListView.addView(new TournamentListItemView(this));
+        ListView listView = findViewById(R.id.tournamentList);
+        TournamentListItemView tournamentItem = new TournamentListItemView(this);
+        tournamentItem.setTournaentName("Test tournament name");
+        listView.setEmptyView(tournamentItem);
     }
 }

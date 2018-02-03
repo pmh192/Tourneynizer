@@ -3,6 +3,7 @@ package com.tourneynizer.tourneynizer;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -31,6 +32,7 @@ public class TournamentListItemView extends View {
         textPaint = new TextPaint();
         textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setColor(Color.BLACK);
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.TournamentListItemView, defStyle, 0);
         tournamentName = a.getString(R.styleable.TournamentListItemView_tournamentName);
@@ -49,14 +51,9 @@ public class TournamentListItemView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawText(tournamentName, 500, 500, textPaint);
+        canvas.drawText(tournamentName, 0, 0, textPaint);
     }
 
-    /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
-     */
     public String getTournamentName() {
         return tournamentName;
     }
