@@ -23,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // attempt to create account through info by sending data to back end
                 // if works, advance to next activity (home page of app)
                 // if not, display error message
+                startActivity(TournamentListActivity.class);
             }
         });
         View registerAccountLink = findViewById(R.id.loginLink);

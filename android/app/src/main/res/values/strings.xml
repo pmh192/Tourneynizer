@@ -7,4 +7,5 @@
     <string name="namePrompt">Name:</string>
     <string name="registerAccountPrompt">Don\'t have an account? Click here to register</string>
     <string name="loginPrompt">Already have an account? Click here to login</string>
+    <string name="tournaments">Tournaments</string>
 </resources>
