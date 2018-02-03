@@ -18,15 +18,14 @@ public class User {
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public User(String email, String name, String hashedPassword) {
-        this(null, email, name, hashedPassword, null);
-    }
-
-    public User(Long id, String email, String name, String hashedPassword, Timestamp timeCreated) {
-        this.id = id;
         setEmail(email);
         setName(name);
         this.hashedPassword = hashedPassword;
-        this.timeCreated = timeCreated;
+    }
+
+    public User(Long id, String email, String name, String hashedPassword, Timestamp timeCreated) {
+        this(email, name, hashedPassword);
+        persist(id, timeCreated);
     }
 
     public void setPlaintextPassword(String password) {
@@ -71,6 +70,8 @@ public class User {
     }
 
     public void persist(Long id, Timestamp timeCreated) {
+        if (id == null) { throw new IllegalArgumentException("id cannot be null"); }
+        if (timeCreated == null) { throw new IllegalArgumentException("timeCreated cannot be null"); }
         this.id = id;
         this.timeCreated = timeCreated;
     }

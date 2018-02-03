@@ -2,6 +2,8 @@ package com.dreamteam.tourneynizer.model;
 
 import org.junit.Test;
 
+import java.sql.Timestamp;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -31,6 +33,22 @@ public class UserTest {
     public void setPassNull() throws Exception {
         User user = new User("person@place.com", "name", "hashedPassword");
         user.setPlaintextPassword(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void persist1() throws Exception {
+        new User(null, "person@place.com", "name", "hashedPassword", new Timestamp(1L));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void persist2() throws Exception {
+        new User(0L, "person@place.com", "name", "hashedPassword", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void persist3() throws Exception {
+        User user = new User("person@place.com", "name", "hashedPassword");
+        user.persist(null, new Timestamp(0L));
     }
 
     @Test(expected = IllegalArgumentException.class)
