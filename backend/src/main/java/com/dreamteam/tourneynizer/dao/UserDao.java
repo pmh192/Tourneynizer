@@ -26,7 +26,7 @@ public class UserDao {
      * Precondition: The user to be inserted isn't already persisted.
      * Postcondition: The user has been persisted, meaning it has an id
      *
-     * @param user The tournament to insert
+     * @param user The user to insert
      * @throws EmailTakenException  If the email is taken
      * @throws SQLException If there was a problem persisting the user
      */
