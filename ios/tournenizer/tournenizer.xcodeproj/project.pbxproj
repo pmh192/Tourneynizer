@@ -11,10 +11,11 @@
 		36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */; };
 		51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */; };
 		570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */; };
-		570FEABA2026B64100B94FD9 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB92026B64100B94FD9 /* Constant.swift */; };
+		570FEABA2026B64100B94FD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB92026B64100B94FD9 /* Constants.swift */; };
+		570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */; };
 		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
-		57B5B474201FE6B900C2C1DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* ViewController.swift */; };
+		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
 		57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */; };
 		57B5B47C201FE6B900C2C1DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57B5B47B201FE6B900C2C1DD /* Assets.xcassets */; };
 		57B5B47F201FE6B900C2C1DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57B5B47D201FE6B900C2C1DD /* LaunchScreen.storyboard */; };
@@ -46,11 +47,12 @@
 		3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		570FEAB92026B64100B94FD9 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		570FEAB92026B64100B94FD9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		57B5B473201FE6B900C2C1DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		57B5B479201FE6B900C2C1DD /* tournenizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tournenizer.xcdatamodel; sourceTree = "<group>"; };
 		57B5B47B201FE6B900C2C1DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57B5B47E201FE6B900C2C1DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -118,6 +120,25 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		570FEABB2027823000B94FD9 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */,
+				57449F092026895400AF0713 /* LoginViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		570FEABC2027828C00B94FD9 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				570FEAB92026B64100B94FD9 /* Constants.swift */,
+				570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */,
+				570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		57B5B465201FE6B800C2C1DD = {
 			isa = PBXGroup;
 			children = (
@@ -143,15 +164,13 @@
 		57B5B470201FE6B900C2C1DD /* tournenizer */ = {
 			isa = PBXGroup;
 			children = (
+				570FEABC2027828C00B94FD9 /* Config */,
+				570FEABB2027823000B94FD9 /* ViewControllers */,
 				57B5B471201FE6B900C2C1DD /* AppDelegate.swift */,
-				57B5B473201FE6B900C2C1DD /* ViewController.swift */,
 				57B5B47B201FE6B900C2C1DD /* Assets.xcassets */,
 				57B5B47D201FE6B900C2C1DD /* LaunchScreen.storyboard */,
 				57B5B480201FE6B900C2C1DD /* Info.plist */,
 				57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */,
-				57449F092026895400AF0713 /* LoginViewController.swift */,
-				570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */,
-				570FEAB92026B64100B94FD9 /* Constant.swift */,
 			);
 			path = tournenizer;
 			sourceTree = "<group>";
@@ -467,11 +486,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
-				57B5B474201FE6B900C2C1DD /* ViewController.swift in Sources */,
+				57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */,
 				570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */,
 				57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */,
 				57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */,
-				570FEABA2026B64100B94FD9 /* Constant.swift in Sources */,
+				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
+				570FEABA2026B64100B94FD9 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
