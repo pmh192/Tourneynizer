@@ -9,7 +9,7 @@
 import UIKit;
 import PureLayout;
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     // Declarations for all subviews
     var statusBarCover: UIView!;
     var logoLabel: UILabel!;
@@ -75,6 +75,8 @@ class LoginViewController: UIViewController {
             view.font = UIFont(name: Constant.font, size: normalFontSize);
             view.textAlignment = .center;
             view.textColor = Constant.navy;
+            view.keyboardType = .emailAddress;
+            view.returnKeyType = .next;
             return view;
         }();
         
@@ -85,6 +87,7 @@ class LoginViewController: UIViewController {
             view.textAlignment = .center;
             view.isSecureTextEntry = true;
             view.textColor = Constant.navy;
+            view.returnKeyType = .go;
             return view;
         }();
         
@@ -141,6 +144,10 @@ class LoginViewController: UIViewController {
         view.addSubview(loginStack);
         view.addSubview(registerStack);
         view.setNeedsUpdateConstraints();
+        
+        // Delegate view Controller to respond to events
+        usernameField.delegate = self;
+        passwordField.delegate = self;
     }
     
     // Creates a bottom border for a UITextField
@@ -300,6 +307,17 @@ class LoginViewController: UIViewController {
     
     // Prevent Auto Rotation
     override var shouldAutorotate: Bool {
+        return false;
+    }
+    
+    // Close keyboard on return
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if(textField == usernameField) {
+            passwordField.becomeFirstResponder();
+        } else {
+            passwordField.resignFirstResponder();
+        }
+
         return false;
     }
 }
