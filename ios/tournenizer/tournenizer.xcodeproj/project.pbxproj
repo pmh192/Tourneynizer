@@ -10,6 +10,8 @@
 		1378B58D0BD9980D35BB4595 /* Pods_tournenizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */; };
 		36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */; };
 		51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */; };
+		570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */; };
+		570FEABA2026B64100B94FD9 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB92026B64100B94FD9 /* Constant.swift */; };
 		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* ViewController.swift */; };
@@ -43,6 +45,8 @@
 		3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		570FEAB92026B64100B94FD9 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 				57B5B480201FE6B900C2C1DD /* Info.plist */,
 				57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */,
 				57449F092026895400AF0713 /* LoginViewController.swift */,
+				570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */,
+				570FEAB92026B64100B94FD9 /* Constant.swift */,
 			);
 			path = tournenizer;
 			sourceTree = "<group>";
@@ -462,8 +468,10 @@
 			files = (
 				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
 				57B5B474201FE6B900C2C1DD /* ViewController.swift in Sources */,
+				570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */,
 				57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */,
 				57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */,
+				570FEABA2026B64100B94FD9 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
