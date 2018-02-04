@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1378B58D0BD9980D35BB4595 /* Pods_tournenizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */; };
+		36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */; };
+		51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */; };
+		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* ViewController.swift */; };
 		57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */; };
@@ -34,6 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		197DE2EE87614CB0066DB431 /* Pods-tournenizer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizer.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer.release.xcconfig"; sourceTree = "<group>"; };
+		1A0FD1F0D58D664D88A8A5FE /* Pods-tournenizer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer.debug.xcconfig"; sourceTree = "<group>"; };
+		3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57B5B473201FE6B900C2C1DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +57,10 @@
 		57B5B490201FE6B900C2C1DD /* tournenizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tournenizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B494201FE6B900C2C1DD /* tournenizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tournenizerUITests.swift; sourceTree = "<group>"; };
 		57B5B496201FE6B900C2C1DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.release.xcconfig"; sourceTree = "<group>"; };
+		F0112F66EDC3A1734992EEE7 /* Pods-tournenizerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1378B58D0BD9980D35BB4595 /* Pods_tournenizer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +84,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F49C1D84EF3EAF4A0CEF6AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */,
+				3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */,
+				3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4DF2522AEAAF3FE283BD58EE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1A0FD1F0D58D664D88A8A5FE /* Pods-tournenizer.debug.xcconfig */,
+				197DE2EE87614CB0066DB431 /* Pods-tournenizer.release.xcconfig */,
+				47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */,
+				D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */,
+				F0112F66EDC3A1734992EEE7 /* Pods-tournenizerUITests.debug.xcconfig */,
+				6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		57B5B465201FE6B800C2C1DD = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +121,8 @@
 				57B5B488201FE6B900C2C1DD /* tournenizerTests */,
 				57B5B493201FE6B900C2C1DD /* tournenizerUITests */,
 				57B5B46F201FE6B900C2C1DD /* Products */,
+				4DF2522AEAAF3FE283BD58EE /* Pods */,
+				3F49C1D84EF3EAF4A0CEF6AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +145,7 @@
 				57B5B47D201FE6B900C2C1DD /* LaunchScreen.storyboard */,
 				57B5B480201FE6B900C2C1DD /* Info.plist */,
 				57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */,
+				57449F092026895400AF0713 /* LoginViewController.swift */,
 			);
 			path = tournenizer;
 			sourceTree = "<group>";
@@ -132,9 +175,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57B5B499201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizer" */;
 			buildPhases = (
+				86BC97C2253779633DAC2C15 /* [CP] Check Pods Manifest.lock */,
 				57B5B46A201FE6B900C2C1DD /* Sources */,
 				57B5B46B201FE6B900C2C1DD /* Frameworks */,
 				57B5B46C201FE6B900C2C1DD /* Resources */,
+				FEC64EC48E83C36ED9CC8729 /* [CP] Embed Pods Frameworks */,
+				F690028555F8F0CF5984FF93 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +195,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57B5B49C201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizerTests" */;
 			buildPhases = (
+				601CED709217F238933BCAD0 /* [CP] Check Pods Manifest.lock */,
 				57B5B481201FE6B900C2C1DD /* Sources */,
 				57B5B482201FE6B900C2C1DD /* Frameworks */,
 				57B5B483201FE6B900C2C1DD /* Resources */,
+				4B1B7344884C24567805EC51 /* [CP] Embed Pods Frameworks */,
+				AC189CABC341542E2ED4ABC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +216,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57B5B49F201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizerUITests" */;
 			buildPhases = (
+				481381505266470EA74F68F2 /* [CP] Check Pods Manifest.lock */,
 				57B5B48C201FE6B900C2C1DD /* Sources */,
 				57B5B48D201FE6B900C2C1DD /* Frameworks */,
 				57B5B48E201FE6B900C2C1DD /* Resources */,
+				D831938A35607BE8A155F014 /* [CP] Embed Pods Frameworks */,
+				CCA1FE072C5FCEA3301E9D7F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -253,11 +305,162 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		481381505266470EA74F68F2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tournenizerUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4B1B7344884C24567805EC51 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		601CED709217F238933BCAD0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tournenizerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86BC97C2253779633DAC2C15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tournenizer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC189CABC341542E2ED4ABC5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCA1FE072C5FCEA3301E9D7F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D831938A35607BE8A155F014 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F690028555F8F0CF5984FF93 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FEC64EC48E83C36ED9CC8729 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PureLayout/PureLayout.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PureLayout.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		57B5B46A201FE6B900C2C1DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
 				57B5B474201FE6B900C2C1DD /* ViewController.swift in Sources */,
 				57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */,
 				57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */,
@@ -416,6 +619,7 @@
 		};
 		57B5B49A201FE6B900C2C1DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1A0FD1F0D58D664D88A8A5FE /* Pods-tournenizer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -431,6 +635,7 @@
 		};
 		57B5B49B201FE6B900C2C1DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 197DE2EE87614CB0066DB431 /* Pods-tournenizer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -446,6 +651,7 @@
 		};
 		57B5B49D201FE6B900C2C1DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -462,6 +668,7 @@
 		};
 		57B5B49E201FE6B900C2C1DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -478,6 +685,7 @@
 		};
 		57B5B4A0201FE6B900C2C1DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0112F66EDC3A1734992EEE7 /* Pods-tournenizerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -493,6 +701,7 @@
 		};
 		57B5B4A1201FE6B900C2C1DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
