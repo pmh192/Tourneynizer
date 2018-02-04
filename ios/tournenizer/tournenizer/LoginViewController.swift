@@ -310,7 +310,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return false;
     }
     
-    // Close keyboard on return
+    // Keyboard return callback
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if(textField == usernameField) {
             passwordField.becomeFirstResponder();
