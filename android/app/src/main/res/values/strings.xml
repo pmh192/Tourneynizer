@@ -8,4 +8,5 @@
     <string name="registerAccountPrompt">Don\'t have an account? Click here to register</string>
     <string name="loginPrompt">Already have an account? Click here to login</string>
     <string name="tournaments">Tournaments</string>
+    <string name="requestTournament">Request to join tournament</string>
 </resources>
