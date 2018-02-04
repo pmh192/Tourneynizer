@@ -1,0 +1,21 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'tournenizer' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for tournenizer
+  pod 'PureLayout'
+
+  target 'tournenizerTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'tournenizerUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
