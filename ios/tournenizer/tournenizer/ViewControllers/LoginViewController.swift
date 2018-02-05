@@ -140,6 +140,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameField.delegate = self;
         passwordField.delegate = self;
         registerButton.addTarget(self, action: #selector(registerClicked(_:)), for: .touchUpInside);
+        loginButton.addTarget(self, action: #selector(loginClicked(_:)), for: .touchUpInside);
 
         // Add all subviews and trigger contraint setup
         view.addSubview(statusBarCover);
@@ -297,5 +298,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // Register onclick function
     @objc func registerClicked(_ sender: UIButton!) {
         self.navigationController?.pushViewController(RegisterViewController(), animated: true);
+    }
+
+    // Register onclick function
+    @objc func loginClicked(_ sender: UIButton!) {
+        let animation = CATransition();
+        animation.type = kCATransitionPush;
+        animation.subtype = kCATransitionFromBottom;
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
+        animation.duration = CFTimeInterval(0.35);
+        self.navigationController?.view.layer.add(animation, forKey: nil);
+        self.navigationController?.popViewController(animated: true);
+        self.navigationController?.pushViewController(DashboardViewController(), animated: false);
     }
 }
