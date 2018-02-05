@@ -19,6 +19,12 @@ h1{
 	list-style-type: none;
 }
 
+#loginForm{
+	border-radius: 3px;
+    padding: 10px; 
+	width: 17%;
+}
+
 #loginFormList{
 	list-style-type: none;
 }
