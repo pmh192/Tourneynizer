@@ -93,6 +93,6 @@ public class TournamentInfoActivity extends AppCompatActivity implements OnMapRe
     public void onMapReady(GoogleMap map) {
         LatLng coordinates = new LatLng(tournament.getAddress().getLatitude(), tournament.getAddress().getLongitude());
         map.addMarker(new MarkerOptions().position(coordinates).title(tournament.getName()));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 12)); // used magic number for map zoom, can change if needed
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15)); // used magic number for map zoom, can change if needed
     }
 }

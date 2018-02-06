@@ -39,5 +39,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startActivity(Class<?> c) {
         startActivity(new Intent(this, c));
+        // remove activity if logged in
+        if (!c.equals(RegisterActivity.class)) {
+            finish();
+        }
     }
 }

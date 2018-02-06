@@ -22,10 +22,13 @@ public class RegisterActivity extends AppCompatActivity {
                 Editable nameText = ((EditText) findViewById(R.id.name)).getText();
                 Editable emailText = ((EditText) findViewById(R.id.email)).getText();
                 Editable passwordText = ((EditText) findViewById(R.id.password)).getText();
+                Editable confirmPasswordText = ((EditText) findViewById(R.id.confirmPassword)).getText();
                 // attempt to create account through info by sending data to back end
                 // if works, advance to next activity (home page of app)
                 // if not, display error message
-                startActivity(TournamentListActivity.class);
+                if (passwordText == confirmPasswordText || passwordText.toString().equals(confirmPasswordText.toString())) {
+                    startActivity(TournamentListActivity.class);
+                }
             }
         });
         View registerAccountLink = findViewById(R.id.loginLink);
@@ -40,5 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void startActivity(Class<?> c) {
         startActivity(new Intent(this, c));
+        // remove activity if user is logged in
+        if (!c.equals(LoginActivity.class)) {
+            finish();
+        }
     }
 }

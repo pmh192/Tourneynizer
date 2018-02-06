@@ -32,16 +32,8 @@ public class TournamentListAdapter extends ArrayAdapter<Tournament> {
         }
         // need to reset fields if they are set to null
         ((TextView) convertView.findViewById(R.id.title)).setText(tournament.getName());
-        if (tournament.getDescription() != null) {
-            ((TextView) convertView.findViewById(R.id.description)).setText(tournament.getDescription());
-        } else {
-            ((TextView) convertView.findViewById(R.id.description)).setText(null);
-        }
-        if (tournament.getLogo() != null) {
-            ((ImageView) convertView.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
-        } else {
-            ((ImageView) convertView.findViewById(R.id.logo)).setImageBitmap(null);
-        }
+        ((TextView) convertView.findViewById(R.id.description)).setText(tournament.getDescription());
+        ((ImageView) convertView.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
         return convertView;
     }
 }

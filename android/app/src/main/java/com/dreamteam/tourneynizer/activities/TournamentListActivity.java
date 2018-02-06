@@ -83,7 +83,7 @@ public class TournamentListActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 2000);
+        }, 1500);
     }
 
     private void startActivity(Class<?> c) {

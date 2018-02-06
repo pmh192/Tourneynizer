@@ -4,6 +4,7 @@
     <string name="createAccount">Create Account</string>
     <string name="emailPrompt">Email:</string>
     <string name="passwordPrompt">Password:</string>
+    <string name="confirmPasswordPrompt">Confirm Password:</string>
     <string name="namePrompt">Name:</string>
     <string name="registerAccountPrompt">Don\'t have an account? Click here to register</string>
     <string name="loginPrompt">Already have an account? Click here to login</string>
