@@ -34,6 +34,7 @@ public class Tournament implements Parcelable {
     private Time startTime;
     private Time endTime;
     private int maxTeams;
+    private int currentTeams;
     private Time timeCreated;
     private TournamentType tournamentType;
     private Bitmap logo;
@@ -42,14 +43,14 @@ public class Tournament implements Parcelable {
     private boolean cancelled;
 
     public Tournament(Tournament t) {
-        this(t.id, t.name, t.description, t.address, t.startTime, t.endTime, t.maxTeams, t.timeCreated, t.tournamentType, t.logo, t.numCourts, t.creatorUserID, t.cancelled);
+        this(t.id, t.name, t.description, t.address, t.startTime, t.endTime, t.maxTeams, t.currentTeams, t.timeCreated, t.tournamentType, t.logo, t.numCourts, t.creatorUserID, t.cancelled);
     }
 
-    public Tournament(long id, @NonNull String name, @NonNull Address address, @NonNull Time startTime, int maxTeams, @NonNull Time timeCreated, @NonNull TournamentType tournamentType, int numCourts, long creatorUserID) {
-        this(id, name, null, address, startTime, null, -1, timeCreated, tournamentType, null, -1, creatorUserID, false);
+    public Tournament(long id, @NonNull String name, @NonNull Address address, @NonNull Time startTime, int maxTeams, int currentTeams, @NonNull Time timeCreated, @NonNull TournamentType tournamentType, int numCourts, long creatorUserID) {
+        this(id, name, null, address, startTime, null, maxTeams, currentTeams, timeCreated, tournamentType, null, numCourts, creatorUserID, false);
     }
 
-    public Tournament(long id, @NonNull String name, String description, @NonNull Address address, @NonNull Time startTime, Time endTime, int maxTeams, @NonNull Time timeCreated, @NonNull TournamentType tournamentType, Bitmap logo, int numCourts, long creatorUserID, boolean cancelled) {
+    public Tournament(long id, @NonNull String name, String description, @NonNull Address address, @NonNull Time startTime, Time endTime, int maxTeams, int currentTeams, @NonNull Time timeCreated, @NonNull TournamentType tournamentType, Bitmap logo, int numCourts, long creatorUserID, boolean cancelled) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -57,6 +58,7 @@ public class Tournament implements Parcelable {
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxTeams = maxTeams;
+        this.currentTeams = currentTeams;
         this.timeCreated = timeCreated;
         this.tournamentType = tournamentType;
         this.logo = logo;
@@ -107,6 +109,10 @@ public class Tournament implements Parcelable {
 
     public int getMaxTeams() {
         return maxTeams;
+    }
+
+    public int getCurrentTeams() {
+        return currentTeams;
     }
 
     public @NonNull Time getTimeCreated() {

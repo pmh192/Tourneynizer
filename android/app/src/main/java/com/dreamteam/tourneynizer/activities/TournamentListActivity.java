@@ -1,9 +1,10 @@
 package com.dreamteam.tourneynizer.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,13 +20,22 @@ import com.dreamteam.tourneynizer.adapters.TournamentListAdapter;
 import com.dreamteam.tourneynizer.data.Tournament;
 import com.dreamteam.tourneynizer.data.TournamentType;
 
+import java.io.IOException;
 import java.sql.Time;
-import java.util.Locale;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TournamentListActivity extends AppCompatActivity {
 
     public static final String INTENT_TOURNAMENT = "com.dreamteam.tournament.data.Tournament";
     private TournamentListAdapter listAdapter;
+
+    // will delete these members when back end is exposed please disregard
+    private Geocoder geocoder;
+    private List<Address> a1;
+    private List<Address> a2;
+    private Bitmap logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +54,36 @@ public class TournamentListActivity extends AppCompatActivity {
 
         listAdapter = new TournamentListAdapter(this);
         listView.setAdapter(listAdapter);
-        // when available, request tournament info from back end and add Tournament objects to listAdapter
-        // must add to listAdapter on UI thread, if having trouble use runOnUiThread(Runnable)
-        Address address = new Address(Locale.getDefault());
-        address.setAddressLine(0, "5880 W 75th St");
-        address.setAddressLine(1, "Los Angeles, CA 90045");
-        listAdapter.add(new Tournament(1, "Tournament 1", "A really cool test tournament", address, new Time(new java.util.Date().getTime()), null, 50, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 startActivity(TournamentInfoActivity.class, listAdapter.getItem(i));
             }
         });
+        // when available, request tournament info from back end and add Tournament objects to listAdapter
+        // must add to listAdapter on UI thread, if having trouble use runOnUiThread(Runnable)
+        // all lines in this function will be deleted after back end is exposed so you can disregard
+        geocoder = new Geocoder(this);
+        Timer pretendLoad = new Timer();
+        pretendLoad.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    a1 = geocoder.getFromLocationName("5880 W 75th St, Los Angeles, CA 90045", 1);
+                    a2 = geocoder.getFromLocationName("796 Embarcadero del Norte, Isla Vista, CA 93117", 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                logo = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter.add(new Tournament(1, "Tournament 1", "A really cool test tournament", a1.get(0), new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
+                        listAdapter.add(new Tournament(1, "Tournament 2", "A really cool test tournament with a logo", a2.get(0), new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, logo, 1, 1, false));
+                    }
+                });
+            }
+        }, 2000);
     }
 
     private void startActivity(Class<?> c) {
