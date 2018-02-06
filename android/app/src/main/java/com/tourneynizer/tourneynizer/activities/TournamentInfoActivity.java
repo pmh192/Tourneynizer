@@ -86,7 +86,7 @@ public class TournamentInfoActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onLowMemory() {
         MapView map = findViewById(R.id.map);
-        map.onStart();
+        map.onLowMemory();
     }
 
     @Override
