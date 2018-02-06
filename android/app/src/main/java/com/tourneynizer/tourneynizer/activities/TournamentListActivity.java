@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer.activities;
+package com.tourneynizer.tourneynizer.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,10 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.dreamteam.tourneynizer.R;
-import com.dreamteam.tourneynizer.adapters.TournamentListAdapter;
-import com.dreamteam.tourneynizer.data.Tournament;
-import com.dreamteam.tourneynizer.data.TournamentType;
+import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.adapters.TournamentListAdapter;
+import com.tourneynizer.tourneynizer.data.Tournament;
+import com.tourneynizer.tourneynizer.data.TournamentType;
 
 import java.io.IOException;
 import java.sql.Time;

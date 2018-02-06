@@ -1,13 +1,11 @@
-package com.dreamteam.tourneynizer.data;
+package com.tourneynizer.tourneynizer.data;
 
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.widget.TextView;
 
-import java.io.Serializable;
 import java.sql.Time;
 
 /**

@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer.data;
+package com.tourneynizer.tourneynizer.data;
 
 /**
  * Created by ryanl on 2/3/2018.

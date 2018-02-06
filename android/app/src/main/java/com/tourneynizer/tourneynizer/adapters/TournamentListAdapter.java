@@ -1,7 +1,6 @@
-package com.dreamteam.tourneynizer.adapters;
+package com.tourneynizer.tourneynizer.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dreamteam.tourneynizer.R;
-import com.dreamteam.tourneynizer.data.Tournament;
+import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.data.Tournament;
 
 /**
  * Created by ryanl on 2/3/2018.

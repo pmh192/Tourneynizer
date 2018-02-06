@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer;
+package com.tourneynizer.tourneynizer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

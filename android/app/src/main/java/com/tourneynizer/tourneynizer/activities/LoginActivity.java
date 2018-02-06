@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer.activities;
+package com.tourneynizer.tourneynizer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 
-import com.dreamteam.tourneynizer.R;
+import com.tourneynizer.tourneynizer.R;
 
 public class LoginActivity extends AppCompatActivity {
 

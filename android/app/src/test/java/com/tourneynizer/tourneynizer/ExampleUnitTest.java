@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer;
+package com.tourneynizer.tourneynizer;
 
 import org.junit.Test;
 

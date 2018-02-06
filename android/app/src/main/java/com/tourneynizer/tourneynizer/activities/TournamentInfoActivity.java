@@ -1,15 +1,14 @@
-package com.dreamteam.tourneynizer.activities;
+package com.tourneynizer.tourneynizer.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dreamteam.tourneynizer.R;
-import com.dreamteam.tourneynizer.data.Tournament;
+import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.data.Tournament;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
