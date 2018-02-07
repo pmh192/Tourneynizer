@@ -1,7 +1,7 @@
-package com.dreamteam.tourneynizer.dao;
+package com.tourneynizer.tourneynizer.dao;
 
-import com.dreamteam.tourneynizer.error.EmailTakenException;
-import com.dreamteam.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.error.EmailTakenException;
+import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +11,6 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 

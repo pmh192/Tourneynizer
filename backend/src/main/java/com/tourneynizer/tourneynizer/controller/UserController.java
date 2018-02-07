@@ -1,10 +1,10 @@
-package com.dreamteam.tourneynizer.controller;
+package com.tourneynizer.tourneynizer.controller;
 
-import com.dreamteam.tourneynizer.error.BadRequestException;
-import com.dreamteam.tourneynizer.error.InternalErrorException;
-import com.dreamteam.tourneynizer.model.ErrorMessage;
-import com.dreamteam.tourneynizer.model.User;
-import com.dreamteam.tourneynizer.service.UserService;
+import com.tourneynizer.tourneynizer.error.BadRequestException;
+import com.tourneynizer.tourneynizer.error.InternalErrorException;
+import com.tourneynizer.tourneynizer.model.ErrorMessage;
+import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

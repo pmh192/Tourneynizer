@@ -1,8 +1,8 @@
-package com.dreamteam.tourneynizer;
+package com.tourneynizer.tourneynizer;
 
-import com.dreamteam.tourneynizer.dao.UserDao;
-import com.dreamteam.tourneynizer.helper.ContextHelper;
-import com.dreamteam.tourneynizer.service.UserService;
+import com.tourneynizer.tourneynizer.dao.UserDao;
+import com.tourneynizer.tourneynizer.helper.ContextHelper;
+import com.tourneynizer.tourneynizer.service.UserService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

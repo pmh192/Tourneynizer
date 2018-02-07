@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer.helper;
+package com.tourneynizer.tourneynizer.helper;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

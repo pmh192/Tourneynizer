@@ -1,10 +1,10 @@
-package com.dreamteam.tourneynizer.service;
+package com.tourneynizer.tourneynizer.service;
 
-import com.dreamteam.tourneynizer.dao.UserDao;
-import com.dreamteam.tourneynizer.error.BadRequestException;
-import com.dreamteam.tourneynizer.error.EmailTakenException;
-import com.dreamteam.tourneynizer.error.InternalErrorException;
-import com.dreamteam.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.dao.UserDao;
+import com.tourneynizer.tourneynizer.error.BadRequestException;
+import com.tourneynizer.tourneynizer.error.EmailTakenException;
+import com.tourneynizer.tourneynizer.error.InternalErrorException;
+import com.tourneynizer.tourneynizer.model.User;
 
 import java.sql.SQLException;
 
