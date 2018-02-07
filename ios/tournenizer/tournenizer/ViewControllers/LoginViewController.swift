@@ -23,7 +23,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var fakeKeyboardView: UIView?;
 
     // Definitions for all style related constants
-    let statusBarHeight: CGFloat = 50;
     let logoLabelHeight: CGFloat = 150;
     let loginClusterSidePadding: CGFloat = 30;
     let loginClusterElementVerticalPadding: CGFloat = 15;
@@ -156,8 +155,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // Sets constraints on all views
     override func updateViewConstraints() {
         if(!didUpdateConstraints) {
-            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: -statusBarHeight);
-            statusBarCover.autoSetDimension(.height, toSize: statusBarHeight);
+            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
+            statusBarCover.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight);
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
@@ -303,12 +302,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // Register onclick function
     @objc func loginClicked(_ sender: UIButton!) {
         let animation = CATransition();
-        animation.type = kCATransitionPush;
+        animation.type = kCATransitionReveal;
         animation.subtype = kCATransitionFromBottom;
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
         animation.duration = CFTimeInterval(0.35);
-        self.navigationController?.view.layer.add(animation, forKey: nil);
-        self.navigationController?.popViewController(animated: true);
-        self.navigationController?.pushViewController(DashboardViewController(), animated: false);
+        
+        let window = UIApplication.shared.keyWindow;
+        window?.layer.add(animation, forKey: nil);
+        window?.rootViewController = DashboardViewController();
     }
 }

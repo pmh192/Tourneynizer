@@ -21,4 +21,7 @@ class Constants {
     static let headerFontSize: CGFloat = 45;
     static let normalFontSize: CGFloat = 17;
     static let smallFontSize: CGFloat = 12;
+    static let topHeaderFontSize: CGFloat = 25;
+
+    static let statusBarCoverHeight: CGFloat = 50;
 };
