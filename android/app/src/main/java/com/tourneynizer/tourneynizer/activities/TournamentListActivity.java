@@ -22,7 +22,9 @@ import com.tourneynizer.tourneynizer.data.TournamentType;
 
 import java.io.IOException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,7 +74,13 @@ public class TournamentListActivity extends AppCompatActivity {
                     a1 = geocoder.getFromLocationName("5880 W 75th St, Los Angeles, CA 90045", 1);
                     a2 = geocoder.getFromLocationName("796 Embarcadero del Norte, Isla Vista, CA 93117", 1);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    a1 = new ArrayList<>();
+                    a2 = new ArrayList<>();
+                    Address a = new Address(Locale.getDefault());
+                    a.setLatitude(500);
+                    a.setLongitude(500);
+                    a1.add(a);
+                    a2.add(a);
                 }
                 logo = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
                 runOnUiThread(new Runnable() {
