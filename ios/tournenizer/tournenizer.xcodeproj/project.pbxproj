@@ -14,6 +14,11 @@
 		570FEABA2026B64100B94FD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB92026B64100B94FD9 /* Constants.swift */; };
 		570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */; };
 		570FEAC22027C16000B94FD9 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAC12027C16000B94FD9 /* DashboardViewController.swift */; };
+		5726EC7C202B7A9C009BABE8 /* TournamentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC7B202B7A9C009BABE8 /* TournamentListViewController.swift */; };
+		5726EC7E202B7B2C009BABE8 /* CreateTournamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC7D202B7B2C009BABE8 /* CreateTournamentViewController.swift */; };
+		5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */; };
+		5726EC82202B7BB9009BABE8 /* PlayerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC81202B7BB9009BABE8 /* PlayerListViewController.swift */; };
+		5726EC84202B7C75009BABE8 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC83202B7C75009BABE8 /* EventsViewController.swift */; };
 		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
@@ -51,6 +56,11 @@
 		570FEAB92026B64100B94FD9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		570FEAC12027C16000B94FD9 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		5726EC7B202B7A9C009BABE8 /* TournamentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentListViewController.swift; sourceTree = "<group>"; };
+		5726EC7D202B7B2C009BABE8 /* CreateTournamentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTournamentViewController.swift; sourceTree = "<group>"; };
+		5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		5726EC81202B7BB9009BABE8 /* PlayerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListViewController.swift; sourceTree = "<group>"; };
+		5726EC83202B7C75009BABE8 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +138,11 @@
 				570FEAC12027C16000B94FD9 /* DashboardViewController.swift */,
 				57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */,
 				57449F092026895400AF0713 /* LoginViewController.swift */,
+				5726EC7B202B7A9C009BABE8 /* TournamentListViewController.swift */,
+				5726EC7D202B7B2C009BABE8 /* CreateTournamentViewController.swift */,
+				5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */,
+				5726EC81202B7BB9009BABE8 /* PlayerListViewController.swift */,
+				5726EC83202B7C75009BABE8 /* EventsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -489,13 +504,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
+				5726EC82202B7BB9009BABE8 /* PlayerListViewController.swift in Sources */,
 				57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */,
 				570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */,
 				57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */,
 				57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */,
 				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
+				5726EC84202B7C75009BABE8 /* EventsViewController.swift in Sources */,
+				5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */,
+				5726EC7C202B7A9C009BABE8 /* TournamentListViewController.swift in Sources */,
 				570FEABA2026B64100B94FD9 /* Constants.swift in Sources */,
 				570FEAC22027C16000B94FD9 /* DashboardViewController.swift in Sources */,
+				5726EC7E202B7B2C009BABE8 /* CreateTournamentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
