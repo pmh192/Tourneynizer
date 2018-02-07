@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context="com.tourneynizer.tourneynizer.activities.TournamentInfoActivity"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentStart="true"
+			android:layout_alignParentTop="true"
+			android:layout_margin="5dp"
+			android:id="@+id/logo"
+			android:maxWidth="200dp" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_toEndOf="@id/logo"
+			android:id="@+id/info"
+			android:layout_marginTop="5dp"
+			android:layout_marginEnd="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_alignParentTop="true"
+			android:orientation="vertical">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textSize="20sp"
+				android:id="@+id/tournamentName"
+				android:textAlignment="center"/>
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/description"
+				android:textAlignment="center"
+				android:textSize="12sp"/>
+
+		</LinearLayout>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/requestTournament"
+		android:id="@+id/requestButton"
+		android:layout_margin="5dp"
+		android:layout_alignParentBottom="true"
+		android:layout_centerInParent="true"/>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/timeRange"
+		android:layout_above="@id/requestButton"
+		android:layout_marginTop="5dp"
+		android:textAlignment="center" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/creatorName"
+		android:layout_above="@id/timeRange"
+		android:layout_marginTop="5dp"
+		android:textAlignment="center"
+		android:textSize="15sp" />
+
+	<com.google.android.gms.maps.MapView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_above="@id/creatorName"
+		android:layout_below="@id/info"
+		android:id="@+id/map" />
+
+</RelativeLayout>
