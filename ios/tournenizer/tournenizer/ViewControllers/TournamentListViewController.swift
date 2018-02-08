@@ -10,14 +10,15 @@ import UIKit;
 import PureLayout;
 
 class TournamentListViewController : UITableViewController {
-    var tournaments: [Tournament]!;
+    var tournaments: [Tournament] = [];
     let cellIdentifier = "TournamentCell";
+    let cellSpacingHeight: CGFloat = 5;
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
 
         tournaments = [
-            Tournament(id: 0, name: "Tournament 1", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
+            Tournament(id: 0, name: "Tournament of The Champions of the Void", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
             Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
             Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
             Tournament(id: 3, name: "Tournament 4", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
@@ -44,7 +45,7 @@ class TournamentListViewController : UITableViewController {
     }
 
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.lightGray;
+        view.backgroundColor = Constants.color.lightGray;
 
         tableView.separatorStyle = .none;
         tableView.allowsSelection = false;
@@ -67,17 +68,26 @@ class TournamentListViewController : UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        return tournaments.count;
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1;
     }
 
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return cellSpacingHeight;
+    }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tournaments.count;
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView();
+        headerView.backgroundColor = UIColor.clear;
+        return headerView;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TournamentTableCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? TournamentTableCellView;
-        cell?.setTournament(tournaments[indexPath.row]);
+        cell?.setTournament(tournaments[indexPath.section]);
         cell?.setNeedsUpdateConstraints()
         cell?.updateConstraintsIfNeeded()
 

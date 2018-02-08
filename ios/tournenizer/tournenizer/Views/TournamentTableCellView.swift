@@ -7,15 +7,22 @@
 //
 
 import UIKit;
+import Foundation;
 
 class TournamentTableCellView : UITableViewCell {
     var nameLabel: UILabel!;
+    var addressLabel: UILabel!;
+    var dateLabel: UILabel!;
     var creatorLabel: UILabel!;
-    var currentTeamsLabel: UILabel!;
+    var moreInfoImage: UIImageView!;
+
     var tournament: Tournament!;
 
-    let nameLabelVerticalPadding: CGFloat = 15.0;
-    let nameLabelHorizontalPadding: CGFloat = 10.0;
+    let topPadding: CGFloat = 10;
+    let bottomPadding: CGFloat = 10;
+    let sidePadding: CGFloat = 10;
+    let elementSpacing: CGFloat = 15;
+    let iconSize: CGFloat = 20;
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder);
@@ -30,35 +37,93 @@ class TournamentTableCellView : UITableViewCell {
     func setTournament(_ tournament: Tournament) {
         self.tournament = tournament;
         nameLabel.text = tournament.name;
+        addressLabel.text = tournament.address;
+
+        let formatter = DateFormatter();
+        formatter.dateFormat = "MM/DD/YYYY";
+        dateLabel.text = "Starts On: " + formatter.string(from: tournament.startTime);
+
+        creatorLabel.text = "Created By: " + "Ryan Wiener";
+
+        setNeedsLayout();
+        layoutIfNeeded();
+        setNeedsUpdateConstraints();
+        updateConstraintsIfNeeded();
     }
 
     func setupViews() {
-        self.contentView.backgroundColor = Constants.white;
+        contentView.backgroundColor = Constants.color.white;
 
         nameLabel = {
             let view = UILabel.newAutoLayout();
-            view.textColor = Constants.navy;
-            view.font = UIFont(name: Constants.fontMedium, size: Constants.normalFontSize);
+            view.lineBreakMode = .byWordWrapping;
+            view.numberOfLines = 0;
+            view.textColor = Constants.color.darkGray;
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
             return view;
         }();
 
-        self.contentView.addSubview(nameLabel!);
+        addressLabel = {
+            let view = UILabel.newAutoLayout();
+            view.textColor = Constants.color.darkGray;
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.small);
+            return view;
+        }();
+
+        dateLabel = {
+            let view = UILabel.newAutoLayout();
+            view.textColor = Constants.color.darkGray;
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.small);
+            return view;
+        }();
+
+        creatorLabel = {
+            let view = UILabel.newAutoLayout();
+            view.textColor = Constants.color.darkGray;
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.small);
+            return view;
+        }();
+
+        moreInfoImage = {
+            let view = UIImageView.newAutoLayout();
+            view.image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
+            view.tintColor = Constants.color.lightBlue;
+            view.contentMode = .scaleAspectFit;
+            return view;
+        }();
+
+        contentView.addSubview(nameLabel!);
+        contentView.addSubview(addressLabel!);
+        contentView.addSubview(dateLabel);
+        contentView.addSubview(creatorLabel);
+        contentView.addSubview(moreInfoImage);
     }
 
-    var didUpdateConstraints = false;
-
     override func updateConstraints() {
-        if(!didUpdateConstraints) {
-            NSLayoutConstraint.autoSetPriority(UILayoutPriority.required) {
-                nameLabel.autoSetContentCompressionResistancePriority(for: .vertical);
-            };
+        NSLayoutConstraint.autoSetPriority(UILayoutPriority.required) {
+            nameLabel.autoSetContentCompressionResistancePriority(for: .vertical);
+            addressLabel.autoSetContentCompressionResistancePriority(for: .vertical);
+        };
 
-            nameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: nameLabelVerticalPadding);
-            nameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: nameLabelHorizontalPadding);
-            nameLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: nameLabelHorizontalPadding);
+        nameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: topPadding);
+        nameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
+        nameLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
 
-            didUpdateConstraints = true;
-        }
+        addressLabel.autoPinEdge(.top, to: .bottom, of: nameLabel);
+        addressLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
+        addressLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
+
+        dateLabel.autoPinEdge(.top, to: .bottom, of: addressLabel);
+        dateLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
+        dateLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: bottomPadding);
+
+        creatorLabel.autoPinEdge(.leading, to: .trailing, of: dateLabel, withOffset: elementSpacing);
+        creatorLabel.autoAlignAxis(.baseline, toSameAxisOf: dateLabel);
+
+        moreInfoImage.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
+        moreInfoImage.autoPinEdge(.leading, to: .trailing, of: creatorLabel, withOffset: elementSpacing);
+        moreInfoImage.autoAlignAxis(.horizontal, toSameAxisOf: creatorLabel);
+        moreInfoImage.autoSetDimension(.width, toSize: iconSize);
 
         super.updateConstraints();
     }
