@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Application from './Application';
-import './index.css';
+import App from './Components/App.jsx';
+import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
 
 ReactDOM.render(
-  <Application />,
+  <App />,
   document.getElementById('root')
 );
