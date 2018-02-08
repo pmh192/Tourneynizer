@@ -1,0 +1,801 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1378B58D0BD9980D35BB4595 /* Pods_tournenizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */; };
+		36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */; };
+		51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */; };
+		570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */; };
+		570FEABA2026B64100B94FD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB92026B64100B94FD9 /* Constants.swift */; };
+		570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */; };
+		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
+		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
+		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
+		57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */; };
+		57B5B47C201FE6B900C2C1DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57B5B47B201FE6B900C2C1DD /* Assets.xcassets */; };
+		57B5B47F201FE6B900C2C1DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57B5B47D201FE6B900C2C1DD /* LaunchScreen.storyboard */; };
+		57B5B48A201FE6B900C2C1DD /* tournenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B489201FE6B900C2C1DD /* tournenizerTests.swift */; };
+		57B5B495201FE6B900C2C1DD /* tournenizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B494201FE6B900C2C1DD /* tournenizerUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		57B5B486201FE6B900C2C1DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57B5B466201FE6B800C2C1DD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57B5B46D201FE6B900C2C1DD;
+			remoteInfo = tournenizer;
+		};
+		57B5B491201FE6B900C2C1DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57B5B466201FE6B800C2C1DD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57B5B46D201FE6B900C2C1DD;
+			remoteInfo = tournenizer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		197DE2EE87614CB0066DB431 /* Pods-tournenizer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizer.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer.release.xcconfig"; sourceTree = "<group>"; };
+		1A0FD1F0D58D664D88A8A5FE /* Pods-tournenizer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer.debug.xcconfig"; sourceTree = "<group>"; };
+		3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		570FEAB92026B64100B94FD9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		57B5B479201FE6B900C2C1DD /* tournenizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tournenizer.xcdatamodel; sourceTree = "<group>"; };
+		57B5B47B201FE6B900C2C1DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57B5B47E201FE6B900C2C1DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		57B5B480201FE6B900C2C1DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57B5B485201FE6B900C2C1DD /* tournenizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tournenizerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57B5B489201FE6B900C2C1DD /* tournenizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tournenizerTests.swift; sourceTree = "<group>"; };
+		57B5B48B201FE6B900C2C1DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57B5B490201FE6B900C2C1DD /* tournenizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tournenizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57B5B494201FE6B900C2C1DD /* tournenizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tournenizerUITests.swift; sourceTree = "<group>"; };
+		57B5B496201FE6B900C2C1DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.release.xcconfig"; sourceTree = "<group>"; };
+		F0112F66EDC3A1734992EEE7 /* Pods-tournenizerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		57B5B46B201FE6B900C2C1DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1378B58D0BD9980D35BB4595 /* Pods_tournenizer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57B5B482201FE6B900C2C1DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57B5B48D201FE6B900C2C1DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3F49C1D84EF3EAF4A0CEF6AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */,
+				3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */,
+				3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4DF2522AEAAF3FE283BD58EE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1A0FD1F0D58D664D88A8A5FE /* Pods-tournenizer.debug.xcconfig */,
+				197DE2EE87614CB0066DB431 /* Pods-tournenizer.release.xcconfig */,
+				47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */,
+				D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */,
+				F0112F66EDC3A1734992EEE7 /* Pods-tournenizerUITests.debug.xcconfig */,
+				6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		570FEABB2027823000B94FD9 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */,
+				57449F092026895400AF0713 /* LoginViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		570FEABC2027828C00B94FD9 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				570FEAB92026B64100B94FD9 /* Constants.swift */,
+				570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */,
+				570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		57B5B465201FE6B800C2C1DD = {
+			isa = PBXGroup;
+			children = (
+				57B5B470201FE6B900C2C1DD /* tournenizer */,
+				57B5B488201FE6B900C2C1DD /* tournenizerTests */,
+				57B5B493201FE6B900C2C1DD /* tournenizerUITests */,
+				57B5B46F201FE6B900C2C1DD /* Products */,
+				4DF2522AEAAF3FE283BD58EE /* Pods */,
+				3F49C1D84EF3EAF4A0CEF6AF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		57B5B46F201FE6B900C2C1DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				57B5B46E201FE6B900C2C1DD /* tournenizer.app */,
+				57B5B485201FE6B900C2C1DD /* tournenizerTests.xctest */,
+				57B5B490201FE6B900C2C1DD /* tournenizerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		57B5B470201FE6B900C2C1DD /* tournenizer */ = {
+			isa = PBXGroup;
+			children = (
+				570FEABC2027828C00B94FD9 /* Config */,
+				570FEABB2027823000B94FD9 /* ViewControllers */,
+				57B5B471201FE6B900C2C1DD /* AppDelegate.swift */,
+				57B5B47B201FE6B900C2C1DD /* Assets.xcassets */,
+				57B5B47D201FE6B900C2C1DD /* LaunchScreen.storyboard */,
+				57B5B480201FE6B900C2C1DD /* Info.plist */,
+				57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */,
+			);
+			path = tournenizer;
+			sourceTree = "<group>";
+		};
+		57B5B488201FE6B900C2C1DD /* tournenizerTests */ = {
+			isa = PBXGroup;
+			children = (
+				57B5B489201FE6B900C2C1DD /* tournenizerTests.swift */,
+				57B5B48B201FE6B900C2C1DD /* Info.plist */,
+			);
+			path = tournenizerTests;
+			sourceTree = "<group>";
+		};
+		57B5B493201FE6B900C2C1DD /* tournenizerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				57B5B494201FE6B900C2C1DD /* tournenizerUITests.swift */,
+				57B5B496201FE6B900C2C1DD /* Info.plist */,
+			);
+			path = tournenizerUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		57B5B46D201FE6B900C2C1DD /* tournenizer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57B5B499201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizer" */;
+			buildPhases = (
+				86BC97C2253779633DAC2C15 /* [CP] Check Pods Manifest.lock */,
+				57B5B46A201FE6B900C2C1DD /* Sources */,
+				57B5B46B201FE6B900C2C1DD /* Frameworks */,
+				57B5B46C201FE6B900C2C1DD /* Resources */,
+				FEC64EC48E83C36ED9CC8729 /* [CP] Embed Pods Frameworks */,
+				F690028555F8F0CF5984FF93 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tournenizer;
+			productName = tournenizer;
+			productReference = 57B5B46E201FE6B900C2C1DD /* tournenizer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		57B5B484201FE6B900C2C1DD /* tournenizerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57B5B49C201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizerTests" */;
+			buildPhases = (
+				601CED709217F238933BCAD0 /* [CP] Check Pods Manifest.lock */,
+				57B5B481201FE6B900C2C1DD /* Sources */,
+				57B5B482201FE6B900C2C1DD /* Frameworks */,
+				57B5B483201FE6B900C2C1DD /* Resources */,
+				4B1B7344884C24567805EC51 /* [CP] Embed Pods Frameworks */,
+				AC189CABC341542E2ED4ABC5 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57B5B487201FE6B900C2C1DD /* PBXTargetDependency */,
+			);
+			name = tournenizerTests;
+			productName = tournenizerTests;
+			productReference = 57B5B485201FE6B900C2C1DD /* tournenizerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		57B5B48F201FE6B900C2C1DD /* tournenizerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57B5B49F201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizerUITests" */;
+			buildPhases = (
+				481381505266470EA74F68F2 /* [CP] Check Pods Manifest.lock */,
+				57B5B48C201FE6B900C2C1DD /* Sources */,
+				57B5B48D201FE6B900C2C1DD /* Frameworks */,
+				57B5B48E201FE6B900C2C1DD /* Resources */,
+				D831938A35607BE8A155F014 /* [CP] Embed Pods Frameworks */,
+				CCA1FE072C5FCEA3301E9D7F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57B5B492201FE6B900C2C1DD /* PBXTargetDependency */,
+			);
+			name = tournenizerUITests;
+			productName = tournenizerUITests;
+			productReference = 57B5B490201FE6B900C2C1DD /* tournenizerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		57B5B466201FE6B800C2C1DD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Ankush Rayabhari";
+				TargetAttributes = {
+					57B5B46D201FE6B900C2C1DD = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					57B5B484201FE6B900C2C1DD = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 57B5B46D201FE6B900C2C1DD;
+					};
+					57B5B48F201FE6B900C2C1DD = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 57B5B46D201FE6B900C2C1DD;
+					};
+				};
+			};
+			buildConfigurationList = 57B5B469201FE6B800C2C1DD /* Build configuration list for PBXProject "tournenizer" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 57B5B465201FE6B800C2C1DD;
+			productRefGroup = 57B5B46F201FE6B900C2C1DD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				57B5B46D201FE6B900C2C1DD /* tournenizer */,
+				57B5B484201FE6B900C2C1DD /* tournenizerTests */,
+				57B5B48F201FE6B900C2C1DD /* tournenizerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		57B5B46C201FE6B900C2C1DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57B5B47F201FE6B900C2C1DD /* LaunchScreen.storyboard in Resources */,
+				57B5B47C201FE6B900C2C1DD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57B5B483201FE6B900C2C1DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57B5B48E201FE6B900C2C1DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		481381505266470EA74F68F2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tournenizerUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4B1B7344884C24567805EC51 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		601CED709217F238933BCAD0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tournenizerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86BC97C2253779633DAC2C15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tournenizer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC189CABC341542E2ED4ABC5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCA1FE072C5FCEA3301E9D7F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D831938A35607BE8A155F014 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F690028555F8F0CF5984FF93 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FEC64EC48E83C36ED9CC8729 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PureLayout/PureLayout.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PureLayout.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		57B5B46A201FE6B900C2C1DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
+				57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */,
+				570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */,
+				57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */,
+				57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */,
+				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
+				570FEABA2026B64100B94FD9 /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57B5B481201FE6B900C2C1DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57B5B48A201FE6B900C2C1DD /* tournenizerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57B5B48C201FE6B900C2C1DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57B5B495201FE6B900C2C1DD /* tournenizerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		57B5B487201FE6B900C2C1DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57B5B46D201FE6B900C2C1DD /* tournenizer */;
+			targetProxy = 57B5B486201FE6B900C2C1DD /* PBXContainerItemProxy */;
+		};
+		57B5B492201FE6B900C2C1DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57B5B46D201FE6B900C2C1DD /* tournenizer */;
+			targetProxy = 57B5B491201FE6B900C2C1DD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		57B5B47D201FE6B900C2C1DD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57B5B47E201FE6B900C2C1DD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		57B5B497201FE6B900C2C1DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		57B5B498201FE6B900C2C1DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		57B5B49A201FE6B900C2C1DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1A0FD1F0D58D664D88A8A5FE /* Pods-tournenizer.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tournenizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		57B5B49B201FE6B900C2C1DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 197DE2EE87614CB0066DB431 /* Pods-tournenizer.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tournenizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		57B5B49D201FE6B900C2C1DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tournenizerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tournenizer.app/tournenizer";
+			};
+			name = Debug;
+		};
+		57B5B49E201FE6B900C2C1DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tournenizerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tournenizer.app/tournenizer";
+			};
+			name = Release;
+		};
+		57B5B4A0201FE6B900C2C1DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0112F66EDC3A1734992EEE7 /* Pods-tournenizerUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tournenizerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = tournenizer;
+			};
+			name = Debug;
+		};
+		57B5B4A1201FE6B900C2C1DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = tournenizerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = tournenizer;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		57B5B469201FE6B800C2C1DD /* Build configuration list for PBXProject "tournenizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57B5B497201FE6B900C2C1DD /* Debug */,
+				57B5B498201FE6B900C2C1DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57B5B499201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57B5B49A201FE6B900C2C1DD /* Debug */,
+				57B5B49B201FE6B900C2C1DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57B5B49C201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57B5B49D201FE6B900C2C1DD /* Debug */,
+				57B5B49E201FE6B900C2C1DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57B5B49F201FE6B900C2C1DD /* Build configuration list for PBXNativeTarget "tournenizerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57B5B4A0201FE6B900C2C1DD /* Debug */,
+				57B5B4A1201FE6B900C2C1DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				57B5B479201FE6B900C2C1DD /* tournenizer.xcdatamodel */,
+			);
+			currentVersion = 57B5B479201FE6B900C2C1DD /* tournenizer.xcdatamodel */;
+			path = tournenizer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 57B5B466201FE6B800C2C1DD /* Project object */;
+}

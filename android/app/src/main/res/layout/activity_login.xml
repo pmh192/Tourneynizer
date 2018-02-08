@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/login"
+		android:textAlignment="center"
+		android:layout_marginTop="10dp"
+		android:textSize="30sp"/>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+        android:labelFor="@id/email"
+		android:text="@string/emailPrompt"
+		android:textSize="20sp" />
+
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="textEmailAddress"
+		android:layout_marginStart="10dp"
+		android:textSize="20sp"
+		android:id="@+id/email"
+		/>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+        android:labelFor="@id/password"
+		android:text="@string/passwordPrompt"
+		android:textSize="20sp" />
+
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="textPassword"
+		android:layout_marginStart="10dp"
+		android:textSize="20sp"
+		android:id="@+id/password"
+		/>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+        <Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/login"
+            android:layout_centerInParent="true"
+			android:id="@+id/loginButton"
+		/>
+
+	</RelativeLayout>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/registerAccountPrompt"
+		android:textAlignment="center"
+        android:clickable="true"
+        android:focusable="true"
+		android:layout_marginTop="10dp"
+        android:textColor="@color/clickableText"
+        android:id="@+id/registerAccountLink"
+		/>
+</LinearLayout>
