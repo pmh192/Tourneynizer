@@ -29,13 +29,13 @@ class DashboardViewController : UIViewController {
     var profileImage: UIImage!;
 
     let logoLabelHeight: CGFloat = 45;
-    let bottomBarHeight: CGFloat = 44;
+    let bottomBarHeight: CGFloat = 50;
 
     var currentTab = 0;
     var tabBarControllers: [UIViewController]!;
     var tabBarButtons: [UIButton]!;
 
-    var imagePercentage: CGFloat = 0.6;
+    var imagePercentage: CGFloat = 0.5;
 
     override func loadView() {
         view = UIView();
@@ -138,7 +138,12 @@ class DashboardViewController : UIViewController {
             CreateTournamentViewController(),
             EventsViewController(),
             ProfileViewController()
-        ];
+        ].map {vc -> UIViewController in
+            let viewController = UINavigationController();
+            viewController.pushViewController(vc, animated: false);
+            viewController.isNavigationBarHidden = true;
+            return viewController;
+        };
 
         tabBarButtons = [
             tournamentsButton,
