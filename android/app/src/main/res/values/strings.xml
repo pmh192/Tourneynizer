@@ -10,4 +10,7 @@
     <string name="loginPrompt">Already have an account? Click here to login</string>
     <string name="tournaments">Tournaments</string>
     <string name="requestTournament">Request to join tournament</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

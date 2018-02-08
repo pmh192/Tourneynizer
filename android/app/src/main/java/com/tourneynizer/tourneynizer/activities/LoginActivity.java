@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Check to see if username and password are valid
                 // if so, advance to next activity (home page of app)
                 // if not, display error message
-                startActivity(TournamentListActivity.class);
+                startActivity(MainActivity.class);
             }
         });
         View registerAccountLink = findViewById(R.id.registerAccountLink);

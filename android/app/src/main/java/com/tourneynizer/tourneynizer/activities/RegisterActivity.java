@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // if works, advance to next activity (home page of app)
                 // if not, display error message
                 if (passwordText == confirmPasswordText || passwordText.toString().equals(confirmPasswordText.toString())) {
-                    startActivity(TournamentListActivity.class);
+                    startActivity(MainActivity.class);
                 }
             }
         });
