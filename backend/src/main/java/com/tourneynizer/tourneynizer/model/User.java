@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer.model;
+package com.tourneynizer.tourneynizer.model;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

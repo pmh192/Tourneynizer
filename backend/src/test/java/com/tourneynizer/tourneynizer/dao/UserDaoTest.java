@@ -1,8 +1,8 @@
-package com.dreamteam.tourneynizer.dao;
+package com.tourneynizer.tourneynizer.dao;
 
-import com.dreamteam.tourneynizer.error.EmailTakenException;
-import com.dreamteam.tourneynizer.helper.TestWithContext;
-import com.dreamteam.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.error.EmailTakenException;
+import com.tourneynizer.tourneynizer.helper.TestWithContext;
+import com.tourneynizer.tourneynizer.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.jdbc.JdbcTestUtils;

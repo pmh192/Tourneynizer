@@ -1,4 +1,4 @@
-package com.dreamteam.tourneynizer.model;
+package com.tourneynizer.tourneynizer.model;
 
 public class ErrorMessage {
 
