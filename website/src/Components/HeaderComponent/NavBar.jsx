@@ -9,17 +9,17 @@ class NavBar extends React.Component {
 		<Navbar>
 			<Navbar.Header>
 				<Navbar.Brand>
-					<a href="#home">React-Bootstrap</a>
+					<Link to="/">Tourneynizer</Link>
 				</Navbar.Brand>
 			</Navbar.Header>
 			<Nav>
-				<NavItem eventKey={1} href="#">
-					Link
+				<NavItem>
+					<Link to="/LoginPage">Login</Link>
 				</NavItem>
 				<NavItem eventKey={2} href="#">
 					Link
 				</NavItem>
-				<NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+				<NavDropdown eventKey={3} title="Menu" id="DropDown Menu">
 					<MenuItem eventKey={3.1}>Action</MenuItem>
 					<MenuItem eventKey={3.2}>Another action</MenuItem>
 					<MenuItem eventKey={3.3}>Something else here</MenuItem>

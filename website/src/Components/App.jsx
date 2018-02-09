@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import { browserHistory } from 'react-router';
-import HomePage from './HomePage';
+import HomePage from './PageComponents/HomePage';
+import LoginPage from './PageComponents/LoginPage';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './HeaderComponent/NavBar';
 
 class App extends Component {
-  render() {
-    return (
-      <Router>
-        <div>
-          <NavBar />
-          <Route name="home" exact path="/" component={HomePage} />
-        </div>
-      </Router>
-    )
-  }
+	render() {
+		return (
+			<div>
+				<NavBar />
+				<Switch>
+					<Route exact path="/" component={HomePage} />
+					<Route exact path="/LoginPage" component={LoginPage} />
+				</Switch>
+			</div>
+		)
+	}
 }
 export default App;
