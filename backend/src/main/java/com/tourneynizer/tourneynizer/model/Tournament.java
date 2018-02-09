@@ -123,4 +123,27 @@ public class Tournament {
     public boolean isPersisted() {
         return id != null;
     }
+
+    private boolean equalsHelper(Object o1, Object o2) {
+        if (o1 == null && o2 == null) return true;
+        if (o1 == null) return false;
+        return o1.equals(o2);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!getClass().isInstance(o)) { return false; }
+        Tournament other = (Tournament) o;
+
+        return equalsHelper(other.id, this.id) &&
+                equalsHelper(other.name, this.name) &&
+                equalsHelper(other.address, this.address) &&
+                equalsHelper(other.timeCreated, this.timeCreated) &&
+                equalsHelper(other.startTime, this.startTime) &&
+                equalsHelper(other.maxTeams, this.maxTeams) &&
+                equalsHelper(other.teamSize, this.teamSize) &&
+                equalsHelper(other.numCourts, this.numCourts) &&
+                equalsHelper(other.type, this.type) &&
+                equalsHelper(other.creatorId, this.creatorId);
+    }
 }

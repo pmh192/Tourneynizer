@@ -2,6 +2,7 @@ package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -54,16 +55,21 @@ public class TournamentDao {
         tournament.persist((Long) keyHolder.getKey(), now);
     }
 
-    private final RowMapper<User> rowMapper = (resultSet, rowNum) -> new User(
+    private final RowMapper<Tournament> rowMapper = (resultSet, rowNum) -> new Tournament(
             resultSet.getLong(1),
             resultSet.getString(2),
             resultSet.getString(3),
-            resultSet.getString(4),
-            resultSet.getTimestamp(5)
+            resultSet.getTimestamp(7),
+            resultSet.getTimestamp(4),
+            resultSet.getInt(5),
+            resultSet.getInt(6),
+            TournamentType.values()[resultSet.getInt(8)],
+            resultSet.getInt(9),
+            resultSet.getLong(10)
     );
 
-    public User findById(Long id) {
-        String sql = "SELECT * FROM users WHERE id=" + id + ";";
+    public Tournament findById(Long id) {
+        String sql = "SELECT * FROM tournaments WHERE id=" + id + ";";
         try {
             return this.jdbcTemplate.queryForObject(sql, rowMapper);
         }

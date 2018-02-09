@@ -1,6 +1,5 @@
 package com.tourneynizer.tourneynizer.dao;
 
-import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.helper.TestWithContext;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentType;
@@ -41,5 +40,36 @@ public class TournamentDaoTest extends TestWithContext {
 
         assertTrue(tournament.isPersisted());
         assertTrue(tournament.getTimeCreated().after(beforeInsert));
+    }
+
+    @Test
+    public void insertEquality() throws Exception {
+        User user = new User("person@place.com", "Name", "");
+        userDao.insert(user);
+        Tournament tournament1 = new Tournament("name", "address", null, 1, 1,
+                TournamentType.BRACKET, 1, user.getId());
+
+        touramentDao.insert(tournament1);
+        Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+
+        assertEquals(tournament2, tournament1);
+    }
+
+    @Test
+    public void retrieve() throws Exception {
+        User user = new User("person@place.com", "Name", "");
+        userDao.insert(user);
+        Tournament tournament1 = new Tournament("name", "address", null, 1, 1,
+                TournamentType.BRACKET, 1, user.getId());
+
+        touramentDao.insert(tournament1);
+        Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+
+        assertEquals(tournament2, touramentDao.findById(tournament1.getId()));
+    }
+
+    @Test
+    public void retrieveNull() throws Exception {
+        assertNull(touramentDao.findById(-1L));
     }
 }
