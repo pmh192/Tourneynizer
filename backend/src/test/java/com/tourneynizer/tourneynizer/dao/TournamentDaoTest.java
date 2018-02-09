@@ -15,11 +15,11 @@ import static org.junit.Assert.*;
 public class TournamentDaoTest extends TestWithContext {
 
     private final UserDao userDao;
-    private final TournamentDao touramentDao;
+    private final TournamentDao tournamentDao;
 
     public TournamentDaoTest() {
         userDao = super.context.getBean("UserDao", UserDao.class);
-        touramentDao = super.context.getBean("TournamentDao", TournamentDao.class);
+        tournamentDao = super.context.getBean("TournamentDao", TournamentDao.class);
     }
 
     @Before
@@ -36,10 +36,20 @@ public class TournamentDaoTest extends TestWithContext {
 
         Timestamp beforeInsert = new Timestamp(System.currentTimeMillis());
         Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
-        touramentDao.insert(tournament);
+        tournamentDao.insert(tournament, user);
 
         assertTrue(tournament.isPersisted());
-        assertTrue(tournament.getTimeCreated().after(beforeInsert));
+        assertFalse(tournament.getTimeCreated().before(beforeInsert)); // timeCreated >= beforeInsert
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void insertBadUserId() throws Exception {
+        User user = new User("person@place.com", "Name", "");
+        user.setPlaintextPassword("HI");
+        userDao.insert(user);
+
+        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId()-1);
+        tournamentDao.insert(tournament, user);
     }
 
     @Test
@@ -49,7 +59,7 @@ public class TournamentDaoTest extends TestWithContext {
         Tournament tournament1 = new Tournament("name", "address", null, 1, 1,
                 TournamentType.BRACKET, 1, user.getId());
 
-        touramentDao.insert(tournament1);
+        tournamentDao.insert(tournament1, user);
         Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.BRACKET, 1, user.getId());
 
         assertEquals(tournament2, tournament1);
@@ -62,14 +72,14 @@ public class TournamentDaoTest extends TestWithContext {
         Tournament tournament1 = new Tournament("name", "address", null, 1, 1,
                 TournamentType.BRACKET, 1, user.getId());
 
-        touramentDao.insert(tournament1);
+        tournamentDao.insert(tournament1, user);
         Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.BRACKET, 1, user.getId());
 
-        assertEquals(tournament2, touramentDao.findById(tournament1.getId()));
+        assertEquals(tournament2, tournamentDao.findById(tournament1.getId()));
     }
 
     @Test
     public void retrieveNull() throws Exception {
-        assertNull(touramentDao.findById(-1L));
+        assertNull(tournamentDao.findById(-1L));
     }
 }

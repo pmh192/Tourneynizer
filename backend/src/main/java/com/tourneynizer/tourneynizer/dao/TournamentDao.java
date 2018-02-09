@@ -23,9 +23,13 @@ public class TournamentDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void insert(Tournament tournament) throws EmailTakenException, SQLException {
+    public void insert(Tournament tournament, User user) throws EmailTakenException, SQLException {
         if (tournament.isPersisted()) {
             throw new IllegalArgumentException("Tournament is already persisted");
+        }
+        if (tournament.getCreatorId() != user.getId()) {
+            throw new IllegalArgumentException("tournament creator id and user id do no match: " +
+                    tournament.getCreatorId() + ", " + user.getId());
         }
 
         String sql = "INSERT INTO tournaments (name, address, startTime, teamSize, maxTeams, timeCreated, type, numCourts, creator_id)" +
