@@ -25,15 +25,32 @@ public class Tournament {
         setCreatorId(creatorId);
     }
 
+    public Tournament(Long id, String name, String address, Timestamp timeCreated, Timestamp startTime, int teamSize,
+                      int maxTeams, TournamentType type, int numCourts, long creatorId) {
+
+        this(name, address, startTime, teamSize, maxTeams, type, numCourts, creatorId);
+        persist(id, timeCreated);
+    }
+
+    public void persist(Long id, Timestamp timeCreated) {
+        if (timeCreated == null || id == null) {
+            throw new IllegalArgumentException("Both id and timeCreated must be non null");
+        }
+        this.id = id;
+        this.timeCreated = timeCreated;
+    }
+
     public void setName(String name) {
         if (name == null) { throw new IllegalArgumentException("Name is required"); }
         if (name.trim().isEmpty()) { throw new IllegalArgumentException("Name cannot be empty"); }
+        if (name.length() >= 256) { throw new IllegalArgumentException("That name is too long"); }
         this.name = name;
     }
 
     public void setAddress(String address) {
         if (address == null) { throw new IllegalArgumentException("Address is required"); }
         if (address.trim().isEmpty()) { throw new IllegalArgumentException("Address cannot be empty"); }
+        if (address.length() >= 256) { throw new IllegalArgumentException("That address is too long"); }
         this.address = address;
     }
 
@@ -55,10 +72,55 @@ public class Tournament {
     }
 
     public void setTournamentType(TournamentType type) {
+        if (type == null) { throw new IllegalArgumentException("Tournament type cannot be null"); }
         this.type = type;
     }
 
     public void setCreatorId(long creatorId) {
         this.creatorId = creatorId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Timestamp getTimeCreated() {
+        return timeCreated;
+    }
+
+    public Timestamp getStartTime() {
+        return startTime;
+    }
+
+    public int getTeamSize() {
+        return teamSize;
+    }
+
+    public int getMaxTeams() {
+        return maxTeams;
+    }
+
+    public int getNumCourts() {
+        return numCourts;
+    }
+
+    public TournamentType getType() {
+        return type;
+    }
+
+    public long getCreatorId() {
+        return creatorId;
+    }
+
+    public boolean isPersisted() {
+        return id != null;
     }
 }
