@@ -8,7 +8,7 @@ public class MatchTest {
 
     @Test
     public void create() throws Exception {
-        new Match(0L, 0L, 0L, 0L, 0, 0, 0, 0, null, null, ScoreType.ONE_SET);
+        new Match(0L, 1L, 2L, 3L, 0, 1, 0, 0, null, null, ScoreType.ONE_SET);
     }
 
     @Test(expected = IllegalArgumentException.class)

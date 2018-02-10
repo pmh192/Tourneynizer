@@ -7,5 +7,6 @@
     <import resource="beans/dao/UserDao.xml" />
     <import resource="beans/dao/TournamentDao.xml" />
     <import resource="beans/dao/TeamDao.xml" />
+    <import resource="beans/dao/MatchDao.xml" />
 
 </beans>
