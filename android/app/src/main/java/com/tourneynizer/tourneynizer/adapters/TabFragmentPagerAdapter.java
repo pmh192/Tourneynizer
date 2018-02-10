@@ -1,42 +1,59 @@
 package com.tourneynizer.tourneynizer.adapters;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import com.tourneynizer.tourneynizer.R;
-import com.tourneynizer.tourneynizer.data.Tournament;
-import com.tourneynizer.tourneynizer.fragments.TournamentInfoFragment;
+import com.tourneynizer.tourneynizer.fragments.RootFragment;
 import com.tourneynizer.tourneynizer.fragments.TournamentListFragment;
 import com.tourneynizer.tourneynizer.fragments.UserProfileFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by ryanwiener on 2/8/18.
+ * Created by ryanwiener on 2/9/18.
  */
 
-public class TabFragmentPagerAdapter extends FragmentPagerAdapter implements TournamentListFragment.OnTournamentSelectedListener {
+public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    public static final int NUM_TABS = 2;
-    private static final ArrayList<Fragment> FRAGMENTS = new ArrayList<>(NUM_TABS);
+    private static final int NUM_TABS = 3;
+    private int[] imageResId = {
+            R.drawable.ic_launcher_background,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher_round
+    };
+    private final List<RootFragment> FRAGMENTS = new ArrayList<>(NUM_TABS);
 
-    private FragmentManager fragmentManager;
+    private Context context;
 
-    public TabFragmentPagerAdapter(FragmentManager fm) {
+    public TabFragmentPagerAdapter(Context cont, FragmentManager fm) {
         super(fm);
-        fragmentManager = fm;
-        TournamentListFragment tournamentList = TournamentListFragment.newInstance();
-        tournamentList.setListener(this);
-        FRAGMENTS.add(tournamentList);
-        FRAGMENTS.add(UserProfileFragment.newInstance());
+        context = cont;
+        List<Fragment> baseFragments = new ArrayList<>(NUM_TABS);
+        baseFragments.add(TournamentListFragment.newInstance());
+        baseFragments.add(TournamentListFragment.newInstance());
+        baseFragments.add(UserProfileFragment.newInstance());
+        for (int i = 0; i < NUM_TABS; i++) {
+            FRAGMENTS.add(RootFragment.newInstance());
+            FRAGMENTS.get(i).setBaseFragment(baseFragments.get(i));
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
         return FRAGMENTS.get(position);
+    }
+
+    public boolean popCurrent(int position) {
+        return FRAGMENTS.get(position).popFragment();
     }
 
     @Override
@@ -45,13 +62,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter implements Tou
     }
 
     @Override
-    public void onTournamentSelected(Tournament tournament) {
-        fragmentManager.beginTransaction().replace(R.id.viewPager, TournamentInfoFragment.newInstance(tournament), "0").addToBackStack(null).commit();
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
+    public CharSequence getPageTitle(int position) {
+        return "Tab " + position;
     }
 }

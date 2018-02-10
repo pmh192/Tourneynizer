@@ -34,8 +34,6 @@ import java.util.Locale;
 public class TournamentListFragment extends Fragment {
 
 	private TournamentListAdapter listAdapter;
-	private OnTournamentSelectedListener listener;
-
 
 	public TournamentListFragment() {
 		// Required empty public constructor
@@ -71,9 +69,7 @@ public class TournamentListFragment extends Fragment {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (listener != null) {
-                    listener.onTournamentSelected(listAdapter.getItem(i));
-                }
+			    goToInfo(listAdapter.getItem(i));
             }
 		});
 		// when available, request tournament info from back end and add Tournament objects to listAdapter
@@ -86,30 +82,21 @@ public class TournamentListFragment extends Fragment {
 		listAdapter.add(new Tournament(1, "Tournament 2", "A really cool test tournament with a logo", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
 		return view;
 	}
-/*
-	private void showTournamentInfo(Tournament tournament) {
-	    getChildFragmentManager().beginTransaction().replace(R.id.viewPager, TournamentInfoFragment.newInstance(tournament), "0").addToBackStack(null).commit();
-    }
-*/
+
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
 	}
 
-	public void setListener(OnTournamentSelectedListener listen) {
-	    listener = listen;
-    }
-
-    public void removeListener() {
-	    listener = null;
+    private void goToInfo(Tournament tournament) {
+	    if (getParentFragment() instanceof RootFragment) {
+	        TournamentInfoFragment tournamentInfoFragment = TournamentInfoFragment.newInstance(tournament);
+            ((RootFragment) getParentFragment()).pushFragment(tournamentInfoFragment);
+        }
     }
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-	}
-
-	public interface OnTournamentSelectedListener {
-		void onTournamentSelected(Tournament tournament);
 	}
 }
