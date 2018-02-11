@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {jumbotron} from 'react-bootstrap';
+import {Jumbotron} from 'react-bootstrap';
 
 
 class LoginPage extends Component {
@@ -7,9 +7,9 @@ class LoginPage extends Component {
 	render() {
 		return (
 			<div>
-				<jumbotron>
+				<Jumbotron>
 					<h1>Login</h1>
-				</jumbotron>
+				</Jumbotron>
 			</div>
 		);
 	}

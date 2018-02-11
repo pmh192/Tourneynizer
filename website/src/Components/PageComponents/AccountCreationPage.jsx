@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {jumbotron} from 'react-bootstrap';
+import {Jumbotron} from 'react-bootstrap';
 import AccountCreationForm from './AccountCreationForm'
 
 class AccountCreationPage extends Component {
@@ -7,10 +7,10 @@ class AccountCreationPage extends Component {
 	render() {
 		return (
 			<div>
-				<jumbotron>
+				<Jumbotron>
 					<h1>Create an account</h1>
 					<AccountCreationForm />
-				</jumbotron>
+				</Jumbotron>
 				<form>
 				</form>
 			</div>
