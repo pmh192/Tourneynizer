@@ -16,8 +16,8 @@ class NavBar extends React.Component {
 				<NavItem>
 					<Link to="/LoginPage">Login</Link>
 				</NavItem>
-				<NavItem eventKey={2} href="#">
-					Link
+				<NavItem>
+					<Link to="/AccountCreationPage">Sign up</Link>
 				</NavItem>
 				<NavDropdown eventKey={3} title="Menu" id="DropDown Menu">
 					<MenuItem eventKey={3.1}>Action</MenuItem>
