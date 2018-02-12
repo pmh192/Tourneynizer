@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
+import TournamentsList from './TournamentsList';
 
 class TournamentViewPage extends Component{
 
@@ -9,6 +10,9 @@ class TournamentViewPage extends Component{
 				<Jumbotron>
 					<h1>View Tournaments</h1>
 				</Jumbotron>
+				<div className='TournamentList'>
+					<TournamentsList />
+				</div>
 			</div>
 		);
 	}

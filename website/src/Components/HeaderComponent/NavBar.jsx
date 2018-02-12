@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {Navbar, MenuItem, Nav, NavItem, NavDropdown, Button, DropdownButton, ButtonGroup, SplitButton} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import '../../resources/index.css'
+
 
 class NavBar extends React.Component {
 	render() {
 	return (
-		<div>
+		<div className="App container">
 			<Navbar>
 				<Navbar.Header>
 					<Navbar.Brand>
@@ -16,19 +16,21 @@ class NavBar extends React.Component {
 				</Navbar.Header>
 				<Nav>
 					<NavItem>
-						<ButtonGroup>
-					    <SplitButton
+					    <NavDropdown 
+					    className='DropDownStyle'
 					      title='Tournaments'
 					    >
 					      <LinkContainer to="/Tournaments/view">
-    							<MenuItem eventKey={1}>View Tournaments</MenuItem>
+    							<MenuItem eventKey="1">View Tournaments</MenuItem>
   							</LinkContainer>
 					      <MenuItem eventKey="2">Create a Tournament</MenuItem>
 					      <MenuItem eventKey="3">Tournament Rules</MenuItem>
 					      <MenuItem divider />
 					      <MenuItem eventKey="4">About Tournements</MenuItem>
-		    			</SplitButton>
-		    			<SplitButton
+		    			</NavDropdown>
+		    		</NavItem>
+		    		<NavItem>
+		    			<NavDropdown
 					      title='Teams'
 					    >
 					      <MenuItem eventKey="1">View My Team</MenuItem>
@@ -36,8 +38,7 @@ class NavBar extends React.Component {
 					      <MenuItem eventKey="3">Join a Team</MenuItem>
 					      <MenuItem divider />
 					      <MenuItem eventKey="4">About Teams</MenuItem>
-		    			</SplitButton>
-	    			</ButtonGroup>
+		    			</NavDropdown>
 					</NavItem>
 				</Nav>
 				<Nav pullRight>
