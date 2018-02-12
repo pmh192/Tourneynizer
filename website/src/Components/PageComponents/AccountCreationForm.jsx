@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
+import '../../resources/index.css';
 
 class AccountCreationForm extends Component{
 	constructor(props, context) {
@@ -66,8 +67,8 @@ class AccountCreationForm extends Component{
 
 	render(){
 		return(
-			<div id="creationForm">
-				<Panel>
+			<div className='MarginSpacer'>
+				<div id="creationForm" className='AccountForm'>
 					<form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
 						<FormGroup
 							controlId="firstName"
@@ -140,7 +141,7 @@ class AccountCreationForm extends Component{
 						</FormGroup>
 						<Button type="submit">Sign up</Button>
 					</form>
-				</Panel>
+				</div>
 			</div>
 		);
 	}

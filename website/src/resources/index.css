@@ -1,0 +1,29 @@
+.MarginSpacer {
+	margin-left: 5px;
+}
+
+.navbar, .navbar-default {
+    background-image: linear-gradient(to bottom,#2c4053 5, #CCCCCC 100%) !important;
+}
+
+.LoginForm {
+	padding: 5px;
+	width: 25%;
+	height: auto;
+	background-color: #DDDDDD;
+	border: 2px;
+	border-style: solid;
+	border-color: #FFFFFF;
+	border-radius: 3px;
+}
+
+.AccountForm {
+	padding: 5px;
+	width: 25%;
+	height: auto;
+	background-color: #DDDDDD;
+	border: 2px;
+	border-style: solid;
+	border-color: #FFFFFF;
+	border-radius: 3px;
+}
