@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -24,6 +26,8 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Before
     public void clearDB() {
+        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
+        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "roster");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "matches");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teams");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "tournaments");
@@ -83,5 +87,24 @@ public class TournamentDaoTest extends TestWithContext {
     @Test
     public void retrieveNull() throws Exception {
         assertNull(tournamentDao.findById(-1L));
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        User user = new User("person@place.com", "Name", "");
+        user.setPlaintextPassword("HI");
+        userDao.insert(user);
+
+        Tournament tournament1 = new Tournament("name1", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        Tournament tournament2 = new Tournament("name2", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        Tournament tournament3 = new Tournament("name3", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        tournamentDao.insert(tournament1, user);
+        tournamentDao.insert(tournament2, user);
+        tournamentDao.insert(tournament3, user);
+
+        List<Tournament> expected = Arrays.asList(tournament1, tournament2, tournament3);
+        List<Tournament> actual = tournamentDao.getAll();
+
+        assertEquals(expected, actual);
     }
 }

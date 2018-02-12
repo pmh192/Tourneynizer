@@ -2,8 +2,10 @@ package com.tourneynizer.tourneynizer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.crypto.KeyGenerator;
 import java.sql.Timestamp;
 import java.util.regex.Pattern;
 

@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class TournamentDao {
     private final JdbcTemplate jdbcTemplate;
@@ -23,7 +24,7 @@ public class TournamentDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void insert(Tournament tournament, User user) throws EmailTakenException, SQLException {
+    public void insert(Tournament tournament, User user) throws SQLException {
         if (tournament.isPersisted()) {
             throw new IllegalArgumentException("Tournament is already persisted");
         }
@@ -72,7 +73,7 @@ public class TournamentDao {
             resultSet.getLong(10)
     );
 
-    public Tournament findById(Long id) {
+    public Tournament findById(Long id) throws SQLException {
         String sql = "SELECT * FROM tournaments WHERE id=" + id + ";";
         try {
             return this.jdbcTemplate.queryForObject(sql, rowMapper);
@@ -80,5 +81,10 @@ public class TournamentDao {
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<Tournament> getAll() throws SQLException {
+        String sql = "SELECT * FROM tournaments;";
+        return this.jdbcTemplate.query(sql, rowMapper);
     }
 }

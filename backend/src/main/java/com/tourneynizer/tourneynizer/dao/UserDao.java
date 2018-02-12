@@ -59,7 +59,7 @@ public class UserDao {
         user.persist((Long) keyHolder.getKey(), now);
     }
 
-    private final RowMapper<User> rowMapper = (resultSet, rowNum) -> new User(
+    static final RowMapper<User> rowMapper = (resultSet, rowNum) -> new User(
             resultSet.getLong(1),
             resultSet.getString(2),
             resultSet.getString(3),

@@ -55,8 +55,6 @@ public class MatchDao {
     }
 
     private final RowMapper<Match> rowMapper = (resultSet, rowNum) -> new Match(
-            //long id, long tournament_id, long team1_id, long team2_id, long refTeam_id, long score1, long score2,
-   // int order, int courtNumber, Timestamp timeStart, Timestamp timeEnd, ScoreType scoreType
             resultSet.getLong(1),
             resultSet.getLong(2),
             resultSet.getLong(3),
