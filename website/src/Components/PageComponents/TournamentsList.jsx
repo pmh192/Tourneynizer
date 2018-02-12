@@ -36,7 +36,7 @@ class TournamentsList extends Component{
   		<Tournament id={tourney.id} description={tourney.description} creatorName={tourney.creatorName} address={tourney.address} />
 		);
 		return (
-			<table>{listItems}</table>
+			<table className='tourneyList'>{listItems}</table>
 		);
 	}
 

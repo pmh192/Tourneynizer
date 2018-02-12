@@ -24,29 +24,36 @@ div.btn-group > a > .btn-primary:hover, div.btn-group > a > .btn-primary:focus{
 
 div.tableInfo > tr > td{
 	padding-right: 25px;
-	padding-bottom: 1px;
+	padding-left: 5px;
+	padding-bottom: 3px;
 	font-size: 25px;
-	background-color: #DDDDDD;
+	background-image: linear-gradient(to bottom, #CCCCCC .25, #555555 100%) !important;
 	border-top: solid;
+}
+
+/*background color/ tournament table*/
+.tourneyList {
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  margin: 5px;
+  width: auto;
 
 }
 
 .navbar, .navbar-default {
-    background-image: linear-gradient(to bottom, #CCCCCC .25, #555555 100%) !important;
-    border-color: grey;
+  background-image: linear-gradient(to bottom, #CCCCCC .25, #555555 100%) !important;
+  border-color: grey;
 }
 
 .navbar-default .navbar-brand {
-    color: #000000;
-    font-size: 30px;
-    text-shadow: 3px 2px grey;
+  color: #000000;
+  font-size: 30px;
+  text-shadow: 3px 2px grey;
 }
 
 .navbar-default .navbar-brand:hover{
 	text-shadow: 3px 2px white;
-}
-
-.DropDownStyle{
 }
 
 .navbar-header a{
