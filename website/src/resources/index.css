@@ -2,14 +2,38 @@
 	margin-left: 5px;
 }
 
-.container{
+.container {
 	width: 100%;
 	padding: 0;
 	margin: 0;
 }
 
+div.btn-group > a > .btn-primary {
+	background-image: linear-gradient(to bottom,#000000 0,#AAAAAA 100%);
+}
+
+div.btn-group > a > .btn-primary:hover, div.btn-group > a > .btn-primary:focus{
+	background-position: 0 -32px;
+	background-image: linear-gradient(to bottom,#333333 0,#AAAAAA 100%);
+	background-color: grey;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+div.tableInfo > tr > td{
+	padding-right: 25px;
+	padding-bottom: 1px;
+	font-size: 25px;
+	background-color: #DDDDDD;
+	border-top: solid;
+
+}
+
 .navbar, .navbar-default {
     background-image: linear-gradient(to bottom, #CCCCCC .25, #555555 100%) !important;
+    border-color: grey;
 }
 
 .navbar-default .navbar-brand {
