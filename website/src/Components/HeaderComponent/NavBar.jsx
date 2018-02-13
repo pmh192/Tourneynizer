@@ -23,8 +23,12 @@ class NavBar extends React.Component {
 					      <LinkContainer to="/Tournaments/view">
     							<MenuItem eventKey="1">View Tournaments</MenuItem>
   							</LinkContainer>
-					      <MenuItem eventKey="2">Create a Tournament</MenuItem>
-					      <MenuItem eventKey="3">Tournament Rules</MenuItem>
+  							<LinkContainer to="/Tournaments/create">
+					      	<MenuItem eventKey="2">Create a Tournament</MenuItem>
+					      </LinkContainer>
+					      <LinkContainer to="/Tournaments/rules">
+					      	<MenuItem eventKey="3">Tournament Rules</MenuItem>
+					      </LinkContainer>
 					      <MenuItem divider />
 					      <MenuItem eventKey="4">About Tournements</MenuItem>
 		    			</NavDropdown>
@@ -33,11 +37,19 @@ class NavBar extends React.Component {
 		    			<NavDropdown
 					      title='Teams'
 					    >
-					      <MenuItem eventKey="1">View My Team</MenuItem>
-					      <MenuItem eventKey="2">Create a New Team</MenuItem>
-					      <MenuItem eventKey="3">Join a Team</MenuItem>
+					    	<LinkContainer to="/Teams/view">
+					      	<MenuItem eventKey="1">View My Teams</MenuItem>
+					      </LinkContainer>
+					      <LinkContainer to="/Teams/create">
+					      	<MenuItem eventKey="2">Create a New Team</MenuItem>
+					      </LinkContainer>
+					      <LinkContainer to="/Teams/join">
+					      	<MenuItem eventKey="3">Join a Team</MenuItem>
+					      </LinkContainer>
 					      <MenuItem divider />
-					      <MenuItem eventKey="4">About Teams</MenuItem>
+					      <LinkContainer to="/Teams/about">
+					      	<MenuItem eventKey="4">About Teams</MenuItem>
+					      </LinkContainer>
 		    			</NavDropdown>
 					</NavItem>
 				</Nav>
