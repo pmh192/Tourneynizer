@@ -10,7 +10,13 @@
     <string name="loginPrompt">Already have an account? Click here to login</string>
     <string name="tournaments">Tournaments</string>
     <string name="requestTournament">Request to join tournament</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tournamentsParticipated">Tournaments Played In</string>
+    <string name="gamesWon">Games Won</string>
+    <string name="gamesLost">Games Lost</string>
+    <string name="search">Enter a name to search</string>
+    <string name="createTournament">Create A Tournament</string>
+    <string name="tournamentName">Tournament Name:</string>
+    <string name="description">Description:</string>
+    <string name="chooseLocation">Choose A Location</string>
+    <string name="selectTournamentType">Select the type of Tournament</string>
 </resources>
