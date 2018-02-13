@@ -1,21 +1,26 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="actionBarStyle">@style/actionBarStyle</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+		<!-- Customize your theme here. -->
+		<item name="actionBarStyle">@style/actionBarStyle</item>
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+	</style>
 
-    <style name="actionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
-        <item name="background">@color/colorPrimaryDark</item>
-        <item name="titleTextStyle">@style/actionBarTitleStyle</item>
-    </style>
+	<style name="actionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
+		<item name="background">@color/colorPrimaryDark</item>
+		<item name="height">@dimen/bar_height</item>
+		<item name="titleTextStyle">@style/actionBarTitleStyle</item>
+	</style>
 
-    <style name="actionBarTitleStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/colorAccent</item>
-    </style>
+	<style name="actionBarTitleStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+		<item name="android:textColor">@color/colorAccent</item>
+		<item name="android:textSize">@dimen/bar_text_size</item>
+	</style>
+
+	<dimen name="bar_height">35dp</dimen>
+	<dimen name="bar_text_size">20sp</dimen>
 
 </resources>

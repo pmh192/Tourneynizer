@@ -43,9 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void startActivity(Class<?> c) {
         startActivity(new Intent(this, c));
-        // remove activity if user is logged in
+        // remove activities from stack if user is logged in
         if (!c.equals(LoginActivity.class)) {
-            finish();
+            finishAffinity();
         }
     }
 }

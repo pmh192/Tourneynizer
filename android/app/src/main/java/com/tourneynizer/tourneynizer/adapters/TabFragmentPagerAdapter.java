@@ -2,13 +2,18 @@ package com.tourneynizer.tourneynizer.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.fragments.CreateTournamentFragment;
@@ -27,43 +32,57 @@ import java.util.List;
 public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUM_TABS = 5;
-    private final List<RootFragment> FRAGMENTS = new ArrayList<>(NUM_TABS);
 
-    private Context context;
+    private FragmentManager fragmentManager;
+    private RootFragment currentFragment;
 
-    public TabFragmentPagerAdapter(Context cont, FragmentManager fm) {
+    public TabFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-        context = cont;
-        List<Fragment> baseFragments = new ArrayList<>(NUM_TABS);
-        baseFragments.add(TournamentListFragment.newInstance());
-        baseFragments.add(TournamentListFragment.newInstance());
-        baseFragments.add(SearchFragment.newInstance());
-        baseFragments.add(CreateTournamentFragment.newInstance());
-        baseFragments.add(UserProfileFragment.newInstance());
-        for (int i = 0; i < NUM_TABS; i++) {
-            FRAGMENTS.add(RootFragment.newInstance());
-            FRAGMENTS.get(i).setBaseFragment(baseFragments.get(i));
-        }
+        fragmentManager = fm;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return FRAGMENTS.get(position);
+        RootFragment rootFragment = RootFragment.newInstance();
+        switch (position) {
+            case 0:
+                rootFragment.setBaseFragment(TournamentListFragment.newInstance());
+                return rootFragment;
+            case 1:
+                rootFragment.setBaseFragment(TournamentListFragment.newInstance());
+                return rootFragment;
+            case 2:
+                rootFragment.setBaseFragment(SearchFragment.newInstance());
+                return rootFragment;
+            case 3:
+                rootFragment.setBaseFragment(CreateTournamentFragment.newInstance());
+                return rootFragment;
+            case 4:
+                rootFragment.setBaseFragment(UserProfileFragment.newInstance());
+                return rootFragment;
+            default:
+                return rootFragment;
+        }
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (currentFragment != object) {
+            currentFragment = ((RootFragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
     }
 
     public boolean popCurrent(int position) {
-        return FRAGMENTS.get(position).popFragment();
+        return currentFragment.popFragment();
+    }
+
+    public void popToRoot(int position) {
+        currentFragment.popToRoot();
     }
 
     @Override
     public int getCount() {
         return NUM_TABS;
     }
-
-    /*
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return "Tab " + position;
-    }
-    */
 }

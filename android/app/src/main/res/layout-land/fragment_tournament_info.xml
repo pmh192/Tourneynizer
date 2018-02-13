@@ -8,16 +8,17 @@
     <ScrollView
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:id="@+id/info"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:layout_alignParentTop="true"
+        android:id="@+id/scrollInfo"
         android:layout_alignParentEnd="true"
         android:layout_above="@id/requestButton">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/info"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -88,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/requestButton"
-        android:layout_toStartOf="@id/info"
+        android:layout_toStartOf="@id/scrollInfo"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:id="@+id/map" />
