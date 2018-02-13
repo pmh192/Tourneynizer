@@ -76,5 +76,15 @@ public class UserDao {
             return null;
         }
     }
+
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email=?;";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{email}, rowMapper);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }
 

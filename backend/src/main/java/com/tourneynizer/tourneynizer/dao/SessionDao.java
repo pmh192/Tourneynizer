@@ -32,6 +32,8 @@ public class SessionDao {
     }
 
     public User findBySession(String session) {
+        if (session == null) { return null; }
+
         String sql = "SELECT users.* FROM users INNER JOIN sessions ON users.id=sessions.user_id WHERE " +
                 "sessions.session=?;";
         try {
@@ -42,8 +44,16 @@ public class SessionDao {
         }
     }
 
-    public User findByRequest(Map<String, String> values) {
-        return findBySession(values.get("session"));
+
+
+    public void destroySession(String session) throws SQLException {
+        String sql = "DELETE FROM sessions WHERE session=?;";
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, session);
+
+            return preparedStatement;
+        });
     }
 }
 

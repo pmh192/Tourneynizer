@@ -21,6 +21,7 @@ public class UserDaoTest extends TestWithContext {
 
     @Before
     public void clearDB() {
+        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "sessions");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "roster");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "matches");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teams");
@@ -65,4 +66,19 @@ public class UserDaoTest extends TestWithContext {
         assertNull(user);
     }
 
+    @Test
+    public void findByEmail() throws Exception {
+        User user1 = new User("person@place.com", "Name", "");
+        userDao.insert(user1);
+
+        User user2 = userDao.findByEmail("person@place.com");
+
+        assertTrue(user1.equals(user2));
+    }
+
+    @Test
+    public void retrieveNull2() throws Exception {
+        User user = userDao.findByEmail("");
+        assertNull(user);
+    }
 }

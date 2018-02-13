@@ -1,6 +1,8 @@
 package com.tourneynizer.tourneynizer.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class TournamentTest {
 
@@ -60,4 +62,14 @@ public class TournamentTest {
         new Tournament("name", address.toString(), null, 1, 1, TournamentType.BRACKET, 1, 0L);
     }
 
+    @Test
+    public void json() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Tournament t = new Tournament("name","address", null, 1, 1, TournamentType.BRACKET, 1, 0L);
+        String json = objectMapper.writeValueAsString(t);
+
+        String expected = "{\"id\":null,\"name\":\"name\",\"address\":\"address\",\"timeCreated\":null,\"startTime\":null,\"teamSize\":1,\"maxTeams\":1,\"numCourts\":1,\"type\":\"BRACKET\",\"creatorId\":0}";
+
+        assertEquals(expected, json);
+    }
 }

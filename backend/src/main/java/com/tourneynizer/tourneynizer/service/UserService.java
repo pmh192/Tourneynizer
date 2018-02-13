@@ -35,4 +35,8 @@ public class UserService {
 
         return user;
     }
+
+    public User findById(long id) {
+        return userDao.findById(id);
+    }
 }

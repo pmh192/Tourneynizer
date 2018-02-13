@@ -1,5 +1,7 @@
 package com.tourneynizer.tourneynizer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 
 public class Tournament {
@@ -120,6 +122,7 @@ public class Tournament {
         return creatorId;
     }
 
+    @JsonIgnore
     public boolean isPersisted() {
         return id != null;
     }

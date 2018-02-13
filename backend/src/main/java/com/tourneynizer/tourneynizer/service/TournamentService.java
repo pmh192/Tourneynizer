@@ -47,7 +47,7 @@ public class TournamentService {
         return tournament;
     }
 
-    public List<Tournament> getAll(User user) throws InternalErrorException {
+    public List<Tournament> getAll() throws InternalErrorException {
         try {
             return tournamentDao.getAll();
         } catch (SQLException e ) {
@@ -55,7 +55,7 @@ public class TournamentService {
         }
     }
 
-    public Tournament findById(Long id, User user) throws BadRequestException, InternalErrorException {
+    public Tournament findById(Long id) throws BadRequestException, InternalErrorException {
         Tournament tournament;
         try {
             tournament = tournamentDao.findById(id);

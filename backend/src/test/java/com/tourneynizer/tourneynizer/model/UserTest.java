@@ -38,6 +38,12 @@ public class UserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void setPassEmpty() throws Exception {
+        User user = new User("person@place.com", "name", "hashedPassword");
+        user.setPlaintextPassword("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void persist1() throws Exception {
         new User(null, "person@place.com", "name", "hashedPassword", new Timestamp(1L));
     }
