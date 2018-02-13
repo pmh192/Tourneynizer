@@ -11,7 +11,9 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.fragments.CreateTournamentFragment;
 import com.tourneynizer.tourneynizer.fragments.RootFragment;
+import com.tourneynizer.tourneynizer.fragments.SearchFragment;
 import com.tourneynizer.tourneynizer.fragments.TournamentListFragment;
 import com.tourneynizer.tourneynizer.fragments.UserProfileFragment;
 
@@ -24,12 +26,7 @@ import java.util.List;
 
 public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int NUM_TABS = 3;
-    private int[] imageResId = {
-            R.drawable.ic_launcher_background,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher_round
-    };
+    private static final int NUM_TABS = 5;
     private final List<RootFragment> FRAGMENTS = new ArrayList<>(NUM_TABS);
 
     private Context context;
@@ -40,6 +37,8 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         List<Fragment> baseFragments = new ArrayList<>(NUM_TABS);
         baseFragments.add(TournamentListFragment.newInstance());
         baseFragments.add(TournamentListFragment.newInstance());
+        baseFragments.add(SearchFragment.newInstance());
+        baseFragments.add(CreateTournamentFragment.newInstance());
         baseFragments.add(UserProfileFragment.newInstance());
         for (int i = 0; i < NUM_TABS; i++) {
             FRAGMENTS.add(RootFragment.newInstance());
@@ -61,8 +60,10 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         return NUM_TABS;
     }
 
+    /*
     @Override
     public CharSequence getPageTitle(int position) {
         return "Tab " + position;
     }
+    */
 }

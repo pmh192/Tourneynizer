@@ -4,14 +4,23 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.TabFragmentPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    TabFragmentPagerAdapter pagerAdapter;
-    ViewPager viewPager;
+    private int[] imageResId = {
+            R.drawable.ic_events_tab,
+            R.drawable.ic_tournaments_tab,
+            R.drawable.ic_search_tab,
+            R.drawable.ic_add_tab,
+            R.drawable.ic_profile_tab
+    };
+
+    private TabFragmentPagerAdapter pagerAdapter;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new TabFragmentPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(imageResId[i]);
+        }
     }
 
     @Override
