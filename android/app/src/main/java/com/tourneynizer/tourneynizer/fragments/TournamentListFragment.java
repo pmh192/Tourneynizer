@@ -1,6 +1,8 @@
 package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -23,14 +25,6 @@ import com.tourneynizer.tourneynizer.data.TournamentType;
 import java.sql.Time;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TournamentListFragment.OnTournamentSelectedListener} interface
- * to handle interaction events.
- * Use the {@link TournamentListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TournamentListFragment extends Fragment {
 
 	private TournamentListAdapter listAdapter;
@@ -78,8 +72,9 @@ public class TournamentListFragment extends Fragment {
 		Address a = new Address(Locale.getDefault());
 		a.setLongitude(45);
 		a.setLatitude(45);
+        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 		listAdapter.add(new Tournament(1, "Tournament 1", "A really cool test tournament", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
-		listAdapter.add(new Tournament(1, "Tournament 2", "A really cool test tournament with a logo", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
+		listAdapter.add(new Tournament(1, "Tournament 2", "A really cool test tournament with a logo", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, logo, 1, 1, false));
 		return view;
 	}
 

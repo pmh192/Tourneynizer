@@ -15,22 +15,22 @@
 	    	android:layout_height="wrap_content"
 	    	android:text="@string/createAccount"
 	    	android:textAlignment="center"
-	    	android:layout_marginTop="10dp"
-	    	android:textSize="30sp"/>
+	    	android:layout_marginTop="@dimen/marginSize"
+	    	android:textSize="@dimen/largeTextSize"/>
 
 	    <TextView
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_marginStart="10dp"
+	    	android:layout_marginStart="@dimen/marginSize"
 	    	android:text="@string/namePrompt"
 	    	android:labelFor="@id/name"
-	    	android:textSize="20sp" />
+	    	android:textSize="@dimen/mediumTextSize" />
 
 	    <EditText
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_marginStart="10dp"
-	    	android:textSize="20sp"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
 	    	android:inputType="text"
 	    	android:lines="1"
 	    	android:id="@+id/name" />
@@ -38,64 +38,58 @@
 	    <TextView
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_marginStart="10dp"
+	    	android:layout_marginStart="@dimen/marginSize"
 	    	android:text="@string/emailPrompt"
 	    	android:labelFor="@id/email"
-	    	android:textSize="20sp" />
+	    	android:textSize="@dimen/mediumTextSize" />
 
 	    <EditText
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
 	    	android:inputType="textEmailAddress"
-	    	android:layout_marginStart="10dp"
-	    	android:textSize="20sp"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
 	    	android:id="@+id/email" />
 
 	    <TextView
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_marginStart="10dp"
+	    	android:layout_marginStart="@dimen/marginSize"
 	    	android:text="@string/passwordPrompt"
 	    	android:labelFor="@id/password"
-	    	android:textSize="20sp" />
+	    	android:textSize="@dimen/mediumTextSize" />
 
 	    <EditText
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
 	    	android:inputType="textPassword"
-	    	android:layout_marginStart="10dp"
-	    	android:textSize="20sp"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
 	    	android:id="@+id/password" />
 
 	    <TextView
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_marginStart="10dp"
+	    	android:layout_marginStart="@dimen/marginSize"
 	    	android:text="@string/confirmPasswordPrompt"
 	    	android:labelFor="@id/confirmPassword"
-	    	android:textSize="20sp" />
+	    	android:textSize="@dimen/mediumTextSize" />
 
 	    <EditText
 	    	android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
 	    	android:inputType="textPassword"
-	    	android:layout_marginStart="10dp"
-	    	android:textSize="20sp"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
 	    	android:id="@+id/confirmPassword" />
 
-	    <RelativeLayout
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-
-	    	<Button
-	    		android:layout_width="wrap_content"
-	    		android:layout_height="wrap_content"
-	    		android:text="@string/createAccount"
-	    		android:layout_centerInParent="true"
-	    		android:id="@+id/registerButton" />
-
-	    </RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/createAccount"
+            android:layout_marginTop="@dimen/marginSize"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/registerButton" />
 
 	    <TextView
 	    	android:layout_width="match_parent"
@@ -104,8 +98,9 @@
 	    	android:textAlignment="center"
 	    	android:clickable="true"
 	    	android:focusable="true"
-	    	android:paddingBottom="10dp"
-            android:paddingTop="10dp"
+            android:layout_marginTop="@dimen/marginSize"
+	    	android:paddingBottom="@dimen/paddingSize"
+            android:paddingTop="@dimen/paddingSize"
 	    	android:textColor="@color/clickableText"
 			android:id="@+id/loginLink" />
 

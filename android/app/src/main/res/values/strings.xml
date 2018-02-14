@@ -13,7 +13,7 @@
     <string name="tournamentsParticipated">Tournaments Played In</string>
     <string name="gamesWon">Games Won</string>
     <string name="gamesLost">Games Lost</string>
-    <string name="search">Enter a name to search</string>
+    <string name="search">Enter a user's name to search</string>
     <string name="createTournament">Create A Tournament</string>
     <string name="tournamentName">Tournament Name:</string>
     <string name="description">Description:</string>
@@ -21,5 +21,10 @@
     <string name="selectTournamentType">Select the type of Tournament</string>
     <string name="teamToEnterTournament">To enter a tournament, you must be part of a team</string>
     <string name="requestToJoinTeam">Request to join a pending team</string>
-    <string name="createNewTeam">Create your own team</string>
+    <string name="createOwnTeam">Create your own team</string>
+    <string name="createTeam">Create Team</string>
+    <string name="teamName">Team Name:</string>
+    <string name="createTournamentTeam">Create team for the tournament</string>
+    <string name="findTeams">Join a Team</string>
+    <string name="or">OR</string>
 </resources>

@@ -13,33 +13,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30sp"
-            android:layout_marginTop="10dp"
+            android:textSize="@dimen/largeTextSize"
+            android:layout_marginTop="@dimen/marginSize"
             android:text="@string/createTournament" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/marginSize"
             android:text="@string/selectTournamentType"/>
 
         <ExpandableListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginSize"
+            android:id="@+id/tournamentTypeList"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tournamentName"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/marginSize"
+            android:textSize="@dimen/mediumTextSize"
             android:labelFor="@id/tournamentName"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tournamentName"
-            android:textSize="16sp"
+            android:textSize="@dimen/mediumTextSize"
             android:inputType="text"
             android:lines="1"/>
 
@@ -48,19 +50,19 @@
             android:layout_height="wrap_content"
             android:text="@string/description"
             android:labelFor="@id/tournamentDescription"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/mediumTextSize"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tournamentDescription"
-            android:textSize="16sp"
+            android:textSize="@dimen/mediumTextSize"
             android:inputType="text" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/marginSize"
             android:text="@string/chooseLocation"
             android:layout_gravity="center_horizontal"/>
 

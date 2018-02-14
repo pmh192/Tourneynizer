@@ -150,7 +150,7 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 	}
 
 	public void goToTournamentRequest() {
-	    TournamentRequestFragment tournamentRequestFragment = TournamentRequestFragment.newInstance();
+	    TournamentRequestFragment tournamentRequestFragment = TournamentRequestFragment.newInstance(tournament);
         ((RootFragment) getParentFragment()).pushFragment(tournamentRequestFragment);
     }
 }

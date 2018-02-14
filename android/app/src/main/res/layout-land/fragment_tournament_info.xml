@@ -8,13 +8,12 @@
     <ScrollView
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:padding="@dimen/paddingSize"
         android:layout_alignParentTop="true"
         android:id="@+id/scrollInfo"
         android:layout_alignParentEnd="true"
         android:layout_above="@id/requestButton">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,14 +29,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
-                    android:layout_margin="5dp"
+                    android:padding="@dimen/paddingSize"
                     android:id="@+id/logo"
                     android:maxWidth="100dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/mediumTextSize"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@id/logo"
@@ -51,8 +50,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/tournamentName"
                     android:layout_toEndOf="@id/logo"
-                    android:textAlignment="center"
-                    android:textSize="12sp"/>
+                    android:textAlignment="center" />
 
             </RelativeLayout>
 
@@ -61,15 +59,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/timeRange"
                 android:textAlignment="center"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="@dimen/marginSize" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/creatorName"
-                android:layout_marginTop="5dp"
-                android:textAlignment="center"
-                android:textSize="15sp" />
+                android:layout_marginTop="@dimen/marginSize"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
@@ -80,7 +77,7 @@
         android:layout_height="wrap_content"
         android:text="@string/requestTournament"
         android:id="@+id/requestButton"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/marginSize"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"/>
 

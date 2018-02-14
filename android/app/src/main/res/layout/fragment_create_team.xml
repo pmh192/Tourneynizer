@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tourneynizer.tourneynizer.fragments.TournamentRequestFragment">
+    tools:context="com.tourneynizer.tourneynizer.fragments.CreateTeamFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,35 +12,35 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/largeTextSize"
             android:textAlignment="center"
             android:layout_marginTop="@dimen/marginSize"
-            android:text="@string/teamToEnterTournament"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/marginSize"
-            android:id="@+id/joinTeam"
-            android:text="@string/requestToJoinTeam"/>
+            android:textSize="@dimen/largeTextSize"
+            android:text="@string/createTeam"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSize"
             android:textSize="@dimen/mediumTextSize"
-            android:textAlignment="center"
-            android:text="@string/or"/>
+            android:labelFor="@id/teamName"
+            android:text="@string/teamName"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginSize"
+            android:textSize="@dimen/mediumTextSize"
+            android:inputType="text"
+            android:lines="1"
+            android:id="@+id/teamName"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/createTeam"
             android:layout_marginTop="@dimen/marginSize"
-            android:layout_marginBottom="@dimen/marginSize"
-            android:text="@string/createOwnTeam"/>
+            android:id="@+id/createButton"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/createTournamentTeam"/>
 
     </LinearLayout>
 
