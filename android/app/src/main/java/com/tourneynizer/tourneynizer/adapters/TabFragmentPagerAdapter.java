@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.data.User;
 import com.tourneynizer.tourneynizer.fragments.CreateTournamentFragment;
 import com.tourneynizer.tourneynizer.fragments.RootFragment;
 import com.tourneynizer.tourneynizer.fragments.SearchFragment;
@@ -58,7 +59,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
                 rootFragment.setBaseFragment(CreateTournamentFragment.newInstance());
                 return rootFragment;
             case 4:
-                rootFragment.setBaseFragment(UserProfileFragment.newInstance());
+                rootFragment.setBaseFragment(UserProfileFragment.newInstance(new User()));
                 return rootFragment;
             default:
                 return rootFragment;

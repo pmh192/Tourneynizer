@@ -24,6 +24,10 @@ public class User implements Parcelable {
 
     }
 
+    public User() {
+
+    }
+
     @Override
     public int describeContents() {
         return 0;

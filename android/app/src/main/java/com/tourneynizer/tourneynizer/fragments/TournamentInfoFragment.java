@@ -29,7 +29,6 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 
 	private Tournament tournament;
 	private MapView map;
-	private OnTournamentRequestListener listener;
 
 	public TournamentInfoFragment() {
 		// Required empty public constructor
@@ -51,7 +50,8 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		}
 
 	}
-@Override
+
+	@Override
 	public void onStart() {
 		super.onStart();
 		if (map != null) {
@@ -129,26 +129,28 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		if (tournament.getLogo() != null) {
 			((ImageView) view.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
 		}
+		View requestTournament = view.findViewById(R.id.requestButton);
+		requestTournament.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToTournamentRequest();
+            }
+        });
 		return view;
 	}
 
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
-		if (context instanceof OnTournamentRequestListener) {
-			listener = (OnTournamentRequestListener) context;
-		} else {
-			//throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-		}
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		listener = null;
 	}
 
-	public interface OnTournamentRequestListener {
-		void onTournamentRequested();
-	}
+	public void goToTournamentRequest() {
+	    TournamentRequestFragment tournamentRequestFragment = TournamentRequestFragment.newInstance();
+        ((RootFragment) getParentFragment()).pushFragment(tournamentRequestFragment);
+    }
 }

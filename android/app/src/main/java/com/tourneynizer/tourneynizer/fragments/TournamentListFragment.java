@@ -69,8 +69,8 @@ public class TournamentListFragment extends Fragment {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-			    goToInfo(listAdapter.getItem(i));
-            }
+				goToInfo(listAdapter.getItem(i));
+			}
 		});
 		// when available, request tournament info from back end and add Tournament objects to listAdapter
 		// must add to listAdapter on UI thread, if having trouble use runOnUiThread(Runnable)
@@ -88,12 +88,10 @@ public class TournamentListFragment extends Fragment {
 		super.onAttach(context);
 	}
 
-    private void goToInfo(Tournament tournament) {
-	    if (getParentFragment() instanceof RootFragment) {
-	        TournamentInfoFragment tournamentInfoFragment = TournamentInfoFragment.newInstance(tournament);
-            ((RootFragment) getParentFragment()).pushFragment(tournamentInfoFragment);
-        }
-    }
+	private void goToInfo(Tournament tournament) {
+		TournamentInfoFragment tournamentInfoFragment = TournamentInfoFragment.newInstance(tournament);
+		((RootFragment) getParentFragment()).pushFragment(tournamentInfoFragment);
+	}
 
 	@Override
 	public void onDetach() {
