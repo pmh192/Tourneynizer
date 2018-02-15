@@ -29,7 +29,6 @@ public class TournamentListAdapter extends ArrayAdapter<Tournament> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item_layout, parent, false);
         }
-        // need to reset fields if they are set to null
         ((TextView) convertView.findViewById(R.id.title)).setText(tournament.getName());
         ((TextView) convertView.findViewById(R.id.description)).setText(tournament.getDescription());
         ((ImageView) convertView.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
