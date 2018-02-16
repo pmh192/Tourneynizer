@@ -120,7 +120,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             view.addSubview(passwordField!);
             view.addSubview(loginButton!);
             return view;
-            }();
+        }();
 
         registerStack = { [registerPrompt, registerButton] in
             let view = UIStackView();
@@ -128,7 +128,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             view.addSubview(registerPrompt!);
             view.addSubview(registerButton!);
             return view;
-            }();
+        }();
 
         // Setup callback to hide keyboard on outside tap
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));

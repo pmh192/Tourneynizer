@@ -9,6 +9,7 @@
 import UIKit;
 import PureLayout;
 import GoogleMaps;
+import Foundation;
 
 class TournamentViewController : UIViewController {
     var backView: UIButton!;
@@ -21,11 +22,20 @@ class TournamentViewController : UIViewController {
     var startTimeLabel: UILabel!;
     var teamsLabel: UILabel!;
     var maxTeamsLabel: UILabel!;
+    var mapViewContainer: UIView!;
     var mapView: GMSMapView!;
+    var joinButton: UIButton!;
 
     let iconSize: CGFloat = 25;
     let logoLabelHeight: CGFloat = 50;
     let iconPadding: CGFloat = 15;
+    let titlePadding: CGFloat = 10;
+    let padding: CGFloat = 5;
+    let signupButtonBorderRadius: CGFloat = 5;
+    let signupButtonBorderWidth: CGFloat = 5;
+    let signupSidePadding: CGFloat = 30;
+    let mapPadding: CGFloat = 10;
+    var tournament: Tournament!;
     
     override func loadView() {
         view = UIView();
@@ -48,7 +58,7 @@ class TournamentViewController : UIViewController {
         }();
 
         backView = {
-            let view = UIButton();
+            let view = UIButton.newAutoLayout();
             let image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
             view.setImage(image, for: UIControlState.normal);
             view.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1);
@@ -56,17 +66,98 @@ class TournamentViewController : UIViewController {
             view.contentMode = .scaleAspectFit;
             return view;
         }();
-
         backView.addTarget(self, action: #selector(exit), for: .touchUpInside);
+
+        titleLabel = {
+            let view = UILabel.newAutoLayout();
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
+            view.textAlignment = .center;
+            view.textColor = Constants.color.navy;
+            view.text = tournament.name;
+            view.lineBreakMode = .byWordWrapping;
+            view.numberOfLines = 0;
+            return view;
+        }();
+
+        joinButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle("Join Now", for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = signupButtonBorderRadius;
+            view.layer.borderWidth = signupButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+
+        locationLabel = UILabel.newAutoLayout();
+        descriptionLabel = UILabel.newAutoLayout();
+        startTimeLabel = UILabel.newAutoLayout();
+        teamsLabel = UILabel.newAutoLayout();
+        maxTeamsLabel = UILabel.newAutoLayout();
+
+        locationLabel.text = tournament.address;
+        descriptionLabel.text = tournament.description;
+
+        let formatter = DateFormatter();
+        formatter.dateFormat = "MM/dd/yyyy HH:mm";
+
+        startTimeLabel.text = "Start Time: " + formatter.string(from: tournament.startTime);
+
+        if(tournament.currentTeams != nil) {
+            teamsLabel.text = "Teams: " + tournament.currentTeams!.description;
+        }
+
+        maxTeamsLabel.text = "Max Teams: " + tournament.maxTeams.description;
+
+        let common: [UILabel] = [
+            locationLabel,
+            descriptionLabel,
+            startTimeLabel,
+            teamsLabel,
+            maxTeamsLabel
+        ];
+
+        for label in common {
+            label.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            label.textColor = Constants.color.navy;
+            label.textAlignment = .left;
+        }
+
+        mapViewContainer = UIView.newAutoLayout();
 
         view.addSubview(statusBarCover);
         view.addSubview(logoLabel);
         view.addSubview(backView);
+        view.addSubview(titleLabel);
+        view.addSubview(locationLabel);
+        view.addSubview(descriptionLabel);
+        view.addSubview(startTimeLabel);
+        view.addSubview(teamsLabel);
+        view.addSubview(maxTeamsLabel);
+        view.addSubview(mapViewContainer);
+        view.addSubview(joinButton);
         view.setNeedsUpdateConstraints();
     }
 
-    func setTournament(tourament: Tournament) {
 
+    func setTournament(_ tournament: Tournament) {
+        self.tournament = tournament;
+    }
+
+    override func viewDidLayoutSubviews() {
+        if(mapView == nil) {
+            let camera = GMSCameraPosition.camera(withLatitude: 34.414593, longitude: -119.854979, zoom: 18.0);
+            mapView = GMSMapView.map(withFrame: mapViewContainer.bounds, camera: camera);
+            let marker = GMSMarker();
+            marker.position = CLLocationCoordinate2D(latitude: 34.414593, longitude: -119.854979);
+            marker.map = mapView;
+            marker.title = "Sydney";
+            marker.snippet = "Australia";
+            mapViewContainer.addSubview(mapView);
+        }
     }
 
     // Ensures that the corresponding methods are only called once
@@ -89,6 +180,39 @@ class TournamentViewController : UIViewController {
             backView.autoMatch(.height, to: .width, of: backView);
             backView.autoAlignAxis(.horizontal, toSameAxisOf: logoLabel);
             backView.autoPinEdge(toSuperviewEdge: .left, withInset: iconPadding);
+
+            titleLabel.autoPinEdge(.top, to: .bottom, of: logoLabel, withOffset: titlePadding);
+            titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
+
+            locationLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: padding);
+            locationLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
+            locationLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+
+            descriptionLabel.autoPinEdge(.top, to: .bottom, of: locationLabel, withOffset: padding);
+            descriptionLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
+            descriptionLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+
+            startTimeLabel.autoPinEdge(.top, to: .bottom, of: descriptionLabel, withOffset: padding);
+            startTimeLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
+            startTimeLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+
+            teamsLabel.autoPinEdge(.top, to: .bottom, of: startTimeLabel, withOffset: padding);
+            teamsLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
+            teamsLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+
+            maxTeamsLabel.autoPinEdge(.top, to: .bottom, of: teamsLabel, withOffset: padding);
+            maxTeamsLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
+            maxTeamsLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+
+            mapViewContainer.autoPinEdge(.top, to: .bottom, of: maxTeamsLabel, withOffset: mapPadding);
+            mapViewContainer.autoPinEdge(.bottom, to: .top, of: joinButton, withOffset: -mapPadding);
+            mapViewContainer.autoPinEdge(toSuperviewEdge: .leading, withInset: mapPadding);
+            mapViewContainer.autoPinEdge(toSuperviewEdge: .trailing, withInset: mapPadding);
+
+            joinButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
+            joinButton.autoPinEdge(toSuperviewEdge: .leading, withInset: signupSidePadding);
+            joinButton.autoPinEdge(toSuperviewEdge: .trailing, withInset: signupSidePadding);
 
             didUpdateConstraints = true;
         }

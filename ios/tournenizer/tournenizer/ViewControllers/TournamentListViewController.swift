@@ -101,7 +101,8 @@ class TournamentListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = TournamentViewController();
-        vc.setTournament(tourament: tournaments[indexPath.section]);
+        vc.setTournament(tournaments[indexPath.section]);
         self.navigationController?.pushViewController(vc, animated: true);
+
     }
 }
