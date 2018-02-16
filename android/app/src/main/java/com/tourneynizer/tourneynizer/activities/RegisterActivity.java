@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // if works, advance to next activity (home page of app)
                 // if not, display error message
                 if (passwordText == confirmPasswordText || passwordText.toString().equals(confirmPasswordText.toString())) {
-                    startActivity(TournamentListActivity.class);
+                    startActivity(MainActivity.class);
                 }
             }
         });
@@ -43,9 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void startActivity(Class<?> c) {
         startActivity(new Intent(this, c));
-        // remove activity if user is logged in
+        // remove activities from stack if user is logged in
         if (!c.equals(LoginActivity.class)) {
-            finish();
+            finishAffinity();
         }
     }
 }

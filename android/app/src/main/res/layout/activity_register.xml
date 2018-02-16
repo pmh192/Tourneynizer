@@ -1,105 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/createAccount"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:textSize="30sp"/>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/namePrompt"
-        android:labelFor="@id/name"
-        android:textSize="20sp" />
+		<TextView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="@string/createAccount"
+	    	android:textAlignment="center"
+	    	android:layout_marginTop="@dimen/marginSize"
+	    	android:textSize="@dimen/largeTextSize"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:textSize="20sp"
-        android:inputType="text"
-        android:lines="1"
-        android:id="@+id/name" />
+	    <TextView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:text="@string/namePrompt"
+	    	android:labelFor="@id/name"
+	    	android:textSize="@dimen/mediumTextSize" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/emailPrompt"
-        android:labelFor="@id/email"
-        android:textSize="20sp" />
+	    <EditText
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
+	    	android:inputType="text"
+	    	android:lines="1"
+	    	android:id="@+id/name" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:layout_marginStart="10dp"
-        android:textSize="20sp"
-        android:id="@+id/email" />
+	    <TextView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:text="@string/emailPrompt"
+	    	android:labelFor="@id/email"
+	    	android:textSize="@dimen/mediumTextSize" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/passwordPrompt"
-        android:labelFor="@id/password"
-        android:textSize="20sp" />
+	    <EditText
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:inputType="textEmailAddress"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
+	    	android:id="@+id/email" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:layout_marginStart="10dp"
-        android:textSize="20sp"
-        android:id="@+id/password" />
+	    <TextView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:text="@string/passwordPrompt"
+	    	android:labelFor="@id/password"
+	    	android:textSize="@dimen/mediumTextSize" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/confirmPasswordPrompt"
-        android:labelFor="@id/confirmPassword"
-        android:textSize="20sp" />
+	    <EditText
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:inputType="textPassword"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
+	    	android:id="@+id/password" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:layout_marginStart="10dp"
-        android:textSize="20sp"
-        android:id="@+id/confirmPassword" />
+	    <TextView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:text="@string/confirmPasswordPrompt"
+	    	android:labelFor="@id/confirmPassword"
+	    	android:textSize="@dimen/mediumTextSize" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+	    <EditText
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:inputType="textPassword"
+	    	android:layout_marginStart="@dimen/marginSize"
+	    	android:textSize="@dimen/mediumTextSize"
+	    	android:id="@+id/confirmPassword" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/createAccount"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/marginSize"
+            android:layout_gravity="center_horizontal"
             android:id="@+id/registerButton" />
 
-    </RelativeLayout>
+	    <TextView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="@string/loginPrompt"
+	    	android:textAlignment="center"
+	    	android:clickable="true"
+	    	android:focusable="true"
+            android:layout_marginTop="@dimen/marginSize"
+	    	android:paddingBottom="@dimen/paddingSize"
+            android:paddingTop="@dimen/paddingSize"
+	    	android:textColor="@color/clickableText"
+			android:id="@+id/loginLink" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/loginPrompt"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/clickableText"
-        android:id="@+id/loginLink" />
+	</LinearLayout>
 
-</LinearLayout>
+</ScrollView>
 
