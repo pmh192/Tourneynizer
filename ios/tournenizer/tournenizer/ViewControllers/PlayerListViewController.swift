@@ -12,7 +12,7 @@ import PureLayout;
 class PlayerListViewController : UIViewController {
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.navy;
+        view.backgroundColor = Constants.color.navy;
 
         view.setNeedsUpdateConstraints();
     }

@@ -10,8 +10,6 @@ import UIKit;
 import PureLayout;
 
 class DashboardViewController : UIViewController {
-    var logoLabel: UILabel!;
-    var statusBarCover: UIView!;
     var bottomBarCover: UIView!;
     var buttonContainer: UIView!;
     var contentView: UIView!;
@@ -28,38 +26,21 @@ class DashboardViewController : UIViewController {
     var eventsImage: UIImage!;
     var profileImage: UIImage!;
 
-    let logoLabelHeight: CGFloat = 45;
-    let bottomBarHeight: CGFloat = 44;
+    let bottomBarHeight: CGFloat = 50;
 
     var currentTab = 0;
     var tabBarControllers: [UIViewController]!;
     var tabBarButtons: [UIButton]!;
 
-    var imagePercentage: CGFloat = 0.6;
+    var imagePercentage: CGFloat = 0.5;
 
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.white;
-
-        logoLabel = {
-            let view = UILabel.newAutoLayout();
-            view.backgroundColor = Constants.navy;
-            view.textColor = Constants.red;
-            view.font = UIFont(name: Constants.fontMedium, size: Constants.topHeaderFontSize);
-            view.text = "Tourneynizer";
-            view.textAlignment = .center;
-            return view;
-        }();
-
-        statusBarCover = {
-            let view = UIView.newAutoLayout();
-            view.backgroundColor = Constants.navy;
-            return view;
-        }();
+        view.backgroundColor = Constants.color.white;
 
         bottomBarCover = {
             let view = UIView.newAutoLayout();
-            view.backgroundColor = Constants.navy;
+            view.backgroundColor = Constants.color.navy;
             return view;
         }();
 
@@ -76,7 +57,7 @@ class DashboardViewController : UIViewController {
             view.setImage(tournamentImage, for: .normal);
             view.setImage(tournamentImage, for: .focused);
             view.imageView?.contentMode = .scaleAspectFit;
-            view.imageView?.tintColor = Constants.red;
+            view.imageView?.tintColor = Constants.color.red;
             view.tag = 0;
             return view;
         }();
@@ -86,7 +67,7 @@ class DashboardViewController : UIViewController {
             view.setImage(searchImage, for: .normal);
             view.setImage(searchImage, for: .focused);
             view.imageView?.contentMode = .scaleAspectFit;
-            view.imageView?.tintColor = Constants.white;
+            view.imageView?.tintColor = Constants.color.white;
             view.tag = 1;
             return view;
         }();
@@ -96,7 +77,7 @@ class DashboardViewController : UIViewController {
             view.setImage(addImage, for: .normal);
             view.setImage(addImage, for: .focused);
             view.imageView?.contentMode = .scaleAspectFit;
-            view.imageView?.tintColor = Constants.white;
+            view.imageView?.tintColor = Constants.color.white;
             view.tag = 2;
             return view;
         }();
@@ -106,7 +87,7 @@ class DashboardViewController : UIViewController {
             view.setImage(eventsImage, for: .normal);
             view.setImage(eventsImage, for: .focused);
             view.imageView?.contentMode = .scaleAspectFit;
-            view.imageView?.tintColor = Constants.white;
+            view.imageView?.tintColor = Constants.color.white;
             view.tag = 3;
             return view;
         }();
@@ -116,14 +97,14 @@ class DashboardViewController : UIViewController {
             view.setImage(profileImage, for: .normal);
             view.setImage(profileImage, for: .focused);
             view.imageView?.contentMode = .scaleAspectFit;
-            view.imageView?.tintColor = Constants.white;
+            view.imageView?.tintColor = Constants.color.white;
             view.tag = 4;
             return view;
         }();
 
         buttonContainer = { [tournamentsButton, searchButton, addButton, eventsButton, profileButton] in
             let view = UIView.newAutoLayout();
-            view.backgroundColor = Constants.navy;
+            view.backgroundColor = Constants.color.navy;
             view.addSubview(tournamentsButton!);
             view.addSubview(searchButton!);
             view.addSubview(addButton!);
@@ -133,12 +114,17 @@ class DashboardViewController : UIViewController {
         }();
 
         tabBarControllers = [
-            TournamentListViewController(),
+            TournamentListViewContainer(),
             PlayerListViewController(),
             CreateTournamentViewController(),
             EventsViewController(),
             ProfileViewController()
-        ];
+        ].map {vc -> UIViewController in
+            let viewController = UINavigationController();
+            viewController.pushViewController(vc, animated: false);
+            viewController.isNavigationBarHidden = true;
+            return viewController;
+        };
 
         tabBarButtons = [
             tournamentsButton,
@@ -152,8 +138,6 @@ class DashboardViewController : UIViewController {
             el.addTarget(self, action: #selector(tabButtonClicked(sender:)), for: .touchUpInside);
         }
 
-        view.addSubview(statusBarCover);
-        view.addSubview(logoLabel);
         view.addSubview(contentView);
         view.addSubview(buttonContainer);
         view.addSubview(bottomBarCover);
@@ -178,21 +162,11 @@ class DashboardViewController : UIViewController {
     override func updateViewConstraints() {
         if(!didUpdateConstraints) {
             didUpdateConstraints = true;
-
-            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
-            statusBarCover.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight);
-            statusBarCover.autoPinEdge(toSuperviewEdge: .left);
-            statusBarCover.autoPinEdge(toSuperviewEdge: .right);
-
+            
             bottomBarCover.autoPin(toBottomLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
             bottomBarCover.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight);
             bottomBarCover.autoPinEdge(toSuperviewEdge: .left);
             bottomBarCover.autoPinEdge(toSuperviewEdge: .right);
-
-            logoLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
-            logoLabel.autoSetDimension(.height, toSize: logoLabelHeight);
-            logoLabel.autoPinEdge(toSuperviewEdge: .leading);
-            logoLabel.autoPinEdge(toSuperviewEdge: .trailing);
 
             buttonContainer.autoPin(toBottomLayoutGuideOf: self, withInset: 0);
             buttonContainer.autoSetDimension(.height, toSize: bottomBarHeight);
@@ -211,7 +185,7 @@ class DashboardViewController : UIViewController {
             profileButton.imageView?.autoSetDimension(.width, toSize: imagePercentage * bottomBarHeight);
 
             contentView.autoPinEdge(toSuperviewEdge: .leading);
-            contentView.autoPinEdge(.top, to: .bottom, of: logoLabel);
+            contentView.autoPinEdge(toSuperviewEdge: .top);
             contentView.autoPinEdge(toSuperviewEdge: .trailing);
             contentView.autoPinEdge(.bottom, to: .top, of: buttonContainer);
         }
@@ -229,14 +203,14 @@ class DashboardViewController : UIViewController {
 
     @objc func tabButtonClicked(sender: UIButton) {
         //undo currentTab
-        tabBarButtons[currentTab].imageView?.tintColor = Constants.white;
+        tabBarButtons[currentTab].imageView?.tintColor = Constants.color.white;
         tabBarControllers[currentTab].willMove(toParentViewController: nil);
         tabBarControllers[currentTab].view.removeFromSuperview();
         tabBarControllers[currentTab].removeFromParentViewController();
 
         //set currentTab
         currentTab = sender.tag;
-        tabBarButtons[currentTab].imageView?.tintColor = Constants.red;
+        tabBarButtons[currentTab].imageView?.tintColor = Constants.color.red;
         addChildViewController(tabBarControllers[currentTab]);
         tabBarControllers[currentTab].view.frame = contentView.bounds;
         contentView.addSubview(tabBarControllers[currentTab].view);

@@ -12,7 +12,7 @@ import PureLayout;
 class ProfileViewController : UIViewController {
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.lightBlue;
+        view.backgroundColor = Constants.color.lightBlue;
 
         view.setNeedsUpdateConstraints();
     }

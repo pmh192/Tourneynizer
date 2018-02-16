@@ -1,12 +1,23 @@
 PODS:
+  - GoogleMaps (2.5.0):
+    - GoogleMaps/Maps (= 2.5.0)
+  - GoogleMaps/Base (2.5.0)
+  - GoogleMaps/Maps (2.5.0):
+    - GoogleMaps/Base
+  - GooglePlaces (2.5.0):
+    - GoogleMaps/Base (= 2.5.0)
   - PureLayout (3.0.2)
 
 DEPENDENCIES:
+  - GoogleMaps
+  - GooglePlaces
   - PureLayout
 
 SPEC CHECKSUMS:
+  GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
+  GooglePlaces: dd70d9d71ea1c7944846afe67de3712c99b30a77
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
 
-PODFILE CHECKSUM: c6fca5713c2a971d041e188ed25821f2128b7fcd
+PODFILE CHECKSUM: 8a9f947b304d6f4c9d42d521199fbeb8f82199b4
 
 COCOAPODS: 1.4.0

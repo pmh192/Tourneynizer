@@ -8,23 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		082EE6E311B9895536FDC94D5439C307 /* Pods-tournenizerUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD0CFC4538066EF73E67F6C24E0469C /* Pods-tournenizerUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		08AEEEE69888C6374749C3886BD295F0 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6990C47F02B6691DD4DA9D4504A36B /* ALView+PureLayout.m */; };
+		08AEEEE69888C6374749C3886BD295F0 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B39E26AA7B3BC3B69CB74DE469D052 /* ALView+PureLayout.m */; };
 		15C4B79C70E47C4C3F2E91AE0BED6A6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		226286C951192AEE0D1CFAC4185BB324 /* Pods-tournenizerTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C38FE9807AEF72571F0C07756E9A8F4D /* Pods-tournenizerTests-dummy.m */; };
 		244A01EBB241F17D42EB0E5A90E9F9FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		24FD0A5B23A0BDE17B0CCA4F0B8BFCDA /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FD488738DACC6BD28A4B8007AC9E22 /* NSLayoutConstraint+PureLayout.m */; };
-		2A3E0608889FD039983C848A25350F0D /* PureLayout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA654F86E857710B01965E96AC15F25C /* PureLayout+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		24FD0A5B23A0BDE17B0CCA4F0B8BFCDA /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D44D7CA904D6C7B7C2724BAC98CE301 /* NSLayoutConstraint+PureLayout.m */; };
+		2A3E0608889FD039983C848A25350F0D /* PureLayout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 763AA7ACC6724F61290206B5CF8B6B3C /* PureLayout+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3121EEFCF6D4A508E9EB4C390DFFA1E2 /* Pods-tournenizerTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D5C527DE31148E672437B293AC7971E1 /* Pods-tournenizerTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3A9C669982C7FCD69E885AF0A736A795 /* NSArray+PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 256CB866D56B919DA6C9ABF2C32B4D37 /* NSArray+PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		498EC6E9B931A77E844F4367A3B68D8F /* PureLayoutDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B859CA7D3A83073EE3A0EFE2138F31B /* PureLayoutDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		56BBFD964C41E23B9A7985AD9CBF72B0 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D87500AA33CA4A933595B88AD6CA26C8 /* NSArray+PureLayout.m */; };
-		5BB6E2D7DDB0B2867440546D72C050C2 /* PureLayout-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 51DE0AAF650D7F53FB12DC6A5DAC3F5D /* PureLayout-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		696270773B852CBC69A7DAF33C2B5CFB /* ALView+PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D3F05D324772E907DB1D4DA2C89AA2 /* ALView+PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9C669982C7FCD69E885AF0A736A795 /* NSArray+PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 431E0F96719DC1189D40F77203F14DBE /* NSArray+PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		498EC6E9B931A77E844F4367A3B68D8F /* PureLayoutDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 23ABCAD4B333E6FCAF912A230889680F /* PureLayoutDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		56BBFD964C41E23B9A7985AD9CBF72B0 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6421BE229DB8B0C2EA57FB637ACE6CC5 /* NSArray+PureLayout.m */; };
+		5BB6E2D7DDB0B2867440546D72C050C2 /* PureLayout-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B1620949AAFE9809946E3A105970B43F /* PureLayout-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		696270773B852CBC69A7DAF33C2B5CFB /* ALView+PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = DEA1F23DE1124AEFAD0AD38B53ABF400 /* ALView+PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7333D11EFA205524921C726234B878B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		83214DB72903FEFA5C95F030C556F7BF /* Pods-tournenizer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9158E81F44A6FA1111CD64121E3DEB9F /* Pods-tournenizer-dummy.m */; };
-		B63AF829B4DD7C09AD7189957F5034AE /* PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 261FA9EFC65F5CA2F5CE7AF0D3ACE209 /* PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEFF04D193049ABA22D9189645E44588 /* NSLayoutConstraint+PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F7D472071E15F7DC98E66B5980E1549 /* NSLayoutConstraint+PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D63A8D0FBE1B7DA11EFF55918498E079 /* PureLayout-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E4DBC7A1DDA188C57969458989C831 /* PureLayout-dummy.m */; };
+		B63AF829B4DD7C09AD7189957F5034AE /* PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D640673E29A386C498428D4E65711D3 /* PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEFF04D193049ABA22D9189645E44588 /* NSLayoutConstraint+PureLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = AEAC9968F7706C9AFBB6BADCF674E269 /* NSLayoutConstraint+PureLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D63A8D0FBE1B7DA11EFF55918498E079 /* PureLayout-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D638DE91939A03F98B5BB0D290150F6A /* PureLayout-dummy.m */; };
 		DB8AF19982227F6F05E817ABB7C934FD /* Pods-tournenizer-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 371984D5EEE7D9F21CEE14E9AC3DC910 /* Pods-tournenizer-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD6D34E4F17AC0A8B81166B9912E1FFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		F2027510ABD2F6EE593DBFFA0AEFB2B8 /* Pods-tournenizerUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 43EA45556778AC8F868128E819B99012 /* Pods-tournenizerUITests-dummy.m */; };
@@ -41,57 +41,63 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		032B53183731ABF0487F31E06F1D5FA5 /* PureLayout.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PureLayout.modulemap; sourceTree = "<group>"; };
 		0951B671A496790843179D41374B69DE /* Pods-tournenizerUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-tournenizerUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		0CE17B132AC8589F3E06456147912AA5 /* Pods_tournenizerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_tournenizerUITests.framework; path = "Pods-tournenizerUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FBA318A5EED36E38C0B37474D0E6C76 /* Pods-tournenizer-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-tournenizer-acknowledgements.markdown"; sourceTree = "<group>"; };
 		11887659BF8EECF8F91FA6ECAB98F2D8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		162EDDA033F0ECAA355815E8FA08D503 /* Pods_tournenizerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_tournenizerTests.framework; path = "Pods-tournenizerTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CCC7F07A33A9CA4BCF6029DEA90C81D /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = Maps/Frameworks/GoogleMapsCore.framework; sourceTree = "<group>"; };
+		2165FFCF23FF0D5F9FC0C1A7A44F5213 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsBase.framework; path = Base/Frameworks/GoogleMapsBase.framework; sourceTree = "<group>"; };
+		23ABCAD4B333E6FCAF912A230889680F /* PureLayoutDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PureLayoutDefines.h; path = PureLayout/PureLayout/PureLayoutDefines.h; sourceTree = "<group>"; };
 		23EEF8F5E03CFD54760F39BFAFA7311B /* Pods-tournenizerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tournenizerUITests.release.xcconfig"; sourceTree = "<group>"; };
-		256CB866D56B919DA6C9ABF2C32B4D37 /* NSArray+PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+PureLayout.h"; path = "PureLayout/PureLayout/NSArray+PureLayout.h"; sourceTree = "<group>"; };
-		261FA9EFC65F5CA2F5CE7AF0D3ACE209 /* PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PureLayout.h; path = PureLayout/PureLayout/PureLayout.h; sourceTree = "<group>"; };
-		2F7D472071E15F7DC98E66B5980E1549 /* NSLayoutConstraint+PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSLayoutConstraint+PureLayout.h"; path = "PureLayout/PureLayout/NSLayoutConstraint+PureLayout.h"; sourceTree = "<group>"; };
 		333B11643550CE8DBDA3229F5282C33C /* Pods-tournenizerTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-tournenizerTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		339D269663A6EF24D69D5336903A1A3A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35491D11E5C636343E8C785E0E8B50EF /* Pods-tournenizerUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-tournenizerUITests.modulemap"; sourceTree = "<group>"; };
 		371984D5EEE7D9F21CEE14E9AC3DC910 /* Pods-tournenizer-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-tournenizer-umbrella.h"; sourceTree = "<group>"; };
 		376D162098C9162EC030BC540235F895 /* Pods_tournenizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_tournenizer.framework; path = "Pods-tournenizer.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3F6990C47F02B6691DD4DA9D4504A36B /* ALView+PureLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ALView+PureLayout.m"; path = "PureLayout/PureLayout/ALView+PureLayout.m"; sourceTree = "<group>"; };
 		431BD3FE3A97B40B707EAA02028ADD32 /* Pods-tournenizerTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-tournenizerTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		431E0F96719DC1189D40F77203F14DBE /* NSArray+PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+PureLayout.h"; path = "PureLayout/PureLayout/NSArray+PureLayout.h"; sourceTree = "<group>"; };
 		43A86B5A1B61360F86130C6FF8F21BF4 /* Pods-tournenizer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tournenizer.release.xcconfig"; sourceTree = "<group>"; };
 		43EA45556778AC8F868128E819B99012 /* Pods-tournenizerUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-tournenizerUITests-dummy.m"; sourceTree = "<group>"; };
 		48E83A5323F91F3DB1ACB08DC5FE77EE /* PureLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PureLayout.framework; path = PureLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D44D7CA904D6C7B7C2724BAC98CE301 /* NSLayoutConstraint+PureLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutConstraint+PureLayout.m"; path = "PureLayout/PureLayout/NSLayoutConstraint+PureLayout.m"; sourceTree = "<group>"; };
 		50F94415779F3C6DEB2E8B49F0191CEB /* Pods-tournenizerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tournenizerUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		51DE0AAF650D7F53FB12DC6A5DAC3F5D /* PureLayout-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PureLayout-umbrella.h"; sourceTree = "<group>"; };
 		51E8D2D8C49C8ECF3C496D6FB9614189 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B859CA7D3A83073EE3A0EFE2138F31B /* PureLayoutDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PureLayoutDefines.h; path = PureLayout/PureLayout/PureLayoutDefines.h; sourceTree = "<group>"; };
+		545218C3C8695DC3545C856C6E90B0B0 /* PureLayout-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PureLayout-prefix.pch"; sourceTree = "<group>"; };
+		57840868AEAAEA5F9ADF4C7E1DA8AA94 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F35CB2CD710B05F7262F81F918A3C92 /* Pods-tournenizerTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-tournenizerTests-frameworks.sh"; sourceTree = "<group>"; };
-		62FD488738DACC6BD28A4B8007AC9E22 /* NSLayoutConstraint+PureLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutConstraint+PureLayout.m"; path = "PureLayout/PureLayout/NSLayoutConstraint+PureLayout.m"; sourceTree = "<group>"; };
+		6041A9E94809F051A5AF026234FB349F /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
+		6421BE229DB8B0C2EA57FB637ACE6CC5 /* NSArray+PureLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+PureLayout.m"; path = "PureLayout/PureLayout/NSArray+PureLayout.m"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		67F6EEAF2F01951C44CF9A79BC1E2408 /* Pods-tournenizer-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-tournenizer-resources.sh"; sourceTree = "<group>"; };
+		691DD66337356F3ED91639FA53E99F1F /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle; sourceTree = "<group>"; };
 		69251B397C030B39DFEECAF59C59B3B8 /* Pods-tournenizer-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-tournenizer-frameworks.sh"; sourceTree = "<group>"; };
-		714084C45BD5C6C973EE06DC9683DB3E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82E4DBC7A1DDA188C57969458989C831 /* PureLayout-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PureLayout-dummy.m"; sourceTree = "<group>"; };
+		763AA7ACC6724F61290206B5CF8B6B3C /* PureLayout+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PureLayout+Internal.h"; path = "PureLayout/PureLayout/PureLayout+Internal.h"; sourceTree = "<group>"; };
 		83F2536A552D45262787392AA65C8664 /* Pods-tournenizer-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-tournenizer-acknowledgements.plist"; sourceTree = "<group>"; };
-		847E3C0D241BF4274F2F6343F33F837E /* PureLayout-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PureLayout-prefix.pch"; sourceTree = "<group>"; };
+		87CD5D9F5E5B717BE1B1C59F86E13268 /* PureLayout.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PureLayout.modulemap; sourceTree = "<group>"; };
+		8D640673E29A386C498428D4E65711D3 /* PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PureLayout.h; path = PureLayout/PureLayout/PureLayout.h; sourceTree = "<group>"; };
 		9158E81F44A6FA1111CD64121E3DEB9F /* Pods-tournenizer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-tournenizer-dummy.m"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		AA654F86E857710B01965E96AC15F25C /* PureLayout+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PureLayout+Internal.h"; path = "PureLayout/PureLayout/PureLayout+Internal.h"; sourceTree = "<group>"; };
 		AD9071AC18B169B67D188E1A62E16311 /* Pods-tournenizerTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-tournenizerTests.modulemap"; sourceTree = "<group>"; };
+		AEAC9968F7706C9AFBB6BADCF674E269 /* NSLayoutConstraint+PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSLayoutConstraint+PureLayout.h"; path = "PureLayout/PureLayout/NSLayoutConstraint+PureLayout.h"; sourceTree = "<group>"; };
+		B1620949AAFE9809946E3A105970B43F /* PureLayout-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PureLayout-umbrella.h"; sourceTree = "<group>"; };
 		B25E455579BE116A3989E3A5B77DF590 /* Pods-tournenizerUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-tournenizerUITests-resources.sh"; sourceTree = "<group>"; };
 		B467017BE79D091501CB1F6B806C8A98 /* Pods-tournenizerUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-tournenizerUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		BDD0CFC4538066EF73E67F6C24E0469C /* Pods-tournenizerUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-tournenizerUITests-umbrella.h"; sourceTree = "<group>"; };
 		C38FE9807AEF72571F0C07756E9A8F4D /* Pods-tournenizerTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-tournenizerTests-dummy.m"; sourceTree = "<group>"; };
+		C4B39E26AA7B3BC3B69CB74DE469D052 /* ALView+PureLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ALView+PureLayout.m"; path = "PureLayout/PureLayout/ALView+PureLayout.m"; sourceTree = "<group>"; };
 		CE29C8DB90F0476D089A4D0DE27113FA /* Pods-tournenizerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tournenizerTests.release.xcconfig"; sourceTree = "<group>"; };
 		D095DEF09F6ECF9EFAE22CD7157FFF36 /* Pods-tournenizerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tournenizerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D5C527DE31148E672437B293AC7971E1 /* Pods-tournenizerTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-tournenizerTests-umbrella.h"; sourceTree = "<group>"; };
-		D87500AA33CA4A933595B88AD6CA26C8 /* NSArray+PureLayout.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+PureLayout.m"; path = "PureLayout/PureLayout/NSArray+PureLayout.m"; sourceTree = "<group>"; };
+		D638DE91939A03F98B5BB0D290150F6A /* PureLayout-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PureLayout-dummy.m"; sourceTree = "<group>"; };
+		D8EA413CD6DE995FE57C1E6850386F0A /* PureLayout.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PureLayout.xcconfig; sourceTree = "<group>"; };
+		DB7700E4FFC111B5CB8BB313B5CCD1AF /* GoogleMaps.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		DE7450704D191A5CA3D387C34C253128 /* Pods-tournenizer.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-tournenizer.modulemap"; sourceTree = "<group>"; };
+		DEA1F23DE1124AEFAD0AD38B53ABF400 /* ALView+PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ALView+PureLayout.h"; path = "PureLayout/PureLayout/ALView+PureLayout.h"; sourceTree = "<group>"; };
 		E47F26340E9C9844F4537EEF8050AB20 /* Pods-tournenizerTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-tournenizerTests-resources.sh"; sourceTree = "<group>"; };
 		E6063E19FB71450B6FE6B972427A6400 /* Pods-tournenizerUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-tournenizerUITests-frameworks.sh"; sourceTree = "<group>"; };
-		EE7069671C4FC7CD178436F40B2A9B79 /* PureLayout.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PureLayout.xcconfig; sourceTree = "<group>"; };
 		F31674FC57327BA1F59A8ECD954863A4 /* Pods-tournenizer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-tournenizer.debug.xcconfig"; sourceTree = "<group>"; };
-		F3D3F05D324772E907DB1D4DA2C89AA2 /* ALView+PureLayout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ALView+PureLayout.h"; path = "PureLayout/PureLayout/ALView+PureLayout.h"; sourceTree = "<group>"; };
+		FC01473CC81F72810608F685684816E7 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlaces.framework; path = Frameworks/GooglePlaces.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +136,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DD3728CFD70DF46C1D06EACDEF161F7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				57840868AEAAEA5F9ADF4C7E1DA8AA94 /* Info.plist */,
+				87CD5D9F5E5B717BE1B1C59F86E13268 /* PureLayout.modulemap */,
+				D8EA413CD6DE995FE57C1E6850386F0A /* PureLayout.xcconfig */,
+				D638DE91939A03F98B5BB0D290150F6A /* PureLayout-dummy.m */,
+				545218C3C8695DC3545C856C6E90B0B0 /* PureLayout-prefix.pch */,
+				B1620949AAFE9809946E3A105970B43F /* PureLayout-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/PureLayout";
+			sourceTree = "<group>";
+		};
 		162227D8CC860D217915D4E0454D8E78 /* Pods-tournenizerUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +166,32 @@
 			);
 			name = "Pods-tournenizerUITests";
 			path = "Target Support Files/Pods-tournenizerUITests";
+			sourceTree = "<group>";
+		};
+		21ECBB76A3364BA04B2B92909533DDF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2165FFCF23FF0D5F9FC0C1A7A44F5213 /* GoogleMapsBase.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2BB4A902BC958E4DC9842F356ADF612C /* GoogleMaps */ = {
+			isa = PBXGroup;
+			children = (
+				B55A1CEC604836E0ACB92D812CFA7EFE /* Base */,
+				68AACBAF958AC1A2C5A7F6EEAE01B4AB /* Maps */,
+			);
+			name = GoogleMaps;
+			path = GoogleMaps;
+			sourceTree = "<group>";
+		};
+		378DDD69FD735A4E33CCFB49108AF68B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DB7700E4FFC111B5CB8BB313B5CCD1AF /* GoogleMaps.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		409E9C19588007CF799289BBABE4FE15 /* Pods-tournenizer */ = {
@@ -176,18 +222,23 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		66B62CCE17C51C72F07BE0DF3147D101 /* Support Files */ = {
+		68AACBAF958AC1A2C5A7F6EEAE01B4AB /* Maps */ = {
 			isa = PBXGroup;
 			children = (
-				714084C45BD5C6C973EE06DC9683DB3E /* Info.plist */,
-				032B53183731ABF0487F31E06F1D5FA5 /* PureLayout.modulemap */,
-				EE7069671C4FC7CD178436F40B2A9B79 /* PureLayout.xcconfig */,
-				82E4DBC7A1DDA188C57969458989C831 /* PureLayout-dummy.m */,
-				847E3C0D241BF4274F2F6343F33F837E /* PureLayout-prefix.pch */,
-				51DE0AAF650D7F53FB12DC6A5DAC3F5D /* PureLayout-umbrella.h */,
+				B898EB97465F1B9C044DE28EB7954F17 /* Frameworks */,
+				378DDD69FD735A4E33CCFB49108AF68B /* Resources */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/PureLayout";
+			name = Maps;
+			sourceTree = "<group>";
+		};
+		6C19B4837286A09D6183F8A5DE94AE8A /* GooglePlaces */ = {
+			isa = PBXGroup;
+			children = (
+				AD445D5B909A3ADE4BA207A982361A66 /* Frameworks */,
+				9775B625B4357D17328275655686FCF0 /* Resources */,
+			);
+			name = GooglePlaces;
+			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -195,36 +246,43 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				A2FDD832DA64F35B104DD4C55A31BF8E /* Pods */,
+				EE7562A7A8316EE2EC7F8366FC9CCC7E /* Pods */,
 				F9A9F97B4F3277C1636AF9DB388D7A15 /* Products */,
 				4C54242B0B5396D3B8EB4AFF05080AD9 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		9C6F93A5AE4A9293598494393460DF93 /* PureLayout */ = {
+		9775B625B4357D17328275655686FCF0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F3D3F05D324772E907DB1D4DA2C89AA2 /* ALView+PureLayout.h */,
-				3F6990C47F02B6691DD4DA9D4504A36B /* ALView+PureLayout.m */,
-				256CB866D56B919DA6C9ABF2C32B4D37 /* NSArray+PureLayout.h */,
-				D87500AA33CA4A933595B88AD6CA26C8 /* NSArray+PureLayout.m */,
-				2F7D472071E15F7DC98E66B5980E1549 /* NSLayoutConstraint+PureLayout.h */,
-				62FD488738DACC6BD28A4B8007AC9E22 /* NSLayoutConstraint+PureLayout.m */,
-				261FA9EFC65F5CA2F5CE7AF0D3ACE209 /* PureLayout.h */,
-				AA654F86E857710B01965E96AC15F25C /* PureLayout+Internal.h */,
-				5B859CA7D3A83073EE3A0EFE2138F31B /* PureLayoutDefines.h */,
-				66B62CCE17C51C72F07BE0DF3147D101 /* Support Files */,
+				691DD66337356F3ED91639FA53E99F1F /* GooglePlaces.bundle */,
 			);
-			name = PureLayout;
-			path = PureLayout;
+			name = Resources;
 			sourceTree = "<group>";
 		};
-		A2FDD832DA64F35B104DD4C55A31BF8E /* Pods */ = {
+		AD445D5B909A3ADE4BA207A982361A66 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9C6F93A5AE4A9293598494393460DF93 /* PureLayout */,
+				FC01473CC81F72810608F685684816E7 /* GooglePlaces.framework */,
 			);
-			name = Pods;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B55A1CEC604836E0ACB92D812CFA7EFE /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				21ECBB76A3364BA04B2B92909533DDF4 /* Frameworks */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		B898EB97465F1B9C044DE28EB7954F17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6041A9E94809F051A5AF026234FB349F /* GoogleMaps.framework */,
+				1CCC7F07A33A9CA4BCF6029DEA90C81D /* GoogleMapsCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
@@ -233,6 +291,24 @@
 				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CBDD3E3A8234B46296509984CD6BA476 /* PureLayout */ = {
+			isa = PBXGroup;
+			children = (
+				DEA1F23DE1124AEFAD0AD38B53ABF400 /* ALView+PureLayout.h */,
+				C4B39E26AA7B3BC3B69CB74DE469D052 /* ALView+PureLayout.m */,
+				431E0F96719DC1189D40F77203F14DBE /* NSArray+PureLayout.h */,
+				6421BE229DB8B0C2EA57FB637ACE6CC5 /* NSArray+PureLayout.m */,
+				AEAC9968F7706C9AFBB6BADCF674E269 /* NSLayoutConstraint+PureLayout.h */,
+				4D44D7CA904D6C7B7C2724BAC98CE301 /* NSLayoutConstraint+PureLayout.m */,
+				8D640673E29A386C498428D4E65711D3 /* PureLayout.h */,
+				763AA7ACC6724F61290206B5CF8B6B3C /* PureLayout+Internal.h */,
+				23ABCAD4B333E6FCAF912A230889680F /* PureLayoutDefines.h */,
+				0DD3728CFD70DF46C1D06EACDEF161F7 /* Support Files */,
+			);
+			name = PureLayout;
+			path = PureLayout;
 			sourceTree = "<group>";
 		};
 		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
@@ -259,6 +335,16 @@
 			);
 			name = "Pods-tournenizerTests";
 			path = "Target Support Files/Pods-tournenizerTests";
+			sourceTree = "<group>";
+		};
+		EE7562A7A8316EE2EC7F8366FC9CCC7E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2BB4A902BC958E4DC9842F356ADF612C /* GoogleMaps */,
+				6C19B4837286A09D6183F8A5DE94AE8A /* GooglePlaces */,
+				CBDD3E3A8234B46296509984CD6BA476 /* PureLayout */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		F9A9F97B4F3277C1636AF9DB388D7A15 /* Products */ = {
@@ -684,7 +770,7 @@
 		};
 		CABA51D948EDBCFEBA88B0D1BAFCACE8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE7069671C4FC7CD178436F40B2A9B79 /* PureLayout.xcconfig */;
+			baseConfigurationReference = D8EA413CD6DE995FE57C1E6850386F0A /* PureLayout.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -715,7 +801,7 @@
 		};
 		CB387983ED889A1A6F815E6B7FD18963 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE7069671C4FC7CD178436F40B2A9B79 /* PureLayout.xcconfig */;
+			baseConfigurationReference = D8EA413CD6DE995FE57C1E6850386F0A /* PureLayout.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";

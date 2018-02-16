@@ -39,32 +39,32 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     override func loadView() {
         // Initialize view
         view = UIView();
-        view.backgroundColor = Constants.white;
+        view.backgroundColor = Constants.color.white;
 
         // Initialize all subviews
         loginPrompt = {
             let view = UILabel.newAutoLayout();
             view.text = loginPromptText;
-            view.textColor = UIColor.lightGray;
+            view.textColor = Constants.color.gray;
             view.textAlignment = .center;
-            view.font = UIFont(name: Constants.fontMedium, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
             return view;
         }();
 
         loginButton = {
             let view = UIButton.newAutoLayout();
             view.setTitle(loginButtonText, for: .normal);
-            view.setTitleColor(Constants.lightBlue, for: .normal);
-            view.titleLabel?.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.setTitleColor(Constants.color.lightBlue, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             return view;
         }();
 
         nameField = {
             let view = UITextField.newAutoLayout();
             view.placeholder = nameFieldPrompt;
-            view.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.textAlignment = .center;
-            view.textColor = Constants.navy;
+            view.textColor = Constants.color.navy;
             view.returnKeyType = .next;
             return view;
         }();
@@ -72,9 +72,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         emailField = {
             let view = UITextField.newAutoLayout();
             view.placeholder = emailFieldPrompt;
-            view.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.textAlignment = .center;
-            view.textColor = Constants.navy;
+            view.textColor = Constants.color.navy;
             view.returnKeyType = .next;
             view.keyboardType = .emailAddress;
             return view;
@@ -83,10 +83,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         passwordField = {
             let view = UITextField.newAutoLayout();
             view.placeholder = passwordFieldPrompt;
-            view.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.textAlignment = .center;
             view.isSecureTextEntry = true;
-            view.textColor = Constants.navy;
+            view.textColor = Constants.color.navy;
             view.returnKeyType = .next;
             return view;
         }();
@@ -94,10 +94,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         reenterPasswordField = {
             let view = UITextField.newAutoLayout();
             view.placeholder = reenterPasswordFieldPrompt;
-            view.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.textAlignment = .center;
             view.isSecureTextEntry = true;
-            view.textColor = Constants.navy;
+            view.textColor = Constants.color.navy;
             view.returnKeyType = .go;
             return view;
         }();
@@ -105,12 +105,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         registerButton = {
             let view = UIButton.newAutoLayout();
             view.setTitle(registerButtonText, for: .normal);
-            view.setTitleColor(Constants.white, for: .normal);
-            view.titleLabel?.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.layer.cornerRadius = registerButtonBorderRadius;
             view.layer.borderWidth = registerButtonBorderWidth;
-            view.layer.borderColor = Constants.lightBlue.cgColor;
-            view.backgroundColor = Constants.lightBlue;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
             view.titleLabel?.lineBreakMode = .byCharWrapping;
             return view;
         }();

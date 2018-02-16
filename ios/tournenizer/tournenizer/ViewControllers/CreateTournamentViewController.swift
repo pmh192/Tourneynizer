@@ -12,7 +12,7 @@ import PureLayout;
 class CreateTournamentViewController : UIViewController {
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.blue;
+        view.backgroundColor = Constants.color.blue;
 
         view.setNeedsUpdateConstraints();
     }

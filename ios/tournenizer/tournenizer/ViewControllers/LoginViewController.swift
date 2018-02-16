@@ -40,33 +40,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func loadView() {
         // Initialize view
         view = UIView();
-        view.backgroundColor = Constants.white;
+        view.backgroundColor = Constants.color.white;
 
         // Initialize all subviews
         fakeKeyboardView = nil;
 
         statusBarCover = {
             let view = UIView.newAutoLayout();
-            view.backgroundColor = Constants.navy;
+            view.backgroundColor = Constants.color.navy;
             return view;
         }();
 
         logoLabel = {
             let view = UILabel.newAutoLayout();
             view.text = logoText;
-            view.backgroundColor = Constants.navy;
-            view.textColor = Constants.red;
+            view.backgroundColor = Constants.color.navy;
+            view.textColor = Constants.color.red;
             view.textAlignment = .center;
-            view.font = UIFont(name: Constants.fontMedium, size: Constants.headerFontSize);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.header);
             return view;
         }();
 
         usernameField = {
             let view = UITextField.newAutoLayout();
             view.placeholder = usernameFieldPrompt;
-            view.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.textAlignment = .center;
-            view.textColor = Constants.navy;
+            view.textColor = Constants.color.navy;
             view.keyboardType = .emailAddress;
             view.returnKeyType = .next;
             return view;
@@ -75,10 +75,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordField = {
             let view = UITextField.newAutoLayout();
             view.placeholder = passwordFieldPrompt;
-            view.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.textAlignment = .center;
             view.isSecureTextEntry = true;
-            view.textColor = Constants.navy;
+            view.textColor = Constants.color.navy;
             view.returnKeyType = .go;
             return view;
         }();
@@ -86,12 +86,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginButton = {
             let view = UIButton.newAutoLayout();
             view.setTitle(loginButtonText, for: .normal);
-            view.setTitleColor(Constants.white, for: .normal);
-            view.titleLabel?.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.layer.cornerRadius = loginButtonBorderRadius;
             view.layer.borderWidth = loginButtonBorderWidth;
-            view.layer.borderColor = Constants.lightBlue.cgColor;
-            view.backgroundColor = Constants.lightBlue;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
             view.titleLabel?.lineBreakMode = .byCharWrapping;
             return view;
         }();
@@ -99,17 +99,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         registerPrompt = {
             let view = UILabel.newAutoLayout();
             view.text = registerPromptText;
-            view.textColor = UIColor.lightGray;
+            view.textColor = Constants.color.gray;
             view.textAlignment = .center;
-            view.font = UIFont(name: Constants.fontMedium, size: Constants.normalFontSize);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
             return view;
         }();
 
         registerButton = {
             let view = UIButton.newAutoLayout();
             view.setTitle(registerButtonText, for: .normal);
-            view.setTitleColor(Constants.lightBlue, for: .normal);
-            view.titleLabel?.font = UIFont(name: Constants.font, size: Constants.normalFontSize);
+            view.setTitleColor(Constants.color.lightBlue, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             return view;
         }();
 
@@ -120,7 +120,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             view.addSubview(passwordField!);
             view.addSubview(loginButton!);
             return view;
-            }();
+        }();
 
         registerStack = { [registerPrompt, registerButton] in
             let view = UIStackView();
@@ -128,7 +128,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             view.addSubview(registerPrompt!);
             view.addSubview(registerButton!);
             return view;
-            }();
+        }();
 
         // Setup callback to hide keyboard on outside tap
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));

@@ -19,7 +19,13 @@
 		5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */; };
 		5726EC82202B7BB9009BABE8 /* PlayerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC81202B7BB9009BABE8 /* PlayerListViewController.swift */; };
 		5726EC84202B7C75009BABE8 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC83202B7C75009BABE8 /* EventsViewController.swift */; };
+		5726EC87202BB13D009BABE8 /* Tournament.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC86202BB13D009BABE8 /* Tournament.swift */; };
+		5726EC89202BB252009BABE8 /* TournamentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC88202BB252009BABE8 /* TournamentType.swift */; };
 		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
+		574D2534202E306E0092748D /* TournamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574D2533202E306E0092748D /* TournamentViewController.swift */; };
+		57961BEB2036540900E128DC /* TournamentListViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57961BEA2036540900E128DC /* TournamentListViewContainer.swift */; };
+		57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */; };
+		57B36CC920366BA300305A87 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B36CC820366BA300305A87 /* Keys.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
 		57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */; };
@@ -61,7 +67,13 @@
 		5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5726EC81202B7BB9009BABE8 /* PlayerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListViewController.swift; sourceTree = "<group>"; };
 		5726EC83202B7C75009BABE8 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		5726EC86202BB13D009BABE8 /* Tournament.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tournament.swift; sourceTree = "<group>"; };
+		5726EC88202BB252009BABE8 /* TournamentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentType.swift; sourceTree = "<group>"; };
 		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		574D2533202E306E0092748D /* TournamentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentViewController.swift; sourceTree = "<group>"; };
+		57961BEA2036540900E128DC /* TournamentListViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentListViewContainer.swift; sourceTree = "<group>"; };
+		57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentTableCellView.swift; sourceTree = "<group>"; };
+		57B36CC820366BA300305A87 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +155,8 @@
 				5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */,
 				5726EC81202B7BB9009BABE8 /* PlayerListViewController.swift */,
 				5726EC83202B7C75009BABE8 /* EventsViewController.swift */,
+				574D2533202E306E0092748D /* TournamentViewController.swift */,
+				57961BEA2036540900E128DC /* TournamentListViewContainer.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -153,8 +167,26 @@
 				570FEAB92026B64100B94FD9 /* Constants.swift */,
 				570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */,
 				570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */,
+				57B36CC820366BA300305A87 /* Keys.swift */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		5726EC85202BB126009BABE8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5726EC86202BB13D009BABE8 /* Tournament.swift */,
+				5726EC88202BB252009BABE8 /* TournamentType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		57A0D968202C01A300C24F8B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		57B5B465201FE6B800C2C1DD = {
@@ -182,6 +214,8 @@
 		57B5B470201FE6B900C2C1DD /* tournenizer */ = {
 			isa = PBXGroup;
 			children = (
+				57A0D968202C01A300C24F8B /* Views */,
+				5726EC85202BB126009BABE8 /* Models */,
 				570FEABC2027828C00B94FD9 /* Config */,
 				570FEABB2027823000B94FD9 /* ViewControllers */,
 				57B5B471201FE6B900C2C1DD /* AppDelegate.swift */,
@@ -469,9 +503,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-tournenizer/Pods-tournenizer-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -503,17 +542,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5726EC87202BB13D009BABE8 /* Tournament.swift in Sources */,
 				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
 				5726EC82202B7BB9009BABE8 /* PlayerListViewController.swift in Sources */,
 				57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */,
 				570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */,
 				57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */,
 				57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */,
+				5726EC89202BB252009BABE8 /* TournamentType.swift in Sources */,
+				574D2534202E306E0092748D /* TournamentViewController.swift in Sources */,
+				57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */,
 				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
 				5726EC84202B7C75009BABE8 /* EventsViewController.swift in Sources */,
 				5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */,
 				5726EC7C202B7A9C009BABE8 /* TournamentListViewController.swift in Sources */,
 				570FEABA2026B64100B94FD9 /* Constants.swift in Sources */,
+				57B36CC920366BA300305A87 /* Keys.swift in Sources */,
+				57961BEB2036540900E128DC /* TournamentListViewContainer.swift in Sources */,
 				570FEAC22027C16000B94FD9 /* DashboardViewController.swift in Sources */,
 				5726EC7E202B7B2C009BABE8 /* CreateTournamentViewController.swift in Sources */,
 			);
@@ -679,7 +724,7 @@
 				INFOPLIST_FILE = tournenizer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tourneynizer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -696,7 +741,7 @@
 				INFOPLIST_FILE = tournenizer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tournenizer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tourneynizer.tourneynizer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
