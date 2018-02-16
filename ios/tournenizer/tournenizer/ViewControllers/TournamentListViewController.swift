@@ -18,7 +18,7 @@ class TournamentListViewController : UITableViewController {
         super.viewWillAppear(animated);
 
         tournaments = [
-            Tournament(id: 0, name: "Tournament of The Champions of the Void", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
+            Tournament(id: 0, name: "Tournament of The Champions of the Void of Los Angeles", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
             Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
             Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
             Tournament(id: 3, name: "Tournament 4", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil),
@@ -44,11 +44,12 @@ class TournamentListViewController : UITableViewController {
         ];
     }
 
-    override func viewDidLoad() {
+    override func loadView() {
+        super.loadView();
+
         view.backgroundColor = Constants.color.lightGray;
 
         tableView.separatorStyle = .none;
-        tableView.allowsSelection = false;
         tableView.register(TournamentTableCellView.self, forCellReuseIdentifier: cellIdentifier);
         tableView.rowHeight = UITableViewAutomaticDimension;
         tableView.estimatedRowHeight = 50;
@@ -60,11 +61,11 @@ class TournamentListViewController : UITableViewController {
     // Sets constraints on all views
     override func updateViewConstraints() {
         if(!didUpdateConstraints) {
-
             tableView.autoPinEdgesToSuperviewEdges();
-
             didUpdateConstraints = true;
         }
+
+        super.updateViewConstraints();
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -96,5 +97,11 @@ class TournamentListViewController : UITableViewController {
         } else {
             return UITableViewCell();
         }
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = TournamentViewController();
+        vc.setTournament(tourament: tournaments[indexPath.section]);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 }

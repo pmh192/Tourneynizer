@@ -92,6 +92,8 @@ class TournamentTableCellView : UITableViewCell {
             return view;
         }();
 
+        self.selectionStyle = .none;
+
         contentView.addSubview(nameLabel!);
         contentView.addSubview(addressLabel!);
         contentView.addSubview(dateLabel);
