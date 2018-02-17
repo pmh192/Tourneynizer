@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.requesters.UserRequester;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +26,12 @@ public class LoginActivity extends AppCompatActivity {
                 // Check to see if username and password are valid
                 // if so, advance to next activity (home page of app)
                 // if not, display error message
+                UserRequester.getUserFromEmailAndPassword(getApplicationContext(), emailText.toString(), passwordText.toString(), new UserRequester.OnUserLoadedListener() {
+                    @Override
+                    public void onUserLoaded(User user) {
+
+                    }
+                });
                 startActivity(MainActivity.class);
             }
         });

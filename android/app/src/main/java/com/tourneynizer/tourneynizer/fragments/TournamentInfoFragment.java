@@ -1,10 +1,8 @@
 package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tourneynizer.tourneynizer.R;
-import com.tourneynizer.tourneynizer.data.Tournament;
+import com.tourneynizer.tourneynizer.model.Tournament;
 
 import java.util.Locale;
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.requesters.UserRequester;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // if works, advance to next activity (home page of app)
                 // if not, display error message
                 if (passwordText == confirmPasswordText || passwordText.toString().equals(confirmPasswordText.toString())) {
+                    UserRequester.createUser(getApplicationContext(), nameText.toString(), emailText.toString(), passwordText.toString());
                     startActivity(MainActivity.class);
                 }
             }

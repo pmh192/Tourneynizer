@@ -1,30 +1,16 @@
 package com.tourneynizer.tourneynizer.adapters;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.ViewGroup;
 
-import com.tourneynizer.tourneynizer.R;
-import com.tourneynizer.tourneynizer.data.User;
+import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.fragments.CreateTournamentFragment;
 import com.tourneynizer.tourneynizer.fragments.RootFragment;
 import com.tourneynizer.tourneynizer.fragments.SearchFragment;
 import com.tourneynizer.tourneynizer.fragments.TournamentListFragment;
 import com.tourneynizer.tourneynizer.fragments.UserProfileFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ryanwiener on 2/9/18.

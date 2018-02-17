@@ -1,4 +1,4 @@
-package com.tourneynizer.tourneynizer.data;
+package com.tourneynizer.tourneynizer.model;
 
 /**
  * Created by ryanl on 2/3/2018.

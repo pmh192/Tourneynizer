@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
-import com.tourneynizer.tourneynizer.data.Tournament;
+import com.tourneynizer.tourneynizer.model.Tournament;
 
 /**
  * Created by ryanl on 2/3/2018.

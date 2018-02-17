@@ -25,7 +25,7 @@
 
         <ExpandableListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginTop="@dimen/marginSize"
             android:id="@+id/tournamentTypeList"/>
 
@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSize"
             android:text="@string/chooseLocation"
+            android:id="@+id/goToMap"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>

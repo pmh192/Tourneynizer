@@ -1,4 +1,4 @@
-package com.tourneynizer.tourneynizer.data;
+package com.tourneynizer.tourneynizer.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
