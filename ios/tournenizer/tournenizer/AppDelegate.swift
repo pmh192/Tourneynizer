@@ -20,10 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds);
 
         GMSServices.provideAPIKey(Keys.googleMapsKey);
-
-        let viewController = UINavigationController();
-        viewController.navigationBar.isHidden = true;
-        viewController.pushViewController(LoginViewController(), animated: false);
+        let viewController = LoginViewContainerController();
         window!.rootViewController = viewController;
         window!.makeKeyAndVisible();
         return true;
