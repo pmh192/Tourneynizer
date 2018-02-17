@@ -18,9 +18,10 @@ class ProfileViewController : UIViewController {
     var statusBarCover: UIView!;
     var contentView: UIView!;
 
-    let topTitlePadding: CGFloat = 30;
+    let topTitlePadding: CGFloat = 40;
     let sideTitlePadding: CGFloat = 15;
     let emailPadding: CGFloat = 10;
+    let topTeamsPadding: CGFloat = 20;
     let teamsPadding: CGFloat = 7.5;
     let teamsTitle = "Past Teams:";
 
@@ -121,7 +122,7 @@ class ProfileViewController : UIViewController {
             emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: emailPadding);
             emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: emailPadding);
 
-            teamsTitleLabel.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: topTitlePadding);
+            teamsTitleLabel.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: topTeamsPadding);
             teamsTitleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: teamsPadding);
             teamsTitleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: teamsPadding);
 
