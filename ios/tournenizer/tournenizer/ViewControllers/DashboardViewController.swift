@@ -115,7 +115,7 @@ class DashboardViewController : UIViewController {
 
         tabBarControllers = [
             TournamentListViewContainerController(),
-            PlayerListViewController(),
+            PlayersViewController(),
             CreateTournamentViewController(),
             EventsViewController(),
             ProfileViewController()

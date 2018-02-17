@@ -11,19 +11,26 @@ import PureLayout;
 
 class ProfileViewController : UIViewController {
     var user: User!;
+    var currentProfile = true;
 
     var titleLabel: UILabel!;
     var emailLabel: UILabel!;
     var teamsTitleLabel: UILabel!;
     var statusBarCover: UIView!;
     var contentView: UIView!;
+    var logoutButton: UIButton!;
 
     let topTitlePadding: CGFloat = 40;
     let sideTitlePadding: CGFloat = 15;
     let emailPadding: CGFloat = 10;
     let topTeamsPadding: CGFloat = 20;
     let teamsPadding: CGFloat = 7.5;
+    let buttonHeight: CGFloat = 25;
+    let logoutButtonBorderWidth: CGFloat = 1;
+    let logoutButtonBorderRadius: CGFloat = 5;
+
     let teamsTitle = "Past Teams:";
+    let logoutText = "Sign Out";
 
     var profileList: ProfileTeamsViewController!;
 
@@ -36,7 +43,6 @@ class ProfileViewController : UIViewController {
         titleLabel = {
             let view = UILabel.newAutoLayout();
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.header);
-            view.textAlignment = .center;
             view.textColor = Constants.color.red;
             view.text = user.name;
             view.lineBreakMode = .byWordWrapping;
@@ -47,7 +53,6 @@ class ProfileViewController : UIViewController {
         emailLabel = {
             let view = UILabel.newAutoLayout();
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
-            view.textAlignment = .center;
             view.textColor = Constants.color.navy;
             view.text = user.email;
             view.lineBreakMode = .byWordWrapping;
@@ -70,6 +75,21 @@ class ProfileViewController : UIViewController {
         }();
 
         contentView = UIView.newAutoLayout();
+
+        logoutButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle(logoutText, for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = logoutButtonBorderRadius;
+            view.layer.borderWidth = logoutButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+
+        logoutButton.addTarget(self, action: #selector(logout), for: .touchUpInside);
 
         profileList = ProfileTeamsViewController();
         profileList.setTeams([
@@ -99,6 +119,9 @@ class ProfileViewController : UIViewController {
         view.addSubview(titleLabel);
         view.addSubview(statusBarCover);
         view.addSubview(emailLabel);
+        if(currentProfile) {
+            view.addSubview(logoutButton);
+        }
         view.addSubview(teamsTitleLabel);
         view.addSubview(contentView);
         view.setNeedsUpdateConstraints();
@@ -119,8 +142,16 @@ class ProfileViewController : UIViewController {
             titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
 
             emailLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: emailPadding);
-            emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: emailPadding);
-            emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: emailPadding);
+            emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
+
+            if(currentProfile) {
+                logoutButton.autoPinEdge(toSuperviewEdge: .trailing, withInset: emailPadding);
+                logoutButton.autoAlignAxis(.horizontal, toSameAxisOf: emailLabel);
+                emailLabel.autoMatch(.width, to: .width, of: view, withMultiplier: 0.7);
+                emailLabel.autoPinEdge(.trailing, to: .leading, of: logoutButton);
+            } else {
+                emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
+            }
 
             teamsTitleLabel.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: topTeamsPadding);
             teamsTitleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: teamsPadding);
@@ -140,4 +171,22 @@ class ProfileViewController : UIViewController {
     func setUser(_ user: User) {
         self.user = user;
     }
+
+    func setCurrentProfile(_ currentProfile: Bool) {
+        self.currentProfile = currentProfile;
+    }
+
+    @objc func logout() {
+        let animation = CATransition();
+        animation.type = kCATransitionReveal;
+        animation.subtype = kCATransitionFromBottom;
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
+        animation.duration = CFTimeInterval(0.35);
+
+        let window = UIApplication.shared.keyWindow;
+        window?.layer.add(animation, forKey: nil);
+        window?.rootViewController = LoginViewContainerController();
+    }
+
+
 }
