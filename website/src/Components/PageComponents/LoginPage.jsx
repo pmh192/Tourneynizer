@@ -4,7 +4,6 @@ import LoginPageForm from './LoginPageForm'
 
 
 class LoginPage extends Component {
-
 	render() {
 		return (
 			<div className='MarginSpacer'>
