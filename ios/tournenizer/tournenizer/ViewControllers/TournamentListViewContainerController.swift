@@ -1,5 +1,5 @@
 //
-//  TournamentListViewContainer.swift
+//  TournamentListViewContainerController.swift
 //  tournenizer
 //
 //  Created by Ankush Rayabhari on 2/15/18.
@@ -9,7 +9,7 @@
 import UIKit;
 import PureLayout;
 
-class TournamentListViewContainer : UIViewController {
+class TournamentListViewContainerController : UIViewController {
     var logoLabel: UILabel!;
     var statusBarCover: UIView!;
     var contentView: UIView!;
