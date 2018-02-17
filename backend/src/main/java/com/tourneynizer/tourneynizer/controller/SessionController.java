@@ -1,17 +1,14 @@
 package com.tourneynizer.tourneynizer.controller;
 
-import com.tourneynizer.tourneynizer.dao.SessionDao;
-import com.tourneynizer.tourneynizer.dao.UserDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
-import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.service.SessionService;
-import com.tourneynizer.tourneynizer.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -39,17 +36,21 @@ public class SessionController {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(session, new HttpHeaders(), HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.SET_COOKIE, session);
+        return new ResponseEntity<>(null, headers, HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/api/auth/logout")
-    public ResponseEntity<?> destroy(@RequestBody Map<String, String> auth) {
+    public ResponseEntity<?> destroy(@CookieValue("session") String session) {
         try {
-            sessionService.destroySession(auth);
+            sessionService.destroySession(session);
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(Collections.singletonMap("status", "success"), new HttpHeaders(), HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.SET_COOKIE, "");
+        return new ResponseEntity<>(null, headers, HttpStatus.NO_CONTENT);
     }
 }

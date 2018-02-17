@@ -9,8 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -29,6 +28,34 @@ public class UserController {
         User user;
         try {
             user = userService.insertUser(values.get("email"), values.get("name"), values.get("password"));
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/user/{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
+        User user;
+        try {
+            user = userService.findById(id);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/user/find")
+    public ResponseEntity<?> getByEmail(@RequestParam String email) {
+        User user;
+        try {
+            user = userService.findByEmail(email);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {

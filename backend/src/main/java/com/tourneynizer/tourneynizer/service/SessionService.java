@@ -38,13 +38,16 @@ public class SessionService {
         }
     }
 
-    public void destroySession(Map<String, String> auth) throws InternalErrorException {
-        String session = auth.getOrDefault("session", "");
+    public void destroySession(String session) throws InternalErrorException {
         try {
             sessionDao.destroySession(session);
         } catch (SQLException e) {
             throw new InternalErrorException(e);
         }
+    }
+
+    public User findBySession(String session) {
+        return sessionDao.findBySession(session);
     }
 
     public User findByRequest(Map<String, String> values) {

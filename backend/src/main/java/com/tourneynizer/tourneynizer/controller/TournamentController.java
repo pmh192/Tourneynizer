@@ -15,10 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -37,8 +34,8 @@ public class TournamentController {
     }
 
     @PostMapping("/api/tournament/create")
-    public ResponseEntity<?> create(@RequestBody Map<String, String> values) {
-        User user = sessionService.findByRequest(values);
+    public ResponseEntity<?> create(@CookieValue("session") String session, @RequestBody Map<String, String> values) {
+        User user = sessionService.findBySession(session);
         if (user == null) {
             return new ResponseEntity<Object>(new ErrorMessage("User is not logged in"), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
@@ -55,7 +52,7 @@ public class TournamentController {
         return new ResponseEntity<>(tournament, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/tournaments/getAll")
+    @GetMapping("/api/tournament/getAll")
     public ResponseEntity<?> getAll() {
         try {
             List<Tournament> tournaments = tournamentService.getAll();
@@ -65,8 +62,8 @@ public class TournamentController {
         }
     }
 
-    @GetMapping("/api/tournaments/get")
-    public ResponseEntity<?> findById(@RequestParam("id") Long id) {
+    @GetMapping("/api/tournament/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         try {
             Tournament tournament = tournamentService.findById(id);
             return new ResponseEntity<>(tournament, new HttpHeaders(), HttpStatus.OK);

@@ -36,7 +36,31 @@ public class UserService {
         return user;
     }
 
-    public User findById(long id) {
-        return userDao.findById(id);
+    public User findById(long id) throws BadRequestException, InternalErrorException {
+        User user;
+        try {
+            user = userDao.findById(id);
+        } catch (Exception e) {
+            throw new InternalErrorException(e);
+        }
+
+        if (user == null) {
+            throw new BadRequestException("User doesn't exists with id " + id);
+        }
+        return user;
+    }
+
+    public User findByEmail(String email) throws BadRequestException, InternalErrorException {
+        User user;
+        try {
+            user = userDao.findByEmail(email);
+        } catch (Exception e) {
+            throw new InternalErrorException(e);
+        }
+
+        if (user == null) {
+            throw new BadRequestException("User doesn't exists with email " + email);
+        }
+        return user;
     }
 }

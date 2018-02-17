@@ -24,7 +24,8 @@ public class TournamentService {
     public Tournament createTournament(Map<String, String> values, User user) throws BadRequestException, InternalErrorException {
         Tournament tournament;
         try {
-            tournament = new Tournament(values.get("name"),
+            tournament = new Tournament(
+                    values.get("name"),
                     values.get("address"),
                     new Timestamp(Long.parseLong(values.get("startTime"))),
                     Integer.parseInt(values.get("teamSize")),
