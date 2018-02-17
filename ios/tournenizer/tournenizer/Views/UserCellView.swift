@@ -12,6 +12,8 @@ import Foundation;
 class UserCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var emailLabel: UILabel!;
+    var moreInfoImage: UIImageView!;
+    
     var user: User!;
 
     let topPadding: CGFloat = 10;
@@ -30,7 +32,7 @@ class UserCellView : UITableViewCell {
         setupViews();
     }
 
-    func setTeam(_ user: User) {
+    func setUser(_ user: User) {
         self.user = user;
         nameLabel.text = user.name;
         emailLabel.text = user.email;
@@ -42,7 +44,7 @@ class UserCellView : UITableViewCell {
     }
 
     func setupViews() {
-        contentView.backgroundColor = Constants.color.white;
+        contentView.backgroundColor = Constants.color.lightGray;
 
         nameLabel = {
             let view = UILabel.newAutoLayout();
@@ -60,10 +62,19 @@ class UserCellView : UITableViewCell {
             return view;
         }();
 
+        moreInfoImage = {
+            let view = UIImageView.newAutoLayout();
+            view.image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
+            view.tintColor = Constants.color.lightBlue;
+            view.contentMode = .scaleAspectFit;
+            return view;
+        }();
+
         self.selectionStyle = .none;
 
-        contentView.addSubview(nameLabel!);
-        contentView.addSubview(emailLabel!);
+        contentView.addSubview(nameLabel);
+        contentView.addSubview(emailLabel);
+        contentView.addSubview(moreInfoImage!);
     }
 
     override func updateConstraints() {
@@ -78,8 +89,12 @@ class UserCellView : UITableViewCell {
 
         emailLabel.autoPinEdge(.top, to: .bottom, of: nameLabel);
         emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
-        emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
         emailLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: sidePadding);
+
+        moreInfoImage.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
+        moreInfoImage.autoPinEdge(.leading, to: .trailing, of: emailLabel, withOffset: elementSpacing);
+        moreInfoImage.autoAlignAxis(.horizontal, toSameAxisOf: emailLabel);
+        moreInfoImage.autoSetDimension(.width, toSize: iconSize);
 
         super.updateConstraints();
     }

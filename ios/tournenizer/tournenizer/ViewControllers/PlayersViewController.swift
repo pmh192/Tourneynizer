@@ -11,10 +11,20 @@ import PureLayout;
 
 class PlayersViewController : UIViewController {
     var statusBarCover: UIView!;
+    var contentView: UIView!;
+    var searchField: UITextField!;
+
+    let searchHeight: CGFloat = 30;
+    let searchPadding: CGFloat = 10;
+    let playerPadding: CGFloat = 5;
+
+    var userListController: UserListViewController!;
+
+    let searchFieldPrompt = "Search...";
 
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.color.lightGray;
+        view.backgroundColor = Constants.color.white;
 
         statusBarCover = {
             let view = UIView.newAutoLayout();
@@ -22,7 +32,64 @@ class PlayersViewController : UIViewController {
             return view;
         }();
 
+        contentView = UIView.newAutoLayout();
+
+        searchField = {
+            let view = UITextField.newAutoLayout();
+            view.placeholder = searchFieldPrompt;
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.textColor = Constants.color.navy;
+            view.textAlignment = .center;
+            view.backgroundColor = Constants.color.lightGray;
+            return view;
+        }();
+
+        userListController = UserListViewController();
+        userListController.setUsers([
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
+            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date())
+        ]);
+
+
+
+        addChildViewController(userListController);
+        contentView.addSubview(userListController.view);
+        userListController.view.frame = contentView.bounds;
+        userListController.didMove(toParentViewController: self);
+
         view.addSubview(statusBarCover);
+        view.addSubview(searchField);
+        view.addSubview(contentView);
         view.setNeedsUpdateConstraints();
     }
 
@@ -36,6 +103,15 @@ class PlayersViewController : UIViewController {
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
+            searchField.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: searchPadding);
+            searchField.autoSetDimension(.height, toSize: searchHeight);
+            searchField.autoPinEdge(toSuperviewEdge: .leading, withInset: searchPadding);
+            searchField.autoPinEdge(toSuperviewEdge: .trailing, withInset: searchPadding);
+
+            contentView.autoPinEdge(.top, to: .bottom, of: searchField, withOffset: searchPadding);
+            contentView.autoPinEdge(toSuperviewEdge: .leading, withInset: playerPadding);
+            contentView.autoPinEdge(toSuperviewEdge: .trailing, withInset: playerPadding)
+            contentView.autoPinEdge(toSuperviewEdge: .bottom, withInset: playerPadding)
 
             didUpdateConstraints = true;
         }

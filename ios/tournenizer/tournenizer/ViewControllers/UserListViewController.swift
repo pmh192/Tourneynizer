@@ -21,15 +21,15 @@ class UserListViewController : UITableViewController {
     override func loadView() {
         super.loadView();
 
-        view.backgroundColor = Constants.color.lightGray;
-        tableView.allowsSelection = false;
+        view.backgroundColor = Constants.color.white;
+        tableView.allowsSelection = true;
         tableView.separatorStyle = .none;
         tableView.register(UserCellView.self, forCellReuseIdentifier: cellIdentifier);
         tableView.rowHeight = UITableViewAutomaticDimension;
         tableView.estimatedRowHeight = 50;
     }
 
-    func setTeams(_ users: [User]) {
+    func setUsers(_ users: [User]) {
         self.users = users;
     }
 
@@ -66,7 +66,7 @@ class UserListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UserCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? UserCellView;
-        cell?.setTeam(users[indexPath.section]);
+        cell?.setUser(users[indexPath.section]);
         cell?.setNeedsUpdateConstraints();
         cell?.updateConstraintsIfNeeded();
 
@@ -75,6 +75,14 @@ class UserListViewController : UITableViewController {
         } else {
             return UITableViewCell();
         }
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = ProfileViewController();
+        vc.setUser(users[indexPath.section]);
+        vc.setNavigatable(true);
+        vc.setCurrentProfile(false);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 }
 
