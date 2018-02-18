@@ -67,7 +67,7 @@ public class TournamentService {
         }
 
         if (tournament == null) {
-            throw new BadRequestException("Couldn't find that tournament");
+            throw new BadRequestException("Couldn't find tournament with id " + id);
         }
 
         return tournament;

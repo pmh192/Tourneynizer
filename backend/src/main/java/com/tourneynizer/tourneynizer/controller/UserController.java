@@ -77,8 +77,8 @@ public class UserController {
                                          @CookieValue("session") String session,
                                          @RequestBody Map<String, String> values) {
 
-        User user = sessionService.findBySession(session);
         try {
+            User user = sessionService.findBySession(session);
             teamRequestService.requestTeam(values, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);

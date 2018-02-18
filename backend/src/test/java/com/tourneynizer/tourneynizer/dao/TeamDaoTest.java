@@ -35,9 +35,9 @@ public class TeamDaoTest extends TestWithContext {
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "users");
     }
 
-    private User getUser() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        user.setPlaintextPassword("HI");
+    private User getUser(int i) throws Exception {
+        User user = new User("person" + i + "@place.com", "Name" + i, "");
+        user.setPlaintextPassword("HI" + i);
         userDao.insert(user);
         return user;
     }
@@ -50,7 +50,7 @@ public class TeamDaoTest extends TestWithContext {
 
     @Test
     public void insert() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
 
         Timestamp beforeInsert = new Timestamp(System.currentTimeMillis());
@@ -63,7 +63,7 @@ public class TeamDaoTest extends TestWithContext {
 
     @Test
     public void insertBadId() throws Exception {
-        User user = getUser();
+        User user = getUser(1);
         Tournament tournament = getTournament(user);
 
         Team team1 = new Team("name", -1, tournament.getId());
@@ -74,7 +74,7 @@ public class TeamDaoTest extends TestWithContext {
 
     @Test
     public void insertEquality() throws Exception {
-        User user = getUser();
+        User user = getUser(1);
         Tournament tournament = getTournament(user);
 
         Team team = new Team("name", user.getId(), tournament.getId());
@@ -84,9 +84,24 @@ public class TeamDaoTest extends TestWithContext {
         assertEquals(expected, team);
     }
 
+    // TODO Unique team names per tournament
+    @Test(expected = IllegalArgumentException.class)
+    public void sameTeamNameSameTournament() throws Exception {
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        Tournament tournament = getTournament(user1);
+
+        Team team1 = new Team("name", user2.getId(), tournament.getId());
+        teamDao.insert(team1, user2);
+
+        Team team2 = new Team("name", user3.getId(), tournament.getId());
+        teamDao.insert(team2, user3);
+    }
+
     @Test
     public void retrieve() throws Exception {
-        User user = getUser();
+        User user = getUser(1);
         Tournament tournament = getTournament(user);
         Team team = new Team("name", user.getId(), tournament.getId());
         teamDao.insert(team, user);
