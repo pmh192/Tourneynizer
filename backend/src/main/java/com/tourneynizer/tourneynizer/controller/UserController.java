@@ -72,18 +72,4 @@ public class UserController {
         return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping("/api/user/{id}/sendRequest")
-    public ResponseEntity<?> sendRequest(@PathVariable("id") long id,
-                                         @CookieValue("session") String session,
-                                         @RequestBody Map<String, String> values) {
-
-        try {
-            User user = sessionService.findBySession(session);
-            teamRequestService.requestTeam(values, user);
-        } catch (BadRequestException e) {
-            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<Object>(Collections.emptyMap(), new HttpHeaders(), HttpStatus.OK);
-    }
 }

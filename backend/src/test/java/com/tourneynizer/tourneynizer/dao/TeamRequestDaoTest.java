@@ -92,10 +92,11 @@ public class TeamRequestDaoTest extends TestWithContext {
 
     @Test
     public void requestTeam() throws Exception {
+        User creator = getUser(10);
         User user = getUser(0);
         User user2 = getUser(1);
         Tournament tournament = getTournament(user);
-        Team team = getTeam(user, tournament);
+        Team team = getTeam(creator, tournament);
 
         teamRequestDao.requestTeam(user, team);
         teamRequestDao.requestTeam(user2, team);
@@ -104,6 +105,15 @@ public class TeamRequestDaoTest extends TestWithContext {
         List<Long> expected = Arrays.asList(user.getId(), user2.getId());
 
         assertEquals(expected, requests);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatorRequestOwnTeam() throws Exception {
+        User user = getUser(0);
+        Tournament tournament = getTournament(user);
+        Team team = getTeam(user, tournament);
+
+        teamRequestDao.requestTeam(user, team);
     }
 
     @Test(expected = IllegalArgumentException.class)

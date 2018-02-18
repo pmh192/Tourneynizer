@@ -36,13 +36,16 @@ public class TeamRequestDao {
             });
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("duplicate key value violates unique constraint \"unique_team_user_request\"")) {
-                throw new IllegalArgumentException(e);
+                throw new IllegalArgumentException("That request has already been made");
             }
             throw e;
         }
     }
 
     public void requestTeam(User user, Team team) {
+        if (team.getCreatorId() == user.getId()) {
+            throw new IllegalArgumentException("You can't request to be on a team you've created.");
+        }
         insert(team.getId(), user.getId(), user.getId());
     }
 
