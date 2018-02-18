@@ -8,8 +8,9 @@
 
 import UIKit;
 import PureLayout;
+import GooglePlacePicker;
 
-class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, GMSPlacePickerViewControllerDelegate {
     var titleLabel: UILabel!;
     var namePrompt: UILabel!;
     var startTimePrompt: UILabel!;
@@ -17,11 +18,14 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var maxTeamsPrompt: UILabel!;
     var typePrompt: UILabel!;
     var numCourtsPrompt: UILabel!;
+    var locationPrompt: UILabel!;
     var statusBarCover: UIView!;
 
     var startTimePicker: UIDatePicker!;
     var pickerToolbar: UIToolbar!;
     var optionPicker: UIPickerView!;
+
+    var place: GMSPlace!;
 
     var nameField: UITextField!;
     var startTimeField: UITextField!;
@@ -29,8 +33,9 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var maxTeamsField: UITextField!;
     var typeField: UITextField!;
     var numCourtsField: UITextField!;
-
+    var locationField: UITextField!;
     var nextButton: UIButton!;
+    var clearButton: UIButton!;
 
     let titleText = "Create A Tournament";
     let namePromptText = "Name:";
@@ -40,7 +45,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     let maxTeamsPromptText = "Max Teams:";
     let typePromptText = "Tournament Type:";
     let numCourtsPromptText = "# Courts:";
+    let locationPromptText = "Location:";
     let toolbarDone = "Next";
+    let toolbarCreate = "Create";
+    let toolbarClear = "Clear";
 
     let sideTitlePadding: CGFloat = 10;
     let topTitlePadding: CGFloat = 10;
@@ -49,7 +57,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     let leftPercentWidth: CGFloat = 0.45;
     let nextButtonBorderWidth: CGFloat = 1;
     let nextButtonBorderRadius: CGFloat = 5;
-    let buttonWidth: CGFloat = 60;
+    let buttonWidth: CGFloat = 80;
     let errorBorderWidth: CGFloat = 1;
 
     let pickerOptions = [
@@ -79,6 +87,18 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         return view;
     }
 
+    private func buttonGenerator() -> UIButton {
+        let view = UIButton.newAutoLayout();
+        view.setTitleColor(Constants.color.white, for: .normal);
+        view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+        view.layer.cornerRadius = nextButtonBorderRadius;
+        view.layer.borderWidth = nextButtonBorderWidth;
+        view.layer.borderColor = Constants.color.lightBlue.cgColor;
+        view.backgroundColor = Constants.color.lightBlue;
+        view.titleLabel?.lineBreakMode = .byCharWrapping;
+        return view;
+    }
+
     override func loadView() {
         view = UIView();
         view.backgroundColor = Constants.color.white;
@@ -98,7 +118,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             return view;
         }();
 
-
         namePrompt = promptGenerator();
         namePrompt.text = namePromptText;
 
@@ -116,6 +135,9 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         numCourtsPrompt = promptGenerator();
         numCourtsPrompt.text = numCourtsPromptText;
+
+        locationPrompt = promptGenerator();
+        locationPrompt.text = locationPromptText;
 
         nameField = fieldGenerator();
 
@@ -152,26 +174,22 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         numCourtsField = fieldGenerator();
         numCourtsField.keyboardType = .numbersAndPunctuation;
-        numCourtsField.returnKeyType = .done;
+
+        locationField = fieldGenerator();
+        locationField.addTarget(self, action: #selector(locationEdit), for: .editingDidBegin);
+        locationField.inputView = UIView();
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));
         tap.cancelsTouchesInView = false;
         view.addGestureRecognizer(tap);
 
-        nextButton = {
-            let view = UIButton.newAutoLayout();
-            view.setTitle(toolbarDone, for: .normal);
-            view.setTitleColor(Constants.color.white, for: .normal);
-            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
-            view.layer.cornerRadius = nextButtonBorderRadius;
-            view.layer.borderWidth = nextButtonBorderWidth;
-            view.layer.borderColor = Constants.color.lightBlue.cgColor;
-            view.backgroundColor = Constants.color.lightBlue;
-            view.titleLabel?.lineBreakMode = .byCharWrapping;
-            return view;
-        }();
+        nextButton = buttonGenerator();
+        nextButton.setTitle(toolbarCreate, for: .normal);
         nextButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside);
 
+        clearButton = buttonGenerator();
+        clearButton.setTitle(toolbarClear, for: .normal);
+        clearButton.addTarget(self, action: #selector(clearFields), for: .touchUpInside);
 
         view.addSubview(statusBarCover);
         view.addSubview(titleLabel);
@@ -181,13 +199,16 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         view.addSubview(maxTeamsPrompt);
         view.addSubview(typePrompt);
         view.addSubview(numCourtsPrompt);
+        view.addSubview(locationPrompt);
         view.addSubview(nameField);
         view.addSubview(startTimeField);
         view.addSubview(teamSizeField);
         view.addSubview(maxTeamsField);
         view.addSubview(typeField);
         view.addSubview(numCourtsField);
+        view.addSubview(locationField);
         view.addSubview(nextButton);
+        view.addSubview(clearButton);
         view.setNeedsUpdateConstraints();
     }
 
@@ -230,6 +251,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             numCourtsPrompt.autoPinEdge(.top, to: .bottom, of: typePrompt, withOffset: promptTopPadding);
             numCourtsPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
 
+            locationPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
+            locationPrompt.autoPinEdge(.top, to: .bottom, of: numCourtsPrompt, withOffset: promptTopPadding);
+            locationPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
+
             nameField.autoAlignAxis(.baseline, toSameAxisOf: namePrompt);
             nameField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
             nameField.autoPinEdge(.leading, to: .trailing, of: namePrompt);
@@ -253,10 +278,18 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             numCourtsField.autoAlignAxis(.baseline, toSameAxisOf: numCourtsPrompt);
             numCourtsField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
             numCourtsField.autoPinEdge(.leading, to: .trailing, of: numCourtsPrompt);
+
+            locationField.autoAlignAxis(.baseline, toSameAxisOf: locationPrompt);
+            locationField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
+            locationField.autoPinEdge(.leading, to: .trailing, of: locationPrompt);
             
             nextButton.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
-            nextButton.autoPinEdge(.top, to: .bottom, of: numCourtsPrompt, withOffset: promptTopPadding);
+            nextButton.autoPinEdge(.top, to: .bottom, of: locationField, withOffset: promptTopPadding);
             nextButton.autoSetDimension(.width, toSize: buttonWidth);
+
+            clearButton.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
+            clearButton.autoPinEdge(.top, to: .bottom, of: locationField, withOffset: promptTopPadding);
+            clearButton.autoSetDimension(.width, toSize: buttonWidth);
 
             didUpdateConstraints = true;
         }
@@ -277,9 +310,8 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             maxTeamsField.becomeFirstResponder();
         } else if(textField == maxTeamsField) {
             typeField.becomeFirstResponder();
-        } else {
-            numCourtsField.resignFirstResponder();
-            nextPage();
+        } else if(textField == numCourtsField) {
+            locationField.becomeFirstResponder();
         }
 
         return false;
@@ -383,9 +415,17 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             startTimeField.layer.borderColor = UIColor.clear.cgColor;
         }
 
+        if(place == nil || locationField.text == nil || locationField.text == "") {
+            locationField.layer.borderColor = Constants.color.red.cgColor;
+            error = true;
+        } else {
+            locationField.layer.borderColor = UIColor.clear.cgColor;
+        }
+
         if(error) {
             return;
         }
+
 
         let tournament = Tournament(
             id: 0,
@@ -404,5 +444,48 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             cancelled: false,
             teamSize: teamSize
         );
+    }
+
+    @objc func locationEdit() {
+        let config = GMSPlacePickerConfig(viewport: nil);
+        let placePicker = GMSPlacePickerViewController(config: config);
+        placePicker.delegate = self;
+        placePicker.modalPresentationStyle = .overFullScreen;
+        present(placePicker, animated: true, completion: nil);
+    }
+
+    func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
+        viewController.dismiss(animated: true, completion: nil);
+        self.place = place;
+        locationField.text = place.formattedAddress;
+
+        locationField.resignFirstResponder();
+    }
+
+    func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {
+        viewController.dismiss(animated: true, completion: nil);
+
+        locationField.resignFirstResponder();
+    }
+
+    @objc func clearFields() {
+        place = nil;
+        startTimePicker.date = Date();
+
+        nameField.text = "";
+        startTimeField.text = "";
+        teamSizeField.text = "";
+        maxTeamsField.text = "";
+        typeField.text = "";
+        numCourtsField.text = "";
+        locationField.text = "";
+
+        nameField.layer.borderColor = UIColor.clear.cgColor;
+        startTimeField.layer.borderColor = UIColor.clear.cgColor;
+        teamSizeField.layer.borderColor = UIColor.clear.cgColor;
+        maxTeamsField.layer.borderColor = UIColor.clear.cgColor;
+        typeField.layer.borderColor = UIColor.clear.cgColor;
+        numCourtsField.layer.borderColor = UIColor.clear.cgColor;
+        locationField.layer.borderColor = UIColor.clear.cgColor;
     }
 }

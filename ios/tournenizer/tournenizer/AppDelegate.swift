@@ -9,6 +9,7 @@
 import UIKit;
 import CoreData;
 import GoogleMaps;
+import GooglePlaces;
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds);
 
+        GMSPlacesClient.provideAPIKey(Keys.googleMapsKey);
         GMSServices.provideAPIKey(Keys.googleMapsKey);
+
         let viewController = LoginViewContainerController();
         window!.rootViewController = viewController;
         window!.makeKeyAndVisible();
