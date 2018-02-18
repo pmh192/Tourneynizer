@@ -49,6 +49,9 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     let toolbarDone = "Next";
     let toolbarCreate = "Create";
     let toolbarClear = "Clear";
+    let dialogTitle = "Tournament Created";
+    let dialogBody = "Your tournament has been created.";
+    let dialogButtonText = "Ok";
 
     let sideTitlePadding: CGFloat = 10;
     let topTitlePadding: CGFloat = 10;
@@ -59,6 +62,8 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     let nextButtonBorderRadius: CGFloat = 5;
     let buttonWidth: CGFloat = 80;
     let errorBorderWidth: CGFloat = 1;
+
+
 
     let pickerOptions = [
         "Pool",
@@ -185,7 +190,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         nextButton = buttonGenerator();
         nextButton.setTitle(toolbarCreate, for: .normal);
-        nextButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside);
+        nextButton.addTarget(self, action: #selector(create), for: .touchUpInside);
 
         clearButton = buttonGenerator();
         clearButton.setTitle(toolbarClear, for: .normal);
@@ -348,7 +353,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         }
     }
 
-    @objc func nextPage() {
+    @objc func create() {
         var error = false;
 
         let maxTeams: Int = {
@@ -443,6 +448,12 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             cancelled: false,
             teamSize: teamSize
         );
+
+        let alert = UIAlertController(title: dialogTitle, message: dialogBody, preferredStyle: .alert);
+        alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in
+            self.clearFields();
+        }));
+        self.present(alert, animated: true, completion: nil);
     }
 
     @objc func locationEdit() {

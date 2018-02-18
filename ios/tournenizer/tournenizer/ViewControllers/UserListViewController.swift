@@ -13,6 +13,9 @@ class UserListViewController : UITableViewController {
     var users: [User] = [];
     let cellIdentifier = "UserCell";
     let cellSpacingHeight: CGFloat = 5;
+    var cb: ((User) -> Void)?;
+    var separatorColor = UIColor.clear;
+    var editable = false;
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
@@ -60,7 +63,7 @@ class UserListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView();
-        headerView.backgroundColor = UIColor.clear;
+        headerView.backgroundColor = separatorColor;
         return headerView;
     }
 
@@ -77,12 +80,28 @@ class UserListViewController : UITableViewController {
         }
     }
 
+    func addSelectionCallback(_ cb: @escaping (User) -> Void) {
+        self.cb = cb;
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = ProfileViewController();
-        vc.setUser(users[indexPath.section]);
-        vc.setNavigatable(true);
-        vc.setCurrentProfile(false);
-        self.navigationController?.pushViewController(vc, animated: true);
+        cb?(users[indexPath.section]);
+    }
+
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return editable;
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            users.remove(at: indexPath.section)
+            tableView.reloadData();
+        }
+    }
+
+    func addUser(_ user: User) {
+        users.append(user);
+        self.tableView.reloadData();
     }
 }
 

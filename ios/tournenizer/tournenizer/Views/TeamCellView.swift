@@ -1,5 +1,5 @@
 //
-//  ProfileTeamCellView.swift
+//  TeamCellView.swift
 //  tournenizer
 //
 //  Created by Ankush Rayabhari on 2/16/18.
@@ -9,7 +9,7 @@
 import UIKit;
 import Foundation;
 
-class ProfileTeamCellView : UITableViewCell {
+class TeamCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var tournamentLabel: UILabel!;
     var team: Team!;

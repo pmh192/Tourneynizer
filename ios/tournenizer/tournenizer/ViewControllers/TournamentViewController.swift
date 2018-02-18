@@ -25,6 +25,7 @@ class TournamentViewController : UIViewController {
     var mapViewContainer: UIView!;
     var mapView: GMSMapView!;
     var joinButton: UIButton!;
+    var createTeamButton: UIButton!;
 
     let iconSize: CGFloat = 25;
     let logoLabelHeight: CGFloat = 50;
@@ -39,7 +40,7 @@ class TournamentViewController : UIViewController {
     
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.color.lightGray;
+        view.backgroundColor = Constants.color.white;
 
         logoLabel = {
             let view = UILabel.newAutoLayout();
@@ -70,7 +71,7 @@ class TournamentViewController : UIViewController {
 
         titleLabel = {
             let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.smallHeader);
             view.textAlignment = .center;
             view.textColor = Constants.color.navy;
             view.text = tournament.name;
@@ -81,7 +82,7 @@ class TournamentViewController : UIViewController {
 
         joinButton = {
             let view = UIButton.newAutoLayout();
-            view.setTitle("Join Now", for: .normal);
+            view.setTitle("Join Existing Team", for: .normal);
             view.setTitleColor(Constants.color.white, for: .normal);
             view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.layer.cornerRadius = signupButtonBorderRadius;
@@ -91,6 +92,21 @@ class TournamentViewController : UIViewController {
             view.titleLabel?.lineBreakMode = .byCharWrapping;
             return view;
         }();
+        joinButton.addTarget(self, action: #selector(join), for: .touchUpInside);
+
+        createTeamButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle("Create Team", for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = signupButtonBorderRadius;
+            view.layer.borderWidth = signupButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+        createTeamButton.addTarget(self, action: #selector(create), for: .touchUpInside);
 
         locationLabel = UILabel.newAutoLayout();
         descriptionLabel = UILabel.newAutoLayout();
@@ -139,6 +155,7 @@ class TournamentViewController : UIViewController {
         view.addSubview(maxTeamsLabel);
         view.addSubview(mapViewContainer);
         view.addSubview(joinButton);
+        view.addSubview(createTeamButton);
         view.setNeedsUpdateConstraints();
     }
 
@@ -210,14 +227,22 @@ class TournamentViewController : UIViewController {
             mapViewContainer.autoPinEdge(toSuperviewEdge: .leading, withInset: mapPadding);
             mapViewContainer.autoPinEdge(toSuperviewEdge: .trailing, withInset: mapPadding);
 
+            let views: NSArray = [joinButton, createTeamButton] as NSArray;
+            views.autoDistributeViews(along: .horizontal, alignedTo: .horizontal, withFixedSpacing: 5.0, insetSpacing: true, matchedSizes: true);
             joinButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
-            joinButton.autoPinEdge(toSuperviewEdge: .leading, withInset: signupSidePadding);
-            joinButton.autoPinEdge(toSuperviewEdge: .trailing, withInset: signupSidePadding);
 
             didUpdateConstraints = true;
         }
 
         super.updateViewConstraints();
+    }
+
+    @objc func join() {
+        self.navigationController?.pushViewController(SelectTeamViewController(), animated: true);
+    }
+
+    @objc func create() {
+        self.navigationController?.pushViewController(CreateTeamViewController(), animated: true);
     }
 
     @objc func exit() {

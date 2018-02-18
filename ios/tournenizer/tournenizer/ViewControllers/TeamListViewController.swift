@@ -1,5 +1,5 @@
 //
-//  ProfileTeamsViewController.swift
+//  TeamListViewController.swift
 //  tournenizer
 //
 //  Created by Ankush Rayabhari on 2/16/18.
@@ -10,7 +10,7 @@
 import UIKit;
 import PureLayout;
 
-class ProfileTeamsViewController : UITableViewController {
+class TeamListViewController : UITableViewController {
     var teams: [Team] = [];
     let cellIdentifier = "TeamCell";
     let cellSpacingHeight: CGFloat = 5;
@@ -25,7 +25,7 @@ class ProfileTeamsViewController : UITableViewController {
         view.backgroundColor = Constants.color.lightGray;
         tableView.allowsSelection = false;
         tableView.separatorStyle = .none;
-        tableView.register(ProfileTeamCellView.self, forCellReuseIdentifier: cellIdentifier);
+        tableView.register(TeamCellView.self, forCellReuseIdentifier: cellIdentifier);
         tableView.rowHeight = UITableViewAutomaticDimension;
         tableView.estimatedRowHeight = 50;
     }
@@ -65,8 +65,18 @@ class ProfileTeamsViewController : UITableViewController {
         return headerView;
     }
 
+    var cb: ((Team) -> Void)?;
+
+    func setSelectCallback(_ cb: @escaping ((Team) -> Void)) {
+        self.cb = cb;
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cb?(teams[indexPath.section]);
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ProfileTeamCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? ProfileTeamCellView;
+        let cell: TeamCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? TeamCellView;
         cell?.setTeam(teams[indexPath.section]);
         cell?.setNeedsUpdateConstraints();
         cell?.updateConstraintsIfNeeded();

@@ -12,7 +12,6 @@ import Foundation;
 class UserCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var emailLabel: UILabel!;
-    var moreInfoImage: UIImageView!;
     
     var user: User!;
 
@@ -62,19 +61,10 @@ class UserCellView : UITableViewCell {
             return view;
         }();
 
-        moreInfoImage = {
-            let view = UIImageView.newAutoLayout();
-            view.image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
-            view.tintColor = Constants.color.lightBlue;
-            view.contentMode = .scaleAspectFit;
-            return view;
-        }();
-
         self.selectionStyle = .none;
 
         contentView.addSubview(nameLabel);
         contentView.addSubview(emailLabel);
-        contentView.addSubview(moreInfoImage!);
     }
 
     override func updateConstraints() {
@@ -90,11 +80,6 @@ class UserCellView : UITableViewCell {
         emailLabel.autoPinEdge(.top, to: .bottom, of: nameLabel);
         emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
         emailLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: sidePadding);
-
-        moreInfoImage.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
-        moreInfoImage.autoPinEdge(.leading, to: .trailing, of: emailLabel, withOffset: elementSpacing);
-        moreInfoImage.autoAlignAxis(.horizontal, toSameAxisOf: emailLabel);
-        moreInfoImage.autoSetDimension(.width, toSize: iconSize);
 
         super.updateConstraints();
     }
