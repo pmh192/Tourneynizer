@@ -64,7 +64,9 @@ public class TournamentListFragment extends Fragment {
         TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentLoadedListener() {
             @Override
             public void onTournamentLoaded(Tournament t) {
-                listAdapter.add(t);
+            	if (t != null) {
+					listAdapter.add(t);
+				}
             }
         });
         /*

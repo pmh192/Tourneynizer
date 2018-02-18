@@ -1,16 +1,27 @@
 package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.activities.MainActivity;
 import com.tourneynizer.tourneynizer.requesters.TournamentRequester;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CreateTournamentFragment extends Fragment {
+
+    private static final int PLACE_PICKER_REQUEST = 1;
 
     public CreateTournamentFragment() {
         // Required empty public constructor
@@ -34,11 +45,29 @@ public class CreateTournamentFragment extends Fragment {
         goToMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //presentPlacePicker();
                 TournamentRequester.createTournament(getContext());
-                //((RootFragment) getParentFragment()).pushFragment(TournamentMapSelectorFragment.newInstance());
             }
         });
         return view;
+    }
+
+    public void presentPlacePicker() {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesNotAvailableException | GooglePlayServicesRepairableException e) {
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(getContext(), data);
+            }
+        }
     }
 
     @Override

@@ -15,6 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.sql.Time;
+
 /**
  * Created by ryanwiener on 2/16/18.
  */
@@ -31,7 +34,7 @@ public class UserRequester {
             @Override
             public void onResponse(JSONObject response) {
                 // parse response
-                User u = new User();
+                User u = new User(2, "ryan", "rgfe", new Time(0), 1, 1, 1);
                 listener.onUserLoaded(u);
             }
         }, new Response.ErrorListener() {
@@ -53,7 +56,7 @@ public class UserRequester {
             public void onResponse(JSONArray response) {
                 // parse response
                 Log.d("Response", response.toString());
-                User u = new User();
+                User u = new User(2, "ryan", "rgfe", new Time(0), 1, 1, 1);
                 listener.onUserLoaded(u);
             }
         }, new Response.ErrorListener() {
@@ -85,7 +88,9 @@ public class UserRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Response", error.toString());
+                Log.d("Error", "" + error.getMessage());
+                Log.d("Error", "" + error.toString());
+                Log.d("Error", "" + error.networkResponse);
             }
         });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);

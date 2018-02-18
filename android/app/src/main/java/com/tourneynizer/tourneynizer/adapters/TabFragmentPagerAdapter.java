@@ -12,6 +12,8 @@ import com.tourneynizer.tourneynizer.fragments.SearchFragment;
 import com.tourneynizer.tourneynizer.fragments.TournamentListFragment;
 import com.tourneynizer.tourneynizer.fragments.UserProfileFragment;
 
+import java.sql.Time;
+
 /**
  * Created by ryanwiener on 2/9/18.
  */
@@ -45,7 +47,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
                 rootFragment.setBaseFragment(CreateTournamentFragment.newInstance());
                 return rootFragment;
             case 4:
-                rootFragment.setBaseFragment(UserProfileFragment.newInstance(new User()));
+                rootFragment.setBaseFragment(UserProfileFragment.newInstance(new User(2, "ryanl.wiener@yahoo.com", "Ryan Wiener", new Time(0), 10, 2, 5)));
                 return rootFragment;
             default:
                 return rootFragment;
