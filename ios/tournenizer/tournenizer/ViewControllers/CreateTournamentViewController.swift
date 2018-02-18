@@ -426,12 +426,11 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             return;
         }
 
-
         let tournament = Tournament(
             id: 0,
             name: name,
             description: nil,
-            address: "",
+            address: "\(place.coordinate.latitude) \(place.coordinate.longitude)",
             startTime: startTimePicker.date,
             endTime: nil,
             maxTeams: maxTeams,
