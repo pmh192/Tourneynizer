@@ -17,7 +17,7 @@ class TournamentViewPage extends Component{
 				<Jumbotron>
 					<h1>View Tournaments</h1>
 					<div className='TournamentList'>
-					<TournamentsList />
+						<TournamentsList />
 					</div>
 				</Jumbotron>
 			</div>

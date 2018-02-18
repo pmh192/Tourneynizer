@@ -24,12 +24,14 @@ div.btn-group > a > .btn-primary:hover, div.btn-group > a > .btn-primary:focus{
 	margin-bottom: 0px;
 }
 
-div.tableInfo > tr > td{
+div.tableInfo {
+	border-width: 3px;
+	border-color: black;
 	padding-right: 25px;
 	padding-left: 5px;
 	padding-bottom: 3px;
 	font-size: 25px;
-	border-top: solid;
+	border: solid;
 }
 
 /*background color/ tournament table*/
@@ -48,25 +50,23 @@ div.tableInfo > tr > td{
 .navbar-default .navbar-brand {
 	color: #000000;
 	font-size: 30px;
-	text-shadow: 3px 2px grey;
 }
 
 /*main logo styling on hover*/
 .navbar-default .navbar-brand:hover{
-	text-shadow: 3px 2px white;
+	color: #FFFFFF;
 }
 
 /*styling for the dropdown menus*/
 a.dropdown-toggle {
 	color: #000000;
 	font-size: 20px;
-	text-shadow: 3px 2px grey;
 }
 
 /*styling for the dropdown menus on hover*/
 a.dropdown-toggle:hover {
 	text-decoration: none;
-	text-shadow: 3px 2px white;
+	color: #FFFFFF;
 }
 
 .navbar-header a{

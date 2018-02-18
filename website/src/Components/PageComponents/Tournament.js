@@ -14,11 +14,9 @@ class Tournament extends Component{
 	render(){
 		return (
 			<div className='tableInfo'>
-				<tr id={this.state.id}>
-					<td>{this.state.description}</td>
-					<td>{this.state.creatorName}</td>
-					<td>{this.state.address}</td>
-				</tr>
+				<p>Description: {this.state.description}</p>
+				<p>Creator: {this.state.creatorName}</p>
+				<p>Address: {this.state.address}</p>
 			</div>
 		);
 	}

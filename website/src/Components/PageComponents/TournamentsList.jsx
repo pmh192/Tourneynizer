@@ -35,8 +35,7 @@ class TournamentsList extends Component{
 	}
 
 	render(){
-		const tournaments = this.state.tournaments;
-		const listItems = tournaments.map((tourney) =>
+		const listItems = this.state.tournaments.map((tourney) =>
 			<Tournament id={tourney.id} description={tourney.description} creatorName={tourney.creatorName} address={tourney.address} />
 		);
 		return(
