@@ -19,7 +19,7 @@ import com.tourneynizer.tourneynizer.model.Tournament;
 public class TournamentListAdapter extends ArrayAdapter<Tournament> {
 
     public TournamentListAdapter(Context context) {
-        super(context, R.layout.list_item_layout);
+        super(context, R.layout.tournament_list_item_layout);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class TournamentListAdapter extends ArrayAdapter<Tournament> {
         Tournament tournament = getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_layout, parent, false);
+            convertView = inflater.inflate(R.layout.tournament_list_item_layout, parent, false);
         }
         ((TextView) convertView.findViewById(R.id.title)).setText(tournament.getName());
         ((TextView) convertView.findViewById(R.id.description)).setText(tournament.getDescription());

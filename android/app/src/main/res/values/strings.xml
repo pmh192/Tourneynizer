@@ -13,8 +13,8 @@
     <string name="tournamentsParticipated">Tournaments Played In</string>
     <string name="gamesWon">Games Won</string>
     <string name="gamesLost">Games Lost</string>
-    <string name="search">Enter a user's name to search</string>
-    <string name="createTournament">Create A Tournament</string>
+    <string name="search">Enter a user\'s name to search</string>
+    <string name="createTournament">Create Tournament</string>
     <string name="tournamentName">Tournament Name:</string>
     <string name="description">Description:</string>
     <string name="chooseLocation">Choose A Location</string>
@@ -27,4 +27,8 @@
     <string name="createTournamentTeam">Create team for the tournament</string>
     <string name="findTeams">Join a Team</string>
     <string name="or">OR</string>
+    <string name="teamSize">Team Size:</string>
+    <string name="maxTeams">Max Teams:</string>
+    <string name="chooseDate">Choose date</string>
+    <string name="chooseTime">Choose time</string>
 </resources>
