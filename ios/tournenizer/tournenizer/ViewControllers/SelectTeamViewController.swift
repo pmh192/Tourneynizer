@@ -17,6 +17,7 @@ class SelectTeamViewController : UIViewController {
     let selectText = "Select a team to join.";
     let dialogTitle = "Tournament Request";
     let dialogBody = "You have requested to join %@.";
+    let dialogButtonText = "Ok";
 
     let actionsBarHeight: CGFloat = 50;
     let topTitlePadding: CGFloat = 20;
@@ -94,7 +95,7 @@ class SelectTeamViewController : UIViewController {
 
     func select(_ team: Team) {
         let alert = UIAlertController(title: dialogTitle, message: String(format: dialogBody, team.name), preferredStyle: .alert);
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in
             self.navigationController?.popToRootViewController(animated: true);
         }));
         self.present(alert, animated: true, completion: nil);

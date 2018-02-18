@@ -13,7 +13,6 @@ class TournamentTableCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var addressLabel: UILabel!;
     var dateLabel: UILabel!;
-    var creatorLabel: UILabel!;
     var moreInfoImage: UIImageView!;
 
     var tournament: Tournament!;
@@ -42,8 +41,6 @@ class TournamentTableCellView : UITableViewCell {
         let formatter = DateFormatter();
         formatter.dateFormat = "MM/dd/yyyy";
         dateLabel.text = "Starts On: " + formatter.string(from: tournament.startTime);
-
-        creatorLabel.text = "Created By: " + "Ryan Wiener";
 
         setNeedsLayout();
         layoutIfNeeded();
@@ -77,13 +74,6 @@ class TournamentTableCellView : UITableViewCell {
             return view;
         }();
 
-        creatorLabel = {
-            let view = UILabel.newAutoLayout();
-            view.textColor = Constants.color.darkGray;
-            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.small);
-            return view;
-        }();
-
         moreInfoImage = {
             let view = UIImageView.newAutoLayout();
             view.image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
@@ -97,7 +87,6 @@ class TournamentTableCellView : UITableViewCell {
         contentView.addSubview(nameLabel!);
         contentView.addSubview(addressLabel!);
         contentView.addSubview(dateLabel);
-        contentView.addSubview(creatorLabel);
         contentView.addSubview(moreInfoImage);
     }
 
@@ -119,12 +108,9 @@ class TournamentTableCellView : UITableViewCell {
         dateLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
         dateLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: bottomPadding);
 
-        creatorLabel.autoPinEdge(.leading, to: .trailing, of: dateLabel, withOffset: elementSpacing);
-        creatorLabel.autoAlignAxis(.baseline, toSameAxisOf: dateLabel);
-
         moreInfoImage.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
-        moreInfoImage.autoPinEdge(.leading, to: .trailing, of: creatorLabel, withOffset: elementSpacing);
-        moreInfoImage.autoAlignAxis(.horizontal, toSameAxisOf: creatorLabel);
+        moreInfoImage.autoPinEdge(.leading, to: .trailing, of: dateLabel, withOffset: elementSpacing);
+        moreInfoImage.autoAlignAxis(.horizontal, toSameAxisOf: dateLabel);
         moreInfoImage.autoSetDimension(.width, toSize: iconSize);
 
         super.updateConstraints();
