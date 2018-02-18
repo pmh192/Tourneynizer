@@ -15,7 +15,7 @@ class SelectTeamViewController : UIViewController {
     var backView: UIButton!;
 
     let selectText = "Select a team to join.";
-    let dialogTitle = "Tournament Request";
+    let dialogTitle = "Team Request";
     let dialogBody = "You have requested to join %@.";
     let dialogButtonText = "Ok";
 
