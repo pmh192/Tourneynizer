@@ -47,6 +47,9 @@ public class TeamRequestDao {
     }
 
     public void requestUser(User requested, Team team, User requester) {
+        if (team.getCreatorId() != requester.getId()) {
+            throw new IllegalArgumentException("Only the creator of a team can request other users");
+        }
         insert(team.getId(), requested.getId(), requester.getId());
     }
 

@@ -78,7 +78,17 @@ public class TeamRequestDaoTest extends TestWithContext {
         assertEquals(expected, requests2);
     }
 
-    //TODO Only allow requestUser if requester is creator of team
+    @Test(expected = IllegalArgumentException.class)
+    public void requestUserNotCreator() throws Exception {
+        User creator = getUser(0);
+        User user = getUser(1);
+        User user2 = getUser(2);
+
+        Tournament tournament = getTournament(creator);
+        Team team = getTeam(creator, tournament);
+
+        teamRequestDao.requestUser(user, team, user2);
+    }
 
     @Test
     public void requestTeam() throws Exception {

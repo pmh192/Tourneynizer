@@ -1,10 +1,9 @@
 package com.tourneynizer.tourneynizer.service;
 
 import com.tourneynizer.tourneynizer.dao.TournamentDao;
-import com.tourneynizer.tourneynizer.dao.UserDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
-import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
+import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
@@ -22,6 +21,9 @@ public class TournamentService {
     }
 
     public Tournament createTournament(Map<String, String> values, User user) throws BadRequestException, InternalErrorException {
+        if (user == null) {
+            throw new UserMustBeLoggedInException();
+        }
         Tournament tournament;
         try {
             tournament = new Tournament(
