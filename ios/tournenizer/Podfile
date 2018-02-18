@@ -9,6 +9,7 @@ target 'tournenizer' do
   pod 'PureLayout'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
 
   target 'tournenizerTests' do
     inherit! :search_paths

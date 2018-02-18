@@ -24,8 +24,9 @@ class Tournament {
     var courts: Int?;
     var creatorId: CUnsignedLong;
     var cancelled: Bool?;
+    var teamSize: Int;
 
-    init(id: CUnsignedLong, name: String, description: String?, address: String, startTime: Date, endTime: Date?, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, logo: UIImage?, courts: Int?, creatorId: CUnsignedLong, cancelled: Bool?) {
+    init(id: CUnsignedLong, name: String, description: String?, address: String, startTime: Date, endTime: Date?, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, logo: UIImage?, courts: Int?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
         self.id = id;
         self.name = name;
         self.description = description;
@@ -40,5 +41,6 @@ class Tournament {
         self.courts = courts;
         self.creatorId = creatorId;
         self.cancelled = cancelled;
+        self.teamSize = teamSize;
     }
 };

@@ -40,7 +40,7 @@ class TournamentTableCellView : UITableViewCell {
         addressLabel.text = tournament.address;
 
         let formatter = DateFormatter();
-        formatter.dateFormat = "MM/DD/YYYY";
+        formatter.dateFormat = "MM/dd/yyyy";
         dateLabel.text = "Starts On: " + formatter.string(from: tournament.startTime);
 
         creatorLabel.text = "Created By: " + "Ryan Wiener";
