@@ -17,7 +17,7 @@
     <string name="createTournament">Create Tournament</string>
     <string name="tournamentName">Tournament Name:</string>
     <string name="description">Description:</string>
-    <string name="chooseLocation">Choose A Location</string>
+    <string name="chooseLocation">Choose Location</string>
     <string name="selectTournamentType">Select the type of Tournament</string>
     <string name="teamToEnterTournament">To enter a tournament, you must be part of a team</string>
     <string name="requestToJoinTeam">Request to join a pending team</string>
@@ -31,4 +31,7 @@
     <string name="maxTeams">Max Teams:</string>
     <string name="chooseDate">Choose date</string>
     <string name="chooseTime">Choose time</string>
+    <string name="datePrompt">Date:</string>
+    <string name="timePrompt">Time:</string>
+    <string name="locationPrompt">Location:</string>
 </resources>

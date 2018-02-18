@@ -6,6 +6,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.location.places.Place;
+
 import java.sql.Time;
 import java.util.Locale;
 
@@ -13,8 +15,8 @@ import java.util.Locale;
  * Created by ryanl on 2/3/2018.
  */
 
-public class TournamentDef implements Parcelable {
-
+public class TournamentDef {//implements Parcelable {
+/*
     public static final Creator<TournamentDef> CREATOR
             = new Creator<TournamentDef>() {
         public TournamentDef createFromParcel(Parcel in) {
@@ -25,46 +27,39 @@ public class TournamentDef implements Parcelable {
             return new TournamentDef[size];
         }
     };
-
+*/
     private String name;
     private String description;
-    private Address address;
+    private Place address;
     private Time startTime;
     private int maxTeams;
+    private int teamSize;
     private TournamentType tournamentType;
     private Bitmap logo;
     private int numCourts;
 
     public TournamentDef(TournamentDef t) {
-        this(t.name, t.description, t.address, t.startTime, t.maxTeams, t.tournamentType, t.logo, t.numCourts);
+        this(t.name, t.description, t.address, t.startTime, t.maxTeams, t.teamSize, t.tournamentType, t.logo, t.numCourts);
     }
 
-    public TournamentDef() {
-        name = "";
-        description = "";
-        address = new Address(Locale.getDefault());
-        startTime = new Time(0);
-        maxTeams = 10;
-        tournamentType = TournamentType.VOLLEYBALL_POOLED;
-        logo = null;
-        numCourts = 1;
+    public TournamentDef() {}
+
+    public TournamentDef(String name, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, int numCourts) {
+        this(name, null, address, startTime, maxTeams, teamSize, tournamentType, null, numCourts);
     }
 
-    public TournamentDef(@NonNull String name, @NonNull Address address, @NonNull Time startTime, int maxTeams, @NonNull TournamentType tournamentType, int numCourts) {
-        this(name, null, address, startTime, maxTeams, tournamentType, null, numCourts);
-    }
-
-    public TournamentDef(@NonNull String name, String description, @NonNull Address address, @NonNull Time startTime, int maxTeams, @NonNull TournamentType tournamentType, Bitmap logo, int numCourts) {
+    public TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo, int numCourts) {
         this.name = name;
         this.description = description;
         this.address = address;
         this.startTime = startTime;
         this.maxTeams = maxTeams;
+        this.teamSize = teamSize;
         this.tournamentType = tournamentType;
         this.logo = logo;
         this.numCourts = numCourts;
     }
-
+/*
     private TournamentDef(Parcel in) {
         name = in.readString();
         description = in.readString();
@@ -75,8 +70,8 @@ public class TournamentDef implements Parcelable {
         logo = in.readParcelable(Bitmap.class.getClassLoader());
         numCourts = in.readInt();
     }
-
-    public @NonNull String getName() {
+*/
+    public String getName() {
         return name;
     }
 
@@ -92,15 +87,15 @@ public class TournamentDef implements Parcelable {
         this.description = description;
     }
 
-    public @NonNull Address getAddress() {
+    public Place getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(Place address) {
         this.address = address;
     }
 
-    public @NonNull Time getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
@@ -116,18 +111,38 @@ public class TournamentDef implements Parcelable {
         this.maxTeams = maxTeams;
     }
 
-    public @NonNull TournamentType getTournamentType() {
+    public int getTeamSize() {
+        return teamSize;
+    }
+
+    public void setTeamSize(int teamSize) {
+        this.teamSize = teamSize;
+    }
+
+    public TournamentType getTournamentType() {
         return tournamentType;
+    }
+
+    public void setTournamentType(TournamentType tournamentType) {
+        this.tournamentType = tournamentType;
     }
 
     public Bitmap getLogo() {
         return logo;
     }
 
+    public void setLogo(Bitmap logo) {
+        this.logo = logo;
+    }
+
     public int getNumCourts() {
         return numCourts;
     }
 
+    public void setNumCourts(int numCourts) {
+        this.numCourts = numCourts;
+    }
+/*
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
@@ -144,4 +159,5 @@ public class TournamentDef implements Parcelable {
     public int describeContents() {
         return 0;
     }
+    */
 }

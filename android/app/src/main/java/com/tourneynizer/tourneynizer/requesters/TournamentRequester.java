@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.util.HTTPRequester;
 import com.tourneynizer.tourneynizer.util.JSONConverter;
@@ -82,7 +83,7 @@ public class TournamentRequester {
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 
-    public static void createTournament(Context c) {
+    public static void createTournament(Context c, TournamentDef tDef) {
         String url = HTTPRequester.DOMAIN + "tournament/create";
         JSONObject tournamentJSON = new JSONObject();
         try {

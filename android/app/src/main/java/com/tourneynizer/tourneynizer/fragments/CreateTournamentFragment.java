@@ -19,11 +19,17 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
+import com.tourneynizer.tourneynizer.requesters.TournamentRequester;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
@@ -31,6 +37,8 @@ import static android.app.Activity.RESULT_OK;
 public class CreateTournamentFragment extends Fragment {
 
     private static final int PLACE_PICKER_REQUEST = 1;
+
+    private Place place;
 
     public CreateTournamentFragment() {
         // Required empty public constructor
@@ -78,7 +86,7 @@ public class CreateTournamentFragment extends Fragment {
             }
         });
         View timeButton = view.findViewById(R.id.showTimePicker);
-        final TextView timeLabel =
+        final TextView timeLabel = view.findViewById(R.id.startTime);
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,10 +94,44 @@ public class CreateTournamentFragment extends Fragment {
                 TimePickerDialog timePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-
+                        if (minute < 10) {
+                            timeLabel.setText(String.format(Locale.getDefault(), "%d:0%d", hour, minute));
+                        } else {
+                            timeLabel.setText(String.format(Locale.getDefault(), "%d:%d", hour, minute));
+                        }
                     }
                 }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
                 timePicker.show();
+            }
+        });
+        View createButton = view.findViewById(R.id.createButton);
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TournamentDef tDef = new TournamentDef();
+                TextView nameField = getView().findViewById(R.id.tournamentName);
+                tDef.setName(nameField.getText().toString());
+                TextView description = getView().findViewById(R.id.tournamentDescription);
+                Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
+                tDef.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
+                tDef.setAddress(place);
+                TextView dateText = getView().findViewById(R.id.startDate);
+                TextView timeText = getView().findViewById(R.id.startTime);
+                String[] dates = dateText.getText().toString().split("/");
+                String[] times = timeText.getText().toString().split(":");
+                Calendar calendar = Calendar.getInstance();
+                calendar.clear();
+                calendar.set(Calendar.YEAR, Integer.parseInt(dates[0]));
+                calendar.set(Calendar.MONTH, Integer.parseInt(dates[1]));
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[2]));
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(times[0]));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(times[1]));
+                tDef.setStartTime(new Time(calendar.getTimeInMillis()));
+                TextView teamSize = getView().findViewById(R.id.teamSize);
+                tDef.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
+                TextView maxTeams = getView().findViewById(R.id.maxTeams);
+                tDef.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
+                TournamentRequester.createTournament(getContext(), tDef);
             }
         });
         return view;
@@ -108,7 +150,10 @@ public class CreateTournamentFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(getContext(), data);
+                Place p = PlacePicker.getPlace(getContext(), data);
+                place = p;
+                TextView location = getView().findViewById(R.id.locationText);
+                location.setText(place.getName());
             }
         }
     }
