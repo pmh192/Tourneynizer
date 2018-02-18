@@ -13,14 +13,14 @@ class LoginPageForm extends Component{
 
 	handleChange(e) {
     	this.setState({ [e.target.id]: e.target.value });
-  }
+    }
 
 	render(){
 		return(
 			<div className='LoginForm'>
 				<form horizontal='true'>
 					<FormGroup
-							controlId="email"
+						controlId="email"
 						>
 						<Col>
 							<FormControl
@@ -32,20 +32,20 @@ class LoginPageForm extends Component{
 						</Col>
 					</FormGroup>
 					<FormGroup
-							controlId="password"
+						controlId="password"
 						>
-							<Col>
-								<FormControl
-									type="password"
-									value={this.state.password}
-									placeholder="Enter Your Password"
-									onChange={this.handleChange}
-								/>
-							</Col>
-						</FormGroup>
 						<Col>
-							<Button type="submit">Sign up</Button>
+							<FormControl
+								type="password"
+								value={this.state.password}
+								placeholder="Enter Your Password"
+								onChange={this.handleChange}
+							/>
 						</Col>
+					</FormGroup>
+					<Col>
+						<Button type="submit">Sign up</Button>
+					</Col>
 				</form>
 			</div>
 		);

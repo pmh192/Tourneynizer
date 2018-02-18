@@ -3,7 +3,6 @@ import {Jumbotron} from 'react-bootstrap';
 import AccountCreationForm from './AccountCreationForm'
 
 class AccountCreationPage extends Component {
-
 	render() {
 		return (
 			<div>

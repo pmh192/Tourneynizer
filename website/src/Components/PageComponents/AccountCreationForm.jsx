@@ -7,14 +7,14 @@ class AccountCreationForm extends Component{
 		super(props, context);
 		this.handleChange = this.handleChange.bind(this);
 		this.state = {
-				email: '',
-				password: '',
-				confirmPassword: '',
-				firstName: '',
-				lastName: '',
-				emailValid: false,
-				passwordValid: false,
-				confirmPasswordValid: false
+			email: '',
+			password: '',
+			confirmPassword: '',
+			firstName: '',
+			lastName: '',
+			emailValid: false,
+			passwordValid: false,
+			confirmPasswordValid: false
 		};
 
 		this.onSubmit.bind;

@@ -31,7 +31,7 @@ class App extends Component {
 					<Route exact path="/Teams/about" component={TeamsAboutPage} />
 				</Switch>
 			</div>
-		)
+		);
 	}
 }
 export default App;

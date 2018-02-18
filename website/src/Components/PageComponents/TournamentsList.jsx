@@ -7,43 +7,41 @@ class TournamentsList extends Component{
 		super();
 		this.state={
 			tournaments: [
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			{	id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
+				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
 			],
 		}
 	}
 
 	renderTournaments(){
-		const tournaments = this.state.tournaments;
-		const listItems = tournaments.map((tourney) =>
-  		<Tournament id={tourney.id} description={tourney.description} creatorName={tourney.creatorName} address={tourney.address} />
-		);
-		return (
-			<table className='tourneyList'>{listItems}</table>
-		);
+
 	}
 
 	render(){
+		const tournaments = this.state.tournaments;
+		const listItems = tournaments.map((tourney) =>
+			<Tournament id={tourney.id} description={tourney.description} creatorName={tourney.creatorName} address={tourney.address} />
+		);
 		return(
 			<div>
-				{this.renderTournaments()}
+				<div className='tourneyList'>{listItems}</div>
 			</div>
 		);
 	}

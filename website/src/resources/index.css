@@ -34,24 +34,21 @@ div.tableInfo > tr > td{
 
 /*background color/ tournament table*/
 .tourneyList {
-  border-color: black;
-  border-width: 2px;
-  border-style: solid;
-  background-color:#DDDDDD;
-  margin: 5px;
-  width: auto;
+	background-color:#DDDDDD;
+	margin: 5px;
+	width: auto;
 }
 
 .navbar, .navbar-default {
-  background-image: linear-gradient(to bottom, #CCCCCC .25, #555555 100%) !important;
-  border-color: grey;
+	background-image: linear-gradient(to bottom, #CCCCCC .25, #555555 100%) !important;
+	border-color: grey;
 }
 
 /*main logo styling*/
 .navbar-default .navbar-brand {
-  color: #000000;
-  font-size: 30px;
-  text-shadow: 3px 2px grey;
+	color: #000000;
+	font-size: 30px;
+	text-shadow: 3px 2px grey;
 }
 
 /*main logo styling on hover*/
@@ -62,14 +59,14 @@ div.tableInfo > tr > td{
 /*styling for the dropdown menus*/
 a.dropdown-toggle {
 	color: #000000;
-  font-size: 20px;
-  text-shadow: 3px 2px grey;
+	font-size: 20px;
+	text-shadow: 3px 2px grey;
 }
 
 /*styling for the dropdown menus on hover*/
 a.dropdown-toggle:hover {
 	text-decoration: none;
-  text-shadow: 3px 2px white;
+	text-shadow: 3px 2px white;
 }
 
 .navbar-header a{
