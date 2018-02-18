@@ -9,7 +9,7 @@
 import UIKit;
 import PureLayout;
 
-class PlayersViewController : UIViewController {
+class PlayersViewController : UIViewController, UITextFieldDelegate {
     var statusBarCover: UIView!;
     var contentView: UIView!;
     var searchField: UITextField!;
@@ -41,8 +41,10 @@ class PlayersViewController : UIViewController {
             view.textColor = Constants.color.navy;
             view.textAlignment = .center;
             view.backgroundColor = Constants.color.lightGray;
+            view.returnKeyType = .search;
             return view;
         }();
+        searchField.delegate = self;
 
         userListController = UserListViewController();
         userListController.setUsers([
@@ -117,6 +119,11 @@ class PlayersViewController : UIViewController {
         }
 
         super.updateViewConstraints();
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchField.resignFirstResponder();
+        return false;
     }
 }
 
