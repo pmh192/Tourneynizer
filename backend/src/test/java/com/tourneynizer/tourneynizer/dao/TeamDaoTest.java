@@ -27,6 +27,7 @@ public class TeamDaoTest extends TestWithContext {
 
     @Before
     public void clearDB() {
+        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "sessions");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "roster");
         JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "matches");
