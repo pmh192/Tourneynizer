@@ -77,11 +77,18 @@ class UserListViewController : UITableViewController {
         }
     }
 
+    var cb: ((User) -> Void)?;
+
+    func addSelectionCallback(_ cb: @escaping (User) -> Void) {
+        self.cb = cb;
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = ProfileViewController();
         vc.setUser(users[indexPath.section]);
         vc.setNavigatable(true);
         vc.setCurrentProfile(false);
+        cb?(users[indexPath.section]);
         self.navigationController?.pushViewController(vc, animated: true);
     }
 }

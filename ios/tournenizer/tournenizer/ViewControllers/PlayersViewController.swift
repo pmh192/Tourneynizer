@@ -82,17 +82,24 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
             User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date())
         ]);
 
-
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));
+        tap.cancelsTouchesInView = false;
+        view.addGestureRecognizer(tap);
 
         addChildViewController(userListController);
         contentView.addSubview(userListController.view);
         userListController.view.frame = contentView.bounds;
         userListController.didMove(toParentViewController: self);
+        userListController.addSelectionCallback(selectUser(_:));
 
         view.addSubview(statusBarCover);
         view.addSubview(searchField);
         view.addSubview(contentView);
         view.setNeedsUpdateConstraints();
+    }
+
+    func selectUser(_ user: User) {
+        dismissKeyboard();
     }
 
     var didUpdateConstraints = false;

@@ -38,7 +38,7 @@ class ProfileViewController : UIViewController {
     let teamsTitle = "Past Teams:";
     let logoutText = "Sign Out";
 
-    var profileList: ProfileTeamsViewController!;
+    var profileList: TeamListViewController!;
 
     override func loadView() {
         view = UIView();
@@ -108,7 +108,7 @@ class ProfileViewController : UIViewController {
         backView.addTarget(self, action: #selector(back), for: .touchUpInside);
 
 
-        profileList = ProfileTeamsViewController();
+        profileList = TeamListViewController();
         profileList.setTeams([
             Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
             Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
