@@ -190,7 +190,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         nextButton = buttonGenerator();
         nextButton.setTitle(toolbarCreate, for: .normal);
-        nextButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside);
+        nextButton.addTarget(self, action: #selector(create), for: .touchUpInside);
 
         clearButton = buttonGenerator();
         clearButton.setTitle(toolbarClear, for: .normal);
@@ -353,7 +353,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         }
     }
 
-    @objc func nextPage() {
+    @objc func create() {
         var error = false;
 
         let maxTeams: Int = {

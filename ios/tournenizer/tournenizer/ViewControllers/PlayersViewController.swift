@@ -22,6 +22,8 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
 
     let searchFieldPrompt = "Search...";
 
+    var cb: ((User) -> Void)?;
+
     override func loadView() {
         view = UIView();
         view.backgroundColor = Constants.color.white;
@@ -90,7 +92,13 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
         contentView.addSubview(userListController.view);
         userListController.view.frame = contentView.bounds;
         userListController.didMove(toParentViewController: self);
-        userListController.addSelectionCallback(selectUser(_:));
+
+        if(cb != nil) {
+            userListController.addSelectionCallback(cb!);
+        } else {
+            userListController.addSelectionCallback(selectUser(_:));
+        }
+
 
         view.addSubview(statusBarCover);
         view.addSubview(searchField);
@@ -99,6 +107,11 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
     }
 
     func selectUser(_ user: User) {
+        let vc = ProfileViewController();
+        vc.setUser(user);
+        vc.setNavigatable(true);
+        vc.setCurrentProfile(false);
+        self.navigationController?.pushViewController(vc, animated: true);
         dismissKeyboard();
     }
 

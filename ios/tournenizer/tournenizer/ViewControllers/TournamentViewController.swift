@@ -40,7 +40,7 @@ class TournamentViewController : UIViewController {
     
     override func loadView() {
         view = UIView();
-        view.backgroundColor = Constants.color.lightGray;
+        view.backgroundColor = Constants.color.white;
 
         logoLabel = {
             let view = UILabel.newAutoLayout();
@@ -242,7 +242,7 @@ class TournamentViewController : UIViewController {
     }
 
     @objc func create() {
-
+        self.navigationController?.pushViewController(CreateTeamViewController(), animated: true);
     }
 
     @objc func exit() {
