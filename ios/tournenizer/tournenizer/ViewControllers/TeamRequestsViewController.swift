@@ -5,28 +5,40 @@
 //  Created by Ankush Rayabhari on 2/18/18.
 //  Copyright © 2018 Ankush Rayabhari. All rights reserved.
 //
+
 import UIKit;
 import PureLayout;
 
-class TeamRequestsViewController : UIViewController {
-    override func loadView() {
-        view = UIView();
-        view.backgroundColor = Constants.color.darkGray;
+class TeamRequestsViewController : TeamListViewController {
 
-        view.setNeedsUpdateConstraints();
+    override func viewDidLoad() {
+        self.teams = [
+            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
+            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
+            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
+            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void")
+        ];
     }
 
-    // Ensures that the corresponding methods are only called once
-    var didUpdateConstraints = false;
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-    // Sets constraints on all views
-    override func updateViewConstraints() {
-        if(!didUpdateConstraints) {
+    }
 
-            didUpdateConstraints = true;
-        }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true;
+    }
 
-        super.updateViewConstraints();
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let rejectRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Reject", handler:{action, indexpath in
+            print("delete");
+        });
+        rejectRowAction.backgroundColor = Constants.color.red;
+
+        let approveRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Approve", handler:{action, indexpath in
+            print("more");
+        });
+        approveRowAction.backgroundColor = Constants.color.green;
+
+        return [rejectRowAction, approveRowAction];
     }
 }
-

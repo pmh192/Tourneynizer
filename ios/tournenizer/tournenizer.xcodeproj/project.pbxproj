@@ -35,6 +35,7 @@
 		57826E182037BF8200686493 /* TeamCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57826E172037BF8200686493 /* TeamCellView.swift */; };
 		57961BEB2036540900E128DC /* TournamentListViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57961BEA2036540900E128DC /* TournamentListViewContainerController.swift */; };
 		57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */; };
+		57B169D8203A4B93005508CD /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B169D7203A4B93005508CD /* TeamViewController.swift */; };
 		57B36CC920366BA300305A87 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B36CC820366BA300305A87 /* Keys.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
@@ -96,6 +97,7 @@
 		57826E172037BF8200686493 /* TeamCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCellView.swift; sourceTree = "<group>"; };
 		57961BEA2036540900E128DC /* TournamentListViewContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentListViewContainerController.swift; sourceTree = "<group>"; };
 		57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentTableCellView.swift; sourceTree = "<group>"; };
+		57B169D7203A4B93005508CD /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		57B36CC820366BA300305A87 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				57050C78203A24FA00E2C222 /* TeamRequestsViewController.swift */,
 				57050C7A203A256600E2C222 /* MyTeamsViewController.swift */,
 				57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */,
+				57B169D7203A4B93005508CD /* TeamViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				57826E122037A1C800686493 /* Team.swift in Sources */,
 				574D2534202E306E0092748D /* TournamentViewController.swift in Sources */,
 				57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */,
+				57B169D8203A4B93005508CD /* TeamViewController.swift in Sources */,
 				57826E162037BF1300686493 /* TeamListViewController.swift in Sources */,
 				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
 				5726EC84202B7C75009BABE8 /* UserActionsViewController.swift in Sources */,

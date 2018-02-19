@@ -137,6 +137,7 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
         userListController.editable = true;
         userListController.separatorColor = Constants.color.white;
         userListController.tableView.allowsMultipleSelectionDuringEditing = false;
+        userListController.addUser(User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()));
 
         addChildViewController(userListController);
         contentView.addSubview(userListController.view);

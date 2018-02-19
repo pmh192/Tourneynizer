@@ -89,14 +89,16 @@ class UserListViewController : UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return editable;
+        return editable && indexPath.section > 0;
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == .delete) {
-            users.remove(at: indexPath.section)
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let rejectRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Remove", handler:{action, indexpath in
+            self.users.remove(at: indexPath.section);
             tableView.reloadData();
-        }
+        });
+        rejectRowAction.backgroundColor = Constants.color.red;
+        return [rejectRowAction];
     }
 
     func addUser(_ user: User) {

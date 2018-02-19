@@ -13,7 +13,6 @@ class TournamentTableCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var addressLabel: UILabel!;
     var dateLabel: UILabel!;
-    var moreInfoImage: UIImageView!;
 
     var tournament: Tournament!;
 
@@ -74,20 +73,11 @@ class TournamentTableCellView : UITableViewCell {
             return view;
         }();
 
-        moreInfoImage = {
-            let view = UIImageView.newAutoLayout();
-            view.image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
-            view.tintColor = Constants.color.lightBlue;
-            view.contentMode = .scaleAspectFit;
-            return view;
-        }();
-
         self.selectionStyle = .none;
 
         contentView.addSubview(nameLabel!);
         contentView.addSubview(addressLabel!);
         contentView.addSubview(dateLabel);
-        contentView.addSubview(moreInfoImage);
     }
 
     override func updateConstraints() {
@@ -107,11 +97,6 @@ class TournamentTableCellView : UITableViewCell {
         dateLabel.autoPinEdge(.top, to: .bottom, of: addressLabel);
         dateLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
         dateLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: bottomPadding);
-
-        moreInfoImage.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
-        moreInfoImage.autoPinEdge(.leading, to: .trailing, of: dateLabel, withOffset: elementSpacing);
-        moreInfoImage.autoAlignAxis(.horizontal, toSameAxisOf: dateLabel);
-        moreInfoImage.autoSetDimension(.width, toSize: iconSize);
 
         super.updateConstraints();
     }

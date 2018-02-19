@@ -16,11 +16,8 @@ class UserActionsViewController : UIViewController {
     var teamRequestsLabel: UIButton!;
     var contentView: UIView!;
 
-    var topBarControllers: [UIViewController] = [
-        MyTournamentsViewController(),
-        MyTeamsViewController(),
-        TeamRequestsViewController()
-    ];
+    var topBarControllers: [UIViewController] = [];
+
 
     var topBarButtons: [UIButton] = [];
     var currentTab = 0;
@@ -80,8 +77,18 @@ class UserActionsViewController : UIViewController {
             myTournamentsLabel,
             myTeamsLabel,
             teamRequestsLabel
-        ];
+        ]
 
+        topBarControllers = [
+            MyTournamentsViewController(),
+            MyTeamsViewController(),
+            TeamRequestsViewController()
+        ].map {vc -> UIViewController in
+            let viewController = UINavigationController();
+            viewController.pushViewController(vc, animated: false);
+            viewController.isNavigationBarHidden = true;
+            return viewController;
+        };
 
         view.addSubview(statusBarCover);
         view.addSubview(myTournamentsLabel);
