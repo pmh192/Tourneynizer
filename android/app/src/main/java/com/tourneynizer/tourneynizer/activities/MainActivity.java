@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.auth.api.credentials.Credentials;
+import com.google.android.gms.auth.api.credentials.CredentialsClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 		int id = item.getItemId();
 		if (id == R.id.logOut) {
 			UserRequester.logOut(getApplicationContext());
+			CredentialsClient credentialsClient = Credentials.getClient(this);
 			startActivity(new Intent(this, LoginActivity.class));
 			finishAffinity();
 		}
@@ -97,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
 	@Override
 	protected void onDestroy() {
-	    //UserRequester.logOut(this);
 		super.onDestroy();
 	}
 }

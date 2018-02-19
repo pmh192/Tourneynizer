@@ -2,6 +2,7 @@ package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,15 +38,14 @@ public class TournamentListFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		listAdapter = new TournamentListAdapter(getActivity());
 		if (savedInstanceState != null) {
-		    Tournament[] tournaments = (Tournament[]) savedInstanceState.getParcelableArray(TOURNAMENTS);
-		    listAdapter.addAll(tournaments);
+		    Parcelable[] tournaments = savedInstanceState.getParcelableArray(TOURNAMENTS);
+		    if (tournaments instanceof Tournament[]) {
+				listAdapter.addAll((Tournament[]) tournaments);
+			} else {
+				refresh();
+			}
 		} else {
-			TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentsLoadedListener() {
-        	    @Override
-        	    public void onTournamentsLoaded(final Tournament[] tournaments) {
-					listAdapter.addAll(tournaments);
-        	    }
-        	});
+		    refresh();
 		}
 	}
 
@@ -71,6 +71,7 @@ public class TournamentListFragment extends Fragment {
 				goToInfo(listAdapter.getItem(i));
 			}
 		});
+
 		return view;
 	}
 
@@ -93,5 +94,14 @@ public class TournamentListFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putParcelableArray(TOURNAMENTS, listAdapter.getAll());
+	}
+
+	public void refresh() {
+		TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentsLoadedListener() {
+			@Override
+			public void onTournamentsLoaded(final Tournament[] tournaments) {
+				listAdapter.addAll(tournaments);
+			}
+		});
 	}
 }

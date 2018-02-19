@@ -32,44 +32,28 @@ import com.tourneynizer.tourneynizer.requesters.UserRequester;
 
 public class LoginActivity extends AppCompatActivity {
 
-	private static final int RESOLVE_CODE_READ = 1;
-	private static final int RESOLVE_CODE_WRITE = 2;
+	private static final int RESOLVE_CODE_WRITE = 1;
+	public static final String CREDENTIAL = "com.google.android.gms.auth.api.credentials.Credential";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		if (getIntent() != null) {
+			Credential credential = getIntent().getParcelableExtra(CREDENTIAL);
+			if (credential != null) {
+				TextView emailText = findViewById(R.id.email);
+				TextView passwordText = findViewById(R.id.password);
+				emailText.setText(credential.getId());
+				passwordText.setText(credential.getPassword());
+			}
+		}
 		View loginButton = findViewById(R.id.loginButton);
-		final CredentialsClient credentialsClient = Credentials.getClient(this);
-		CredentialRequest request = new CredentialRequest.Builder().setPasswordLoginSupported(true).build();
-		credentialsClient.request(request).addOnCompleteListener(
-				new OnCompleteListener<CredentialRequestResponse>() {
-					@Override
-					public void onComplete(@NonNull Task<CredentialRequestResponse> task) {
-
-						if (task.isSuccessful()) {
-							// See "Handle successful credential requests"
-							onCredentialRetrieved(task.getResult().getCredential());
-							return;
-						}
-						Exception e = task.getException();
-						if (e instanceof ResolvableApiException) {
-							// This is most likely the case where the user has multiple saved
-							// credentials and needs to pick one. This requires showing UI to
-							// resolve the read request.
-							ResolvableApiException rae = (ResolvableApiException) e;
-							resolveResult(rae, RESOLVE_CODE_READ);
-						} else if (e instanceof ApiException) {
-							// The user must create an account or sign in manually.
-							Log.e("Error", "Unsuccessful credential request.", e);
-						}
-					}
-				});
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				final TextView emailText = findViewById(R.id.email);
-				final TextView passwordText = findViewById(R.id.password);
+				TextView emailText = findViewById(R.id.email);
+				TextView passwordText = findViewById(R.id.password);
 				boolean ready = true;
 				if (emailText.getText().toString().equals("")) {
 					emailText.setError("Enter your email");
@@ -87,34 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 						@Override
 						public void onUserLoaded(User user) {
 							if (user != null) {
-								Credential credential = new Credential.Builder(emailText.getText().toString()).setPassword(passwordText.getText().toString()).build();
-								credentialsClient.save(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-									@Override
-									public void onComplete(@NonNull Task<Void> task) {
-										if (task.isSuccessful()) {
-											Log.d("Hype", "SAVE: OK");
-											Toast.makeText(getApplicationContext(), "Credentials saved", Toast.LENGTH_SHORT).show();
-											return;
-										}
-
-										Exception err = task.getException();
-										if (err instanceof ResolvableApiException) {
-											// Try to resolve the save request. This will prompt the user if
-											// the credential is new.
-											ResolvableApiException rae = (ResolvableApiException) err;
-											try {
-												rae.startResolutionForResult(LoginActivity.this, RESOLVE_CODE_WRITE);
-											} catch (IntentSender.SendIntentException e) {
-												// Could not resolve the request
-												Log.e("Error", "Failed to send resolution.", e);
-												Toast.makeText(getApplicationContext(), "Save failed", Toast.LENGTH_SHORT).show();
-											}
-										} else {
-											// Request has no resolution
-											Toast.makeText(getApplicationContext(), "Save failed", Toast.LENGTH_SHORT).show();
-										}
-									}
-								});
+								storeCredentials();
 								goToMain(user);
 							} else {
 								showErrorMessage();
@@ -132,50 +89,6 @@ public class LoginActivity extends AppCompatActivity {
 				goToRegister();
 			}
 		});
-	}
-
-	private void onCredentialRetrieved(Credential credential) {
-		UserRequester.getUserFromEmailAndPassword(getApplicationContext(), credential.getId(), credential.getPassword(), new UserRequester.OnUserLoadedListener() {
-			@Override
-			public void onUserLoaded(User user) {
-				if (user != null) {
-					goToMain(user);
-				} else {
-					showErrorMessage();
-				}
-			}
-		});
-	}
-
-	private void resolveResult(ResolvableApiException rae, int requestCode) {
-		try {
-			rae.startResolutionForResult(this, requestCode);
-			//mIsResolving = true;
-		} catch (IntentSender.SendIntentException e) {
-			Log.e("Error", "Failed to send resolution.", e);
-			//hideProgress();
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == RESOLVE_CODE_READ) {
-			if (resultCode == RESULT_OK) {
-				Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
-				onCredentialRetrieved(credential);
-			} else {
-				Log.e("Error", "Credential Read: NOT OK");
-				Toast.makeText(this, "Credential Read Failed", Toast.LENGTH_SHORT).show();
-			}
-		} else if (requestCode == RESOLVE_CODE_WRITE) {
-			if (resultCode == RESULT_OK) {
-				Log.d("Hype", "SAVE: OK");
-				Toast.makeText(this, "Credentials saved", Toast.LENGTH_SHORT).show();
-			} else {
-				Log.e("Error", "SAVE: Canceled by user");
-			}
-		}
 	}
 
 	private void showErrorMessage() {
@@ -200,5 +113,48 @@ public class LoginActivity extends AppCompatActivity {
 		intent.putExtra(MainActivity.USER, u);
 		startActivity(intent);
 		finishAffinity();
+	}
+
+	private void storeCredentials() {
+		TextView emailText = findViewById(R.id.email);
+		TextView passwordText = findViewById(R.id.password);
+		Credential credential = new Credential.Builder(emailText.getText().toString()).setPassword(passwordText.getText().toString()).build();
+		CredentialsClient credentialsClient = Credentials.getClient(this);
+		credentialsClient.save(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+			@Override
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful()) {
+					Log.d("Hype", "SAVE: OK");
+					return;
+				}
+				Exception err = task.getException();
+				if (err instanceof ResolvableApiException) {
+					// Try to resolve the save request. This will prompt the user if
+					// the credential is new.
+					ResolvableApiException rae = (ResolvableApiException) err;
+					try {
+						rae.startResolutionForResult(LoginActivity.this, RESOLVE_CODE_WRITE);
+					} catch (IntentSender.SendIntentException e) {
+						// Could not resolve the request
+						Log.e("Error", "Failed to send resolution.", e);
+					}
+				} else {
+					// Request has no resolution
+				}
+			}
+		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == RESOLVE_CODE_WRITE) {
+            if (resultCode == RESULT_OK) {
+                Log.d("Hype", "SAVE: OK");
+                Toast.makeText(this, "Credentials saved", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e("Error", "SAVE: Canceled by user");
+            }
+        }
 	}
 }
