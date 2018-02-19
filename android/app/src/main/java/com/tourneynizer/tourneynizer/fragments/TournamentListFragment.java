@@ -19,6 +19,8 @@ import com.tourneynizer.tourneynizer.requesters.TournamentRequester;
 
 public class TournamentListFragment extends Fragment {
 
+	private final static String TOURNAMENTS = "com.tourneynizer.tourneynizer.model.Tournament[]";
+
 	private TournamentListAdapter listAdapter;
 
 	public TournamentListFragment() {
@@ -33,6 +35,18 @@ public class TournamentListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		listAdapter = new TournamentListAdapter(getActivity());
+		if (savedInstanceState != null) {
+		    Tournament[] tournaments = (Tournament[]) savedInstanceState.getParcelableArray(TOURNAMENTS);
+		    listAdapter.addAll(tournaments);
+		} else {
+			TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentsLoadedListener() {
+        	    @Override
+        	    public void onTournamentsLoaded(final Tournament[] tournaments) {
+					listAdapter.addAll(tournaments);
+        	    }
+        	});
+		}
 	}
 
 	@Override
@@ -50,7 +64,6 @@ public class TournamentListFragment extends Fragment {
 		((ViewGroup) listView.getParent()).addView(progressBar);
 		listView.setEmptyView(progressBar);
 
-		listAdapter = new TournamentListAdapter(getContext());
 		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -58,25 +71,6 @@ public class TournamentListFragment extends Fragment {
 				goToInfo(listAdapter.getItem(i));
 			}
 		});
-		// when available, request tournament info from back end and add Tournament objects to listAdapter
-		// must add to listAdapter on UI thread, if having trouble use runOnUiThread(Runnable)
-		// all lines in this function will be deleted after back end is exposed so you can disregard
-        TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentLoadedListener() {
-            @Override
-            public void onTournamentLoaded(Tournament t) {
-            	if (t != null) {
-					listAdapter.add(t);
-				}
-            }
-        });
-        /*
-		Address a = new Address(Locale.getDefault());
-		a.setLongitude(45);
-		a.setLatitude(45);
-        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-		listAdapter.add(new Tournament(1, "Tournament 1", "A really cool test tournament", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
-		listAdapter.add(new Tournament(1, "Tournament 2", "A really cool test tournament with a logo", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, logo, 1, 1, false));
-		*/
 		return view;
 	}
 
@@ -93,5 +87,11 @@ public class TournamentListFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelableArray(TOURNAMENTS, listAdapter.getAll());
 	}
 }

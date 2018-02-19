@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.Tournament;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class TournamentInfoFragment extends Fragment implements OnMapReadyCallback {
@@ -122,18 +123,26 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		map.onCreate(savedInstanceState);
 		map.getMapAsync(this);
 		// replace with name of user later
-		((TextView) view.findViewById(R.id.creatorName)).setText(String.format(Locale.getDefault(), "Created by %d at " + tournament.getTimeCreated().toString(), tournament.getCreatorUserID()));
-		((TextView) view.findViewById(R.id.timeRange)).setText(String.format(Locale.getDefault(), "There are %d spots left and will start at " + tournament.getStartTime().toString(), tournament.getMaxTeams() - tournament.getCurrentTeams()));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.getDefault());
+		((TextView) view.findViewById(R.id.creatorName)).setText(String.format(Locale.getDefault(), "Created by %d at " + dateFormat.format(tournament.getTimeCreated()), tournament.getCreatorUserID()));
+		((TextView) view.findViewById(R.id.timeRange)).setText(String.format(Locale.getDefault(), "There are %d spots left and will start at " + dateFormat.format(tournament.getStartTime()), tournament.getMaxTeams() - tournament.getCurrentTeams()));
 		if (tournament.getLogo() != null) {
 			((ImageView) view.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
 		}
-		View requestTournament = view.findViewById(R.id.requestButton);
-		requestTournament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToTournamentRequest();
-            }
-        });
+		View joinTeam = view.findViewById(R.id.joinTeam);
+		joinTeam.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				goToJoinTeam();
+			}
+		});
+		View createTeam = view.findViewById(R.id.createTeam);
+		createTeam.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				goToCreateTeam();
+			}
+		});
 		return view;
 	}
 
@@ -147,8 +156,13 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		super.onDetach();
 	}
 
-	public void goToTournamentRequest() {
-	    TournamentRequestFragment tournamentRequestFragment = TournamentRequestFragment.newInstance(tournament);
-        ((RootFragment) getParentFragment()).pushFragment(tournamentRequestFragment);
+	public void goToJoinTeam() {
+	    Fragment joinTeamFragment = JoinTeamFragment.newInstance(tournament);
+        ((RootFragment) getParentFragment()).pushFragment(joinTeamFragment);
     }
+
+    public void goToCreateTeam() {
+		Fragment createTeamFragment = CreateTeamFragment.newInstance(tournament);
+		((RootFragment) getParentFragment()).pushFragment(createTeamFragment);
+	}
 }

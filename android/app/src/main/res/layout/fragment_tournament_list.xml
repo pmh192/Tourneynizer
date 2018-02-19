@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/largeTextSize"
         android:textAlignment="center"
+        android:textColor="@color/titleTextColor"
         android:id="@+id/title"
         android:text="@string/tournaments"
         android:layout_marginTop="@dimen/marginSize" />

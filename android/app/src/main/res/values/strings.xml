@@ -10,7 +10,7 @@
     <string name="loginPrompt">Already have an account? Click here to login</string>
     <string name="tournaments">Tournaments</string>
     <string name="requestTournament">Request to join tournament</string>
-    <string name="tournamentsParticipated">Tournaments Played In</string>
+    <string name="tournamentsParticipated">Tournaments</string>
     <string name="gamesWon">Games Won</string>
     <string name="gamesLost">Games Lost</string>
     <string name="search">Enter a user\'s name to search</string>
@@ -27,11 +27,13 @@
     <string name="createTournamentTeam">Create team for the tournament</string>
     <string name="findTeams">Join a Team</string>
     <string name="or">OR</string>
-    <string name="teamSize">Team Size:</string>
-    <string name="maxTeams">Max Teams:</string>
+    <string name="teamSize">Team Size</string>
+    <string name="maxTeams">Max Teams</string>
     <string name="chooseDate">Choose date</string>
     <string name="chooseTime">Choose time</string>
-    <string name="datePrompt">Date:</string>
-    <string name="timePrompt">Time:</string>
-    <string name="locationPrompt">Location:</string>
+    <string name="datePrompt">Date</string>
+    <string name="timePrompt">Time</string>
+    <string name="locationPrompt">Location</string>
+    <string name="numCourts">Num Courts</string>
+    <string name="logOut">Log Out</string>
 </resources>

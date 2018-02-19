@@ -59,7 +59,7 @@
         android:clickable="true"
         android:focusable="true"
 		android:layout_marginTop="@dimen/marginSize"
-        android:textColor="@color/clickableText"
+        android:textColor="@color/clickableTextColor"
         android:id="@+id/registerAccountLink" />
 
 </LinearLayout>

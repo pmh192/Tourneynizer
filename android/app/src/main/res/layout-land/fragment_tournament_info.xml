@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:id="@+id/scrollInfo"
         android:layout_alignParentEnd="true"
-        android:layout_above="@id/requestButton">
+        android:layout_above="@id/requestButtons">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +36,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/mediumTextSize"
+                    android:textSize="@dimen/largeTextSize"
+                    android:textColor="@color/titleTextColor"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@id/logo"
@@ -72,20 +73,34 @@
 
     </ScrollView>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/requestTournament"
-        android:id="@+id/requestButton"
-        android:layout_margin="@dimen/marginSize"
+        android:id="@+id/requestButtons"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"/>
+        android:layout_marginBottom="@dimen/marginSize"
+        android:orientation="horizontal">
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/joinTeam"
+            android:text="@string/requestToJoinTeam" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/createTeam"
+            android:text="@string/createOwnTeam"/>
+
+    </LinearLayout>
 
     <com.google.android.gms.maps.MapView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/requestButton"
+        android:layout_above="@id/requestButtons"
         android:layout_toStartOf="@id/scrollInfo"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"

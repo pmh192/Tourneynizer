@@ -1,6 +1,7 @@
 package com.tourneynizer.tourneynizer.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -19,10 +20,12 @@ public class HTTPRequester {
 
     private static HTTPRequester requester;
     private RequestQueue requestQueue;
+    private CookieManager cm;
 
     private HTTPRequester(Context c) {
-        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
         requestQueue = Volley.newRequestQueue(c.getApplicationContext());
+        cm = new CookieManager();
+        CookieHandler.setDefault(cm);
     }
 
     public static synchronized HTTPRequester getInstance(Context c) {
@@ -34,5 +37,9 @@ public class HTTPRequester {
 
     public RequestQueue getRequestQueue() {
         return requestQueue;
+    }
+
+    public CookieManager getCookieManager() {
+        return cm;
     }
 }

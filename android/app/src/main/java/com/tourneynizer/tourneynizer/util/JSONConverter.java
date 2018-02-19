@@ -5,7 +5,9 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
+import com.tourneynizer.tourneynizer.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,5 +49,33 @@ public class JSONConverter {
             t = null;
         }
         return t;
+    }
+
+    public static JSONObject convertTournamentDefToJSON(TournamentDef tDef) {
+        JSONObject tJSON = new JSONObject();
+        try {
+            tJSON.put("name", tDef.getName());
+            tJSON.put("description", tDef.getDescription());
+            tJSON.put("logo", tDef.getLogo());
+            tJSON.put("type", tDef.getTournamentType().ordinal());
+            tJSON.put("address", tDef.getAddress().getAddress());
+            tJSON.put("numCourts", tDef.getNumCourts());
+            tJSON.put("startTime", tDef.getStartTime().getTime());
+            tJSON.put("teamSize", tDef.getTeamSize());
+            tJSON.put("maxTeams", tDef.getMaxTeams());
+        } catch (JSONException e) {
+            tJSON = null;
+        }
+        return tJSON;
+    }
+
+    public static User convertJSONToUser(JSONObject uJSON) {
+        User u;
+        try {
+            u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);
+        } catch (JSONException e) {
+            u = null;
+        }
+        return u;
     }
 }

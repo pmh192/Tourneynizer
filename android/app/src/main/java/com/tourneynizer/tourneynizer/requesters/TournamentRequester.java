@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,8 +25,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by ryanwiener on 2/16/18.
@@ -35,6 +38,10 @@ public class TournamentRequester {
 
     public interface OnTournamentLoadedListener {
         void onTournamentLoaded(Tournament tournament);
+    }
+
+    public interface OnTournamentsLoadedListener {
+        void onTournamentsLoaded(Tournament[] tournaments);
     }
 
     public static void getFromId(final Context c, long id, final OnTournamentLoadedListener listener) {
@@ -56,22 +63,32 @@ public class TournamentRequester {
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 
-    public static void getAllTournaments(final Context c, final OnTournamentLoadedListener listener) {
+    public static void getAllTournaments(final Context c, final OnTournamentsLoadedListener listener) {
         String url = HTTPRequester.DOMAIN + "tournament/getAll";
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        final JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 //parse response and return tournament
                 Log.d("Response", response.toString());
+                final JSONObject[] responses = new JSONObject[response.length()];
                 for (int i = 0; i < response.length(); i++) {
-                    JSONObject tJSON = null;
                     try {
-                        tJSON = response.getJSONObject(i);
+                        responses[i] = response.getJSONObject(i);
                     } catch (JSONException e) {
-                        tJSON = null;
+                        responses[i] = null;
                     }
-                    listener.onTournamentLoaded(JSONConverter.convertJSONToTournament(c, tJSON));
                 }
+                Thread parser = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Tournament[] tournaments = new Tournament[responses.length];
+                        for (int i = 0; i < responses.length; i++) {
+                            tournaments[i] = JSONConverter.convertJSONToTournament(c, responses[i]);
+                        }
+                        listener.onTournamentsLoaded(tournaments);
+                    }
+                });
+                parser.start();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -83,20 +100,9 @@ public class TournamentRequester {
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 
-    public static void createTournament(Context c, TournamentDef tDef) {
+    public static void createTournament(final Context c, TournamentDef tDef) {
         String url = HTTPRequester.DOMAIN + "tournament/create";
-        JSONObject tournamentJSON = new JSONObject();
-        try {
-            tournamentJSON.put("name", "Tournament 1");
-            tournamentJSON.put("address", "796 Embarcadero del Norte, Isla Vista, CA 93117");
-            tournamentJSON.put("startTime", new Time(0));
-            tournamentJSON.put("teamSize", "3");
-            tournamentJSON.put("maxTeams", "20");
-            tournamentJSON.put("type", TournamentType.VOLLEYBALL_POOLED.ordinal());
-            tournamentJSON.put("numCourts", "2");
-        } catch (JSONException e) {
-            tournamentJSON = null;
-        }
+        JSONObject tournamentJSON = JSONConverter.convertTournamentDefToJSON(tDef);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, tournamentJSON , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -116,7 +122,14 @@ public class TournamentRequester {
                     }
                 }
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Cookie", HTTPRequester.getInstance(c).getCookieManager().getCookieStore().getCookies().get(0).toString());
+                return headers;
+            }
+        };
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 }

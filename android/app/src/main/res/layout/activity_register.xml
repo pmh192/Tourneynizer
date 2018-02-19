@@ -101,7 +101,7 @@
             android:layout_marginTop="@dimen/marginSize"
 	    	android:paddingBottom="@dimen/paddingSize"
             android:paddingTop="@dimen/paddingSize"
-	    	android:textColor="@color/clickableText"
+	    	android:textColor="@color/clickableTextColor"
 			android:id="@+id/loginLink" />
 
 	</LinearLayout>

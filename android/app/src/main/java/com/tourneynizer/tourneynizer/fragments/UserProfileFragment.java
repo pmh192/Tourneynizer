@@ -6,9 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
+
+import java.util.Locale;
 
 public class UserProfileFragment extends Fragment {
 
@@ -39,7 +42,18 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        TextView name = view.findViewById(R.id.name);
+        name.setText(user.getName());
+        TextView email = view.findViewById(R.id.email);
+        email.setText(user.getEmail());
+        TextView tournamentsParticipated = view.findViewById(R.id.tournamentsParticipated);
+        tournamentsParticipated.setText(String.format(Locale.getDefault(),"%d", user.getTournamentsParticipated()));
+        TextView gamesWon = view.findViewById(R.id.gamesWon);
+        gamesWon.setText(String.format(Locale.getDefault(), "%d", user.getWins()));
+        TextView gamesLost = view.findViewById(R.id.gamesLost);
+        gamesLost.setText(String.format(Locale.getDefault(), "%d", user.getLosses()));
+        return view;
     }
 
     @Override

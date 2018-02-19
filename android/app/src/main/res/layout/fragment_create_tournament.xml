@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:textColor="@color/titleTextColor"
             android:textSize="@dimen/largeTextSize"
             android:layout_marginTop="@dimen/marginSize"
             android:text="@string/createTournament" />
@@ -21,6 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/titleTextColor"
             android:text="@string/tournamentName"
             android:layout_marginTop="@dimen/marginSize"
             android:textSize="@dimen/mediumTextSize"
@@ -37,6 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/titleTextColor"
             android:text="@string/description"
             android:labelFor="@id/tournamentDescription"
             android:textSize="@dimen/mediumTextSize"/>
@@ -51,6 +54,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/titleTextColor"
+            android:textSize="@dimen/mediumTextSize"
             android:text="@string/selectTournamentType"/>
 
         <Spinner
@@ -58,104 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/marginSize"
             android:id="@+id/tournamentTypeSpinner"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/marginSize">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:id="@+id/locationPrompt"
-                android:layout_centerInParent="true"
-                android:text="@string/locationPrompt"
-                android:textSize="@dimen/mediumTextSize"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/locationPrompt"
-                android:layout_toStartOf="@id/goToMap"
-                android:id="@+id/locationText"
-                android:layout_centerInParent="true"
-                android:textAlignment="center"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/chooseLocation"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/goToMap" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/marginSize">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/datePrompt"
-                android:id="@+id/datePrompt"
-                android:layout_alignParentStart="true"
-                android:textSize="@dimen/mediumTextSize"
-                android:layout_centerInParent="true"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_toEndOf="@id/datePrompt"
-                android:layout_toStartOf="@id/showDatePicker"
-                android:layout_centerInParent="true"
-                android:id="@+id/startDate"
-                android:textSize="@dimen/mediumTextSize"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/showDatePicker"
-                android:text="@string/chooseDate"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/marginSize">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/timePrompt"
-                android:layout_alignParentStart="true"
-                android:layout_centerInParent="true"
-                android:textSize="@dimen/mediumTextSize"
-                android:text="@string/timePrompt"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/timePrompt"
-                android:layout_toStartOf="@id/showTimePicker"
-                android:textAlignment="center"
-                android:layout_centerInParent="true"
-                android:id="@+id/startTime"
-                android:textSize="@dimen/mediumTextSize"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/showTimePicker"
-                android:text="@string/chooseTime"/>
-
-        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,8 +76,118 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/titleTextColor"
+                    android:id="@+id/locationPrompt"
+                    android:text="@string/locationPrompt"
+                    android:textSize="@dimen/mediumTextSize"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/locationText"
+                    android:textSize="@dimen/mediumTextSize"
+                    android:textAlignment="center"/>
+
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/chooseLocation"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/goToMap" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginSize"
+            android:layout_marginBottom="@dimen/marginSize"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/titleTextColor"
+                    android:text="@string/datePrompt"
+                    android:id="@+id/datePrompt"
+                    android:textSize="@dimen/mediumTextSize"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:id="@+id/startDate"
+                    android:textSize="@dimen/mediumTextSize"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/showDatePicker"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/chooseDate"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/titleTextColor"
+                    android:textAlignment="center"
+                    android:id="@+id/timePrompt"
+                    android:textSize="@dimen/mediumTextSize"
+                    android:text="@string/timePrompt"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:id="@+id/startTime"
+                    android:textSize="@dimen/mediumTextSize"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/showTimePicker"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/chooseTime"/>
+            </LinearLayout>
+
+         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/titleTextColor"
                     android:text="@string/teamSize"
                     android:textSize="@dimen/mediumTextSize"
                     android:labelFor="@id/teamSize"/>
@@ -179,6 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/teamSize"
+                    android:textAlignment="center"
                     android:inputType="number"
                     android:textSize="@dimen/mediumTextSize"/>
 
@@ -191,8 +209,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/titleTextColor"
                     android:text="@string/maxTeams"
                     android:textSize="@dimen/mediumTextSize"
                     android:labelFor="@id/maxTeams"/>
@@ -200,9 +220,36 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:id="@+id/maxTeams"
                     android:inputType="number"
                     android:textSize="@dimen/mediumTextSize"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/mediumTextSize"
+                    android:textColor="@color/titleTextColor"
+                    android:text="@string/numCourts"
+                    android:labelFor="@id/numCourts"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/mediumTextSize"
+                    android:id="@+id/numCourts"
+                    android:inputType="number"/>
 
             </LinearLayout>
 

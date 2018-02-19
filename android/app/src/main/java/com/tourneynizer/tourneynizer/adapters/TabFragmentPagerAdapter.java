@@ -22,12 +22,12 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUM_TABS = 5;
 
-    private FragmentManager fragmentManager;
+    private User user;
     private RootFragment currentFragment;
 
-    public TabFragmentPagerAdapter(FragmentManager fm) {
+    public TabFragmentPagerAdapter(User u, FragmentManager fm) {
         super(fm);
-        fragmentManager = fm;
+        user = u;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
                 rootFragment.setBaseFragment(CreateTournamentFragment.newInstance());
                 return rootFragment;
             case 4:
-                rootFragment.setBaseFragment(UserProfileFragment.newInstance(new User(2, "ryanl.wiener@yahoo.com", "Ryan Wiener", new Time(0), 10, 2, 5)));
+                rootFragment.setBaseFragment(UserProfileFragment.newInstance(user));
                 return rootFragment;
             default:
                 return rootFragment;
@@ -62,11 +62,11 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
-    public boolean popCurrent(int position) {
+    public boolean popCurrent() {
         return currentFragment.popFragment();
     }
 
-    public void popToRoot(int position) {
+    public void popToRoot() {
         currentFragment.popToRoot();
     }
 

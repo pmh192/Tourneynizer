@@ -3,5 +3,6 @@
     <color name="colorPrimary">#2980B9</color>
     <color name="colorPrimaryDark">#2C3E50</color>
     <color name="colorAccent">#E84C3C</color>
-    <color name="clickableText">#0000EE</color>
+    <color name="clickableTextColor">#0000EE</color>
+    <color name="titleTextColor">#000000</color>
 </resources>
