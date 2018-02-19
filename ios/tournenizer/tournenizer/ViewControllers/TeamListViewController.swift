@@ -23,7 +23,7 @@ class TeamListViewController : UITableViewController {
         super.loadView();
 
         view.backgroundColor = Constants.color.lightGray;
-        tableView.allowsSelection = false;
+        tableView.allowsSelection = true;
         tableView.separatorStyle = .none;
         tableView.register(TeamCellView.self, forCellReuseIdentifier: cellIdentifier);
         tableView.rowHeight = UITableViewAutomaticDimension;
@@ -73,6 +73,12 @@ class TeamListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cb?(teams[indexPath.section]);
+
+        if(cb == nil) {
+            let vc = TeamViewController();
+            vc.setTeam(teams[indexPath.section]);
+            self.navigationController?.pushViewController(vc, animated: true);
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -32,7 +32,9 @@ class MyTeamsViewController : UIViewController {
     }
 
     func selectTeam(_ team: Team) {
-
+        let vc = EditTeamViewController();
+        vc.setTeam(team);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 
     // Ensures that the corresponding methods are only called once
