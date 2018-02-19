@@ -4,11 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +20,13 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.requesters.TournamentRequester;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
@@ -161,12 +154,12 @@ public class CreateTournamentFragment extends Fragment {
 					ready = false;
 				}
 				if (ready) {
-					TournamentDef tDef = new TournamentDef();
-					tDef.setName(nameField.getText().toString());
-					tDef.setDescription(description.getText().toString());
-					tDef.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
-					tDef.setAddress(place);
-					tDef.setNumCourts(Integer.parseInt(numCourts.getText().toString()));
+					TournamentDef.Builder builder = new TournamentDef.Builder();
+					builder.setName(nameField.getText().toString());
+					builder.setDescription(description.getText().toString());
+					builder.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
+					builder.setAddress(place);
+					builder.setNumCourts(Integer.parseInt(numCourts.getText().toString()));
 					Calendar calendar = Calendar.getInstance();
 					calendar.clear();
 					calendar.set(Calendar.YEAR, Integer.parseInt(dates[2]));
@@ -179,10 +172,10 @@ public class CreateTournamentFragment extends Fragment {
 					}
 					calendar.set(Calendar.HOUR_OF_DAY, hour);
 					calendar.set(Calendar.MINUTE, Integer.parseInt(times[1]));
-					tDef.setStartTime(new Time(calendar.getTimeInMillis()));
-					tDef.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
-					tDef.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
-					TournamentRequester.createTournament(getContext(), tDef);
+					builder.setStartTime(new Time(calendar.getTimeInMillis()));
+					builder.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
+					builder.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
+					TournamentRequester.createTournament(getContext(), builder.build());
 				}
 			}
 		});

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,6 +25,7 @@ public class TournamentListFragment extends Fragment {
 	private final static String TOURNAMENTS = "com.tourneynizer.tourneynizer.model.Tournament[]";
 
 	private TournamentListAdapter listAdapter;
+	private SwipeRefreshLayout swipeRefresher;
 
 	public TournamentListFragment() {
 		// Required empty public constructor
@@ -71,7 +74,13 @@ public class TournamentListFragment extends Fragment {
 				goToInfo(listAdapter.getItem(i));
 			}
 		});
-
+		swipeRefresher = view.findViewById(R.id.swipeRefresher);
+		swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				refresh();
+			}
+		});
 		return view;
 	}
 
@@ -100,7 +109,16 @@ public class TournamentListFragment extends Fragment {
 		TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
+				listAdapter.clear();
 				listAdapter.addAll(tournaments);
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (swipeRefresher != null) {
+							swipeRefresher.setRefreshing(false);
+						}
+					}
+				});
 			}
 		});
 	}

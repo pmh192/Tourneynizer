@@ -79,4 +79,14 @@ public class TournamentListAdapter extends ArrayAdapter<Tournament> {
             }
         });
     }
+
+    @Override
+    public void clear() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TournamentListAdapter.super.clear();
+            }
+        });
+    }
 }

@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 			CredentialsClient credentialsClient = Credentials.getClient(this);
 			startActivity(new Intent(this, LoginActivity.class));
 			finishAffinity();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

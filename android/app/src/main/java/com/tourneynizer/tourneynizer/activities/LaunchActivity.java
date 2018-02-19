@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.requesters.UserRequester;
 
@@ -29,6 +30,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_launch);
         credentialsClient = Credentials.getClient(this);
         CredentialRequest request = new CredentialRequest.Builder().setPasswordLoginSupported(true).build();
         credentialsClient.request(request).addOnCompleteListener(new OnCompleteListener<CredentialRequestResponse>() {

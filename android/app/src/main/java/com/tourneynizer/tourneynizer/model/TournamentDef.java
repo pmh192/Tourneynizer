@@ -15,19 +15,8 @@ import java.util.Locale;
  * Created by ryanl on 2/3/2018.
  */
 
-public class TournamentDef {//implements Parcelable {
-/*
-    public static final Creator<TournamentDef> CREATOR
-            = new Creator<TournamentDef>() {
-        public TournamentDef createFromParcel(Parcel in) {
-            return new TournamentDef(in);
-        }
+public class TournamentDef {
 
-        public TournamentDef[] newArray(int size) {
-            return new TournamentDef[size];
-        }
-    };
-*/
     private String name;
     private String description;
     private Place address;
@@ -37,18 +26,8 @@ public class TournamentDef {//implements Parcelable {
     private TournamentType tournamentType;
     private Bitmap logo;
     private int numCourts;
-
-    public TournamentDef(TournamentDef t) {
-        this(t.name, t.description, t.address, t.startTime, t.maxTeams, t.teamSize, t.tournamentType, t.logo, t.numCourts);
-    }
-
-    public TournamentDef() {}
-
-    public TournamentDef(String name, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, int numCourts) {
-        this(name, null, address, startTime, maxTeams, teamSize, tournamentType, null, numCourts);
-    }
-
-    public TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo, int numCourts) {
+    
+    private TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo, int numCourts) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -59,18 +38,7 @@ public class TournamentDef {//implements Parcelable {
         this.logo = logo;
         this.numCourts = numCourts;
     }
-/*
-    private TournamentDef(Parcel in) {
-        name = in.readString();
-        description = in.readString();
-        address = in.readParcelable(Address.class.getClassLoader());
-        startTime = (Time) in.readSerializable();
-        maxTeams = in.readInt();
-        tournamentType = TournamentType.values()[in.readInt()];
-        logo = in.readParcelable(Bitmap.class.getClassLoader());
-        numCourts = in.readInt();
-    }
-*/
+
     public String getName() {
         return name;
     }
@@ -142,22 +110,68 @@ public class TournamentDef {//implements Parcelable {
     public void setNumCourts(int numCourts) {
         this.numCourts = numCourts;
     }
-/*
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeString(name);
-        out.writeString(description);
-        out.writeParcelable(address, flags);
-        out.writeSerializable(startTime);
-        out.writeInt(maxTeams);
-        out.writeInt(tournamentType.ordinal());
-        out.writeParcelable(logo, flags);
-        out.writeInt(numCourts);
-    }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public static class Builder {
+
+        private String name;
+        private String description;
+        private Place address;
+        private Time startTime;
+        private int maxTeams;
+        private int teamSize;
+        private TournamentType tournamentType;
+        private Bitmap logo;
+        private int numCourts;
+
+        public Builder() {}
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setAddress(Place place) {
+            address = place;
+            return  this;
+        }
+
+        public Builder setStartTime(Time t) {
+            startTime = t;
+            return this;
+        }
+
+        public Builder setMaxTeams(int maxTeams) {
+            this.maxTeams = maxTeams;
+            return this;
+        }
+
+        public Builder setTeamSize(int teamSize) {
+            this.teamSize = teamSize;
+            return this;
+        }
+
+        public Builder setTournamentType(TournamentType tournamentType) {
+            this.tournamentType = tournamentType;
+            return this;
+        }
+
+        public Builder setLogo(Bitmap logo) {
+            this.logo = logo;
+            return this;
+        }
+
+        public Builder setNumCourts(int numCourts) {
+            this.numCourts = numCourts;
+            return this;
+        }
+
+        public TournamentDef build() {
+            return new TournamentDef(name, description, address, startTime, maxTeams, teamSize, tournamentType, logo, numCourts);
+        }
     }
-    */
 }
