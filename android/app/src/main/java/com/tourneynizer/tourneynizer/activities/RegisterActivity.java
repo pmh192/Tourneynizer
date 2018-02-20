@@ -6,14 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.credentials.Credential;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.requesters.UserRequester;
+
+import static com.tourneynizer.tourneynizer.activities.LaunchActivity.CREDENTIAL;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -21,6 +22,15 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        if (getIntent() != null) {
+            Credential credential = getIntent().getParcelableExtra(CREDENTIAL);
+            if (credential != null) {
+                TextView emailText = findViewById(R.id.email);
+                TextView nameText = findViewById(R.id.name);
+                emailText.setText(credential.getId());
+                nameText.setText(credential.getName());
+            }
+        }
         View registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override

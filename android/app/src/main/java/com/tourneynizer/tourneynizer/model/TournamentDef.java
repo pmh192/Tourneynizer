@@ -26,8 +26,14 @@ public class TournamentDef {
     private TournamentType tournamentType;
     private Bitmap logo;
     private int numCourts;
-    
-    private TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo, int numCourts) {
+
+    public TournamentDef() {}
+
+    public TournamentDef(String name, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, int numCourts) {
+        this(name, null, address, startTime, maxTeams, teamSize, tournamentType, null, numCourts);
+    }
+
+    public TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo, int numCourts) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -109,69 +115,5 @@ public class TournamentDef {
 
     public void setNumCourts(int numCourts) {
         this.numCourts = numCourts;
-    }
-
-    public static class Builder {
-
-        private String name;
-        private String description;
-        private Place address;
-        private Time startTime;
-        private int maxTeams;
-        private int teamSize;
-        private TournamentType tournamentType;
-        private Bitmap logo;
-        private int numCourts;
-
-        public Builder() {}
-
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder setAddress(Place place) {
-            address = place;
-            return  this;
-        }
-
-        public Builder setStartTime(Time t) {
-            startTime = t;
-            return this;
-        }
-
-        public Builder setMaxTeams(int maxTeams) {
-            this.maxTeams = maxTeams;
-            return this;
-        }
-
-        public Builder setTeamSize(int teamSize) {
-            this.teamSize = teamSize;
-            return this;
-        }
-
-        public Builder setTournamentType(TournamentType tournamentType) {
-            this.tournamentType = tournamentType;
-            return this;
-        }
-
-        public Builder setLogo(Bitmap logo) {
-            this.logo = logo;
-            return this;
-        }
-
-        public Builder setNumCourts(int numCourts) {
-            this.numCourts = numCourts;
-            return this;
-        }
-
-        public TournamentDef build() {
-            return new TournamentDef(name, description, address, startTime, maxTeams, teamSize, tournamentType, logo, numCourts);
-        }
     }
 }

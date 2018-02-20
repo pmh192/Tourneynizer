@@ -13,7 +13,6 @@ import com.google.android.gms.auth.api.credentials.CredentialRequest;
 import com.google.android.gms.auth.api.credentials.CredentialRequestResponse;
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.android.gms.auth.api.credentials.CredentialsClient;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,9 +20,12 @@ import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.requesters.UserRequester;
 
+import static com.tourneynizer.tourneynizer.activities.MainActivity.USER;
+
 public class LaunchActivity extends AppCompatActivity {
 
     private static final int RESOLVE_CODE_READ = 1;
+    public static final String CREDENTIAL = "com.google.android.gms.auth.api.credentials.Credential";
 
     private CredentialsClient credentialsClient;
 
@@ -51,14 +53,45 @@ public class LaunchActivity extends AppCompatActivity {
                 } else {
                     // The user must create an account or sign in manually.
                     Log.e("Error", "Unsuccessful credential request.", e);
-                    goToRegister();
+                    goToRegister(null);
                 }
             }
         });
     }
 
-    private void onCredentialRetrieved(Credential credential) {
-        goToLogin(credential);
+    private void onCredentialRetrieved(final Credential credential) {
+        // credential.getId() is email
+        if (credential.getPassword() != null) {
+            // This an account that we stored
+            UserRequester.getUserFromEmailAndPassword(this, credential.getId(), credential.getPassword(), new UserRequester.OnUserLoadedListener() {
+                @Override
+                public void onUserLoaded(User user) {
+                    if (user != null) {
+                        goToMain(user);
+                    } else {
+                        credentialsClient.delete(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d("Deletion task", "Successful: " + task.isSuccessful());
+                            }
+                        });
+                        goToRegister(credential);
+                    }
+                }
+            });
+        } else {
+            // check if user exists
+            UserRequester.getUserFromEmail(this, credential.getId(), new UserRequester.OnUserLoadedListener() {
+                @Override
+                public void onUserLoaded(User user) {
+                    if (user != null) {
+                        goToLogin(credential);
+                    } else {
+                        goToRegister(credential);
+                    }
+                }
+            });
+        }
     }
 
     private void resolveResult(ResolvableApiException rae, int requestCode) {
@@ -66,7 +99,7 @@ public class LaunchActivity extends AppCompatActivity {
             rae.startResolutionForResult(this, requestCode);
         } catch (IntentSender.SendIntentException e) {
             Log.e("Error", "Failed to send resolution.", e);
-            goToRegister();
+            goToRegister(null);
         }
     }
 
@@ -79,27 +112,28 @@ public class LaunchActivity extends AppCompatActivity {
                 onCredentialRetrieved(credential);
             } else {
                 Log.e("Error", "Credential Read: NOT OK");
-                goToRegister();
+                goToRegister(null);
             }
         }
     }
 
     private void goToLogin(Credential credential) {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(LoginActivity.CREDENTIAL, credential);
+        intent.putExtra(CREDENTIAL, credential);
         startActivity(intent);
         finishAffinity();
     }
 
-    private void goToRegister() {
+    private void goToRegister(Credential credential) {
         Intent intent = new Intent(this, RegisterActivity.class);
+        intent.putExtra(CREDENTIAL, credential);
         startActivity(intent);
         finishAffinity();
     }
 
     private void goToMain(@NonNull User u) {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.USER, u);
+        intent.putExtra(USER, u);
         startActivity(intent);
         finishAffinity();
     }

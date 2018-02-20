@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.util.CookieRequestFactory;
 import com.tourneynizer.tourneynizer.util.HTTPRequester;
 import com.tourneynizer.tourneynizer.util.JSONConverter;
 
@@ -34,7 +35,7 @@ public class UserRequester {
     }
 
     public static void getUserFromEmail(Context c, String email, final OnUserLoadedListener listener) {
-        String url = HTTPRequester.DOMAIN + "user/get";
+        String url = HTTPRequester.DOMAIN + "user/find?email=" + email;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -45,6 +46,25 @@ public class UserRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
+                listener.onUserLoaded(null);
+            }
+        });
+        HTTPRequester.getInstance(c).getRequestQueue().add(request);
+    }
+
+    public static void getUserFromID(Context c, long id, final OnUserLoadedListener listener) {
+        String url = HTTPRequester.DOMAIN + "user/" + id;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // parse response
+                listener.onUserLoaded(JSONConverter.convertJSONToUser(response));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //awww shucks
+                listener.onUserLoaded(null);
             }
         });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
@@ -64,7 +84,6 @@ public class UserRequester {
                     try {
                         listener.onUserLoaded(JSONConverter.convertJSONToUser(response.getJSONObject(i)));
                     } catch (JSONException e) {
-
                     }
                 }
             }
@@ -72,13 +91,14 @@ public class UserRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Response", error.toString());
+                Log.e("Response", error.toString());
+                listener.onUserLoaded(null);
             }
         });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 
-    public static void getUserFromEmailAndPassword(final Context c, String email, String password, final OnUserLoadedListener listener) {
+    public static void getUserFromEmailAndPassword(Context c, String email, String password, final OnUserLoadedListener listener) {
         String url = HTTPRequester.DOMAIN + "auth/login";
         JSONObject loginJSON = new JSONObject();
         try {
@@ -98,9 +118,7 @@ public class UserRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Error", "" + error.getMessage());
-                Log.d("Error", "" + error.toString());
-                Log.d("Error", "" + error.networkResponse);
+                Log.e("Error", "" + error.toString());
                 listener.onUserLoaded(null);
             }
         });
@@ -129,16 +147,16 @@ public class UserRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Error", error.toString());
+                Log.e("Error", error.toString());
                 listener.onUserLoaded(null);
             }
         });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 
-    public static void logOut(final Context c) {
+    public static void logOut(Context c) {
         String url = HTTPRequester.DOMAIN + "auth/logout";
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest request = new CookieRequestFactory(c).makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Response", "Logged out");
@@ -146,16 +164,9 @@ public class UserRequester {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error", error.toString());
+                Log.e("Error", error.toString());
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Cookie", HTTPRequester.getInstance(c).getCookieManager().getCookieStore().getCookies().get(0).toString());
-                return headers;
-            }
-        };
+        });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 }

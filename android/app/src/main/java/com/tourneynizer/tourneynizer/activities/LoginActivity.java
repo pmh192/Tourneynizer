@@ -13,16 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.credentials.Credential;
-import com.google.android.gms.auth.api.credentials.CredentialRequest;
-import com.google.android.gms.auth.api.credentials.CredentialRequestResponse;
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.android.gms.auth.api.credentials.CredentialsClient;
-import com.google.android.gms.auth.api.credentials.IdentityProviders;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,10 +22,11 @@ import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.requesters.UserRequester;
 
+import static com.tourneynizer.tourneynizer.activities.LaunchActivity.CREDENTIAL;
+
 public class LoginActivity extends AppCompatActivity {
 
 	private static final int RESOLVE_CODE_WRITE = 1;
-	public static final String CREDENTIAL = "com.google.android.gms.auth.api.credentials.Credential";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

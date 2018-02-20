@@ -92,7 +92,7 @@ public class CreateTournamentFragment extends Fragment {
 					@Override
 					public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 						String indicator = "AM";
-						if (hour > 12) {
+						if (hour >= 12) {
 							indicator = "PM";
 						}
 						hour %= 12;
@@ -123,7 +123,7 @@ public class CreateTournamentFragment extends Fragment {
 				TextView description = getView().findViewById(R.id.tournamentDescription);
 				Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
 				TextView numCourts = getView().findViewById(R.id.numCourts);
-				if (!numCourts.getText().toString().matches("-?\\d+")) {
+				if (!numCourts.getText().toString().matches("\\d+")) {
 					numCourts.setError("Enter the number of Courts");
 				}
 				if (place == null) {
@@ -144,22 +144,22 @@ public class CreateTournamentFragment extends Fragment {
 				}
 				String[] times = indicators[0].split(":");
 				TextView teamSize = getView().findViewById(R.id.teamSize);
-				if (!teamSize.getText().toString().matches("-?\\d+")) {
+				if (!teamSize.getText().toString().matches("\\d+")) {
 					teamSize.setError("Select a team size");
 					ready = false;
 				}
 				TextView maxTeams = getView().findViewById(R.id.maxTeams);
-				if (!maxTeams.getText().toString().matches("-?\\d+")) {
+				if (!maxTeams.getText().toString().matches("\\d+")) {
 					maxTeams.setError("Choose the max num of teams");
 					ready = false;
 				}
 				if (ready) {
-					TournamentDef.Builder builder = new TournamentDef.Builder();
-					builder.setName(nameField.getText().toString());
-					builder.setDescription(description.getText().toString());
-					builder.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
-					builder.setAddress(place);
-					builder.setNumCourts(Integer.parseInt(numCourts.getText().toString()));
+					TournamentDef tDef = new TournamentDef();
+					tDef.setName(nameField.getText().toString());
+					tDef.setDescription(description.getText().toString());
+					tDef.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
+					tDef.setAddress(place);
+					tDef.setNumCourts(Integer.parseInt(numCourts.getText().toString()));
 					Calendar calendar = Calendar.getInstance();
 					calendar.clear();
 					calendar.set(Calendar.YEAR, Integer.parseInt(dates[2]));
@@ -172,10 +172,10 @@ public class CreateTournamentFragment extends Fragment {
 					}
 					calendar.set(Calendar.HOUR_OF_DAY, hour);
 					calendar.set(Calendar.MINUTE, Integer.parseInt(times[1]));
-					builder.setStartTime(new Time(calendar.getTimeInMillis()));
-					builder.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
-					builder.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
-					TournamentRequester.createTournament(getContext(), builder.build());
+					tDef.setStartTime(new Time(calendar.getTimeInMillis()));
+					tDef.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
+					tDef.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
+					TournamentRequester.createTournament(getContext(), tDef);
 				}
 			}
 		});
@@ -183,9 +183,9 @@ public class CreateTournamentFragment extends Fragment {
 	}
 
 	public void presentPlacePicker() {
-		PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+		PlacePicker.IntentBuilder tDef = new PlacePicker.IntentBuilder();
 		try {
-			startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+			startActivityForResult(tDef.build(getActivity()), PLACE_PICKER_REQUEST);
 			Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
 			getView().findViewById(R.id.goToMap).setEnabled(false);
 		} catch (GooglePlayServicesNotAvailableException | GooglePlayServicesRepairableException e) {

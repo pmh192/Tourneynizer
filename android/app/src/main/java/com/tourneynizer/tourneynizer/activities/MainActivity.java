@@ -5,16 +5,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.android.gms.auth.api.credentials.CredentialsClient;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.TabFragmentPagerAdapter;
 import com.tourneynizer.tourneynizer.model.User;
@@ -29,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 			R.drawable.ic_add_tab,
 			R.drawable.ic_profile_tab
 	};
-	public static final String USER = "com.tourneynizer.tourneynizer.model.User";
+    public static final String USER = "com.tourneynizer.tourneynizer.model.User";
 
 	private TabFragmentPagerAdapter pagerAdapter;
 	private ViewPager viewPager;

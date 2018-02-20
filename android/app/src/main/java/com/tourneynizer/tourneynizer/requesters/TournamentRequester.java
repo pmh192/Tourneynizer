@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
+import com.tourneynizer.tourneynizer.util.CookieRequestFactory;
 import com.tourneynizer.tourneynizer.util.HTTPRequester;
 import com.tourneynizer.tourneynizer.util.JSONConverter;
 
@@ -57,7 +58,8 @@ public class TournamentRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Response", error.toString());
+                Log.e("Error", error.toString());
+                listener.onTournamentLoaded(null);
             }
         });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
@@ -78,6 +80,7 @@ public class TournamentRequester {
                         responses[i] = null;
                     }
                 }
+                // Do on a seperate thread since the geocoder in the parse function takes a long time
                 Thread parser = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -94,16 +97,17 @@ public class TournamentRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Response", error.toString());
+                Log.e("Error", error.toString());
+                listener.onTournamentsLoaded(null);
             }
         });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 
-    public static void createTournament(final Context c, TournamentDef tDef) {
+    public static void createTournament(Context c, TournamentDef tDef) {
         String url = HTTPRequester.DOMAIN + "tournament/create";
         JSONObject tournamentJSON = JSONConverter.convertTournamentDefToJSON(tDef);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, tournamentJSON , new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new CookieRequestFactory(c).makeJsonObjectRequest(Request.Method.POST, url, tournamentJSON , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //parse response and return tournament
@@ -113,23 +117,9 @@ public class TournamentRequester {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
-                Log.d("Error", error.toString());
-                if (error.networkResponse.data != null) {
-                    try {
-                        Log.d("Error Message", new String(error.networkResponse.data,"UTF-8"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                Log.e("Error", error.toString());
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Cookie", HTTPRequester.getInstance(c).getCookieManager().getCookieStore().getCookies().get(0).toString());
-                return headers;
-            }
-        };
+        });
         HTTPRequester.getInstance(c).getRequestQueue().add(request);
     }
 }
