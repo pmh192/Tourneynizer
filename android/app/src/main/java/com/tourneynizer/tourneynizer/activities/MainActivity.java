@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 		if (id == R.id.logOut) {
 			userService.logOut();
 			CredentialsClient credentialsClient = Credentials.getClient(this);
-			startActivity(new Intent(this, LoginActivity.class));
+			credentialsClient.disableAutoSignIn();
+			startActivity(new Intent(this, LaunchActivity.class));
 			finishAffinity();
 			return true;
 		}

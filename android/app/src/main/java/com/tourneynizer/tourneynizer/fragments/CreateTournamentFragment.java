@@ -209,6 +209,28 @@ public class CreateTournamentFragment extends Fragment {
 		}
 	}
 
+	private void clearFields() {
+        TextView nameField = getView().findViewById(R.id.tournamentName);
+        nameField.setText(null);
+        TextView description = getView().findViewById(R.id.tournamentDescription);
+        description.setText(null);
+        Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
+        tournamentTypeSelector.setSelection(0);
+        TextView numCourts = getView().findViewById(R.id.numCourts);
+        numCourts.setText(null);
+        TextView locationText = getView().findViewById(R.id.locationText);
+        locationText.setText(null);
+        place = null;
+        TextView dateText = getView().findViewById(R.id.startDate);
+        dateText.setText(null);
+        TextView timeText = getView().findViewById(R.id.startTime);
+        timeText.setText(null);
+        TextView teamSize = getView().findViewById(R.id.teamSize);
+        teamSize.setText(null);
+        TextView maxTeams = getView().findViewById(R.id.maxTeams);
+        maxTeams.setText(null);
+    }
+
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);

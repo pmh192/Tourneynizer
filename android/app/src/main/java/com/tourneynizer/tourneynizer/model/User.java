@@ -1,5 +1,6 @@
 package com.tourneynizer.tourneynizer.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ public class User implements Parcelable {
     private String email;
     private String name;
     private Time timeCreated;
+    private Bitmap profilePicture;
     private int wins;
     private int losses;
     private int tournamentsParticipated;
@@ -36,20 +38,26 @@ public class User implements Parcelable {
         email = in.readString();
         name = in.readString();
         timeCreated = (Time) in.readSerializable();
+        profilePicture = in.readParcelable(Bitmap.class.getClassLoader());
         wins = in.readInt();
         losses = in.readInt();
         tournamentsParticipated = in.readInt();
     }
 
     public User(User u) {
-        this(u.id, u.email, u.name, u.timeCreated, u.wins, u.losses, u.tournamentsParticipated);
+        this(u.id, u.email, u.name, u.timeCreated, u.profilePicture, u.wins, u.losses, u.tournamentsParticipated);
     }
 
     public User(long id, @NonNull String email, @NonNull String name, @NonNull Time timeCreated, int wins, int losses, int tournamentsParticipated) {
+        this(id, email, name, timeCreated, null, wins, losses, tournamentsParticipated);
+    }
+
+    public User(long id, @NonNull String email, @NonNull String name, @NonNull Time timeCreated, Bitmap profilePicture, int wins, int losses, int tournamentsParticipated) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.timeCreated = timeCreated;
+        this.profilePicture = profilePicture;
         this.wins = wins;
         this.losses = losses;
         this.tournamentsParticipated = tournamentsParticipated;
@@ -66,6 +74,7 @@ public class User implements Parcelable {
         parcel.writeString(email);
         parcel.writeString(name);
         parcel.writeSerializable(timeCreated);
+        parcel.writeParcelable(profilePicture, i);
         parcel.writeInt(wins);
         parcel.writeInt(losses);
         parcel.writeInt(tournamentsParticipated);
@@ -85,6 +94,10 @@ public class User implements Parcelable {
 
     public Time getTimeCreated() {
         return timeCreated;
+    }
+
+    public Bitmap getProfilePicture() {
+        return profilePicture;
     }
 
     public int getWins() {

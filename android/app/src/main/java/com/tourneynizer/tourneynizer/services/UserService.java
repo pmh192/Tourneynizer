@@ -1,6 +1,5 @@
 package com.tourneynizer.tourneynizer.services;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -16,6 +15,8 @@ import com.tourneynizer.tourneynizer.util.JSONConverter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by ryanwiener on 2/16/18.
@@ -143,6 +144,13 @@ public class UserService {
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
                 Log.e("Error", error.toString());
+                if (error.networkResponse != null && error.networkResponse.data != null) {
+                    try {
+                        Log.d("Error", new String(error.networkResponse.data, "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+
+                    }
+                }
                 listener.onUserLoaded(null);
             }
         });

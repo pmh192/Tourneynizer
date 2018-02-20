@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
@@ -47,6 +48,8 @@ public class UserProfileFragment extends Fragment {
         name.setText(user.getName());
         TextView email = view.findViewById(R.id.email);
         email.setText(user.getEmail());
+        ImageView profilePicture = view.findViewById(R.id.profilePicture);
+        profilePicture.setImageBitmap(user.getProfilePicture());
         TextView tournamentsParticipated = view.findViewById(R.id.tournamentsParticipated);
         tournamentsParticipated.setText(String.format(Locale.getDefault(),"%d", user.getTournamentsParticipated()));
         TextView gamesWon = view.findViewById(R.id.gamesWon);
