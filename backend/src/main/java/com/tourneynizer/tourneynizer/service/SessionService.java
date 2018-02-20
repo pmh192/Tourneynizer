@@ -4,6 +4,7 @@ import com.tourneynizer.tourneynizer.dao.SessionDao;
 import com.tourneynizer.tourneynizer.dao.UserDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
+import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
 import com.tourneynizer.tourneynizer.model.User;
 import javafx.util.Pair;
 
@@ -47,8 +48,13 @@ public class SessionService {
         }
     }
 
-    public User findBySession(String session) {
-        return sessionDao.findBySession(session);
+    public User findBySession(String session) throws BadRequestException {
+        User user = sessionDao.findBySession(session);
+        if (user == null) {
+            throw new UserMustBeLoggedInException();
+        }
+
+        return user;
     }
 
     public User findByRequest(Map<String, String> values) {

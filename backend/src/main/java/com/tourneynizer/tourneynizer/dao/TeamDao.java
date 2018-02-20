@@ -24,7 +24,7 @@ public class TeamDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void insert(Team team, User user) throws EmailTakenException, SQLException {
+    public void insert(Team team, User user) throws SQLException {
         if (team.isPersisted()) {
             throw new IllegalArgumentException("Team is already persisted");
         }
@@ -50,7 +50,13 @@ public class TeamDao {
                 return preparedStatement;
             }, keyHolder);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException(e);
+            if (e.getMessage().contains("unique_team_name_request")) {
+                throw new IllegalArgumentException("That name is already taken");
+            }
+            if (e.getMessage().contains("teams_tournament_id_fkey")) {
+                throw new IllegalArgumentException("Can't find tournament with id " + team.getTournamentId());
+            }
+            throw e;
         }
 
         team.persist(keyHolder.getKey().longValue(), now);
