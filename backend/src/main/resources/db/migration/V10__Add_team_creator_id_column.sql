@@ -1,0 +1,1 @@
+ALTER TABLE teams ADD COLUMN creator_id BIGINT NOT NULL REFERENCES users(id);

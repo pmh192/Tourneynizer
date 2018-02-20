@@ -5,5 +5,11 @@
 
     <!-- Beans independent of environment go here -->
     <import resource="beans/dao/UserDao.xml" />
+    <import resource="beans/dao/TournamentDao.xml" />
+    <import resource="beans/dao/TeamDao.xml" />
+    <import resource="beans/dao/MatchDao.xml" />
+    <import resource="beans/dao/RosterDao.xml" />
+    <import resource="beans/dao/TeamRequestDao.xml" />
+    <import resource="beans/dao/SessionDao.xml" />
 
 </beans>

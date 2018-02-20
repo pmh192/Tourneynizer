@@ -1,7 +1,11 @@
 package com.tourneynizer.tourneynizer;
 
+import com.tourneynizer.tourneynizer.dao.SessionDao;
+import com.tourneynizer.tourneynizer.dao.TournamentDao;
 import com.tourneynizer.tourneynizer.dao.UserDao;
 import com.tourneynizer.tourneynizer.helper.ContextHelper;
+import com.tourneynizer.tourneynizer.service.SessionService;
+import com.tourneynizer.tourneynizer.service.TournamentService;
 import com.tourneynizer.tourneynizer.service.UserService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,5 +24,18 @@ public class Config {
     public UserService userService() {
         UserDao userDao = context.getBean("UserDao", UserDao.class);
         return new UserService(userDao);
+    }
+
+    @Bean
+    public TournamentService tournamentService() {
+        TournamentDao tournamentDao = context.getBean("TournamentDao", TournamentDao.class);
+        return new TournamentService(tournamentDao);
+    }
+
+    @Bean
+    public SessionService sessionService() {
+        UserDao userDao = context.getBean("UserDao", UserDao.class);
+        SessionDao sessionDao = context.getBean("SessionDao", SessionDao.class);
+        return new SessionService(userDao, sessionDao);
     }
 }

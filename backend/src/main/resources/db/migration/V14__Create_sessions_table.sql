@@ -1,0 +1,5 @@
+CREATE TABLE sessions (
+    user_id     BIGINT NOT NULL REFERENCES users(id),
+    session     VARCHAR(256) NOT NULL UNIQUE,
+    timeCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

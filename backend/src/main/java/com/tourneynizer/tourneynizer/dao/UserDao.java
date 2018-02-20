@@ -59,7 +59,7 @@ public class UserDao {
         user.persist((Long) keyHolder.getKey(), now);
     }
 
-    private final RowMapper<User> rowMapper = (resultSet, rowNum) -> new User(
+    static final RowMapper<User> rowMapper = (resultSet, rowNum) -> new User(
             resultSet.getLong(1),
             resultSet.getString(2),
             resultSet.getString(3),
@@ -71,6 +71,16 @@ public class UserDao {
         String sql = "SELECT * FROM users WHERE id=" + id + ";";
         try {
             return this.jdbcTemplate.queryForObject(sql, rowMapper);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email=?;";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{email}, rowMapper);
         }
         catch (EmptyResultDataAccessException e) {
             return null;

@@ -1,9 +1,11 @@
 package com.tourneynizer.tourneynizer.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -33,6 +35,12 @@ public class UserTest {
     public void setPassNull() throws Exception {
         User user = new User("person@place.com", "name", "hashedPassword");
         user.setPlaintextPassword(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setPassEmpty() throws Exception {
+        User user = new User("person@place.com", "name", "hashedPassword");
+        user.setPlaintextPassword("");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -84,4 +92,13 @@ public class UserTest {
         assertTrue(true); // change when ready
     }
 
+    @Test
+    public void json() throws Exception {
+        User user = new User("person@place.com", "name", "hashedPassword");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(user);
+        String expected = "{\"id\":null,\"email\":\"person@place.com\",\"name\":\"name\",\"timeCreated\":null}";
+
+        assertEquals(expected, json);
+    }
 }
