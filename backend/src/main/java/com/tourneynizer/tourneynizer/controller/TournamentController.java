@@ -1,15 +1,13 @@
 package com.tourneynizer.tourneynizer.controller;
 
-import com.tourneynizer.tourneynizer.dao.SessionDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
+import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
 import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TournamentService;
-import com.tourneynizer.tourneynizer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +35,10 @@ public class TournamentController {
         Tournament tournament;
         try {
             User user = sessionService.findBySession(session);
+            if (user == null) {
+                return new ResponseEntity<Object>(new UserMustBeLoggedInException(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            }
+
             tournament = tournamentService.createTournament(values, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
