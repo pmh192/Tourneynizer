@@ -93,7 +93,7 @@ public class TournamentService {
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void createTournament(TournamentDef tDef) {
+    public void createTournament(TournamentDef tDef, final OnTournamentLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/create";
         JSONObject tournamentJSON = JSONConverter.getInstance().convertTournamentDefToJSON(tDef);
         JsonObjectRequest request = new CookieRequestFactory().makeJsonObjectRequest(Request.Method.POST, url, tournamentJSON , new Response.Listener<JSONObject>() {
@@ -101,12 +101,14 @@ public class TournamentService {
             public void onResponse(JSONObject response) {
                 //parse response and return tournament
                 Log.d("Response", response.toString());
+                listener.onTournamentLoaded(JSONConverter.getInstance().convertJSONToTournament(response));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //awww shucks
                 Log.e("Error", error.toString());
+                listener.onTournamentLoaded(null);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
