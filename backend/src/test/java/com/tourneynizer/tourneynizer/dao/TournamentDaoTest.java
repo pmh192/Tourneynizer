@@ -42,7 +42,7 @@ public class TournamentDaoTest extends TestWithContext {
         userDao.insert(user);
 
         Timestamp beforeInsert = new Timestamp(System.currentTimeMillis());
-        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
         tournamentDao.insert(tournament, user);
 
         assertTrue(tournament.isPersisted());
@@ -55,7 +55,7 @@ public class TournamentDaoTest extends TestWithContext {
         user.setPlaintextPassword("HI");
         userDao.insert(user);
 
-        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId()-1);
+        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId()-1);
         tournamentDao.insert(tournament, user);
     }
 
@@ -64,10 +64,10 @@ public class TournamentDaoTest extends TestWithContext {
         User user = new User("person@place.com", "Name", "");
         userDao.insert(user);
         Tournament tournament1 = new Tournament("name", "address", null, 1, 1,
-                TournamentType.BRACKET, 1, user.getId());
+                TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
 
         tournamentDao.insert(tournament1, user);
-        Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
 
         assertEquals(tournament2, tournament1);
     }
@@ -77,10 +77,10 @@ public class TournamentDaoTest extends TestWithContext {
         User user = new User("person@place.com", "Name", "");
         userDao.insert(user);
         Tournament tournament1 = new Tournament("name", "address", null, 1, 1,
-                TournamentType.BRACKET, 1, user.getId());
+                TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
 
         tournamentDao.insert(tournament1, user);
-        Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        Tournament tournament2 = new Tournament(tournament1.getId(),"name", "address", tournament1.getTimeCreated(),null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
 
         assertEquals(tournament2, tournamentDao.findById(tournament1.getId()));
     }
@@ -96,9 +96,9 @@ public class TournamentDaoTest extends TestWithContext {
         user.setPlaintextPassword("HI");
         userDao.insert(user);
 
-        Tournament tournament1 = new Tournament("name1", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
-        Tournament tournament2 = new Tournament("name2", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
-        Tournament tournament3 = new Tournament("name3", "address", null, 1, 1, TournamentType.BRACKET, 1, user.getId());
+        Tournament tournament1 = new Tournament("name1", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
+        Tournament tournament2 = new Tournament("name2", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
+        Tournament tournament3 = new Tournament("name3", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
         tournamentDao.insert(tournament1, user);
         tournamentDao.insert(tournament2, user);
         tournamentDao.insert(tournament3, user);
