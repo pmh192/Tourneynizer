@@ -35,13 +35,9 @@ public class TournamentController {
 
     @PostMapping("/api/tournament/create")
     public ResponseEntity<?> create(@CookieValue("session") String session, @RequestBody Map<String, String> values) {
-        User user = sessionService.findBySession(session);
-        if (user == null) {
-            return new ResponseEntity<Object>(new ErrorMessage("User is not logged in"), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-        }
-
         Tournament tournament;
         try {
+            User user = sessionService.findBySession(session);
             tournament = tournamentService.createTournament(values, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);

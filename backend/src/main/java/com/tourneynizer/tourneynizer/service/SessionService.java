@@ -4,8 +4,8 @@ import com.tourneynizer.tourneynizer.dao.SessionDao;
 import com.tourneynizer.tourneynizer.dao.UserDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
+import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
 import com.tourneynizer.tourneynizer.model.User;
-import javafx.util.Pair;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class SessionService {
         this.sessionDao = sessionDao;
     }
 
-    public Pair<User, String> createSession(Map<String, String> auth) throws BadRequestException, InternalErrorException {
+    public String createSession(Map<String, String> auth) throws BadRequestException, InternalErrorException {
         String email = auth.getOrDefault("email", "");
         String password = auth.getOrDefault("password", "");
         User user = userDao.findByEmail(email);
@@ -33,7 +33,7 @@ public class SessionService {
         }
 
         try {
-            return new Pair<>(user, sessionDao.createSession(user));
+            return sessionDao.createSession(user);
         } catch (SQLException e) {
             throw new InternalErrorException(e);
         }
@@ -47,8 +47,13 @@ public class SessionService {
         }
     }
 
-    public User findBySession(String session) {
-        return sessionDao.findBySession(session);
+    public User findBySession(String session) throws BadRequestException {
+        User user = sessionDao.findBySession(session);
+        if (user == null) {
+            throw new UserMustBeLoggedInException();
+        }
+
+        return user;
     }
 
     public User findByRequest(Map<String, String> values) {

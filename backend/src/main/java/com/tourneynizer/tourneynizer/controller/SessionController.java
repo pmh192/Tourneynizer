@@ -3,9 +3,7 @@ package com.tourneynizer.tourneynizer.controller;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
-import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.service.SessionService;
-import javafx.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +27,9 @@ public class SessionController {
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> create(@RequestBody Map<String, String> auth) {
         String session;
-        User user;
 
         try {
-            Pair<User, String> results = sessionService.createSession(auth);
-            user = results.getKey();
-            session = results.getValue();
+            session = sessionService.createSession(auth);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {
@@ -43,7 +38,7 @@ public class SessionController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.SET_COOKIE, "session=" + session);
-        return new ResponseEntity<>(user, headers, HttpStatus.OK);
+        return new ResponseEntity<>(null, headers, HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/api/auth/logout")
