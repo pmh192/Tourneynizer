@@ -30,8 +30,27 @@ class TournamentsList extends Component{
 		}
 	}
 
-	renderTournaments(){
+	getTournaments(){
+		let apiURL = 'http://169.231.234.195:8080/api/tournament/getAll';
+		console.log("hi");
+		fetch(apiURL, {
+			method: 'GET',
+		})
+		.then((response) => {
+			if(response.ok){
+				console.log('here');
+				response.json().then(json => {
+					console.log(json);
+				})
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});
+	}
 
+	componentWillMount(){
+		this.getTournaments();
 	}
 
 	render(){

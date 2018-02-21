@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
 import '../../resources/index.css';
 
+var apiURL = 'http://169.231.234.195:8080/'
+
 class AccountCreationForm extends Component{
 	constructor(props, context) {
 		super(props, context);
@@ -12,58 +14,83 @@ class AccountCreationForm extends Component{
 			confirmPassword: '',
 			firstName: '',
 			lastName: '',
-			emailValid: false,
-			passwordValid: false,
-			confirmPasswordValid: false
 		};
 
 		this.onSubmit.bind;
 	}
 
 	handleChange(e) {
-    	this.setState({ [e.target.id]: e.target.value });
-  	}
+		this.setState({ [e.target.id]: e.target.value });
+	}
 
-  	getEmailValidationState(){
-  		if(this.state.email.indexOf('@') > -1){
-  			return 'success';
-  			this.setState({emailValid: true})
-  		}else{
-  			return 'error';
-  		}
-  	}
+	getEmailValidationState(){
+		if(this.state.email.indexOf('@') > -1){
+			return 'success';
+		}else{
+			return 'error';
+		}
+	}
 
-  	getPasswordValidationState(){
-  		const length = this.state.password.length;
-  		if(length > 6 && this.validityTesterHelper(this.state.password)){
-  			return 'success';
-  			this.setState({passwordValid: true})
-  		}else{
-  			return 'error';
-  		}
-  	}
+	getPasswordValidationState(){
+		const length = this.state.password.length;
+		if(length >= 6 && this.validityTesterHelper(this.state.password)){
+			return 'success';
+		}else{
+			return 'error';
+		}
+	}
 
-  	getConfirmPasswordValidationState(){
-  		const length = this.state.password.length;
-  		if(length > 6 && this.validityTesterHelper(this.state.password) && this.state.password === this.state.confirmPassword){
-  			return 'success';
-  			this.setState({confirmPasswordValid: true})
-  		}else{
-  			return 'error';
-  		}
-  	}
+	getConfirmPasswordValidationState(){
+		const length = this.state.password.length;
+		if(length >= 6 && this.validityTesterHelper(this.state.password) && this.state.password === this.state.confirmPassword){
+			return 'success';
+		}else{
+			return 'error';
+		}
+	}
 
-  	validityTesterHelper(passwordString){
-  		return /\d/.test(passwordString);
-  	}
+	validityTesterHelper(passwordString){
+		return /\d/.test(passwordString);
+	}
 
-  	onSubmit(e){
+	onSubmit(e){
+		//send user creation request to server
+		if(
+			/*
+			this.getConfirmPasswordValidationState() === 'success' && 
+			this.getPasswordValidationState() === 'success' && 
+			this.getEmailValidationState() === 'success'
+			*/true
+		){
+			console.log("submitting!");
+			let requestURL = apiURL + 'api/user/create';
+			let fullName = this.state.firstName + ' ' + this.state.lastName;
+			let emailAddress = this.state.email;
+			let passwordValid = this.state.password;
+			var data = {
+				email: 'example',
+				name: 'test',
+				password: 'test',
+			};
+			fetch('http://169.231.234.195:8080/api/user/create', {
+					method: 'POST',
+					mode: 'cors',
+					body: JSON.stringify(data),
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+					},
+				})
+				.then(function (response) {
+					console.log(response);
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
 
-  		if(this.state.emailValid && this.state.passwordValid && this.state.confirmPasswordValid && this.state.firstName > 0){
-  			console.log("submitting!");
-  		}
-  		e.preventDefault();
-  	}
+		e.preventDefault();
+		}
+	}
 
 	render(){
 		return(
