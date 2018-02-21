@@ -1,12 +1,8 @@
 package com.tourneynizer.tourneynizer;
 
-import com.tourneynizer.tourneynizer.dao.SessionDao;
-import com.tourneynizer.tourneynizer.dao.TournamentDao;
-import com.tourneynizer.tourneynizer.dao.UserDao;
+import com.tourneynizer.tourneynizer.dao.*;
 import com.tourneynizer.tourneynizer.helper.ContextHelper;
-import com.tourneynizer.tourneynizer.service.SessionService;
-import com.tourneynizer.tourneynizer.service.TournamentService;
-import com.tourneynizer.tourneynizer.service.UserService;
+import com.tourneynizer.tourneynizer.service.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,5 +33,20 @@ public class Config {
         UserDao userDao = context.getBean("UserDao", UserDao.class);
         SessionDao sessionDao = context.getBean("SessionDao", SessionDao.class);
         return new SessionService(userDao, sessionDao);
+    }
+
+    @Bean
+    public TeamRequestService teamRequestService() {
+        TeamRequestDao teamRequestDao = context.getBean("TeamRequestDao", TeamRequestDao.class);
+        TeamDao teamDao = context.getBean("TeamDao", TeamDao.class);
+        RosterDao rosterDao = context.getBean("RosterDao", RosterDao.class);
+        return new TeamRequestService(teamRequestDao, teamDao, rosterDao);
+    }
+
+    @Bean
+    public TeamService teamService() {
+        TeamDao teamDao = context.getBean("TeamDao", TeamDao.class);
+        TournamentDao tournamentDao = context.getBean("TournamentDao", TournamentDao.class);
+        return new TeamService(teamDao, tournamentDao);
     }
 }
