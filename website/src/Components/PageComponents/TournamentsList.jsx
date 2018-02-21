@@ -35,6 +35,7 @@ class TournamentsList extends Component{
 		console.log("hi");
 		fetch(apiURL, {
 			method: 'GET',
+			mode: 'no-cors',
 		})
 		.then((response) => {
 			if(response.ok){
