@@ -15,13 +15,14 @@ import android.view.ViewGroup;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.UserListAdapter;
 import com.tourneynizer.tourneynizer.model.User;
-import com.tourneynizer.tourneynizer.requesters.UserRequester;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 public class SearchFragment extends Fragment {
 
     private static final String USERS = "com.tourneynizer.tourneynizer.model.User[]";
 
     private UserListAdapter listAdapter;
+    private UserService userService;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -35,6 +36,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userService = new UserService();
     }
 
     @Override
@@ -46,7 +48,7 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 listAdapter.clear();
-                UserRequester.getUserFromEmail(getContext(), query, new UserRequester.OnUserLoadedListener() {
+                userService.getUserFromEmail(query, new UserService.OnUserLoadedListener() {
                     @Override
                     public void onUserLoaded(User user) {
                         if (user != null) {

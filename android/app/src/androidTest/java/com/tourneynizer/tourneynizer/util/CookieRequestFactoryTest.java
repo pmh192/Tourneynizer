@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.tourneynizer.tourneynizer.services.HTTPService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,7 +39,8 @@ public class CookieRequestFactoryTest {
     public void createFactory() throws Exception {
         // Context of the app under test.
         Context context = InstrumentationRegistry.getTargetContext();
-        factory = new CookieRequestFactory(context);
+        HTTPService.init(context);
+        factory = new CookieRequestFactory();
     }
 
     @Test

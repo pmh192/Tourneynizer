@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.volley.RequestQueue;
+import com.tourneynizer.tourneynizer.services.HTTPService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,34 +22,31 @@ import static org.junit.Assert.assertTrue;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class HTTPRequesterTest {
-
-    private Context context;
+public class HTTPServiceTest {
 
     @Before
     public void getContext() throws Exception {
         // Context of the app under test.
-        context = InstrumentationRegistry.getTargetContext();
+        Context context = InstrumentationRegistry.getTargetContext();
+        HTTPService.init(context);
     }
 
     @Test
     public void testGetInstance() {
-        HTTPRequester instance = HTTPRequester.getInstance(context);
+        HTTPService instance = HTTPService.getInstance();
         assertTrue(instance != null);
     }
 
     @Test
     public void testGetRequestQueue() {
-        HTTPRequester instance = HTTPRequester.getInstance(context);
-        assertTrue(instance != null);
+        HTTPService instance = HTTPService.getInstance();
         RequestQueue requestQueue = instance.getRequestQueue();
         assertTrue(requestQueue != null);
     }
 
     @Test
     public void testGetCookieManager() {
-        HTTPRequester instance = HTTPRequester.getInstance(context);
-        assertTrue(instance != null);
+        HTTPService instance = HTTPService.getInstance();
         CookieManager cookieManager = instance.getCookieManager();
         assertTrue(cookieManager != null);
     }
