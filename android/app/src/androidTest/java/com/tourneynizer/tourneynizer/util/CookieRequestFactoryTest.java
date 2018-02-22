@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.net.HttpCookie;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,8 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class CookieRequestFactoryTest {
 
+    private static final Map<String, String> HEADER = new HashMap<>();
+
     private CookieRequestFactory factory;
 
     @Before
@@ -40,12 +44,15 @@ public class CookieRequestFactoryTest {
         // Context of the app under test.
         Context context = InstrumentationRegistry.getTargetContext();
         HTTPService.init(context);
+        HttpCookie cookie = new HttpCookie("session", "12345");
+        HEADER.put("Cookie", cookie.toString());
+        HTTPService.getInstance().getCookieManager().getCookieStore().add(new URI(HTTPService.DOMAIN), cookie);
         factory = new CookieRequestFactory();
     }
 
     @Test
     public void testMakeStringRequest() {
-        StringRequest request = factory.makeStringRequest(Request.Method.GET, "http://www.testurl.com", new Response.Listener<String>() {
+        StringRequest request = factory.makeStringRequest(Request.Method.GET, HTTPService.DOMAIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -57,9 +64,8 @@ public class CookieRequestFactoryTest {
             }
         });
         assertTrue(request != null);
-        Map<String, String> fakeHeader = new HashMap<>();
         try {
-            assertEquals(fakeHeader, request.getHeaders());
+            assertEquals(HEADER, request.getHeaders());
         } catch (AuthFailureError e) {
             assertTrue(false);
         }
@@ -67,7 +73,7 @@ public class CookieRequestFactoryTest {
 
     @Test
     public void testMakeJsonObjectRequest() {
-        JsonObjectRequest request = factory.makeJsonObjectRequest(Request.Method.GET, "http://www.testurl.com", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = factory.makeJsonObjectRequest(Request.Method.GET, HTTPService.DOMAIN, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -79,9 +85,8 @@ public class CookieRequestFactoryTest {
             }
         });
         assertTrue(request != null);
-        Map<String, String> fakeHeader = new HashMap<>();
         try {
-            assertEquals(fakeHeader, request.getHeaders());
+            assertEquals(HEADER, request.getHeaders());
         } catch (AuthFailureError e) {
             assertTrue(false);
         }
@@ -89,7 +94,7 @@ public class CookieRequestFactoryTest {
 
     @Test
     public void testMakeJsonArrayRequest() {
-        JsonArrayRequest request = factory.makeJsonArrayRequest(Request.Method.GET, "http://www.testurl.com", null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = factory.makeJsonArrayRequest(Request.Method.GET, HTTPService.DOMAIN, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 
@@ -101,9 +106,8 @@ public class CookieRequestFactoryTest {
             }
         });
         assertTrue(request != null);
-        Map<String, String> fakeHeader = new HashMap<>();
         try {
-            assertEquals(fakeHeader, request.getHeaders());
+            assertEquals(HEADER, request.getHeaders());
         } catch (AuthFailureError e) {
             assertTrue(false);
         }

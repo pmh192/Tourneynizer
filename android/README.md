@@ -4,8 +4,9 @@
 2. Download Android Studio and open it up
 3. Click on open existing project
 4. Navigate to the android folder in the git repository and choose it
-5. Wait for android studio to sync with the project and download any tools that are needed to fully sync
-6. Now you have access to the android project
+5. Wait for android studio to sync with the project 
+6. Download any tools that are needed to fully sync with the project (An automatic prompt should pop up)
+8. Now you have access to the android project
 
 # How to Run the App
 

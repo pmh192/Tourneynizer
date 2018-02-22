@@ -31,7 +31,7 @@ public class HTTPService {
         requester = new HTTPService(c);
     }
 
-    public static synchronized HTTPService getInstance() throws NullPointerException {
+    public static HTTPService getInstance() throws NullPointerException {
         if (requester == null) {
             throw new NullPointerException();
         }
