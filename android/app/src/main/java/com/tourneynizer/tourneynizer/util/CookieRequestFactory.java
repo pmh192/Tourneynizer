@@ -2,13 +2,13 @@ package com.tourneynizer.tourneynizer.util;
 
 import android.content.Context;
 import android.text.Editable;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.tourneynizer.tourneynizer.services.HTTPService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,15 +26,11 @@ public class CookieRequestFactory {
 
     private final String COOKIE = "Cookie";
 
-    private Context context;
-
-    public CookieRequestFactory(Context c) {
-        context = c.getApplicationContext();
-    }
+    public CookieRequestFactory() {}
 
     private Map<String, String> getCookies() {
         Map<String, String> headers = new HashMap<>();
-        List<HttpCookie> cookies = HTTPRequester.getInstance(context).getCookieManager().getCookieStore().getCookies();
+        List<HttpCookie> cookies = HTTPService.getInstance().getCookieManager().getCookieStore().getCookies();
         if (cookies.size() > 0) {
             Editable cookieString = new Editable.Factory().newEditable(cookies.get(0).toString());
             for (int i = 1; i < cookies.size(); i++) {

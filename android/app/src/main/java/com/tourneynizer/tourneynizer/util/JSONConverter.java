@@ -23,10 +23,29 @@ import java.util.Locale;
 
 public class JSONConverter {
 
-    public static Tournament convertJSONToTournament(final Context c, JSONObject tJSON) {
+    private static JSONConverter jsonConverter;
+
+    private Context context;
+
+    private JSONConverter(Context c) {
+        context = c.getApplicationContext();
+    }
+
+    public static void init(Context c) {
+        jsonConverter = new JSONConverter(c);
+    }
+
+    public static JSONConverter getInstance() throws NullPointerException {
+        if (jsonConverter == null) {
+            throw new NullPointerException();
+        }
+        return jsonConverter;
+    }
+
+    public Tournament convertJSONToTournament(JSONObject tJSON) {
         Tournament t;
         try {
-            Geocoder coder = new Geocoder(c);
+            Geocoder coder = new Geocoder(context);
             Address address;
             try {
                 // May throw an IOException
@@ -51,7 +70,7 @@ public class JSONConverter {
         return t;
     }
 
-    public static JSONObject convertTournamentDefToJSON(TournamentDef tDef) {
+    public JSONObject convertTournamentDefToJSON(TournamentDef tDef) {
         JSONObject tJSON = new JSONObject();
         try {
             tJSON.put("name", tDef.getName());
@@ -69,7 +88,7 @@ public class JSONConverter {
         return tJSON;
     }
 
-    public static User convertJSONToUser(JSONObject uJSON) {
+    public User convertJSONToUser(JSONObject uJSON) {
         User u;
         try {
             u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);

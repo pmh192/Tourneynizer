@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.credentials.Credential;
 import com.google.android.gms.auth.api.credentials.CredentialRequest;
@@ -18,7 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
-import com.tourneynizer.tourneynizer.requesters.UserRequester;
+import com.tourneynizer.tourneynizer.services.HTTPService;
+import com.tourneynizer.tourneynizer.services.UserService;
+import com.tourneynizer.tourneynizer.util.JSONConverter;
 
 import static com.tourneynizer.tourneynizer.activities.MainActivity.USER;
 
@@ -28,12 +29,15 @@ public class LaunchActivity extends AppCompatActivity {
     public static final String CREDENTIAL = "com.google.android.gms.auth.api.credentials.Credential";
 
     private CredentialsClient credentialsClient;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        initSingletons();
         credentialsClient = Credentials.getClient(this);
+        userService = new UserService();
         CredentialRequest request = new CredentialRequest.Builder().setPasswordLoginSupported(true).build();
         credentialsClient.request(request).addOnCompleteListener(new OnCompleteListener<CredentialRequestResponse>() {
             @Override
@@ -59,11 +63,16 @@ public class LaunchActivity extends AppCompatActivity {
         });
     }
 
+    private void initSingletons() {
+        HTTPService.init(this);
+        JSONConverter.init(this);
+    }
+
     private void onCredentialRetrieved(final Credential credential) {
         // credential.getId() is email
         if (credential.getPassword() != null) {
             // This an account that we stored
-            UserRequester.getUserFromEmailAndPassword(this, credential.getId(), credential.getPassword(), new UserRequester.OnUserLoadedListener() {
+            userService.getUserFromEmailAndPassword(credential.getId(), credential.getPassword(), new UserService.OnUserLoadedListener() {
                 @Override
                 public void onUserLoaded(User user) {
                     if (user != null) {
@@ -81,7 +90,7 @@ public class LaunchActivity extends AppCompatActivity {
             });
         } else {
             // check if user exists
-            UserRequester.getUserFromEmail(this, credential.getId(), new UserRequester.OnUserLoadedListener() {
+            userService.getUserFromEmail(credential.getId(), new UserService.OnUserLoadedListener() {
                 @Override
                 public void onUserLoaded(User user) {
                     if (user != null) {

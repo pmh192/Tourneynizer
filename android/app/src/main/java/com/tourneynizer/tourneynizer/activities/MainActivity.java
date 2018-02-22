@@ -13,7 +13,7 @@ import com.google.android.gms.auth.api.credentials.CredentialsClient;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.TabFragmentPagerAdapter;
 import com.tourneynizer.tourneynizer.model.User;
-import com.tourneynizer.tourneynizer.requesters.UserRequester;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public static final String USER = "com.tourneynizer.tourneynizer.model.User";
 
 	private TabFragmentPagerAdapter pagerAdapter;
+	private UserService userService;
 	private ViewPager viewPager;
 	private User user;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		userService = new UserService();
 		if (getIntent() != null) {
 			user = getIntent().getParcelableExtra(USER);
 		}
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.logOut) {
-			UserRequester.logOut(getApplicationContext());
+			userService.logOut();
 			CredentialsClient credentialsClient = Credentials.getClient(this);
 			startActivity(new Intent(this, LoginActivity.class));
 			finishAffinity();

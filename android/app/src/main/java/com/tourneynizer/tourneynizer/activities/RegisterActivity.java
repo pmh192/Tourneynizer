@@ -12,16 +12,19 @@ import android.widget.TextView;
 import com.google.android.gms.auth.api.credentials.Credential;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
-import com.tourneynizer.tourneynizer.requesters.UserRequester;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 import static com.tourneynizer.tourneynizer.activities.LaunchActivity.CREDENTIAL;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        userService = new UserService();
         if (getIntent() != null) {
             Credential credential = getIntent().getParcelableExtra(CREDENTIAL);
             if (credential != null) {
@@ -60,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                     ready = false;
                 }
                 if (ready) {
-                    UserRequester.createUser(getApplicationContext(), nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString(), new UserRequester.OnUserLoadedListener() {
+                    userService.createUser(nameText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString(), new UserService.OnUserLoadedListener() {
                         @Override
                         public void onUserLoaded(User user) {
                             if (user != null) {

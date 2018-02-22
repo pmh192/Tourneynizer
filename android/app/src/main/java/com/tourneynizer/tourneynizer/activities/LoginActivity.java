@@ -20,7 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
-import com.tourneynizer.tourneynizer.requesters.UserRequester;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 import static com.tourneynizer.tourneynizer.activities.LaunchActivity.CREDENTIAL;
 
@@ -28,10 +28,13 @@ public class LoginActivity extends AppCompatActivity {
 
 	private static final int RESOLVE_CODE_WRITE = 1;
 
+	private UserService userService;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		userService = new UserService();
 		if (getIntent() != null) {
 			Credential credential = getIntent().getParcelableExtra(CREDENTIAL);
 			if (credential != null) {
@@ -60,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 					ready = false;
 				}
 				if (ready) {
-					UserRequester.getUserFromEmailAndPassword(getApplicationContext(), emailText.getText().toString(), passwordText.getText().toString(), new UserRequester.OnUserLoadedListener() {
+					userService.getUserFromEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString(), new UserService.OnUserLoadedListener() {
 						@Override
 						public void onUserLoaded(User user) {
 							if (user != null) {

@@ -23,7 +23,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
-import com.tourneynizer.tourneynizer.requesters.TournamentRequester;
+import com.tourneynizer.tourneynizer.services.TournamentService;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -36,6 +36,7 @@ public class CreateTournamentFragment extends Fragment {
 	private static final int PLACE_PICKER_REQUEST = 1;
 
 	private Place place;
+	private TournamentService tournamentService;
 
 	public CreateTournamentFragment() {
 		// Required empty public constructor
@@ -49,6 +50,7 @@ public class CreateTournamentFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		tournamentService = new TournamentService();
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class CreateTournamentFragment extends Fragment {
 			@Override
 			public void onClick(View view) {
 				presentPlacePicker();
-				//TournamentRequester.createTournament(getContext());
+				//TournamentService.createTournament(getContext());
 			}
 		});
 		Spinner tournamentTypes = view.findViewById(R.id.tournamentTypeSpinner);
@@ -175,7 +177,7 @@ public class CreateTournamentFragment extends Fragment {
 					tDef.setStartTime(new Time(calendar.getTimeInMillis()));
 					tDef.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
 					tDef.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
-					TournamentRequester.createTournament(getContext(), tDef);
+					tournamentService.createTournament(tDef);
 				}
 			}
 		});
@@ -189,8 +191,8 @@ public class CreateTournamentFragment extends Fragment {
 			Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
 			getView().findViewById(R.id.goToMap).setEnabled(false);
 		} catch (GooglePlayServicesNotAvailableException | GooglePlayServicesRepairableException e) {
-
-		}
+            Toast.makeText(getContext(), "Couldn't load place picker", Toast.LENGTH_SHORT).show();
+        }
 	}
 
 	@Override

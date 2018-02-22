@@ -1,41 +1,30 @@
-package com.tourneynizer.tourneynizer.requesters;
+package com.tourneynizer.tourneynizer.services;
 
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.maps.model.LatLng;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
-import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.util.CookieRequestFactory;
-import com.tourneynizer.tourneynizer.util.HTTPRequester;
 import com.tourneynizer.tourneynizer.util.JSONConverter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 /**
  * Created by ryanwiener on 2/16/18.
  */
 
-public class TournamentRequester {
+public class TournamentService {
+
+    public TournamentService() {}
 
     public interface OnTournamentLoadedListener {
         void onTournamentLoaded(Tournament tournament);
@@ -45,14 +34,14 @@ public class TournamentRequester {
         void onTournamentsLoaded(Tournament[] tournaments);
     }
 
-    public static void getFromId(final Context c, long id, final OnTournamentLoadedListener listener) {
-        String url = HTTPRequester.DOMAIN + "tournament/" + id;
+    public void getFromId(long id, final OnTournamentLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/" + id;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //parse response and return tournament
                 Log.d("Response", response.toString());
-                listener.onTournamentLoaded(JSONConverter.convertJSONToTournament(c, response));
+                listener.onTournamentLoaded(JSONConverter.getInstance().convertJSONToTournament(response));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -62,11 +51,11 @@ public class TournamentRequester {
                 listener.onTournamentLoaded(null);
             }
         });
-        HTTPRequester.getInstance(c).getRequestQueue().add(request);
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public static void getAllTournaments(final Context c, final OnTournamentsLoadedListener listener) {
-        String url = HTTPRequester.DOMAIN + "tournament/getAll";
+    public void getAllTournaments(final OnTournamentsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/getAll";
         final JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -86,7 +75,7 @@ public class TournamentRequester {
                     public void run() {
                         Tournament[] tournaments = new Tournament[responses.length];
                         for (int i = 0; i < responses.length; i++) {
-                            tournaments[i] = JSONConverter.convertJSONToTournament(c, responses[i]);
+                            tournaments[i] = JSONConverter.getInstance().convertJSONToTournament(responses[i]);
                         }
                         listener.onTournamentsLoaded(tournaments);
                     }
@@ -101,13 +90,13 @@ public class TournamentRequester {
                 listener.onTournamentsLoaded(null);
             }
         });
-        HTTPRequester.getInstance(c).getRequestQueue().add(request);
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public static void createTournament(Context c, TournamentDef tDef) {
-        String url = HTTPRequester.DOMAIN + "tournament/create";
-        JSONObject tournamentJSON = JSONConverter.convertTournamentDefToJSON(tDef);
-        JsonObjectRequest request = new CookieRequestFactory(c).makeJsonObjectRequest(Request.Method.POST, url, tournamentJSON , new Response.Listener<JSONObject>() {
+    public void createTournament(TournamentDef tDef) {
+        String url = HTTPService.DOMAIN + "tournament/create";
+        JSONObject tournamentJSON = JSONConverter.getInstance().convertTournamentDefToJSON(tDef);
+        JsonObjectRequest request = new CookieRequestFactory().makeJsonObjectRequest(Request.Method.POST, url, tournamentJSON , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //parse response and return tournament
@@ -120,6 +109,6 @@ public class TournamentRequester {
                 Log.e("Error", error.toString());
             }
         });
-        HTTPRequester.getInstance(c).getRequestQueue().add(request);
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 }

@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,7 +17,7 @@ import android.widget.ProgressBar;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.TournamentListAdapter;
 import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.requesters.TournamentRequester;
+import com.tourneynizer.tourneynizer.services.TournamentService;
 
 public class TournamentListFragment extends Fragment {
 
@@ -26,6 +25,7 @@ public class TournamentListFragment extends Fragment {
 
 	private TournamentListAdapter listAdapter;
 	private SwipeRefreshLayout swipeRefresher;
+	private TournamentService tournamentService;
 
 	public TournamentListFragment() {
 		// Required empty public constructor
@@ -39,6 +39,7 @@ public class TournamentListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		tournamentService = new TournamentService();
 		listAdapter = new TournamentListAdapter(getActivity());
 		if (savedInstanceState != null) {
 		    Parcelable[] tournaments = savedInstanceState.getParcelableArray(TOURNAMENTS);
@@ -106,7 +107,7 @@ public class TournamentListFragment extends Fragment {
 	}
 
 	public void refresh() {
-		TournamentRequester.getAllTournaments(getContext(), new TournamentRequester.OnTournamentsLoadedListener() {
+		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
 				listAdapter.clear();

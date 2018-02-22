@@ -1,36 +1,39 @@
-package com.tourneynizer.tourneynizer.util;
+package com.tourneynizer.tourneynizer.services;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.net.CookiePolicy;
 
 /**
  * Created by ryanwiener on 2/16/18.
  */
 
-public class HTTPRequester {
+public class HTTPService {
 
     public static final String DOMAIN = "http://169.231.234.195:8080/api/";
 
-    private static HTTPRequester requester;
+    private static HTTPService requester;
     private RequestQueue requestQueue;
     private CookieManager cm;
 
-    private HTTPRequester(Context c) {
+    private HTTPService(@NonNull Context c) {
         requestQueue = Volley.newRequestQueue(c.getApplicationContext());
         cm = new CookieManager();
         CookieHandler.setDefault(cm);
     }
 
-    public static synchronized HTTPRequester getInstance(Context c) {
+    public static void init(@NonNull Context c) {
+        requester = new HTTPService(c);
+    }
+
+    public static synchronized HTTPService getInstance() throws NullPointerException {
         if (requester == null) {
-            requester = new HTTPRequester(c);
+            throw new NullPointerException();
         }
         return requester;
     }
