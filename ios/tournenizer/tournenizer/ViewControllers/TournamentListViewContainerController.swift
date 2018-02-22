@@ -15,7 +15,7 @@ class TournamentListViewContainerController : UIViewController {
     var contentView: UIView!;
     let logoLabelHeight: CGFloat = 50;
 
-    var tournamentList: UITableViewController!;
+    var tournamentList: TournamentListViewController!;
 
     override func loadView() {
         view = UIView();
@@ -40,6 +40,33 @@ class TournamentListViewContainerController : UIViewController {
         contentView = UIView.newAutoLayout();
 
         tournamentList = TournamentListViewController();
+        tournamentList.setSelectCallback(onSelect(_:));
+        tournamentList.setTournaments([
+            Tournament(id: 0, name: "Tournament of The Champions of the Void of Los Angeles", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 1, name: "Tournament 2", description: "The tournament of champions of Isla Vista", address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+            Tournament(id: 2, name: "Tournament 3", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), endTime: nil, maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, logo: nil, courts: nil, creatorId: 0, cancelled: nil, teamSize: 2),
+        ]);
 
         addChildViewController(tournamentList);
         contentView.addSubview(tournamentList.view);
@@ -51,6 +78,12 @@ class TournamentListViewContainerController : UIViewController {
         view.addSubview(contentView);
         
         view.setNeedsUpdateConstraints();
+    }
+
+    func onSelect(_ tournament: Tournament) {
+        let vc = TournamentViewController();
+        vc.setTournament(tournament);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 
     var didUpdateConstraints = false;

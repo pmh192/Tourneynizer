@@ -10,14 +10,15 @@ import UIKit;
 
 class Constants {
     class color {
-        static let red = UIColor.init(r: 231, g: 76, b: 60, a: 255);
-        static let lightBlue = UIColor.init(r: 52, g: 152, b: 219, a: 255);
-        static let white = UIColor.init(r: 236, g: 240, b: 241, a: 255);
-        static let navy = UIColor.init(r: 44, g: 62, b: 80, a: 255);
-        static let blue = UIColor.init(r: 41, g: 128, b: 185, a: 255);
+        static let red = UIColor(r: 231, g: 76, b: 60, a: 255);
+        static let lightBlue = UIColor(r: 52, g: 152, b: 219, a: 255);
+        static let white = UIColor(r: 236, g: 240, b: 241, a: 255);
+        static let navy = UIColor(r: 44, g: 62, b: 80, a: 255);
+        static let blue = UIColor(r: 41, g: 128, b: 185, a: 255);
         static let lightGray = UIColor(r: 220, g: 220, b: 220, a: 255);
         static let gray = UIColor.lightGray;
         static let darkGray = UIColor.darkGray;
+        static let green = UIColor(r: 46, g: 204, b: 113, a: 255);
     };
 
     class font {

@@ -117,7 +117,7 @@ class DashboardViewController : UIViewController {
             TournamentListViewContainerController(),
             PlayersViewController(),
             CreateTournamentViewController(),
-            EventsViewController(),
+            UserActionsViewController(),
             ProfileViewController()
         ].map {vc -> UIViewController in
             let viewController = UINavigationController();

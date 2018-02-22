@@ -10,6 +10,9 @@
 		1378B58D0BD9980D35BB4595 /* Pods_tournenizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */; };
 		36D024701E93C0C1947C9889 /* Pods_tournenizerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */; };
 		51BDB9CA342F1E767DC1089E /* Pods_tournenizerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */; };
+		57050C79203A24FA00E2C222 /* TeamRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57050C78203A24FA00E2C222 /* TeamRequestsViewController.swift */; };
+		57050C7B203A256600E2C222 /* MyTeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57050C7A203A256600E2C222 /* MyTeamsViewController.swift */; };
+		57050C7D203A258100E2C222 /* MyTournamentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */; };
 		570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */; };
 		570FEABA2026B64100B94FD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEAB92026B64100B94FD9 /* Constants.swift */; };
 		570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */; };
@@ -18,7 +21,7 @@
 		5726EC7E202B7B2C009BABE8 /* CreateTournamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC7D202B7B2C009BABE8 /* CreateTournamentViewController.swift */; };
 		5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */; };
 		5726EC82202B7BB9009BABE8 /* PlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC81202B7BB9009BABE8 /* PlayersViewController.swift */; };
-		5726EC84202B7C75009BABE8 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC83202B7C75009BABE8 /* EventsViewController.swift */; };
+		5726EC84202B7C75009BABE8 /* UserActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC83202B7C75009BABE8 /* UserActionsViewController.swift */; };
 		5726EC87202BB13D009BABE8 /* Tournament.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC86202BB13D009BABE8 /* Tournament.swift */; };
 		5726EC89202BB252009BABE8 /* TournamentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726EC88202BB252009BABE8 /* TournamentType.swift */; };
 		57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57449F092026895400AF0713 /* LoginViewController.swift */; };
@@ -32,6 +35,8 @@
 		57826E182037BF8200686493 /* TeamCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57826E172037BF8200686493 /* TeamCellView.swift */; };
 		57961BEB2036540900E128DC /* TournamentListViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57961BEA2036540900E128DC /* TournamentListViewContainerController.swift */; };
 		57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */; };
+		57B169D8203A4B93005508CD /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B169D7203A4B93005508CD /* TeamViewController.swift */; };
+		57B169DA203A519D005508CD /* EditTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B169D9203A519D005508CD /* EditTeamViewController.swift */; };
 		57B36CC920366BA300305A87 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B36CC820366BA300305A87 /* Keys.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
@@ -68,6 +73,9 @@
 		3C79CCD8E53F007014F0E9E0 /* Pods_tournenizerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFADD2120A5F91486A1E096 /* Pods_tournenizerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A0E6AE35E3E76B5CE7D3CD /* Pods-tournenizerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		57050C78203A24FA00E2C222 /* TeamRequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRequestsViewController.swift; sourceTree = "<group>"; };
+		57050C7A203A256600E2C222 /* MyTeamsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTeamsViewController.swift; sourceTree = "<group>"; };
+		57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTournamentsViewController.swift; sourceTree = "<group>"; };
 		570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		570FEAB92026B64100B94FD9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -76,7 +84,7 @@
 		5726EC7D202B7B2C009BABE8 /* CreateTournamentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTournamentViewController.swift; sourceTree = "<group>"; };
 		5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5726EC81202B7BB9009BABE8 /* PlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersViewController.swift; sourceTree = "<group>"; };
-		5726EC83202B7C75009BABE8 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		5726EC83202B7C75009BABE8 /* UserActionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActionsViewController.swift; sourceTree = "<group>"; };
 		5726EC86202BB13D009BABE8 /* Tournament.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tournament.swift; sourceTree = "<group>"; };
 		5726EC88202BB252009BABE8 /* TournamentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentType.swift; sourceTree = "<group>"; };
 		57449F092026895400AF0713 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +98,8 @@
 		57826E172037BF8200686493 /* TeamCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCellView.swift; sourceTree = "<group>"; };
 		57961BEA2036540900E128DC /* TournamentListViewContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentListViewContainerController.swift; sourceTree = "<group>"; };
 		57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentTableCellView.swift; sourceTree = "<group>"; };
+		57B169D7203A4B93005508CD /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
+		57B169D9203A519D005508CD /* EditTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTeamViewController.swift; sourceTree = "<group>"; };
 		57B36CC820366BA300305A87 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -174,7 +184,7 @@
 				5726EC7D202B7B2C009BABE8 /* CreateTournamentViewController.swift */,
 				5726EC7F202B7B4F009BABE8 /* ProfileViewController.swift */,
 				5726EC81202B7BB9009BABE8 /* PlayersViewController.swift */,
-				5726EC83202B7C75009BABE8 /* EventsViewController.swift */,
+				5726EC83202B7C75009BABE8 /* UserActionsViewController.swift */,
 				574D2533202E306E0092748D /* TournamentViewController.swift */,
 				57961BEA2036540900E128DC /* TournamentListViewContainerController.swift */,
 				57826E152037BF1300686493 /* TeamListViewController.swift */,
@@ -182,6 +192,11 @@
 				57F0F0E92038D02500DB1436 /* LoginViewContainerController.swift */,
 				57628F722039F5EF00E6C335 /* SelectTeamViewController.swift */,
 				57628F74203A053C00E6C335 /* CreateTeamViewController.swift */,
+				57050C78203A24FA00E2C222 /* TeamRequestsViewController.swift */,
+				57050C7A203A256600E2C222 /* MyTeamsViewController.swift */,
+				57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */,
+				57B169D7203A4B93005508CD /* TeamViewController.swift */,
+				57B169D9203A519D005508CD /* EditTeamViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -590,19 +605,24 @@
 				57826E122037A1C800686493 /* Team.swift in Sources */,
 				574D2534202E306E0092748D /* TournamentViewController.swift in Sources */,
 				57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */,
+				57B169D8203A4B93005508CD /* TeamViewController.swift in Sources */,
 				57826E162037BF1300686493 /* TeamListViewController.swift in Sources */,
 				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
-				5726EC84202B7C75009BABE8 /* EventsViewController.swift in Sources */,
+				5726EC84202B7C75009BABE8 /* UserActionsViewController.swift in Sources */,
+				57050C7B203A256600E2C222 /* MyTeamsViewController.swift in Sources */,
 				5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */,
 				5726EC7C202B7A9C009BABE8 /* TournamentListViewController.swift in Sources */,
 				570FEABA2026B64100B94FD9 /* Constants.swift in Sources */,
+				57050C79203A24FA00E2C222 /* TeamRequestsViewController.swift in Sources */,
 				57B36CC920366BA300305A87 /* Keys.swift in Sources */,
+				57050C7D203A258100E2C222 /* MyTournamentsViewController.swift in Sources */,
 				57F0F0E82038C6D100DB1436 /* UserListViewController.swift in Sources */,
 				57961BEB2036540900E128DC /* TournamentListViewContainerController.swift in Sources */,
 				570FEAC22027C16000B94FD9 /* DashboardViewController.swift in Sources */,
 				5726EC7E202B7B2C009BABE8 /* CreateTournamentViewController.swift in Sources */,
 				57826E182037BF8200686493 /* TeamCellView.swift in Sources */,
 				57628F75203A053C00E6C335 /* CreateTeamViewController.swift in Sources */,
+				57B169DA203A519D005508CD /* EditTeamViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
