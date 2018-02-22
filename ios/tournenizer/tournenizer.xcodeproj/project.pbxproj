@@ -28,6 +28,7 @@
 		574D2534202E306E0092748D /* TournamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574D2533202E306E0092748D /* TournamentViewController.swift */; };
 		57628F732039F5EF00E6C335 /* SelectTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57628F722039F5EF00E6C335 /* SelectTeamViewController.swift */; };
 		57628F75203A053C00E6C335 /* CreateTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57628F74203A053C00E6C335 /* CreateTeamViewController.swift */; };
+		576B8F24203E7C9D00904726 /* EditTournamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576B8F23203E7C9D00904726 /* EditTournamentViewController.swift */; };
 		57826E1020379D2100686493 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57826E0F20379D2100686493 /* User.swift */; };
 		57826E122037A1C800686493 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57826E112037A1C800686493 /* Team.swift */; };
 		57826E142037A2AB00686493 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57826E132037A2AB00686493 /* Player.swift */; };
@@ -91,6 +92,7 @@
 		574D2533202E306E0092748D /* TournamentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentViewController.swift; sourceTree = "<group>"; };
 		57628F722039F5EF00E6C335 /* SelectTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamViewController.swift; sourceTree = "<group>"; };
 		57628F74203A053C00E6C335 /* CreateTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamViewController.swift; sourceTree = "<group>"; };
+		576B8F23203E7C9D00904726 /* EditTournamentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTournamentViewController.swift; sourceTree = "<group>"; };
 		57826E0F20379D2100686493 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		57826E112037A1C800686493 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		57826E132037A2AB00686493 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */,
 				57B169D7203A4B93005508CD /* TeamViewController.swift */,
 				57B169D9203A519D005508CD /* EditTeamViewController.swift */,
+				576B8F23203E7C9D00904726 /* EditTournamentViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				57826E162037BF1300686493 /* TeamListViewController.swift in Sources */,
 				570FEAC02027B6CD00B94FD9 /* UIViewControllerExtension.swift in Sources */,
 				5726EC84202B7C75009BABE8 /* UserActionsViewController.swift in Sources */,
+				576B8F24203E7C9D00904726 /* EditTournamentViewController.swift in Sources */,
 				57050C7B203A256600E2C222 /* MyTeamsViewController.swift in Sources */,
 				5726EC80202B7B4F009BABE8 /* ProfileViewController.swift in Sources */,
 				5726EC7C202B7A9C009BABE8 /* TournamentListViewController.swift in Sources */,
