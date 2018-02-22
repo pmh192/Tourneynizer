@@ -6,42 +6,25 @@ class TournamentsList extends Component{
 	constructor(){
 		super();
 		this.state={
-			tournaments: [
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-				{id: 0, description: 'a sample tournament', creatorName: 'sample creator', address: '1234 Sample Street',},
-			],
+			tournaments: [],
+			dataLoaded: false,
 		}
 	}
 
 	getTournaments(){
 		let apiURL = 'http://169.231.234.195:8080/api/tournament/getAll';
-		console.log("hi");
+		console.log("executing 'getTournaments()'");
 		fetch(apiURL, {
 			method: 'GET',
-			mode: 'no-cors',
 		})
 		.then((response) => {
 			if(response.ok){
 				console.log('here');
 				response.json().then(json => {
-					console.log(json);
+					this.setState({
+						tournaments: json,
+						dataLoaded: true,
+					});
 				})
 			}
 		})
@@ -55,14 +38,30 @@ class TournamentsList extends Component{
 	}
 
 	render(){
-		const listItems = this.state.tournaments.map((tourney) =>
-			<Tournament id={tourney.id} description={tourney.description} creatorName={tourney.creatorName} address={tourney.address} />
-		);
-		return(
-			<div>
-				<div className='tourneyList'>{listItems}</div>
-			</div>
-		);
+		if(this.state.dataLoaded === true){
+			const listItems = this.state.tournaments.map(function(tourney, index){
+				let tourneyType = '';
+				if(tourney.type === 'VOLLEYBALL_POOLED'){
+					tourneyType = 'Pooled';
+				}else{
+					tourneyType = 'Bracket';
+				}
+				return (<Tournament 
+						key={tourney.id} 
+						name={tourney.name} 
+						startTime={tourney.startTime} 
+						type={tourneyType} 
+						address={tourney.address}
+						/>);
+			});
+			return(
+				<div>
+					<div className='tourneyList'>{listItems}</div>
+				</div>
+			);
+		}else{
+			return <div><h1>Check your internet connection</h1></div>
+		}
 	}
 }
 

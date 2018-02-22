@@ -68,7 +68,7 @@ class AccountCreationForm extends Component{
 			let emailAddress = this.state.email;
 			let passwordValid = this.state.password;
 			var data = {
-				email: 'example',
+				email: 'example@example.com',
 				name: 'test',
 				password: 'test',
 			};
