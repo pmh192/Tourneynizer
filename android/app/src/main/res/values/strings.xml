@@ -13,7 +13,7 @@
     <string name="tournamentsParticipated">Tournaments</string>
     <string name="gamesWon">Games Won</string>
     <string name="gamesLost">Games Lost</string>
-    <string name="search">Enter a user\'s name to search</string>
+    <string name="search">Enter a user\'s email</string>
     <string name="createTournament">Create Tournament</string>
     <string name="tournamentName">Tournament Name:</string>
     <string name="description">Description:</string>

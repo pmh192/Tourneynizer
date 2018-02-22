@@ -3,9 +3,11 @@ package com.tourneynizer.tourneynizer.fragments;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.services.TournamentService;
@@ -177,12 +180,35 @@ public class CreateTournamentFragment extends Fragment {
 					tDef.setStartTime(new Time(calendar.getTimeInMillis()));
 					tDef.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
 					tDef.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
-					tournamentService.createTournament(tDef);
+					tournamentService.createTournament(tDef, new TournamentService.OnTournamentLoadedListener() {
+                        @Override
+                        public void onTournamentLoaded(Tournament tournament) {
+                            if (tournament != null) {
+                                Toast.makeText(getContext(), "Tournament was created successfully", Toast.LENGTH_SHORT).show();
+                                clearFields();
+                            } else {
+                                showErrorMessage();
+                            }
+                        }
+                    });
 				}
 			}
 		});
 		return view;
 	}
+
+    private void showErrorMessage() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle("Couldn't Create Tournament");
+        alertDialog.setMessage("The tournament you tried to make couldn't be created");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
 
 	public void presentPlacePicker() {
 		PlacePicker.IntentBuilder tDef = new PlacePicker.IntentBuilder();
@@ -208,6 +234,28 @@ public class CreateTournamentFragment extends Fragment {
 			}
 		}
 	}
+
+	private void clearFields() {
+        TextView nameField = getView().findViewById(R.id.tournamentName);
+        nameField.setText(null);
+        TextView description = getView().findViewById(R.id.tournamentDescription);
+        description.setText(null);
+        Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
+        tournamentTypeSelector.setSelection(0);
+        TextView numCourts = getView().findViewById(R.id.numCourts);
+        numCourts.setText(null);
+        TextView locationText = getView().findViewById(R.id.locationText);
+        locationText.setText(null);
+        place = null;
+        TextView dateText = getView().findViewById(R.id.startDate);
+        dateText.setText(null);
+        TextView timeText = getView().findViewById(R.id.startTime);
+        timeText.setText(null);
+        TextView teamSize = getView().findViewById(R.id.teamSize);
+        teamSize.setText(null);
+        TextView maxTeams = getView().findViewById(R.id.maxTeams);
+        maxTeams.setText(null);
+    }
 
 	@Override
 	public void onAttach(Context context) {

@@ -43,7 +43,7 @@ public class TournamentListFragment extends Fragment {
 		listAdapter = new TournamentListAdapter(getActivity());
 		if (savedInstanceState != null) {
 		    Parcelable[] tournaments = savedInstanceState.getParcelableArray(TOURNAMENTS);
-		    if (tournaments instanceof Tournament[]) {
+		    if (tournaments != null) {
 				listAdapter.addAll((Tournament[]) tournaments);
 			} else {
 				refresh();

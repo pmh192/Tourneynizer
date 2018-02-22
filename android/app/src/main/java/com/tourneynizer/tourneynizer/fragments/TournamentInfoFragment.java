@@ -118,6 +118,7 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		// Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tournament_info, container, false);
 		((TextView) view.findViewById(R.id.tournamentName)).setText(tournament.getName());
+        ((TextView) view.findViewById(R.id.tournamentType)).setText(tournament.getTournamentType().toString());
         ((TextView) view.findViewById(R.id.description)).setText(tournament.getDescription());
 		map = view.findViewById(R.id.map);
 		map.onCreate(savedInstanceState);
