@@ -1,13 +1,10 @@
 package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Address;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +16,16 @@ import android.widget.ProgressBar;
 
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.TournamentListAdapter;
-import com.tourneynizer.tourneynizer.data.Tournament;
-import com.tourneynizer.tourneynizer.data.TournamentType;
-
-import java.sql.Time;
-import java.util.Locale;
+import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.services.TournamentService;
 
 public class TournamentListFragment extends Fragment {
 
+	private final static String TOURNAMENTS = "com.tourneynizer.tourneynizer.model.Tournament[]";
+
 	private TournamentListAdapter listAdapter;
+	private SwipeRefreshLayout swipeRefresher;
+	private TournamentService tournamentService;
 
 	public TournamentListFragment() {
 		// Required empty public constructor
@@ -41,6 +39,18 @@ public class TournamentListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		tournamentService = new TournamentService();
+		listAdapter = new TournamentListAdapter(getActivity());
+		if (savedInstanceState != null) {
+		    Parcelable[] tournaments = savedInstanceState.getParcelableArray(TOURNAMENTS);
+		    if (tournaments instanceof Tournament[]) {
+				listAdapter.addAll((Tournament[]) tournaments);
+			} else {
+				refresh();
+			}
+		} else {
+		    refresh();
+		}
 	}
 
 	@Override
@@ -58,7 +68,6 @@ public class TournamentListFragment extends Fragment {
 		((ViewGroup) listView.getParent()).addView(progressBar);
 		listView.setEmptyView(progressBar);
 
-		listAdapter = new TournamentListAdapter(getContext());
 		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -66,15 +75,13 @@ public class TournamentListFragment extends Fragment {
 				goToInfo(listAdapter.getItem(i));
 			}
 		});
-		// when available, request tournament info from back end and add Tournament objects to listAdapter
-		// must add to listAdapter on UI thread, if having trouble use runOnUiThread(Runnable)
-		// all lines in this function will be deleted after back end is exposed so you can disregard
-		Address a = new Address(Locale.getDefault());
-		a.setLongitude(45);
-		a.setLatitude(45);
-        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-		listAdapter.add(new Tournament(1, "Tournament 1", "A really cool test tournament", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, null, 1, 1, false));
-		listAdapter.add(new Tournament(1, "Tournament 2", "A really cool test tournament with a logo", a, new Time(new java.util.Date().getTime()), null, 50, 0, new Time(new java.util.Date().getTime()), TournamentType.VOLLEYBALL_POOLED, logo, 1, 1, false));
+		swipeRefresher = view.findViewById(R.id.swipeRefresher);
+		swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				refresh();
+			}
+		});
 		return view;
 	}
 
@@ -91,5 +98,29 @@ public class TournamentListFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelableArray(TOURNAMENTS, listAdapter.getAll());
+	}
+
+	public void refresh() {
+		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
+			@Override
+			public void onTournamentsLoaded(final Tournament[] tournaments) {
+				listAdapter.clear();
+				listAdapter.addAll(tournaments);
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (swipeRefresher != null) {
+							swipeRefresher.setRefreshing(false);
+						}
+					}
+				});
+			}
+		});
 	}
 }

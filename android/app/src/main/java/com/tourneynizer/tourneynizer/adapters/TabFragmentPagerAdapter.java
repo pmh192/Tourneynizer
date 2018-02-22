@@ -1,30 +1,18 @@
 package com.tourneynizer.tourneynizer.adapters;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.ViewGroup;
 
-import com.tourneynizer.tourneynizer.R;
-import com.tourneynizer.tourneynizer.data.User;
+import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.fragments.CreateTournamentFragment;
 import com.tourneynizer.tourneynizer.fragments.RootFragment;
 import com.tourneynizer.tourneynizer.fragments.SearchFragment;
 import com.tourneynizer.tourneynizer.fragments.TournamentListFragment;
 import com.tourneynizer.tourneynizer.fragments.UserProfileFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Time;
 
 /**
  * Created by ryanwiener on 2/9/18.
@@ -34,12 +22,12 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUM_TABS = 5;
 
-    private FragmentManager fragmentManager;
+    private User user;
     private RootFragment currentFragment;
 
-    public TabFragmentPagerAdapter(FragmentManager fm) {
+    public TabFragmentPagerAdapter(User u, FragmentManager fm) {
         super(fm);
-        fragmentManager = fm;
+        user = u;
     }
 
     @Override
@@ -59,7 +47,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
                 rootFragment.setBaseFragment(CreateTournamentFragment.newInstance());
                 return rootFragment;
             case 4:
-                rootFragment.setBaseFragment(UserProfileFragment.newInstance(new User()));
+                rootFragment.setBaseFragment(UserProfileFragment.newInstance(user));
                 return rootFragment;
             default:
                 return rootFragment;
@@ -74,11 +62,11 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
-    public boolean popCurrent(int position) {
+    public boolean popCurrent() {
         return currentFragment.popFragment();
     }
 
-    public void popToRoot(int position) {
+    public void popToRoot() {
         currentFragment.popToRoot();
     }
 
