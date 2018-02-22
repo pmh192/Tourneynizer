@@ -23,6 +23,7 @@ class AccountCreationForm extends Component{
 		this.setState({ [e.target.id]: e.target.value });
 	}
 
+	//later implement with email verification
 	getEmailValidationState(){
 		if(this.state.email.indexOf('@') > -1){
 			return 'success';
@@ -49,6 +50,14 @@ class AccountCreationForm extends Component{
 		}
 	}
 
+	getNameValidationState(){
+		if(this.state.firstName.length > 0){
+			return 'success';
+		}else{
+			return 'error';
+		}
+	}
+
 	validityTesterHelper(passwordString){
 		return /\d/.test(passwordString);
 	}
@@ -62,15 +71,13 @@ class AccountCreationForm extends Component{
 			this.getEmailValidationState() === 'success'
 			*/true
 		){
-			console.log("submitting!");
+			let shouldRefresh = false;
 			let requestURL = apiURL + 'api/user/create';
 			let fullName = this.state.firstName + ' ' + this.state.lastName;
-			let emailAddress = this.state.email;
-			let passwordValid = this.state.password;
 			var data = {
-				email: 'example@example.com',
-				name: 'test',
-				password: 'test',
+				email: this.state.email,
+				name: fullName,
+				password: this.state.password,
 			};
 			fetch('http://169.231.234.195:8080/api/user/create', {
 					method: 'POST',
@@ -82,13 +89,20 @@ class AccountCreationForm extends Component{
 					},
 				})
 				.then(function (response) {
-					console.log(response);
+					if(response.status === 200){
+						shouldRefresh = true;
+						alert('Account created!');
+					}else{
+						alert('Error with account creation');
+					}
 				})
 				.catch(function (error) {
 					console.log(error);
-				});
-
-		e.preventDefault();
+				})
+			if(!shouldRefresh){
+				console.log('shouldn\'t refresh');
+				e.preventDefault();
+			}
 		}
 	}
 
@@ -99,6 +113,7 @@ class AccountCreationForm extends Component{
 					<form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
 						<FormGroup
 							controlId="firstName"
+							validationState={this.getNameValidationState()}
 						>
 							<Col>
 							<FormControl
@@ -107,6 +122,7 @@ class AccountCreationForm extends Component{
 								placeholder="First Name"
 								onChange={this.handleChange}
 							/>
+							<FormControl.Feedback />
 							</Col>
 						</FormGroup>
 						<FormGroup
