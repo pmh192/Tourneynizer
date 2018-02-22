@@ -180,7 +180,7 @@ public class CreateTournamentFragment extends Fragment {
 					tDef.setStartTime(new Time(calendar.getTimeInMillis()));
 					tDef.setTeamSize(Integer.parseInt(teamSize.getText().toString()));
 					tDef.setMaxTeams(Integer.parseInt(maxTeams.getText().toString()));
-					new TournamentService().createTournament(tDef, new TournamentService.OnTournamentLoadedListener() {
+					tournamentService.createTournament(tDef, new TournamentService.OnTournamentLoadedListener() {
                         @Override
                         public void onTournamentLoaded(Tournament tournament) {
                             if (tournament != null) {
