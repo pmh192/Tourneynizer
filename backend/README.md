@@ -33,3 +33,6 @@ export TOURNEYNIZER_USERNAME_PROD=[The username you set up for the db]
 export TOURNEYNIZER_PASSWORD_PROD=[The password you set up for the db]
 ```
 Then, run `source variables.env` to load the environment variables. Currently only the environment variables ending in `DEV` need to be set to run, and the ones ending in `TEST` to run tests.
+
+Run `mvn test` to run tests.
+Run `mvn spring-boot:run` to start the server in dev mode on port 8080.
