@@ -11,7 +11,7 @@ So far all the set up required is
 * [creating a user for postgres](https://www.postgresql.org/docs/9.3/static/app-createuser.html) Make sure this user is a superuser. Don't forget the username and password for the user you create.
 * setting up the databases for Tourneynizer
 
-For setting up the database, `cd` into `backend/`, and run `./scripts/createDB.sh`. This just creates 3 databases. You will have to run that script as the postgres user, otherwise you'll have to provide a username and password. Run `man createdb` for more info.
+For setting up the database, `cd` into `backend/`, and run `./scripts/createDB.sh`. This just creates 3 databases. You will have to run that script as the postgres user, otherwise you'll have to provide the username and password you created when creating a user for postgres. Run `man createdb` for more info.
 
 Now you have 3 databases: `tourneynizer-prod`, `tourneynizer-dev`, and `tourneynizer-test`. But they're all empty.
 
