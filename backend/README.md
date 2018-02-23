@@ -6,12 +6,11 @@ The place where all the data bits are managed.
 
 So far all the set up required is
 
-* installing maven
-* installing postgres
-* running postgres
+* [installing maven](https://maven.apache.org/download.cgi#Installation)
+* [installing and running postgres](https://wiki.postgresql.org/wiki/Detailed_installation_guides)
 * setting up the databases for Tourneynizer
 
-You can look up how to the first 3. For the last one, `cd` into `backend/`, and run `./scripts/createDB.sh`. This just creates 3 databases. You will have to run that script as the postgres user, otherwise you'll have to provide a username and password. Run `man createdb` for more info.
+For setting up the database, `cd` into `backend/`, and run `./scripts/createDB.sh`. This just creates 3 databases. You will have to run that script as the postgres user, otherwise you'll have to provide a username and password. Run `man createdb` for more info.
 
 Now you have 3 databases: `tourneynizer-prod`, `tourneynizer-dev`, and `tourneynizer-test`. But they're all empty.
 
