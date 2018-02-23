@@ -37,7 +37,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var nextButton: UIButton!;
     var clearButton: UIButton!;
 
-    let titleText = "Create A Tournament";
+    var titleText = "Create A Tournament";
     let namePromptText = "Name:";
     let addressPromptText = "Address:";
     let startTimePromptText = "Start Time:";
@@ -62,8 +62,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     let nextButtonBorderRadius: CGFloat = 5;
     let buttonWidth: CGFloat = 80;
     let errorBorderWidth: CGFloat = 1;
-
-
+    let logoLabelHeight: CGFloat = 50;
 
     let pickerOptions = [
         "Pool",
@@ -118,6 +117,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             let view = UILabel.newAutoLayout();
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
             view.textColor = Constants.color.red;
+            view.backgroundColor = Constants.color.navy;
             view.text = titleText;
             view.textAlignment = .center;
             return view;
@@ -228,9 +228,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
-            titleLabel.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: topTitlePadding);
-            titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
-            titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
+            titleLabel.autoPinEdge(.top, to: .bottom, of: statusBarCover);
+            titleLabel.autoPinEdge(toSuperviewEdge: .leading);
+            titleLabel.autoPinEdge(toSuperviewEdge: .trailing);
+            titleLabel.autoSetDimension(.width, toSize: logoLabelHeight);
 
             namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             namePrompt.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: promptTopPadding);
@@ -353,7 +354,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         }
     }
 
-    @objc func create() {
+    func getTournamentFromFields() -> Tournament? {
         var error = false;
 
         let maxTeams: Int = {
@@ -428,10 +429,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         }
 
         if(error) {
-            return;
+            return nil;
         }
 
-        let tournament = Tournament(
+        return Tournament(
             id: 0,
             name: name,
             description: nil,
@@ -448,6 +449,13 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             cancelled: false,
             teamSize: teamSize
         );
+    }
+
+    @objc func create() {
+        let tournament = getTournamentFromFields();
+        if(tournament == nil) {
+            return;
+        }
 
         let alert = UIAlertController(title: dialogTitle, message: dialogBody, preferredStyle: .alert);
         alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in

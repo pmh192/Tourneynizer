@@ -43,4 +43,40 @@ class Tournament {
         self.cancelled = cancelled;
         self.teamSize = teamSize;
     }
+
+    init(_ tournament: Tournament) {
+        self.id = tournament.id;
+        self.name = tournament.name;
+        self.description = tournament.description;
+        self.address = tournament.address;
+        self.startTime = tournament.startTime;
+        self.endTime = tournament.endTime;
+        self.maxTeams = tournament.maxTeams;
+        self.currentTeams = tournament.currentTeams;
+        self.timeCreated = tournament.timeCreated;
+        self.tournamentType = tournament.tournamentType;
+        self.logo = tournament.logo;
+        self.courts = tournament.courts;
+        self.creatorId = tournament.creatorId;
+        self.cancelled = tournament.cancelled;
+        self.teamSize = tournament.teamSize;
+    }
+
+    init() {
+        self.id = 0;
+        self.name = "";
+        self.description = "";
+        self.address = "";
+        self.startTime = Date();
+        self.endTime = Date();
+        self.maxTeams = -1;
+        self.currentTeams = -1;
+        self.timeCreated = Date();
+        self.tournamentType = TournamentType.VOLLEYBALL_BRACKET;
+        self.logo = nil;
+        self.courts = -1;
+        self.creatorId = 0;
+        self.cancelled = false;
+        self.teamSize = -1;
+    }
 };
