@@ -1,6 +1,6 @@
 # How to Set Up the App with Android Studio
 
-1. Pull the latest version of the source code from the master branch (for stable) or a branch that starts with android/ (for unstable but more features)
+1. Pull the latest version of the source code from the master branch
 2. Download Android Studio and open it up
 3. Click on open existing project
 4. Navigate to the android folder in the git repository and choose it
