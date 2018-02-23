@@ -8,7 +8,7 @@ A cross-platform application for organizing and joining tournaments near you.
 * Ankush Rayabhari (iOS)
 * Porter Haet (backend)
 
-## Setting up and Running the Code
+## Installing and Running the Code
 Instructions for each specific platform are in their corresponding sub READMEs.
 * [iOS](ios/README.md)
 * [Web](website/README.md)
