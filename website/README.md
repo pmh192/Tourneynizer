@@ -1,6 +1,3 @@
-* `public/index.html` is the page template;
-* `src/index.js` is the JavaScript entry point.
-
 ## Pre-Requisites
 Have NodeJS and NPM installed. You can download both as a bundle here: https://nodejs.org/en/download/ . Download the version appropriate for your OS. Node v6.12.3 and its associated NPM are the minimum version.
 
@@ -17,6 +14,10 @@ Have NodeJS and NPM installed. You can download both as a bundle here: https://n
 
 ## Current Issues
 * Login does not persist past page refresh
+
+## Important Files
+* `public/index.html` is the page template
+* `src/index.js` is the JavaScript entry point.
 
 ## ScreenShots
 ![Alt text](./screenshots/AccountCreationPage.png?raw=true "AccountCreationPage")
