@@ -2,11 +2,11 @@
 A cross-platform application for organizing and joining tournaments near you.
 
 ## Group 02: Dream Team
-* Ryan Wiener (android)
-* Evan Murray (website)
-* Nic Duncan (website)
+* Ryan Wiener (Android)
+* Evan Murray (Website)
+* Nic Duncan (Website)
 * Ankush Rayabhari (iOS)
-* Porter Haet (backend)
+* Porter Haet (Backend)
 
 ## Installing and Running the Code
 Instructions for each specific platform are in their corresponding sub READMEs.
