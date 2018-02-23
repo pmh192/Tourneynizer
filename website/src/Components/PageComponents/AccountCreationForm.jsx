@@ -65,11 +65,9 @@ class AccountCreationForm extends Component{
 	onSubmit(e){
 		//send user creation request to server
 		if(
-			/*
 			this.getConfirmPasswordValidationState() === 'success' && 
 			this.getPasswordValidationState() === 'success' && 
 			this.getEmailValidationState() === 'success'
-			*/true
 		){
 			let shouldRefresh = false;
 			let requestURL = apiURL + 'api/user/create';

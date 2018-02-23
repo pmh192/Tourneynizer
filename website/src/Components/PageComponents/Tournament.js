@@ -5,7 +5,7 @@ class Tournament extends Component{
 		super(props);
 		this.state={
 			id: this.props.id,
-			name: this.props.name,
+			name: this.props.name, 
 			address: this.props.address,
 			startTime: this.props.startTime,
 			type: this.props.type,
