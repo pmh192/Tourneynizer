@@ -15,7 +15,7 @@ For setting up the database, `cd` into `backend/`, and run `./scripts/createDB.s
 
 Now you have 3 databases: `tourneynizer-prod`, `tourneynizer-dev`, and `tourneynizer-test`. But they're all empty.
 
-Modify `test.conf`, `dev.conf`, and `prod.conf` to contain the db credentials you just set up. The URL schema is `jdbc:postgresql://host:port/database`. The username and password are the ones you set up before.
+Modify `test.conf`, `dev.conf`, and `prod.conf` to contain the db credentials you just set up. The URL schema is `jdbc:postgresql://host:port/database`. The default port is `5432`. The username and password are the ones you set up before.
 
 Now run `./scripts/migrate.sh`. Now all your databases will have tables in them. That's it for now!
 
