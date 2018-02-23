@@ -1,4 +1,6 @@
 # Tourneynizer
+A cross-platform application for organizing and joining tournaments near you.
+
 ## Group 02: Dream Team
 * Ryan Wiener (android)
 * Evan Murray (website)
