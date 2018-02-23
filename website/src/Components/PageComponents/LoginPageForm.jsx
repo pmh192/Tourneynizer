@@ -8,17 +8,49 @@ class LoginPageForm extends Component{
 		this.state = {
 			email: '',
 			password: '',
+			name: '',
 		}
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleChange(e) {
     	this.setState({ [e.target.id]: e.target.value });
     }
 
+    handleSubmit(e) {
+    	console.log('submitting')
+    	let apiURL = 'http://169.231.234.195:8080/api/auth/login';
+    	let data = {
+    		email: this.state.email,
+    		password: this.state.password,
+    	}
+    	fetch(apiURL,{
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+		})
+		.then( response => {
+			if(response.status === 200){
+				response.json().then( json => {
+					this.props.getUserInfo(json);
+				})
+			}
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		console.log(this.state.email);
+		e.preventDefault();
+    }
+
 	render(){
 		return(
 			<div className='LoginForm'>
-				<form horizontal='true'>
+				<form horizontal='true' onSubmit={this.handleSubmit}>
 					<FormGroup
 						controlId="email"
 						>
@@ -44,7 +76,7 @@ class LoginPageForm extends Component{
 						</Col>
 					</FormGroup>
 					<Col>
-						<Button type="submit">Sign up</Button>
+						<Button type="submit">Sign in</Button>
 					</Col>
 				</form>
 			</div>

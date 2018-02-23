@@ -4,19 +4,21 @@ class Tournament extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			id: props.id,
-			description: props.description,
-			creatorName: props.creatorName,
-			address: props.address,
+			id: this.props.id,
+			name: this.props.name, 
+			address: this.props.address,
+			startTime: this.props.startTime,
+			type: this.props.type,
 		}
 	}
 
 	render(){
 		return (
 			<div className='tableInfo'>
-				<p>Description: {this.state.description}</p>
-				<p>Creator: {this.state.creatorName}</p>
-				<p>Address: {this.state.address}</p>
+				<p>Name: {this.state.name}<br/>
+				StartTime:{this.state.startTime}<br/>
+				Type:{this.state.type}<br/>
+				Address: {this.state.address}</p>
 			</div>
 		);
 	}

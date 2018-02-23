@@ -6,11 +6,22 @@ import {Jumbotron, Carousel} from 'react-bootstrap'
 import HomePageContent from './HomePageContent.jsx'
 
 class HomePage extends Component {
+
 	render() {
+		let data = this.props.update();
+		let welcome = null;
+		if(data.loggedIn){
+			welcome = <div>Welcome, {data.name}!</div>;
+		}else{
+			welcome = <div>Please sign in</div>;
+		}
+
+
 		return (
 			<div>
 				<Jumbotron>
 				<h1>HomePage</h1>
+				<h4>{welcome}</h4>
 				</Jumbotron>
 				<HomePageContent />
 			</div>
