@@ -4,13 +4,20 @@ import LoginPageForm from './LoginPageForm'
 
 
 class LoginPage extends Component {
+	constructor(props){
+		super(props);
+		this.state = {
+		}
+
+	}
+
 	render() {
 		return (
 			<div className='MarginSpacer'>
 				<div>
 					<Jumbotron>
 						<h1>Login</h1>
-						<LoginPageForm />
+						<LoginPageForm getUserInfo={this.props.getUserInfo}/>
 					</Jumbotron>
 				</div>
 			</div>
