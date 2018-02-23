@@ -37,7 +37,6 @@
 		57A0D96A202C01B500C24F8B /* TournamentTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */; };
 		57B169D8203A4B93005508CD /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B169D7203A4B93005508CD /* TeamViewController.swift */; };
 		57B169DA203A519D005508CD /* EditTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B169D9203A519D005508CD /* EditTeamViewController.swift */; };
-		57B36CC920366BA300305A87 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B36CC820366BA300305A87 /* Keys.swift */; };
 		57B5B472201FE6B900C2C1DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B471201FE6B900C2C1DD /* AppDelegate.swift */; };
 		57B5B474201FE6B900C2C1DD /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */; };
 		57B5B47A201FE6B900C2C1DD /* tournenizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57B5B478201FE6B900C2C1DD /* tournenizer.xcdatamodeld */; };
@@ -48,6 +47,7 @@
 		57F0F0E62038C5E100DB1436 /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F0F0E52038C5E100DB1436 /* UserCellView.swift */; };
 		57F0F0E82038C6D100DB1436 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F0F0E72038C6D100DB1436 /* UserListViewController.swift */; };
 		57F0F0EA2038D02500DB1436 /* LoginViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F0F0E92038D02500DB1436 /* LoginViewContainerController.swift */; };
+		57FD084C203FECCB00400F25 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FD084B203FECCB00400F25 /* Keys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,7 +100,6 @@
 		57A0D969202C01B500C24F8B /* TournamentTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentTableCellView.swift; sourceTree = "<group>"; };
 		57B169D7203A4B93005508CD /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		57B169D9203A519D005508CD /* EditTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTeamViewController.swift; sourceTree = "<group>"; };
-		57B36CC820366BA300305A87 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		57B5B46E201FE6B900C2C1DD /* tournenizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tournenizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57B5B471201FE6B900C2C1DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57B5B473201FE6B900C2C1DD /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +116,7 @@
 		57F0F0E52038C5E100DB1436 /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
 		57F0F0E72038C6D100DB1436 /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		57F0F0E92038D02500DB1436 /* LoginViewContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewContainerController.swift; sourceTree = "<group>"; };
+		57FD084B203FECCB00400F25 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		6D867434A94E5AC3F262CD8D /* Pods-tournenizerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerUITests/Pods-tournenizerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C33A8FE7FA37DA0242FABEA0 /* Pods_tournenizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tournenizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D96696470122145411C0893C /* Pods-tournenizerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tournenizerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tournenizerTests/Pods-tournenizerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 				570FEAB92026B64100B94FD9 /* Constants.swift */,
 				570FEAB52026B3E900B94FD9 /* UIColorExtension.swift */,
 				570FEABF2027B6CD00B94FD9 /* UIViewControllerExtension.swift */,
-				57B36CC820366BA300305A87 /* Keys.swift */,
+				57FD084B203FECCB00400F25 /* Keys.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -590,6 +590,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57826E142037A2AB00686493 /* Player.swift in Sources */,
+				57FD084C203FECCB00400F25 /* Keys.swift in Sources */,
 				57F0F0E62038C5E100DB1436 /* UserCellView.swift in Sources */,
 				5726EC87202BB13D009BABE8 /* Tournament.swift in Sources */,
 				57449F0A2026895400AF0713 /* LoginViewController.swift in Sources */,
@@ -614,7 +615,6 @@
 				5726EC7C202B7A9C009BABE8 /* TournamentListViewController.swift in Sources */,
 				570FEABA2026B64100B94FD9 /* Constants.swift in Sources */,
 				57050C79203A24FA00E2C222 /* TeamRequestsViewController.swift in Sources */,
-				57B36CC920366BA300305A87 /* Keys.swift in Sources */,
 				57050C7D203A258100E2C222 /* MyTournamentsViewController.swift in Sources */,
 				57F0F0E82038C6D100DB1436 /* UserListViewController.swift in Sources */,
 				57961BEB2036540900E128DC /* TournamentListViewContainerController.swift in Sources */,
