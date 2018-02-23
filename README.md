@@ -1,8 +1,15 @@
-## Tourneynizer
-# Group 02: Dream Team
+# Tourneynizer
+## Group 02: Dream Team
 * Ryan Wiener (android)
 * Evan Murray (website)
 * Nic Duncan (website)
 * Ankush Rayabhari (iOS)
 * Porter Haet (backend)
-To view individual READMEs go into the folder of the platform you would like to run
+
+## Setting up and Running the Code
+Instructions for each specific platform are in their corresponding sub READMEs.
+* [iOS](ios/README.md)
+* [Web](website/README.md)
+* [Android](android/README.md)
+* [Backend](backend/README.md)
+
