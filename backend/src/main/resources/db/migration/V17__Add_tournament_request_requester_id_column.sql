@@ -1,0 +1,1 @@
+ALTER TABLE tournamentRequest ADD COLUMN requester_id BIGINT NOT NULL REFERENCES users(id);

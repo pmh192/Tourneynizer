@@ -49,4 +49,13 @@ public class Config {
         TournamentDao tournamentDao = context.getBean("TournamentDao", TournamentDao.class);
         return new TeamService(teamDao, tournamentDao);
     }
+
+    @Bean
+    public TournamentRequestService tournamentRequestService() {
+        TournamentRequestDao tournamentRequestDao = context.getBean("TournamentRequestDao", TournamentRequestDao.class);
+        TeamDao teamDao = context.getBean("TeamDao", TeamDao.class);
+        RosterDao rosterDao = context.getBean("RosterDao", RosterDao.class);
+        TournamentDao tournamentDao = context.getBean("TournamentDao", TournamentDao.class);
+        return new TournamentRequestService(tournamentRequestDao, teamDao, rosterDao, tournamentDao);
+    }
 }
