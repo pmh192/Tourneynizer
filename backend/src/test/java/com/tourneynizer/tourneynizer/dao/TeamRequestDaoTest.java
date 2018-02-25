@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,8 +52,8 @@ public class TeamRequestDaoTest extends TestWithContext {
         return tournament;
     }
 
-    private Team getTeam(User user, Tournament tournament) throws Exception {
-        Team team = new Team("name", user.getId(), tournament.getId());
+    private Team getTeam(User user, Tournament tournament, int i) throws Exception {
+        Team team = new Team("name" + i, user.getId(), tournament.getId());
         teamDao.insert(team, user);
         return team;
     }
@@ -63,13 +64,13 @@ public class TeamRequestDaoTest extends TestWithContext {
         User user = getUser(1);
         User user2 = getUser(2);
         Tournament tournament = getTournament(creator);
-        Team team = getTeam(creator, tournament);
+        Team team = getTeam(creator, tournament, 0);
 
         teamRequestDao.requestUser(user2, team, creator);
         teamRequestDao.requestUser(user, team, creator);
 
-        List<Long> requests = teamRequestDao.getRequests(user);
-        List<Long> requests2 = teamRequestDao.getRequests(user2);
+        List<Long> requests = teamRequestDao.getRequestIds(user);
+        List<Long> requests2 = teamRequestDao.getRequestIds(user2);
         List<Long> expected = Collections.singletonList(team.getId());
 
         assertEquals(expected, requests);
@@ -83,7 +84,7 @@ public class TeamRequestDaoTest extends TestWithContext {
         User user2 = getUser(2);
 
         Tournament tournament = getTournament(creator);
-        Team team = getTeam(creator, tournament);
+        Team team = getTeam(creator, tournament, 0);
 
         teamRequestDao.requestUser(user, team, user2);
     }
@@ -94,13 +95,67 @@ public class TeamRequestDaoTest extends TestWithContext {
         User user = getUser(0);
         User user2 = getUser(1);
         Tournament tournament = getTournament(user);
-        Team team = getTeam(creator, tournament);
+        Team team = getTeam(creator, tournament, 0);
 
         teamRequestDao.requestTeam(user, team);
         teamRequestDao.requestTeam(user2, team);
 
-        List<Long> requests = teamRequestDao.getRequests(team);
+        List<Long> requests = teamRequestDao.getRequestIds(team);
         List<Long> expected = Arrays.asList(user.getId(), user2.getId());
+
+        assertEquals(expected, requests);
+    }
+
+    @Test
+    public void getRequestsForTeam() throws Exception {
+        User creator = getUser(10);
+        User user = getUser(0);
+        User user2 = getUser(1);
+        Tournament tournament = getTournament(user);
+        Team team = getTeam(creator, tournament, 0);
+
+        TeamRequest r1 = teamRequestDao.requestUser(user, team, creator);
+        TeamRequest r2 = teamRequestDao.requestTeam(user2, team);
+
+        List<TeamRequest> requests = teamRequestDao.getTeamRequests(team);
+        List<TeamRequest> expected = Collections.singletonList(r2);
+
+        for (TeamRequest r : requests) {
+            System.out.println(r.getTeamId() + ", " + r.getRequesterId());
+        }
+        assertEquals(expected, requests);
+    }
+
+    @Test
+    public void getRequestsForUser() throws Exception {
+        User creator = getUser(10);
+        User user = getUser(0);
+        Tournament tournament = getTournament(user);
+        Team team1 = getTeam(creator, tournament, 0);
+        Team team2 = getTeam(creator, tournament, 1);
+
+        TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
+        TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
+
+        List<TeamRequest> requests = teamRequestDao.getRequestsForUser(user);
+        List<TeamRequest> expected = Collections.singletonList(r1);
+
+        assertEquals(expected, requests);
+    }
+
+    @Test
+    public void getRequestsByUser() throws Exception {
+        User creator = getUser(10);
+        User user = getUser(0);
+        Tournament tournament = getTournament(user);
+        Team team1 = getTeam(creator, tournament, 0);
+        Team team2 = getTeam(creator, tournament, 1);
+
+        TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
+        TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
+
+        List<TeamRequest> requests = teamRequestDao.getRequestsByUser(user);
+        List<TeamRequest> expected = Collections.singletonList(r2);
 
         assertEquals(expected, requests);
     }
@@ -109,7 +164,7 @@ public class TeamRequestDaoTest extends TestWithContext {
     public void creatorRequestOwnTeam() throws Exception {
         User user = getUser(0);
         Tournament tournament = getTournament(user);
-        Team team = getTeam(user, tournament);
+        Team team = getTeam(user, tournament, 0);
 
         teamRequestDao.requestTeam(user, team);
     }
@@ -118,7 +173,7 @@ public class TeamRequestDaoTest extends TestWithContext {
     public void requestTeamTwice() throws Exception {
         User user = getUser(1);
         Tournament tournament = getTournament(user);
-        Team team = getTeam(user, tournament);
+        Team team = getTeam(user, tournament, 0);
 
         teamRequestDao.requestTeam(user, team);
         teamRequestDao.requestTeam(user, team);
@@ -129,12 +184,20 @@ public class TeamRequestDaoTest extends TestWithContext {
         User user = getUser(0);
         User user1 = getUser(1);
         Tournament tournament = getTournament(user);
-        Team team = getTeam(user, tournament);
+        Team team = getTeam(user, tournament, 0);
 
         TeamRequest teamRequest = teamRequestDao.requestTeam(user1, team);
-        teamRequestDao.removeRequest(teamRequest);
+        int removed = teamRequestDao.removeRequest(teamRequest);
 
+        assertEquals(1, removed);
         assertNull(teamRequestDao.findById(teamRequest.getId()));
     }
 
+    @Test
+    public void deleteRequestMissing() throws Exception {
+        TeamRequest teamRequest = new TeamRequest(-1, 2, 3, 2, false, new Timestamp(0L));
+        int removed = teamRequestDao.removeRequest(teamRequest);
+
+        assertEquals(0, removed);
+    }
 }

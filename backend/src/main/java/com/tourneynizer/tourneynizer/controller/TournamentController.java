@@ -2,7 +2,6 @@ package com.tourneynizer.tourneynizer.controller;
 
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
@@ -35,10 +34,6 @@ public class TournamentController {
         Tournament tournament;
         try {
             User user = sessionService.findBySession(session);
-            if (user == null) {
-                return new ResponseEntity<Object>(new UserMustBeLoggedInException(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-            }
-
             tournament = tournamentService.createTournament(values, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);

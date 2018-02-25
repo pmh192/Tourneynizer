@@ -39,4 +39,19 @@ public class TeamRequest {
     public Timestamp getTimeRequested() {
         return timeRequested;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TeamRequest that = (TeamRequest) o;
+
+        if (id != that.id) return false;
+        if (teamId != that.teamId) return false;
+        if (userId != that.userId) return false;
+        if (requesterId != that.requesterId) return false;
+        if (accepted != that.accepted) return false;
+        return timeRequested.equals(that.timeRequested);
+    }
 }

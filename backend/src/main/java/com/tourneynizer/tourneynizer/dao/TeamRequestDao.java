@@ -56,31 +56,52 @@ public class TeamRequestDao {
         return insert(team.getId(), user.getId(), user.getId());
     }
 
-    public void requestUser(User requested, Team team, User requester) {
+    public TeamRequest requestUser(User requested, Team team, User requester) {
         if (team.getCreatorId() != requester.getId()) {
             throw new IllegalArgumentException("Only the creator of a team can request other users");
         }
-        insert(team.getId(), requested.getId(), requester.getId());
+        return insert(team.getId(), requested.getId(), requester.getId());
     }
 
     private final RowMapper<Long> idMapper = (resultSet, i) -> resultSet.getLong(1);
 
-    public List<Long> getRequests(Team team) {
-        String sql = "SELECT user_id FROM teamRequest WHERE team_id=?;";
-        return this.jdbcTemplate.query(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, team.getId());
-            return preparedStatement;
-        }, idMapper);
+    private <T> List<T> getRequestsHelper(RowMapper<T> mapper, String sql, long param1) {
+        return getRequestsHelper(mapper, sql, new Long[]{param1});
     }
 
-    public List<Long> getRequests(User user) {
-        String sql = "SELECT team_id FROM teamRequest WHERE user_id=?;";
+    private <T> List<T> getRequestsHelper(RowMapper<T> mapper, String sql, Long[] params) {
         return this.jdbcTemplate.query(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, user.getId());
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setLong(i+1, params[i]);
+            }
             return preparedStatement;
-        }, idMapper);
+        }, mapper);
+    }
+
+    public List<Long> getRequestIds(Team team) {
+        String sql = "SELECT user_id FROM teamRequest WHERE team_id=?;";
+        return getRequestsHelper(idMapper, sql, team.getId());
+    }
+
+    public List<Long> getRequestIds(User user) {
+        String sql = "SELECT team_id FROM teamRequest WHERE user_id=?;";
+        return getRequestsHelper(idMapper, sql, user.getId());
+    }
+
+    public List<TeamRequest> getTeamRequests(Team team) {
+        String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id<>?;";
+        return getRequestsHelper(teamRequestRowMapper, sql, new Long[]{team.getId(), team.getCreatorId()});
+    }
+
+    public List<TeamRequest> getRequestsForUser(User user) {
+        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id<>user_id;";
+        return getRequestsHelper(teamRequestRowMapper, sql, user.getId());
+    }
+
+    public List<TeamRequest> getRequestsByUser(User user) {
+        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id=user_id;";
+        return getRequestsHelper(teamRequestRowMapper, sql, user.getId());
     }
 
     private final RowMapper<TeamRequest> teamRequestRowMapper = ((resultSet, i) -> {
@@ -104,9 +125,9 @@ public class TeamRequestDao {
         }
     }
 
-    public void removeRequest(TeamRequest teamRequest) {
+    public int removeRequest(TeamRequest teamRequest) {
         String sql = "DELETE FROM teamRequest WHERE id=?";
-        this.jdbcTemplate.update(connection -> {
+        return this.jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, teamRequest.getId());
             return preparedStatement;
