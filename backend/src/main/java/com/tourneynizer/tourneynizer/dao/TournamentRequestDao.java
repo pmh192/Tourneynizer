@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class TournamentRequestDao {
     private final JdbcTemplate jdbcTemplate;
@@ -54,7 +55,7 @@ public class TournamentRequestDao {
         return insert(team.getId(), tournament.getId(), requester.getId());
     }
 
-    private final RowMapper<TournamentRequest> teamRequestRowMapper = ((resultSet, i) -> {
+    private final RowMapper<TournamentRequest> tournamentRequestRowMapper = ((resultSet, i) -> {
         long id = resultSet.getLong(1);
         long tournamentId = resultSet.getLong(2);
         long teamId = resultSet.getLong(3);
@@ -68,10 +69,19 @@ public class TournamentRequestDao {
     public TournamentRequest findById(long id) {
         String sql = "SELECT * FROM tournamentRequest WHERE id=?;";
         try {
-            return this.jdbcTemplate.queryForObject(sql, new Object[]{id}, teamRequestRowMapper);
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{id}, tournamentRequestRowMapper);
         }
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<TournamentRequest> findByTournament(Tournament tournament) {
+        String sql = "SELECT * FROM tournamentRequest WHERE tournament_id=?;";
+        return this.jdbcTemplate.query(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, tournament.getId());
+            return preparedStatement;
+        }, tournamentRequestRowMapper);
     }
 }

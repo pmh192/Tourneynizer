@@ -12,6 +12,7 @@ import com.tourneynizer.tourneynizer.model.TournamentRequest;
 import com.tourneynizer.tourneynizer.model.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class TournamentRequestService {
 
@@ -28,21 +29,25 @@ public class TournamentRequestService {
         this.tournamentDao = tournamentDao;
     }
 
-
-    public TournamentRequest requestTournament(long tournamentId, long teamId, User user) throws BadRequestException,
-            InternalErrorException {
+    private Tournament getTournament(long id) throws BadRequestException, InternalErrorException{
         Tournament tournament;
-        Team team;
         try {
-            tournament = tournamentDao.findById(tournamentId);
-            team = teamDao.findById(teamId);
+            tournament = tournamentDao.findById(id);
         } catch (SQLException e) {
             throw new InternalErrorException(e);
         }
-
         if (tournament == null) {
-            throw new BadRequestException("Couldn't find tournament with id " + tournamentId);
+            throw new BadRequestException("Couldn't find tournament with id " + id);
         }
+
+        return tournament;
+    }
+
+    public TournamentRequest requestTournament(long tournamentId, long teamId, User user) throws BadRequestException,
+            InternalErrorException {
+        Tournament tournament = getTournament(tournamentId);
+        Team team = teamDao.findById(teamId);
+
         if (team == null) {
             throw new BadRequestException("Couldn't find team with id " + teamId);
         }
@@ -54,5 +59,32 @@ public class TournamentRequestService {
         }
 
         return tournamentRequestDao.requestTournament(tournament, team, user);
+    }
+
+    public void acceptRequest(long tournamentId, long requestId, User user) throws BadRequestException,
+            InternalErrorException{
+        Tournament tournament = getTournament(tournamentId);
+        TournamentRequest tournamentRequest = tournamentRequestDao.findById(requestId);
+
+        if (tournamentRequest == null) {
+            throw new BadRequestException("Couldn't find request with id " + requestId);
+        }
+        if (tournament.getCreatorId() != user.getId()) {
+            throw new BadRequestException("You do not have permission to make accept requests for this tournament");
+        }
+
+
+    }
+
+    public List<TournamentRequest> getRequests(long tournamentId, User user) throws BadRequestException,
+            InternalErrorException{
+
+        Tournament tournament = getTournament(tournamentId);
+        if (tournament.getCreatorId() != user.getId()) {
+            throw new BadRequestException("You do not have permission to view this tournament's requests");
+        }
+
+
+        return tournamentRequestDao.findByTournament(tournament);
     }
 }

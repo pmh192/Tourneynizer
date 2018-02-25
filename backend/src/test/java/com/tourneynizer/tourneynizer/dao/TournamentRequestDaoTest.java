@@ -5,6 +5,9 @@ import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class TournamentRequestDaoTest extends TestWithContext {
@@ -55,5 +58,23 @@ public class TournamentRequestDaoTest extends TestWithContext {
         TournamentRequest back = tournamentRequestDao.findById(request.getId());
 
         assertEquals(back, request);
+    }
+
+    @Test
+    public void findByTournament() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        Tournament tournament = getTournament(creator, 0);
+        Team team1 = getTeam(user1, tournament, 0);
+        Team team2 = getTeam(user2, tournament, 1);
+
+        TournamentRequest request1 = tournamentRequestDao.requestTournament(tournament, team1, user1);
+        TournamentRequest request2 = tournamentRequestDao.requestTournament(tournament, team2, user2);
+        List<TournamentRequest> requests = tournamentRequestDao.findByTournament(tournament);
+
+        List<TournamentRequest> expected = Arrays.asList(request1, request2);
+
+        assertEquals(expected, requests);
     }
 }
