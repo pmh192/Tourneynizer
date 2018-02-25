@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 
 public class TeamRequest {
     private long id, teamId, userId, requesterId;
-    private boolean accepted;
+    private Boolean accepted;
     private Timestamp timeRequested;
 
-    public TeamRequest(long id, long teamId, long userId, long requesterId, boolean accepted, Timestamp timeRequested) {
+    public TeamRequest(long id, long teamId, long userId, long requesterId, Boolean accepted, Timestamp timeRequested) {
         this.id = id;
         this.teamId = teamId;
         this.userId = userId;
@@ -32,7 +32,7 @@ public class TeamRequest {
         return requesterId;
     }
 
-    public boolean isAccepted() {
+    public Boolean isAccepted() {
         return accepted;
     }
 
@@ -51,7 +51,7 @@ public class TeamRequest {
         if (teamId != that.teamId) return false;
         if (userId != that.userId) return false;
         if (requesterId != that.requesterId) return false;
-        if (accepted != that.accepted) return false;
+        if (accepted != null ? !accepted.equals(that.accepted) : that.accepted != null) return false;
         return timeRequested.equals(that.timeRequested);
     }
 }
