@@ -54,4 +54,8 @@ public class TeamRequest {
         if (accepted != null ? !accepted.equals(that.accepted) : that.accepted != null) return false;
         return timeRequested.equals(that.timeRequested);
     }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
 }

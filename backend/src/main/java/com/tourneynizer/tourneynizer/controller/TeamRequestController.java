@@ -88,7 +88,7 @@ public class TeamRequestController {
                                            @PathVariable("id") long id) {
         try {
             User user = sessionService.findBySession(session);
-            teamRequestService.deleteRequest(user, id);
+            teamRequestService.declineRequest(user, id);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }

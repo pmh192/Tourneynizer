@@ -81,4 +81,29 @@ public class TeamRequestService {
 
         teamRequestDao.removeRequest(teamRequest);
     }
+
+    public void declineRequest(User user, long id) throws BadRequestException {
+        TeamRequest teamRequest = teamRequestDao.findById(id);
+        if (teamRequest == null) {
+            throw new BadRequestException("Couldn't find a team request with id " + id);
+        }
+        if (teamRequest.getRequesterId() == teamRequest.getUserId()) { // User request
+            Team team = teamDao.findById(teamRequest.getTeamId());
+            if (team.getCreatorId() != user.getId()) {
+                throw new BadRequestException("You are not the owner of this team");
+            }
+        }
+        else { // Team requests user
+            if (teamRequest.getUserId() != user.getId()) {
+                throw new BadRequestException("This is not your request");
+            }
+        }
+
+        try {
+            teamRequestDao.declineRequest(teamRequest);
+        }
+        catch (IllegalArgumentException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
 }

@@ -46,7 +46,7 @@ public class TeamRequestDao {
             throw e;
         }
 
-        return new TeamRequest(keyHolder.getKey().longValue(), team_id, user_id, requester_id, false, now);
+        return new TeamRequest(keyHolder.getKey().longValue(), team_id, user_id, requester_id, null, now);
     }
 
     public TeamRequest requestTeam(User user, Team team) {
@@ -110,7 +110,8 @@ public class TeamRequestDao {
         long userId = resultSet.getLong(3);
         Timestamp timeRequested = resultSet.getTimestamp(4);
         long requesterId = resultSet.getLong(5);
-        boolean accepted = resultSet.getBoolean(6);
+        Boolean accepted = resultSet.getBoolean(6);
+        if (resultSet.wasNull()) { accepted = null; }
 
         return new TeamRequest(id, teamId, userId, requesterId, accepted, timeRequested);
     });
@@ -132,5 +133,22 @@ public class TeamRequestDao {
             preparedStatement.setLong(1, teamRequest.getId());
             return preparedStatement;
         });
+    }
+
+    public int declineRequest(TeamRequest teamRequest) throws IllegalArgumentException {
+        if (teamRequest.isAccepted() != null) {
+            String happened = teamRequest.isAccepted() ? "accepted" : "declined";
+            throw new IllegalArgumentException("That request has already been " + happened);
+        }
+
+        String sql = "UPDATE teamRequest SET accepted=False WHERE id=?";
+        int updated = this.jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, teamRequest.getId());
+            return preparedStatement;
+        });
+
+        teamRequest.setAccepted(false);
+        return updated;
     }
 }

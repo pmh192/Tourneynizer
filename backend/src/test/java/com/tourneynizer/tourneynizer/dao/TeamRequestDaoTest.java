@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.*;
 
 public class TeamRequestDaoTest extends TestWithContext {
     private final UserDao userDao;
@@ -192,5 +192,38 @@ public class TeamRequestDaoTest extends TestWithContext {
         int removed = teamRequestDao.removeRequest(teamRequest);
 
         assertEquals(0, removed);
+    }
+
+    @Test
+    public void declineRequest() throws Exception {
+        User user = getUser(0);
+        User user1 = getUser(1);
+        Tournament tournament = getTournament(user);
+        Team team = getTeam(user, tournament, 0);
+
+        TeamRequest teamRequest = teamRequestDao.requestTeam(user1, team);
+        teamRequestDao.declineRequest(teamRequest);
+
+        TeamRequest gotten = teamRequestDao.findById(teamRequest.getId());
+
+        assertFalse(gotten.isAccepted());
+    }
+
+    @Test
+    public void declineRequestTwice() throws Exception {
+        User user = getUser(0);
+        User user1 = getUser(1);
+        Tournament tournament = getTournament(user);
+        Team team = getTeam(user, tournament, 0);
+
+        TeamRequest teamRequest = teamRequestDao.requestTeam(user1, team);
+        teamRequestDao.declineRequest(teamRequest);
+        try {
+            teamRequestDao.declineRequest(teamRequest);
+            fail("Should have thrown");
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("That request has already been declined", e.getMessage());
+        }
     }
 }
