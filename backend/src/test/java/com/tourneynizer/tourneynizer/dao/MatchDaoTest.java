@@ -4,7 +4,6 @@ import com.tourneynizer.tourneynizer.helper.TestWithContext;
 import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.jdbc.JdbcTestUtils;
 
 import static org.junit.Assert.*;
 
@@ -24,13 +23,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Before
     public void clearDB() {
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "sessions");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "roster");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "matches");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teams");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "tournaments");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "users");
+        super.clearDB();
     }
 
     private User getUser() throws Exception {

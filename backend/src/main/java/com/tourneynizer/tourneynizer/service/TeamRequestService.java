@@ -9,6 +9,8 @@ import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
 
+import java.util.List;
+
 public class TeamRequestService {
 
     private final TeamRequestDao teamRequestDao;
@@ -58,5 +60,50 @@ public class TeamRequestService {
         teamRequestDao.removeRequest(teamRequest);
         rosterDao.registerUser(user, team);
 
+    }
+
+    public List<TeamRequest> findAllRequestsForUser(User user) {
+        return teamRequestDao.getRequestsForUser(user);
+    }
+
+    public List<TeamRequest> findAllRequestsByUser(User user) {
+        return teamRequestDao.getRequestsByUser(user);
+    }
+
+    public void deleteRequest(User user, long id) throws BadRequestException {
+        TeamRequest teamRequest = teamRequestDao.findById(id);
+        if (teamRequest == null) {
+            throw new BadRequestException("Couldn't find a team request with id " + id);
+        }
+        if (teamRequest.getRequesterId() != user.getId()) {
+            throw new BadRequestException("You are not the owner of this request");
+        }
+
+        teamRequestDao.removeRequest(teamRequest);
+    }
+
+    public void declineRequest(User user, long id) throws BadRequestException {
+        TeamRequest teamRequest = teamRequestDao.findById(id);
+        if (teamRequest == null) {
+            throw new BadRequestException("Couldn't find a team request with id " + id);
+        }
+        if (teamRequest.getRequesterId() == teamRequest.getUserId()) { // User request
+            Team team = teamDao.findById(teamRequest.getTeamId());
+            if (team.getCreatorId() != user.getId()) {
+                throw new BadRequestException("You are not the owner of this team");
+            }
+        }
+        else { // Team requests user
+            if (teamRequest.getUserId() != user.getId()) {
+                throw new BadRequestException("This is not your request");
+            }
+        }
+
+        try {
+            teamRequestDao.declineRequest(teamRequest);
+        }
+        catch (IllegalArgumentException e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 }

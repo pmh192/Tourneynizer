@@ -7,12 +7,11 @@ import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.jdbc.JdbcTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class RosterDaoTest extends TestWithContext {
     private final UserDao userDao;
@@ -30,14 +29,7 @@ public class RosterDaoTest extends TestWithContext {
 
     @Before
     public void clearDB() {
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "sessions");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "roster");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "matches");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teams");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "tournaments");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "users");
+        super.clearDB();
     }
 
     private User getUser(int i) throws Exception {
