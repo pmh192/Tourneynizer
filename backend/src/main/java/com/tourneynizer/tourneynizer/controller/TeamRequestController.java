@@ -57,7 +57,7 @@ public class TeamRequestController {
         return null;
     }
 
-    @GetMapping("/api/user/requests/team")
+    @GetMapping("/api/user/requests/sent")
     public ResponseEntity<?> getTeamRequests(@CookieValue("session") String session) {
         List<TeamRequest> requests;
         try {
