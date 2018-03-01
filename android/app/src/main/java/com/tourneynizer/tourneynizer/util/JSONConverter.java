@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
+import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
@@ -92,6 +93,16 @@ public class JSONConverter {
         User u;
         try {
             u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);
+        } catch (JSONException e) {
+            u = null;
+        }
+        return u;
+    }
+
+    public Team convertJSONToTeam(JSONObject tJSON) {
+        User u;
+        try {
+            u = new User(tJSON.getLong("id"), tJSON.getString("name"), tJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);
         } catch (JSONException e) {
             u = null;
         }

@@ -16,6 +16,7 @@ import com.tourneynizer.tourneynizer.services.HTTPService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -37,10 +38,10 @@ public class CookieRequestFactoryTest {
 
     private static final Map<String, String> HEADER = new HashMap<>();
 
-    private CookieRequestFactory factory;
+    private static CookieRequestFactory factory;
 
-    @Before
-    public void createFactory() throws Exception {
+    @BeforeClass
+    public static void createFactory() throws Exception {
         // Context of the app under test.
         Context context = InstrumentationRegistry.getTargetContext();
         HTTPService.init(context);
