@@ -14,9 +14,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller("TeamController")
@@ -40,7 +42,7 @@ public class TeamController {
         try {
             Tournament tournament = tournamentService.findById(id);
             User user = sessionService.findBySession(session);
-            Team team = teamService.createTeam(user, values);
+            Team team = teamService.createTeam(user, tournament, values);
 
             return new ResponseEntity<>(team, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
