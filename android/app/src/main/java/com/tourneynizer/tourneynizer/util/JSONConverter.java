@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import com.tourneynizer.tourneynizer.model.Team;
+import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
@@ -63,7 +64,7 @@ public class JSONConverter {
                 address.setLatitude(10);
                 address.setLongitude(100);
             }
-            t = new Tournament(tJSON.getLong("id"), tJSON.getString("name"), address, new Time(tJSON.getLong("startTime")), tJSON.getInt("maxTeams"), 0/*ioooootJSON.getInt("currentTeams")*/, new Time(tJSON.getLong("timeCreated")), TournamentType.VOLLEYBALL_BRACKET, tJSON.getInt("numCourts"), tJSON.getLong("creatorId"));
+            t = new Tournament(tJSON.getLong("id"), tJSON.getString("name"), address, new Time(tJSON.getLong("startTime")), tJSON.getInt("maxTeams"), 0/*ioooootJSON.getInt("currentTeams")*/, new Time(tJSON.getLong("timeCreated")), TournamentType.VOLLEYBALL_BRACKET, tJSON.getLong("creatorId"));
         } catch (JSONException e) {
             e.printStackTrace();
             t = null;
@@ -79,7 +80,6 @@ public class JSONConverter {
             tJSON.put("logo", tDef.getLogo());
             tJSON.put("type", tDef.getTournamentType().ordinal());
             tJSON.put("address", tDef.getAddress().getAddress());
-            tJSON.put("numCourts", tDef.getNumCourts());
             tJSON.put("startTime", tDef.getStartTime().getTime());
             tJSON.put("teamSize", tDef.getTeamSize());
             tJSON.put("maxTeams", tDef.getMaxTeams());
@@ -100,12 +100,22 @@ public class JSONConverter {
     }
 
     public Team convertJSONToTeam(JSONObject tJSON) {
-        User u;
+        Team t;
         try {
-            u = new User(tJSON.getLong("id"), tJSON.getString("name"), tJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);
+            t = new Team(tJSON.getLong("id"), tJSON.getString("name"), new Time(tJSON.getLong("timeCreated")), tJSON.getLong("creatorId"), tJSON.getLong("tournamentId"), tJSON.getBoolean("checkedIn"), true);
         } catch (JSONException e) {
-            u = null;
+            t = null;
         }
-        return u;
+        return t;
+    }
+
+    public TeamRequest convertJSONToTeamRequest(JSONObject tRequestJSON) {
+        TeamRequest tRequest;
+        try {
+            tRequest = new TeamRequest(tRequestJSON.getLong("id"), tRequestJSON.getLong("teamId"), tRequestJSON.getLong("userId"), tRequestJSON.getLong("requesterId"), (Boolean) tRequestJSON.get("accepted"), new Time(tRequestJSON.getLong("timeRequested")));
+        } catch (JSONException e) {
+            tRequest = null;
+        }
+        return tRequest;
     }
 }

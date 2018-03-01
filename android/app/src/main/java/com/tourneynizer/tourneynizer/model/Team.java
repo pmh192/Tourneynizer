@@ -36,11 +36,11 @@ public class Team {
         return id;
     }
 
-    public String getName() {
+    public @NonNull String getName() {
         return name;
     }
 
-    public Time getTimeCreated() {
+    public @NonNull Time getTimeCreated() {
         return timeCreated;
     }
 

@@ -25,15 +25,14 @@ public class TournamentDef {
     private int teamSize;
     private TournamentType tournamentType;
     private Bitmap logo;
-    private int numCourts;
 
     public TournamentDef() {}
 
-    public TournamentDef(String name, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, int numCourts) {
-        this(name, null, address, startTime, maxTeams, teamSize, tournamentType, null, numCourts);
+    public TournamentDef(String name, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType) {
+        this(name, null, address, startTime, maxTeams, teamSize, tournamentType, null);
     }
 
-    public TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo, int numCourts) {
+    public TournamentDef(String name, String description, Place address, Time startTime, int maxTeams, int teamSize, TournamentType tournamentType, Bitmap logo) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -42,7 +41,6 @@ public class TournamentDef {
         this.teamSize = teamSize;
         this.tournamentType = tournamentType;
         this.logo = logo;
-        this.numCourts = numCourts;
     }
 
     public String getName() {
@@ -107,13 +105,5 @@ public class TournamentDef {
 
     public void setLogo(Bitmap logo) {
         this.logo = logo;
-    }
-
-    public int getNumCourts() {
-        return numCourts;
-    }
-
-    public void setNumCourts(int numCourts) {
-        this.numCourts = numCourts;
     }
 }

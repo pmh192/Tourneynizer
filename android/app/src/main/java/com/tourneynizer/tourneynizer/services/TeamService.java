@@ -5,12 +5,14 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.TeamDef;
+import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.util.CookieRequestFactory;
 import com.tourneynizer.tourneynizer.util.JSONConverter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,15 +29,15 @@ public class TeamService {
     }
 
     public interface OnTeamsLoadedListener {
-        public void onTeamsLoaded(Team[] team);
+        public void onTeamsLoaded(Team[] teams);
     }
 
-    public void createTeam(TeamDef teamDef, final OnTeamLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "tournament/" + teamDef.getTournamentID() + "/team/create";
+    public void createTeam(Tournament t, String teamName, final OnTeamLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/" + t .getID() + "/team/create";
         CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
         JSONObject body = new JSONObject();
         try {
-            body.put("name", teamDef.getName());
+            body.put("name", teamName);
         } catch (JSONException e) {
             body = null;
         }
@@ -49,6 +51,82 @@ public class TeamService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", error.toString());
+                listener.onTeamLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getTeams(Tournament t, final OnTeamsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/all";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Team[] teams = new Team[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teams[i] = JSONConverter.getInstance().convertJSONToTeam(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teams = null;
+                }
+                listener.onTeamsLoaded(teams);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+                listener.onTeamsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getCompleteTeams(Tournament t, final OnTeamsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/complete";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Team[] teams = new Team[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teams[i] = JSONConverter.getInstance().convertJSONToTeam(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teams = null;
+                }
+                listener.onTeamsLoaded(teams);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+                listener.onTeamsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getPendingTeams(Tournament t, final OnTeamsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/incomplete";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Team[] teams = new Team[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teams[i] = JSONConverter.getInstance().convertJSONToTeam(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teams = null;
+                }
+                listener.onTeamsLoaded(teams);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+                listener.onTeamsLoaded(null);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
