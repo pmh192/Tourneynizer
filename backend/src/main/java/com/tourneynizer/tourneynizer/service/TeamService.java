@@ -22,16 +22,13 @@ public class TeamService {
         this.tournamentDao = tournamentDao;
     }
 
-    public Team createTeam(User user, Map<String, String> values) throws BadRequestException, InternalErrorException {
-        String tournamentId = values.get("tournamentId");
+    public Team createTeam(User user, Tournament tournament, Map<String, String> values) throws BadRequestException, InternalErrorException {
         String teamName = values.get("name");
 
         try {
-            Team team = new Team(teamName, user.getId(), Long.parseLong(tournamentId));
+            Team team = new Team(teamName, user.getId(), tournament.getId());
             teamDao.insert(team, user);
             return team;
-        } catch (NumberFormatException e) {
-            throw new BadRequestException("Invalid tournament id: " + tournamentId);
         } catch (IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());
         } catch (SQLException e) {
