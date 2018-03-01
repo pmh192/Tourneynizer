@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class TeamAcceptanceController {
         this.teamService = teamService;
     }
 
-    @PostMapping("/api/tournament/{tournamentId}/team/all")
+    @GetMapping("/api/tournament/{tournamentId}/team/all")
     public ResponseEntity<?> getTeams(@PathVariable("tournamentId") long tournamentId) {
         List<Team> teams;
 
