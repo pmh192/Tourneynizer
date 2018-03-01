@@ -127,10 +127,6 @@ public class CreateTournamentFragment extends Fragment {
 				}
 				TextView description = getView().findViewById(R.id.tournamentDescription);
 				Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
-				TextView numCourts = getView().findViewById(R.id.numCourts);
-				if (!numCourts.getText().toString().matches("\\d+")) {
-					numCourts.setError("Enter the number of Courts");
-				}
 				if (place == null) {
 					TextView locationText = getView().findViewById(R.id.locationText);
 					locationText.setError("Select a location");
@@ -164,7 +160,6 @@ public class CreateTournamentFragment extends Fragment {
 					tDef.setDescription(description.getText().toString());
 					tDef.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
 					tDef.setAddress(place);
-					tDef.setNumCourts(Integer.parseInt(numCourts.getText().toString()));
 					Calendar calendar = Calendar.getInstance();
 					calendar.clear();
 					calendar.set(Calendar.YEAR, Integer.parseInt(dates[2]));
@@ -242,8 +237,6 @@ public class CreateTournamentFragment extends Fragment {
         description.setText(null);
         Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
         tournamentTypeSelector.setSelection(0);
-        TextView numCourts = getView().findViewById(R.id.numCourts);
-        numCourts.setText(null);
         TextView locationText = getView().findViewById(R.id.locationText);
         locationText.setText(null);
         place = null;

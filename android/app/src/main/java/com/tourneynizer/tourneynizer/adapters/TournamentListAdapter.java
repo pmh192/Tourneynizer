@@ -20,21 +20,13 @@ import java.util.Collection;
  * Created by ryanl on 2/3/2018.
  */
 
-public class TournamentListAdapter extends ArrayAdapter<Tournament> {
+public class TournamentListAdapter extends UIListAdapter<Tournament> {
 
     private Activity activity;
 
     public TournamentListAdapter(Activity a) {
         super(a, R.layout.tournament_list_item_layout);
         activity = a;
-    }
-
-    public Tournament[] getAll() {
-        Tournament[] tournaments = new Tournament[getCount()];
-        for (int i = 0; i < getCount(); i++) {
-            tournaments[i] = getItem(i);
-        }
-        return tournaments;
     }
 
     @Override
@@ -48,45 +40,5 @@ public class TournamentListAdapter extends ArrayAdapter<Tournament> {
         ((TextView) convertView.findViewById(R.id.description)).setText(tournament.getDescription());
         ((ImageView) convertView.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
         return convertView;
-    }
-
-    @Override
-    public void add(@Nullable final Tournament object) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TournamentListAdapter.super.add(object);
-            }
-        });
-    }
-
-    @Override
-    public void addAll(final Tournament... items) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TournamentListAdapter.super.addAll(items);
-            }
-        });
-    }
-
-    @Override
-    public void addAll(@NonNull final Collection<? extends Tournament> collection) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TournamentListAdapter.super.addAll(collection);
-            }
-        });
-    }
-
-    @Override
-    public void clear() {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TournamentListAdapter.super.clear();
-            }
-        });
     }
 }

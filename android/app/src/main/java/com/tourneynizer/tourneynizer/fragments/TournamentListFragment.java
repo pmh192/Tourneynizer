@@ -19,6 +19,8 @@ import com.tourneynizer.tourneynizer.adapters.TournamentListAdapter;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.services.TournamentService;
 
+import java.util.List;
+
 public class TournamentListFragment extends Fragment {
 
 	private final static String TOURNAMENTS = "com.tourneynizer.tourneynizer.model.Tournament[]";
@@ -42,9 +44,9 @@ public class TournamentListFragment extends Fragment {
 		tournamentService = new TournamentService();
 		listAdapter = new TournamentListAdapter(getActivity());
 		if (savedInstanceState != null) {
-		    Parcelable[] tournaments = savedInstanceState.getParcelableArray(TOURNAMENTS);
+		    List<Tournament> tournaments = savedInstanceState.getParcelableArrayList(TOURNAMENTS);
 		    if (tournaments != null) {
-				listAdapter.addAll((Tournament[]) tournaments);
+				listAdapter.addAll(tournaments);
 			} else {
 				refresh();
 			}
@@ -103,7 +105,7 @@ public class TournamentListFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putParcelableArray(TOURNAMENTS, listAdapter.getAll());
+		outState.putParcelableArrayList(TOURNAMENTS, listAdapter.getAll());
 	}
 
 	public void refresh() {

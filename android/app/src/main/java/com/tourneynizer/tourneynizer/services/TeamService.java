@@ -7,7 +7,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.tourneynizer.tourneynizer.model.Team;
+import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.util.CookieRequestFactory;
 import com.tourneynizer.tourneynizer.util.JSONConverter;
@@ -59,7 +61,8 @@ public class TeamService {
 
     public void getTeams(Tournament t, final OnTeamsLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/all";
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        JsonArrayRequest request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Team[] teams = new Team[response.length()];
@@ -84,7 +87,8 @@ public class TeamService {
 
     public void getCompleteTeams(Tournament t, final OnTeamsLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/complete";
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        JsonArrayRequest request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Team[] teams = new Team[response.length()];
@@ -109,7 +113,8 @@ public class TeamService {
 
     public void getPendingTeams(Tournament t, final OnTeamsLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/incomplete";
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        JsonArrayRequest request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Team[] teams = new Team[response.length()];
@@ -130,5 +135,21 @@ public class TeamService {
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void declineRequest(TeamRequest tRequest) {
+        String url = HTTPService.DOMAIN + "requests/" + tRequest.getID();
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        StringRequest request = cookieRequestFactory.makeStringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Success", "Request declined");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        });
     }
 }
