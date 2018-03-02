@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import TournamentViewPage from '../PageComponents/TournamentViewPage';
 import TournamentCreatePage from '../PageComponents/TournamentCreatePage';
+import TournamentJoinPage from '../PageComponents/TournamentJoinPage';
 import TournamentRulesPage from '../PageComponents/TournamentRulesPage';
 import TeamsViewPage from '../PageComponents/TeamsViewPage';
 import TeamsCreatePage from '../PageComponents/TeamsCreatePage';
@@ -52,6 +53,7 @@ class StateManager extends Component{
 					<Route exact path="/AccountCreationPage" render={()=> <AccountCreationPage />} />
 					<Route exact path="/Tournaments/view" component={TournamentViewPage} />
 					<Route exact path="/Tournaments/create" component={TournamentCreatePage} />
+					<Route exact path="/Tournaments/join/:tourneyId" component={TournamentJoinPage} />
 					<Route exact path="/Tournaments/rules" component={TournamentRulesPage} />
 					<Route exact path="/Teams/view" component={TeamsViewPage} />
 					<Route exact path="/Teams/create" component={TeamsCreatePage} />

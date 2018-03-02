@@ -32,6 +32,8 @@ class LoginPageForm extends Component{
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
+			credentials: 'include',
+			
 		})
 		.then( response => {
 			if(response.status === 200){
@@ -44,6 +46,7 @@ class LoginPageForm extends Component{
 			console.log(error);
 		})
 		console.log(this.state.email);
+		console.log(document.cookie);
 		e.preventDefault();
     }
 
