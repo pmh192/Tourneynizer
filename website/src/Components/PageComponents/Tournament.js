@@ -14,7 +14,7 @@ class Tournament extends Component{
 
 	render(){
 		return (
-			<div className='tableInfo'>
+			<div>
 				<p>Name: {this.state.name}<br/>
 				StartTime:{this.state.startTime}<br/>
 				Type:{this.state.type}<br/>
