@@ -31,7 +31,7 @@ public class TeamListAdapter extends UIListAdapter<Team> {
         Team team = getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.user_list_item_layout, parent, false);
+            convertView = inflater.inflate(R.layout.team_list_item_layout, parent, false);
         }
         ((TextView) convertView.findViewById(R.id.name)).setText(team.getName());
         ((ImageView) convertView.findViewById(R.id.logo)).setImageBitmap(team.getLogo());

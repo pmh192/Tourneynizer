@@ -17,6 +17,8 @@ import com.tourneynizer.tourneynizer.adapters.UserListAdapter;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.services.UserService;
 
+import java.util.ArrayList;
+
 public class SearchFragment extends Fragment {
 
     private static final String USERS = "com.tourneynizer.tourneynizer.model.User[]";
@@ -37,6 +39,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userService = new UserService();
+
     }
 
     @Override
@@ -44,6 +47,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         SearchView searchView = view.findViewById(R.id.searchBar);
+        searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -66,14 +70,9 @@ public class SearchFragment extends Fragment {
             }
         });
         listAdapter = new UserListAdapter(getActivity());
-        Log.d("1", "OK");
         if (savedInstanceState != null) {
-            Log.d("2", "OK");
-            Parcelable[] users = savedInstanceState.getParcelableArray(USERS);
-            if (users != null) {
-                Log.d("3", "OK");
-                listAdapter.addAll((User[]) users);
-            }
+            ArrayList<User> users = savedInstanceState.getParcelableArrayList(USERS);
+            listAdapter.addAll(users);
         }
         ListView userList = view.findViewById(R.id.userList);
         userList.setAdapter(listAdapter);
@@ -94,7 +93,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArray(USERS, listAdapter.getAll());
+        outState.putParcelableArrayList(USERS, listAdapter.getAll());
     }
 
     @Override

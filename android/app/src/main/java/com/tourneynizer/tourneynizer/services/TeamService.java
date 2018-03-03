@@ -18,6 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.sql.Time;
+
 /**
  * Created by ryanwiener on 2/28/18.
  */
@@ -35,7 +38,7 @@ public class TeamService {
     }
 
     public void createTeam(Tournament t, String teamName, final OnTeamLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "tournament/" + t .getID() + "/team/create";
+        String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/team/create";
         CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
         JSONObject body = new JSONObject();
         try {
@@ -53,10 +56,19 @@ public class TeamService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", error.toString());
+                try {
+                    Log.e("Error Response", new String(error.networkResponse.data, "UTF8"));
+                } catch (UnsupportedEncodingException e) {
+
+                }
                 listener.onTeamLoaded(null);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getMyTeams(final OnTeamsLoadedListener listener) {
+        listener.onTeamsLoaded(new Team[] {new Team(1, "Coach", new Time(0), 2, 1)});
     }
 
     public void getTeams(Tournament t, final OnTeamsLoadedListener listener) {
@@ -131,6 +143,11 @@ public class TeamService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", error.toString());
+                try {
+                    Log.e("Error Response", new String(error.networkResponse.data, "UTF8"));
+                } catch (UnsupportedEncodingException e) {
+
+                }
                 listener.onTeamsLoaded(null);
             }
         });

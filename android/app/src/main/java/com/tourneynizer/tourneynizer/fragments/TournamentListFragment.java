@@ -42,17 +42,6 @@ public class TournamentListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		tournamentService = new TournamentService();
-		listAdapter = new TournamentListAdapter(getActivity());
-		if (savedInstanceState != null) {
-		    List<Tournament> tournaments = savedInstanceState.getParcelableArrayList(TOURNAMENTS);
-		    if (tournaments != null) {
-				listAdapter.addAll(tournaments);
-			} else {
-				refresh();
-			}
-		} else {
-		    refresh();
-		}
 	}
 
 	@Override
@@ -70,7 +59,6 @@ public class TournamentListFragment extends Fragment {
 		((ViewGroup) listView.getParent()).addView(progressBar);
 		listView.setEmptyView(progressBar);
 
-		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -84,6 +72,18 @@ public class TournamentListFragment extends Fragment {
 				refresh();
 			}
 		});
+		listAdapter = new TournamentListAdapter(getActivity());
+		if (savedInstanceState != null) {
+		    List<Tournament> tournaments = savedInstanceState.getParcelableArrayList(TOURNAMENTS);
+		    if (tournaments != null) {
+				listAdapter.addAll(tournaments);
+			} else {
+				refresh();
+			}
+		} else {
+		    refresh();
+		}
+        listView.setAdapter(listAdapter);
 		return view;
 	}
 
@@ -109,19 +109,19 @@ public class TournamentListFragment extends Fragment {
 	}
 
 	public void refresh() {
+        listAdapter.clear();
 		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
-				listAdapter.clear();
-				listAdapter.addAll(tournaments);
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						if (swipeRefresher != null) {
-							swipeRefresher.setRefreshing(false);
-						}
-					}
-				});
+			    if (tournaments != null) {
+                    listAdapter.addAll(tournaments);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresher.setRefreshing(false);
+                    }
+                });
 			}
 		});
 	}

@@ -40,6 +40,7 @@ public class Team implements Parcelable {
     protected Team(Parcel in) {
         id = in.readLong();
         name = in.readString();
+        timeCreated = (Time) in.readSerializable();
         creatorID = in.readLong();
         tournamentID = in.readLong();
         checkedIn = in.readByte() != 0;
@@ -101,8 +102,10 @@ public class Team implements Parcelable {
         parcel.writeLong(id);
         parcel.writeString(name);
         parcel.writeSerializable(timeCreated);
+        parcel.writeLong(creatorID);
         parcel.writeLong(tournamentID);
-        parcel.writeBooleanArray(new boolean[]{checkedIn, approved});
+        parcel.writeByte((byte) (checkedIn ? 1 : 0));
+        parcel.writeByte((byte) (approved ? 1 : 0));
         parcel.writeParcelable(logo, i);
     }
 }

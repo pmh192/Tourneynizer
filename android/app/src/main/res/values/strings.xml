@@ -36,4 +36,7 @@
     <string name="locationPrompt">Location</string>
     <string name="numCourts">Num Courts</string>
     <string name="logOut">Log Out</string>
+    <string name="myTeams">My Teams</string>
+    <string name="myTournaments">My Tournaments</string>
+    <string name="myRequests">My Requests</string>
 </resources>

@@ -23,7 +23,9 @@ public class JoinTeamFragment extends Fragment {
     private static final String TOURNAMENT = "com.tourneynizer.tourneynizer.model.Tournament";
 
     private Tournament tournament;
+    private TeamService teamService;
     private TeamListAdapter listAdapter;
+    private SwipeRefreshLayout swipeRefresher;
 
     public JoinTeamFragment() {
         // Required empty public constructor
@@ -43,6 +45,21 @@ public class JoinTeamFragment extends Fragment {
         if (getArguments() != null) {
             tournament = getArguments().getParcelable(TOURNAMENT);
         }
+        teamService = new TeamService();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_join_team, container, false);
+        ListView teamsList = view.findViewById(R.id.teamList);
+        swipeRefresher = view.findViewById(R.id.swipeRefresher);
+        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
         listAdapter = new TeamListAdapter(getActivity());
         if (savedInstanceState != null) {
             List<Team> teams = savedInstanceState.getParcelableArrayList(TEAMS);
@@ -54,21 +71,7 @@ public class JoinTeamFragment extends Fragment {
         } else {
             refresh();
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_join_team, container, false);
-        ListView teamsList = view.findViewById(R.id.teamList);
         teamsList.setAdapter(listAdapter);
-        SwipeRefreshLayout swipeRefresher = view.findViewById(R.id.swipeRefresher);
-        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
         return view;
     }
 
@@ -89,12 +92,21 @@ public class JoinTeamFragment extends Fragment {
     }
 
     public void refresh() {
-        TeamService teamService = new TeamService();
+        listAdapter.clear();
         teamService.getPendingTeams(tournament, new TeamService.OnTeamsLoadedListener() {
             @Override
             public void onTeamsLoaded(Team[] teams) {
-                listAdapter.clear();
-                listAdapter.addAll(teams);
+                if (teams != null) {
+                    listAdapter.addAll(teams);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (swipeRefresher != null) {
+                            swipeRefresher.setRefreshing(false);
+                        }
+                    }
+                });
             }
         });
     }

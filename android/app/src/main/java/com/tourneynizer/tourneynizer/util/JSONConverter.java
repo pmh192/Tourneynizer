@@ -102,7 +102,7 @@ public class JSONConverter {
     public Team convertJSONToTeam(JSONObject tJSON) {
         Team t;
         try {
-            t = new Team(tJSON.getLong("id"), tJSON.getString("name"), new Time(tJSON.getLong("timeCreated")), tJSON.getLong("creatorId"), tJSON.getLong("tournamentId"), tJSON.getBoolean("checkedIn"), true);
+            t = new Team(tJSON.getLong("id"), tJSON.getString("name"), new Time(tJSON.getLong("timeCreated")), tJSON.getLong("creatorId"), tJSON.getLong("tournamentId"), tJSON.getBoolean("checkedIn"), true, null);
         } catch (JSONException e) {
             t = null;
         }

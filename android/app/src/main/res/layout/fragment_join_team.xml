@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginSize"
+        android:textColor="@color/titleTextColor"
         android:textSize="@dimen/largeTextSize"
         android:textAlignment="center"
         android:text="@string/findTeams"/>

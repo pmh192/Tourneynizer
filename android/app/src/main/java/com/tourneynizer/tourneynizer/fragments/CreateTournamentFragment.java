@@ -39,7 +39,16 @@ public class CreateTournamentFragment extends Fragment {
 	private static final int PLACE_PICKER_REQUEST = 1;
 
 	private Place place;
+	private View goToMapButton;
 	private TournamentService tournamentService;
+	private TextView nameField;
+	private TextView description;
+	private Spinner tournamentTypes;
+	private TextView locationLabel;
+	private TextView dateLabel;
+	private TextView timeLabel;
+	private TextView teamSize;
+	private TextView maxTeams;
 
 	public CreateTournamentFragment() {
 		// Required empty public constructor
@@ -60,7 +69,7 @@ public class CreateTournamentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_create_tournament, container, false);
-		View goToMapButton = view.findViewById(R.id.goToMap);
+		goToMapButton = view.findViewById(R.id.goToMap);
 		goToMapButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -68,11 +77,11 @@ public class CreateTournamentFragment extends Fragment {
 				//TournamentService.createTournament(getContext());
 			}
 		});
-		Spinner tournamentTypes = view.findViewById(R.id.tournamentTypeSpinner);
+		tournamentTypes = view.findViewById(R.id.tournamentTypeSpinner);
 		ArrayAdapter<TournamentType> spinnerAdapter = new ArrayAdapter<TournamentType>(getContext(), R.layout.spinner_tournament_type_item, R.id.title, TournamentType.values());
 		tournamentTypes.setAdapter(spinnerAdapter);
 		View dateButton = view.findViewById(R.id.showDatePicker);
-		final TextView dateLabel = view.findViewById(R.id.startDate);
+		dateLabel = view.findViewById(R.id.startDate);
 		dateButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -88,7 +97,7 @@ public class CreateTournamentFragment extends Fragment {
 			}
 		});
 		View timeButton = view.findViewById(R.id.showTimePicker);
-		final TextView timeLabel = view.findViewById(R.id.startTime);
+		timeLabel = view.findViewById(R.id.startTime);
 		timeButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -115,41 +124,38 @@ public class CreateTournamentFragment extends Fragment {
 				timePicker.show();
 			}
 		});
+        nameField = view.findViewById(R.id.tournamentName);
+        description = view.findViewById(R.id.tournamentDescription);
+        locationLabel = view.findViewById(R.id.locationText);
+        teamSize = view.findViewById(R.id.teamSize);
+        maxTeams = view.findViewById(R.id.maxTeams);
 		View createButton = view.findViewById(R.id.createButton);
 		createButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				boolean ready = true;
-				TextView nameField = getView().findViewById(R.id.tournamentName);
 				if (nameField.getText().toString().equals("")) {
 					nameField.setError("Make a name");
 					ready = false;
 				}
-				TextView description = getView().findViewById(R.id.tournamentDescription);
-				Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
 				if (place == null) {
-					TextView locationText = getView().findViewById(R.id.locationText);
-					locationText.setError("Select a location");
+					locationLabel.setError("Select a location");
 				}
-				TextView dateText = getView().findViewById(R.id.startDate);
-				TextView timeText = getView().findViewById(R.id.startTime);
-				String[] dates = dateText.getText().toString().split("/");
-				String[] indicators = timeText.getText().toString().split(" ");
+				String[] dates = dateLabel.getText().toString().split("/");
+				String[] indicators = timeLabel.getText().toString().split(" ");
 				if (dates.length < 3) {
-					dateText.setError("Choose a date");
+					dateLabel.setError("Choose a date");
 					ready = false;
 				}
 				if (indicators.length < 2) {
-					timeText.setError("Select a time");
+					timeLabel.setError("Select a time");
 					ready = false;
 				}
 				String[] times = indicators[0].split(":");
-				TextView teamSize = getView().findViewById(R.id.teamSize);
 				if (!teamSize.getText().toString().matches("\\d+")) {
 					teamSize.setError("Select a team size");
 					ready = false;
 				}
-				TextView maxTeams = getView().findViewById(R.id.maxTeams);
 				if (!maxTeams.getText().toString().matches("\\d+")) {
 					maxTeams.setError("Choose the max num of teams");
 					ready = false;
@@ -158,7 +164,7 @@ public class CreateTournamentFragment extends Fragment {
 					TournamentDef tDef = new TournamentDef();
 					tDef.setName(nameField.getText().toString());
 					tDef.setDescription(description.getText().toString());
-					tDef.setTournamentType(TournamentType.values()[tournamentTypeSelector.getSelectedItemPosition()]);
+					tDef.setTournamentType(TournamentType.values()[tournamentTypes.getSelectedItemPosition()]);
 					tDef.setAddress(place);
 					Calendar calendar = Calendar.getInstance();
 					calendar.clear();
@@ -210,7 +216,7 @@ public class CreateTournamentFragment extends Fragment {
 		try {
 			startActivityForResult(tDef.build(getActivity()), PLACE_PICKER_REQUEST);
 			Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
-			getView().findViewById(R.id.goToMap).setEnabled(false);
+			goToMapButton.setEnabled(false);
 		} catch (GooglePlayServicesNotAvailableException | GooglePlayServicesRepairableException e) {
             Toast.makeText(getContext(), "Couldn't load place picker", Toast.LENGTH_SHORT).show();
         }
@@ -219,34 +225,25 @@ public class CreateTournamentFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PLACE_PICKER_REQUEST) {
-			getView().findViewById(R.id.goToMap).setEnabled(true);
+			goToMapButton.setEnabled(true);
 			if (resultCode == RESULT_OK) {
 				Place p = PlacePicker.getPlace(getContext(), data);
 				place = p;
-				TextView location = getView().findViewById(R.id.locationText);
-				location.setText(place.getName());
-				location.setError(null);
+				locationLabel.setText(place.getName());
+				locationLabel.setError(null);
 			}
 		}
 	}
 
 	private void clearFields() {
-        TextView nameField = getView().findViewById(R.id.tournamentName);
         nameField.setText(null);
-        TextView description = getView().findViewById(R.id.tournamentDescription);
         description.setText(null);
-        Spinner tournamentTypeSelector = getView().findViewById(R.id.tournamentTypeSpinner);
-        tournamentTypeSelector.setSelection(0);
-        TextView locationText = getView().findViewById(R.id.locationText);
-        locationText.setText(null);
+        tournamentTypes.setSelection(0);
+        locationLabel.setText(null);
         place = null;
-        TextView dateText = getView().findViewById(R.id.startDate);
-        dateText.setText(null);
-        TextView timeText = getView().findViewById(R.id.startTime);
-        timeText.setText(null);
-        TextView teamSize = getView().findViewById(R.id.teamSize);
+        dateLabel.setText(null);
+        timeLabel.setText(null);
         teamSize.setText(null);
-        TextView maxTeams = getView().findViewById(R.id.maxTeams);
         maxTeams.setText(null);
     }
 
