@@ -2,7 +2,6 @@ package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,7 @@ import com.tourneynizer.tourneynizer.services.TeamService;
 
 import java.util.List;
 
-public class JoinTeamFragment extends Fragment {
+public class JoinTeamFragment extends UIQueueFragment {
 
     private static final String TEAMS = "com.tourneynizer.tourneynizer.model.Team[]";
     private static final String TOURNAMENT = "com.tourneynizer.tourneynizer.model.Tournament";
@@ -95,16 +94,14 @@ public class JoinTeamFragment extends Fragment {
         listAdapter.clear();
         teamService.getPendingTeams(tournament, new TeamService.OnTeamsLoadedListener() {
             @Override
-            public void onTeamsLoaded(Team[] teams) {
-                if (teams != null) {
-                    listAdapter.addAll(teams);
-                }
-                getActivity().runOnUiThread(new Runnable() {
+            public void onTeamsLoaded(final Team[] teams) {
+                performUITask(new Runnable() {
                     @Override
                     public void run() {
-                        if (swipeRefresher != null) {
-                            swipeRefresher.setRefreshing(false);
+                        if (teams != null) {
+                            listAdapter.addAll(teams);
                         }
+                        swipeRefresher.setRefreshing(false);
                     }
                 });
             }

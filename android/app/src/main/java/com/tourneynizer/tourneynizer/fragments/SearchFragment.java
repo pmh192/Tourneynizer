@@ -2,9 +2,7 @@ package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -19,7 +17,7 @@ import com.tourneynizer.tourneynizer.services.UserService;
 
 import java.util.ArrayList;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends UIQueueFragment {
 
     private static final String USERS = "com.tourneynizer.tourneynizer.model.User[]";
 
@@ -39,7 +37,6 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userService = new UserService();
-
     }
 
     @Override
@@ -51,13 +48,23 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                listAdapter.clear();
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter.clear();
+                    }
+                });
                 userService.getUserFromEmail(query, new UserService.OnUserLoadedListener() {
                     @Override
-                    public void onUserLoaded(User user) {
-                        if (user != null) {
-                            listAdapter.add(user);
-                        }
+                    public void onUserLoaded(final User user) {
+                        performUITask(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (user != null) {
+                                    listAdapter.add(user);
+                                }
+                            }
+                        });
                     }
                 });
                 return false;
@@ -65,14 +72,21 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                listAdapter.clear();
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter.clear();
+                    }
+                });
                 return false;
             }
         });
         listAdapter = new UserListAdapter(getActivity());
         if (savedInstanceState != null) {
             ArrayList<User> users = savedInstanceState.getParcelableArrayList(USERS);
-            listAdapter.addAll(users);
+            if (users != null) {
+                listAdapter.addAll(users);
+            }
         }
         ListView userList = view.findViewById(R.id.userList);
         userList.setAdapter(listAdapter);

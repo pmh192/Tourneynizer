@@ -1,9 +1,6 @@
 package com.tourneynizer.tourneynizer.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,7 +18,7 @@ import com.tourneynizer.tourneynizer.services.TournamentService;
 
 import java.util.List;
 
-public class TournamentListFragment extends Fragment {
+public class TournamentListFragment extends UIQueueFragment {
 
 	private final static String TOURNAMENTS = "com.tourneynizer.tourneynizer.model.Tournament[]";
 
@@ -87,11 +84,6 @@ public class TournamentListFragment extends Fragment {
 		return view;
 	}
 
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-	}
-
 	private void goToInfo(Tournament tournament) {
 		TournamentInfoFragment tournamentInfoFragment = TournamentInfoFragment.newInstance(tournament);
 		((RootFragment) getParentFragment()).pushFragment(tournamentInfoFragment);
@@ -109,16 +101,21 @@ public class TournamentListFragment extends Fragment {
 	}
 
 	public void refresh() {
-        listAdapter.clear();
+        performUITask(new Runnable() {
+            @Override
+            public void run() {
+                listAdapter.clear();
+            }
+        });
 		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
-			    if (tournaments != null) {
-                    listAdapter.addAll(tournaments);
-                }
-                getActivity().runOnUiThread(new Runnable() {
+			    performUITask(new Runnable() {
                     @Override
                     public void run() {
+                        if (tournaments != null) {
+                            listAdapter.addAll(tournaments);
+                        }
                         swipeRefresher.setRefreshing(false);
                     }
                 });

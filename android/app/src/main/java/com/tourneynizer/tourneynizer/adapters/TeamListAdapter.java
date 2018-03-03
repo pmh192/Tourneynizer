@@ -11,13 +11,12 @@ import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.User;
 
 /**
  * Created by ryanl on 2/3/2018.
  */
 
-public class TeamListAdapter extends UIListAdapter<Team> {
+public class TeamListAdapter extends ListAdapter<Team> {
 
     private Activity activity;
 
