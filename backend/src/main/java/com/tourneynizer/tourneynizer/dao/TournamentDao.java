@@ -1,6 +1,5 @@
 package com.tourneynizer.tourneynizer.dao;
 
-import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
@@ -86,5 +85,15 @@ public class TournamentDao {
     public List<Tournament> getAll() throws SQLException {
         String sql = "SELECT * FROM tournaments;";
         return this.jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public List<Tournament> ownedBy(User user) throws SQLException {
+        String sql = "SELECT * FROM tournaments WHERE creator_id=?;";
+
+        return this.jdbcTemplate.query(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, user.getId());
+            return preparedStatement;
+        }, rowMapper);
     }
 }

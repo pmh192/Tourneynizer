@@ -65,4 +65,17 @@ public class TournamentController {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/api/tournament/getAllCreated")
+    public ResponseEntity<?> getAllCreated(@CookieValue("session") String session) {
+        try {
+            User user = sessionService.findBySession(session);
+            List<Tournament> tournaments = tournamentService.ownedBy(user);
+            return new ResponseEntity<Object>(tournaments, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

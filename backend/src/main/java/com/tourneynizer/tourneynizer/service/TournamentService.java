@@ -68,4 +68,13 @@ public class TournamentService {
 
         return tournament;
     }
+
+    public List<Tournament> ownedBy(User user) throws InternalErrorException{
+        try {
+            return tournamentDao.ownedBy(user);
+        }
+        catch (SQLException e) {
+            throw new InternalErrorException(e);
+        }
+    }
 }

@@ -101,4 +101,30 @@ public class TournamentDaoTest extends TestWithContext {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void ownedBy() throws Exception {
+        User user = new User("person@place.com", "Name", "");
+        user.setPlaintextPassword("HI");
+        userDao.insert(user);
+
+        User user2 = new User("person2@place.com", "Name", "");
+        user2.setPlaintextPassword("HI");
+        userDao.insert(user2);
+
+        Tournament tournament1 = new Tournament("name1", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
+        Tournament tournament2 = new Tournament("name2", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
+        Tournament tournament3 = new Tournament("name3", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user2.getId());
+        tournamentDao.insert(tournament1, user);
+        tournamentDao.insert(tournament2, user);
+        tournamentDao.insert(tournament3, user2);
+
+        List<Tournament> expected = Arrays.asList(tournament1, tournament2);
+        List<Tournament> expected2 = Arrays.asList(tournament3);
+        List<Tournament> actual = tournamentDao.ownedBy(user);
+        List<Tournament> actual2 = tournamentDao.ownedBy(user2);
+
+        assertEquals(expected, actual);
+        assertEquals(expected2, actual2);
+    }
 }
