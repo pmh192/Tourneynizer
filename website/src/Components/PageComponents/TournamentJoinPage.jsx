@@ -54,6 +54,7 @@ class TournamentJoinPage extends Component{
 						<h3>You are viewing Tournament: "{this.state.name}"</h3>
 						<GoogleMapsView address={this.state.address}/>
 					</Jumbotron>
+
 				</div>
 			);
 		}
