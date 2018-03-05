@@ -28,9 +28,9 @@ class NavBar extends React.Component {
 					      </LinkContainer>
 					      <LinkContainer to="/Tournaments/rules">
 					      	<MenuItem eventKey="3">Tournament Rules</MenuItem>
-					      </LinkContainer>
+					      </LinkContainer to="/Tournaments/about">
 					      <MenuItem divider />
-					      <MenuItem eventKey="4">About Tournements</MenuItem>
+					      <MenuItem eventKey="4">About Tournaments</MenuItem>
 		    			</NavDropdown>
 		    		</NavItem>
 		    		<NavItem>
