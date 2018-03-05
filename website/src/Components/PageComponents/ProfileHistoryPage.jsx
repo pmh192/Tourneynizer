@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class TeamsAboutPage extends Component{
+class ProfileHistoryPage extends Component{
 
 
 	render(){
@@ -11,4 +11,4 @@ class TeamsAboutPage extends Component{
 	}
 }
 
-export default TeamsAboutPage;
+export default ProfileHistoryPage;
