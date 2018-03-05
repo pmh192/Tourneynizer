@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
 import '../../resources/index.css';
 
-var apiURL = 'http://169.231.234.195:8080/'
+var apiURL = 'http://127.0.0.1:8080/'
 
 class AccountCreationForm extends Component{
 	constructor(props, context) {
@@ -77,7 +77,7 @@ class AccountCreationForm extends Component{
 				name: fullName,
 				password: this.state.password,
 			};
-			fetch('http://169.231.234.195:8080/api/user/create', {
+			fetch(apiURL + 'api/user/create', {
 					method: 'POST',
 					mode: 'cors',
 					body: JSON.stringify(data),

@@ -20,7 +20,7 @@ class LoginPageForm extends Component{
 
     handleSubmit(e) {
     	console.log('submitting')
-    	let apiURL = 'http://169.231.234.195:8080/api/auth/login';
+    	let apiURL = 'http://localhost:8080/api/auth/login';
     	let data = {
     		email: this.state.email,
     		password: this.state.password,
@@ -32,7 +32,7 @@ class LoginPageForm extends Component{
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
-			credentials: 'include',
+ 			credentials: 'include',
 			
 		})
 		.then( response => {
