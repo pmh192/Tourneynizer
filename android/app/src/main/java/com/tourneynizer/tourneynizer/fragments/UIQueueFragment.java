@@ -24,8 +24,10 @@ public class UIQueueFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Activity activity = (Activity) context;
-        while (!activityTasks.isEmpty()) {
-            activity.runOnUiThread(activityTasks.poll());
+        synchronized (activityTasks) {
+            while (!activityTasks.isEmpty()) {
+                activity.runOnUiThread(activityTasks.poll());
+            }
         }
     }
 
@@ -33,7 +35,9 @@ public class UIQueueFragment extends Fragment {
         if (isAdded()) {
             getActivity().runOnUiThread(activityTask);
         } else {
-            activityTasks.add(activityTask);
+            synchronized (activityTasks) {
+                activityTasks.add(activityTask);
+            }
         }
     }
 }

@@ -38,6 +38,14 @@ public class HomeFragment extends UIQueueFragment {
 		"com.tourneynizer.tourneynizer.model.Tournament[]",
 		"com.tourneynizer.tourneynizer.model.TeamRequest[]"
 	};
+    private final int[][] STATES = new int[][] {
+        {-android.R.attr.state_checked},
+        {android.R.attr.state_checked}
+    };
+    private final int[] COLORS = new int[] {
+        Color.WHITE,
+        ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)
+    };
 
 	private ListView listView;
 	private RadioGroup segmentController;
@@ -70,18 +78,16 @@ public class HomeFragment extends UIQueueFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
-		int[][] states = new int[][]{{-android.R.attr.state_checked}, {android.R.attr.state_checked}};
-		int[] colors = new int[] {Color.WHITE, ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)};
-		ColorStateList colorStateList = new ColorStateList(states, colors);
+        ADAPTERS[0] = new TeamListAdapter(getActivity());
+        ADAPTERS[1] = new TournamentListAdapter(getActivity());
+        ADAPTERS[2] = new UserListAdapter(getActivity());
+		ColorStateList colorStateList = new ColorStateList(STATES, COLORS);
 		RadioButton teamSegment = view.findViewById(R.id.myTeams);
 		teamSegment.setTextColor(colorStateList);
 		RadioButton tournamentSegment = view.findViewById(R.id.myTournaments);
 		tournamentSegment.setTextColor(colorStateList);
 		RadioButton requestSegment = view.findViewById(R.id.myRequests);
 		requestSegment.setTextColor(colorStateList);
-		ADAPTERS[0] = new TeamListAdapter(getActivity());
-		ADAPTERS[1] = new TournamentListAdapter(getActivity());
-		ADAPTERS[2] = new UserListAdapter(getActivity());
 		refresher = view.findViewById(R.id.swipeRefresher);
 		refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
@@ -145,7 +151,7 @@ public class HomeFragment extends UIQueueFragment {
 					@Override
 					public void run() {
 						ADAPTERS[0].addAll(teams);
-						//refresher.setRefreshing(false);
+						refresher.setRefreshing(false);
 					}
 				});
 			}
