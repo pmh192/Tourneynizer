@@ -1,24 +1,55 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import Geocode from "react-geocode";
 
 export class GoogleMapsView extends Component{
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
+
 		this.state = {
-			selectedPlace: {
-				name: 'Santa Barbara, CA 93106'
-			}
+			address: this.props.address,
+			latitude: 0,
+			longitude: 0,
 		}
 	}
 
+	componentWillMount(){
+
+	}
+
+	getLatLong(){
+		Geocode.fromAddress(this.state.address).then(
+			response => {
+				const { lat, lng } = response.results[0].geometry.location;
+				console.log(lat, lng);
+				this.setState({
+					latitude: lat,
+					longitude: lng,
+				});
+		  	},
+			error => {
+				console.error(error);
+			}
+		);
+	}
+
 	render(){
+		this.getLatLong();
 		return (
-		  <Map google={window.google} zoom={14}>
-			<Marker onClick={this.onMarkerClick}
-					name={'Current location'} />
-			<InfoWindow onClose={this.onInfoWindowClose}>
-			</InfoWindow>
-		  </Map>
+			<div className='googleMap' >
+				<Map 
+				  	google={window.google} 
+				  	zoom={5}
+				  	initialCenter={{
+	            		lat:this.state.latitude,
+	            		lng:this.state.longitude,
+	          		}}
+
+          		>
+				<Marker onClick={this.onMarkerClick}
+						name={'Current location'} />
+			  </Map>
+			</div>
 		)
 	}
 
