@@ -23,9 +23,9 @@ class TournamentsList extends Component{
 		.then((response) => {
 			if(response.ok){
 				response.json().then(json => {
-					console.log(json);
-					json.timeCreated = new Date(parseInt(json.timeCreated));
-					console.log(json.startTime);
+					for(let i = 0; i < json.length; i++){
+						json[i].startTime = (new Date(json[i].startTime)).toString();
+					}
 					this.setState({
 						tournaments: json,
 						dataLoaded: true,
