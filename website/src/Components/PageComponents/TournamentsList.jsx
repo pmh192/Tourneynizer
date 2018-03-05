@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Tournament from './Tournament'
 import { Link } from 'react-router-dom';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 
 class TournamentsList extends Component{
 	//will take in a js objects created from server data and render them in a table
@@ -21,6 +23,9 @@ class TournamentsList extends Component{
 		.then((response) => {
 			if(response.ok){
 				response.json().then(json => {
+					console.log(json);
+					json.timeCreated = new Date(parseInt(json.timeCreated));
+					console.log(json.startTime);
 					this.setState({
 						tournaments: json,
 						dataLoaded: true,
@@ -39,7 +44,39 @@ class TournamentsList extends Component{
 
 	render(){
 		if(this.state.dataLoaded === true){
-			const listItems = this.state.tournaments.map(function(tourney, index){
+			const data = this.state.tournaments;
+			const columns = [{
+				Header: 'ID',
+				accessor: 'id',
+				show: false,
+			},{
+				Header: 'Name',
+				accessor: 'name',
+				Cell: row => (
+					<div> 
+
+					</div>
+				)
+			},{
+				Header: 'Start Time',
+				accessor: 'startTime',
+			},{
+				Header: 'Tourney Type',
+				accessor: 'type',
+			},{
+				Header: 'Address',
+				accessor: 'address',
+			}]
+			return(
+				<div>
+					<ReactTable
+					    data={data}
+    					columns={columns}
+    					className="-striped -highlight"
+					/>
+				</div>
+			);
+			/*const listItems = this.state.tournaments.map(function(tourney, index){
 				let tourneyType = '';
 				if(tourney.type === 'VOLLEYBALL_POOLED'){
 					tourneyType = 'Pooled';
@@ -72,7 +109,10 @@ class TournamentsList extends Component{
 			);
 		}else{
 			return <div><h1>Tournaments could not be displayed. Try reloading the page</h1></div>
-		}
+		}*/
+	}else{
+		return( <div> </div>);
+	}
 	}
 }
 
