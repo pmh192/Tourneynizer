@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
-import { GoogleApiWrapper } from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-class GoogleMapsView extends Component{
+export class GoogleMapsView extends Component{
 	constructor(){
 		super();
 		this.state = {
-
+			selectedPlace: {
+				name: 'Santa Barbara, CA 93106'
+			}
 		}
 	}
 
 	render(){
-
+		return (
+		  <Map google={window.google} zoom={14}>
+			<Marker onClick={this.onMarkerClick}
+					name={'Current location'} />
+			<InfoWindow onClose={this.onInfoWindowClose}>
+			</InfoWindow>
+		  </Map>
+		)
 	}
 
 }
 
-//export default GoogleMapsView;
-export class MapContainer extends React.Component {}
-
-export default GoogleMapsView({
-  apiKey: AIzaSyCKCGM8moeU_-wAUCxDDSemOtrR6Vh2FKc
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyCKCGM8moeU_-wAUCxDDSemOtrR6Vh2FKc'
 })(GoogleMapsView)
