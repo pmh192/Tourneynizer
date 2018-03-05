@@ -37,18 +37,14 @@ class NavBar extends React.Component {
 		    			<NavDropdown
 					      title='Teams'
 					    >
-					    	<LinkContainer to="/Teams/view">
-					      	<MenuItem eventKey="1">View My Teams</MenuItem>
+					    	<LinkContainer to="/Profile/view">
+					      	<MenuItem eventKey="1">View Your Profile</MenuItem>
 					      </LinkContainer>
-					      <LinkContainer to="/Teams/create">
-					      	<MenuItem eventKey="2">Create a New Team</MenuItem>
+					      <LinkContainer to="/Profile/history">
+					      	<MenuItem eventKey="2">View Your Tournament History</MenuItem>
 					      </LinkContainer>
-					      <LinkContainer to="/Teams/join">
-					      	<MenuItem eventKey="3">Join a Team</MenuItem>
-					      </LinkContainer>
-					      <MenuItem divider />
-					      <LinkContainer to="/Teams/about">
-					      	<MenuItem eventKey="4">About Teams</MenuItem>
+					      <LinkContainer to="/Profile/current">
+					      	<MenuItem eventKey="3">View Current Matches/Teams/Tournaments</MenuItem>
 					      </LinkContainer>
 		    			</NavDropdown>
 					</NavItem>
