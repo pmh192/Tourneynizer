@@ -39,14 +39,19 @@ export class GoogleMapsView extends Component{
 	}
 
 	render(){
+		const style = {
+			width: '50%',
+			height: '50%'
+		}
 		if(!this.state.geocoded){
-			return <div><h1>Error</h1></div>
+			return <div><h1>Loading...</h1></div>
 		}else{
 			return (
 				<div className='googleMap' >
 					<Map 
 					  	google={window.google} 
-					  	zoom={5}
+					  	zoom={14}
+					  	style={style}
 					  	initialCenter={{
 		            		lat:this.state.latitude,
 		            		lng:this.state.longitude,
