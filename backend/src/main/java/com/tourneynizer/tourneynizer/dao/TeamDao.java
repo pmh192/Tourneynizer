@@ -61,7 +61,7 @@ public class TeamDao {
         team.persist(keyHolder.getKey().longValue(), now);
     }
 
-    private final RowMapper<Team> rowMapper = (resultSet, rowNum) -> new Team(
+    static final RowMapper<Team> rowMapper = (resultSet, rowNum) -> new Team(
             resultSet.getLong(1),
             resultSet.getString(2),
             resultSet.getTimestamp(3),
