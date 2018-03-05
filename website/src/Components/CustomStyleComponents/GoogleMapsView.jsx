@@ -19,5 +19,5 @@ class GoogleMapsView extends Component{
 export class MapContainer extends React.Component {}
 
 export default GoogleMapsView({
-  apiKey: (YOUR_GOOGLE_API_KEY_GOES_HERE)
+  apiKey: AIzaSyCKCGM8moeU_-wAUCxDDSemOtrR6Vh2FKc
 })(GoogleMapsView)
