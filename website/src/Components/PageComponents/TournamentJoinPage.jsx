@@ -10,6 +10,7 @@ class TournamentJoinPage extends Component{
 			address:'',
 			name:'',
 			id:0,
+			dataLoaded: false,
 		}
 	}
 
@@ -27,6 +28,7 @@ class TournamentJoinPage extends Component{
 						address:json.address,
 						name:json.name,
 						id:json.id,
+						dataLoaded:true,
 					});
 				})
 			}
@@ -36,21 +38,25 @@ class TournamentJoinPage extends Component{
     	});
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		this.getTournament();
 	}
 
 	render(){
 		console.log(this.props.match.params.tourneyId);
-		return(
-			<div>
-				<Jumbotron>
-					<h1>Tournament Details</h1>
-					<h3>You are viewing Tournament: "{this.state.name}"</h3>
-					<GoogleMapsView />
-				</Jumbotron>
-			</div>
-		);
+		if(!this.state.dataLoaded){
+			return(<div><h1>Data wasn't available</h1></div>);
+		}else{
+			return(
+				<div>
+					<Jumbotron>
+						<h1>Tournament Details</h1>
+						<h3>You are viewing Tournament: "{this.state.name}"</h3>
+						<GoogleMapsView address={this.state.address}/>
+					</Jumbotron>
+				</div>
+			);
+		}
 	}
 }
 

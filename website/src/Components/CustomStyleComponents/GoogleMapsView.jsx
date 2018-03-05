@@ -10,14 +10,18 @@ export class GoogleMapsView extends Component{
 			address: this.props.address,
 			latitude: 0,
 			longitude: 0,
+			geocoded: false,
 		}
 	}
 
 	componentWillMount(){
-
+		this.getLatLong();
 	}
 
 	getLatLong(){
+		Geocode.setApiKey('AIzaSyCKCGM8moeU_-wAUCxDDSemOtrR6Vh2FKc');
+		Geocode.enableDebug();
+
 		Geocode.fromAddress(this.state.address).then(
 			response => {
 				const { lat, lng } = response.results[0].geometry.location;
@@ -25,6 +29,7 @@ export class GoogleMapsView extends Component{
 				this.setState({
 					latitude: lat,
 					longitude: lng,
+					geocoded: true,
 				});
 		  	},
 			error => {
@@ -34,23 +39,26 @@ export class GoogleMapsView extends Component{
 	}
 
 	render(){
-		this.getLatLong();
-		return (
-			<div className='googleMap' >
-				<Map 
-				  	google={window.google} 
-				  	zoom={5}
-				  	initialCenter={{
-	            		lat:this.state.latitude,
-	            		lng:this.state.longitude,
-	          		}}
+		if(!this.state.geocoded){
+			return <div><h1>Error</h1></div>
+		}else{
+			return (
+				<div className='googleMap' >
+					<Map 
+					  	google={window.google} 
+					  	zoom={5}
+					  	initialCenter={{
+		            		lat:this.state.latitude,
+		            		lng:this.state.longitude,
+		          		}}
 
-          		>
-				<Marker onClick={this.onMarkerClick}
-						name={'Current location'} />
-			  </Map>
-			</div>
-		)
+	          		>
+					<Marker onClick={this.onMarkerClick}
+							name={'Current location'} />
+				  </Map>
+				</div>
+			);
+		}
 	}
 
 }
