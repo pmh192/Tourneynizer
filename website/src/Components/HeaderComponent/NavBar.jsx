@@ -35,7 +35,7 @@ class NavBar extends React.Component {
 		    		</NavItem>
 		    		<NavItem>
 		    			<NavDropdown
-					      title='Teams'
+					      title='Profile'
 					    >
 					    	<LinkContainer to="/Profile/view">
 					      	<MenuItem eventKey="1">View Your Profile</MenuItem>
