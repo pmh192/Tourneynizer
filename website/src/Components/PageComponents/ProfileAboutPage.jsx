@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
 
-class TeamsCreatePage extends Component{
+class ProfileAboutPage extends Component{
 
 
 	render(){
@@ -13,4 +13,4 @@ class TeamsCreatePage extends Component{
 	}
 }
 
-export default TeamsCreatePage;
+export default ProfileAboutPage;
