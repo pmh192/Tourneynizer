@@ -38,14 +38,6 @@ public class HomeFragment extends UIQueueFragment {
 		"com.tourneynizer.tourneynizer.model.Tournament[]",
 		"com.tourneynizer.tourneynizer.model.TeamRequest[]"
 	};
-    private final int[][] STATES = new int[][] {
-        {-android.R.attr.state_checked},
-        {android.R.attr.state_checked}
-    };
-    private final int[] COLORS = new int[] {
-        Color.WHITE,
-        ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)
-    };
 
 	private ListView listView;
 	private RadioGroup segmentController;
@@ -81,6 +73,14 @@ public class HomeFragment extends UIQueueFragment {
         ADAPTERS[0] = new TeamListAdapter(getActivity());
         ADAPTERS[1] = new TournamentListAdapter(getActivity());
         ADAPTERS[2] = new UserListAdapter(getActivity());
+        int[][] STATES = new int[][] {
+            {-android.R.attr.state_checked},
+            {android.R.attr.state_checked}
+        };
+        int[] COLORS = new int[] {
+            Color.WHITE,
+            ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)
+        };
 		ColorStateList colorStateList = new ColorStateList(STATES, COLORS);
 		RadioButton teamSegment = view.findViewById(R.id.myTeams);
 		teamSegment.setTextColor(colorStateList);

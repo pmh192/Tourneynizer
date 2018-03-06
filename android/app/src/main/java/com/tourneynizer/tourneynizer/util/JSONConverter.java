@@ -64,7 +64,7 @@ public class JSONConverter {
                 address.setLatitude(10);
                 address.setLongitude(100);
             }
-            t = new Tournament(tJSON.getLong("id"), tJSON.getString("name"), address, new Time(tJSON.getLong("startTime")), tJSON.getInt("maxTeams"), 0/*ioooootJSON.getInt("currentTeams")*/, new Time(tJSON.getLong("timeCreated")), TournamentType.VOLLEYBALL_BRACKET, tJSON.getLong("creatorId"));
+            t = new Tournament(tJSON.getLong("id"), tJSON.getString("name"), address, new Time(tJSON.getLong("startTime")), tJSON.getInt("maxTeams"), 0/*ioooootJSON.getInt("currentTeams")*/, new Time(tJSON.getLong("timeCreated")), TournamentType.valueOf(tJSON.getString("type")), tJSON.getLong("creatorId"));
         } catch (JSONException e) {
             e.printStackTrace();
             t = null;
