@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +74,21 @@ public class TournamentController {
             User user = sessionService.findBySession(session);
             List<Tournament> tournaments = tournamentService.ownedBy(user);
             return new ResponseEntity<Object>(tournaments, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/api/tournament/{id}/start")
+    public ResponseEntity<?> startTournament(@CookieValue("session") String session, @PathVariable("id") long id) {
+        try {
+            User user = sessionService.findBySession(session);
+            tournamentService.startTournament(id, user);
+
+            Map<String, String> status = Collections.singletonMap("status", "success");
+            return new ResponseEntity<Object>(status, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {

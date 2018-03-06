@@ -1,6 +1,7 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentStatus;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,8 +33,8 @@ public class TournamentDao {
                     tournament.getCreatorId() + ", " + user.getId());
         }
 
-        String sql = "INSERT INTO tournaments (name, address, startTime, teamSize, maxTeams, timeCreated, type, numCourts, creator_id)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO tournaments (name, address, startTime, teamSize, maxTeams, timeCreated, type, numCourts, creator_id, status)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -49,6 +50,7 @@ public class TournamentDao {
                 preparedStatement.setInt(7, tournament.getType().ordinal());
                 preparedStatement.setInt(8, tournament.getNumCourts());
                 preparedStatement.setLong(9, tournament.getCreatorId());
+                preparedStatement.setShort(10, (short) tournament.getStatus().ordinal());
 
                 return preparedStatement;
             }, keyHolder);
@@ -69,7 +71,8 @@ public class TournamentDao {
             resultSet.getInt(6),
             TournamentType.values()[resultSet.getInt(8)],
             resultSet.getInt(9),
-            resultSet.getLong(10)
+            resultSet.getLong(10),
+            TournamentStatus.values()[resultSet.getShort(11)]
     );
 
     public Tournament findById(Long id) throws SQLException {
@@ -95,5 +98,18 @@ public class TournamentDao {
             preparedStatement.setLong(1, user.getId());
             return preparedStatement;
         }, rowMapper);
+    }
+
+    public void startTournament(Tournament tournament) {
+        String sql = "UPDATE tournaments SET status=? WHERE id=?";
+
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setShort(1, (short) TournamentStatus.STARTED.ordinal());
+            preparedStatement.setLong(2, tournament.getId());
+            return preparedStatement;
+        });
+
+        tournament.setStatus(TournamentStatus.STARTED);
     }
 }

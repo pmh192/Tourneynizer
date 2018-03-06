@@ -2,10 +2,7 @@ package com.tourneynizer.tourneynizer.controller;
 
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.model.ErrorMessage;
-import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TeamService;
 import com.tourneynizer.tourneynizer.service.TournamentService;

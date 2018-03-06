@@ -1,21 +1,41 @@
 package com.tourneynizer.tourneynizer.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Match {
 
-    private Long id;
-    private long tournament_id, team1_id = -1, team2_id = -1, refTeam_id = -1, score1, score2;
+    private Long id, child1, child2, team1Id, team2Id, refId, score1, score2;
+    private long tournament_id;
     private int order, courtNumber;
     private Timestamp timeStart, timeEnd;
     private ScoreType scoreType;
 
-    public Match(long tournament_id, long team1_id, long team2_id, long refTeam_id, long score1, long score2, int order,
+
+    public Match(long tournamentId, long team1Id, long team2Id, int order, Timestamp timeStart, ScoreType type) {
+        setTournamentId(tournamentId);
+        setteam1Id(team1Id);
+        setteam2Id(team2Id);
+        setOrder(order);
+        setTimeStart(timeStart);
+        setScoreType(type);
+    }
+
+    public Match(long tournamentId, int order, long child1, long child2, Timestamp timeStart, ScoreType type) {
+        setTournamentId(tournamentId);
+        setOrder(order);
+        setChildren(child1, child2);
+        setTimeStart(timeStart);
+        setScoreType(type);
+    }
+
+    public Match(long id, long tournament_id, Long team1Id, Long team2Id, Long refId, Long score1, Long score2, int order,
                  int courtNumber, Timestamp timeStart, Timestamp timeEnd, ScoreType scoreType) {
-        setTournament_id(tournament_id);
-        setTeam1_id(team1_id);
-        setTeam2_id(team2_id);
-        setRefTeam_id(refTeam_id);
+        persist(id);
+        setTournamentId(tournament_id);
+        setteam1Id(team1Id);
+        setteam2Id(team2Id);
+        setRefId(refId);
         setScore1(score1);
         setScore2(score2);
         setOrder(order);
@@ -25,42 +45,43 @@ public class Match {
         setScoreType(scoreType);
     }
 
-    public Match(long id, long tournament_id, long team1_id, long team2_id, long refTeam_id, long score1, long score2,
-                 int order, int courtNumber, Timestamp timeStart, Timestamp timeEnd, ScoreType scoreType) {
-        this(tournament_id, team1_id, team2_id, refTeam_id, score1, score2, order, courtNumber, timeStart, timeEnd,
-                scoreType);
-
-        persist(id);
-    }
-
-    public void setTournament_id(long tournament_id) {
+    public void setTournamentId(long tournament_id) {
         this.tournament_id = tournament_id;
     }
 
-    public void setTeam1_id(long team1_id) {
-        if (team1_id == this.team2_id) { throw new IllegalArgumentException("Teams cannot play themselves"); }
-        if (team1_id == this.refTeam_id) { throw new IllegalArgumentException("Teams cannot ref their own game"); }
-        this.team1_id = team1_id;
-    }
-
-    public void setTeam2_id(long team2_id) {
-        if (team2_id == this.team1_id) { throw new IllegalArgumentException("Teams cannot play themselves"); }
-        if (team2_id == this.refTeam_id) { throw new IllegalArgumentException("Teams cannot ref their own game"); }
-        this.team2_id = team2_id;
-    }
-
-    public void setRefTeam_id(long refTeam_id) {
-        if (refTeam_id == team1_id || refTeam_id == team2_id) {
+    public void setteam1Id(Long team1Id) {
+        if (this.team2Id != null && team1Id == this.team2Id) {
+            throw new IllegalArgumentException("Teams cannot play themselves");
+        }
+        if (this.refId != null && team1Id == this.refId) {
             throw new IllegalArgumentException("Teams cannot ref their own game");
         }
-        this.refTeam_id = refTeam_id;
+        this.team1Id = team1Id;
     }
 
-    public void setScore1(long score1) {
+    public void setteam2Id(Long team2Id) {
+        System.out.println(team2Id + " " + this.team1Id);
+        if (this.team1Id != null && team2Id == this.team1Id) {
+            throw new IllegalArgumentException("Teams cannot play themselves");
+        }
+        if (this.refId != null && team2Id == this.refId) {
+            throw new IllegalArgumentException("Teams cannot ref their own game");
+        }
+        this.team2Id = team2Id;
+    }
+
+    public void setRefId(Long refId) {
+        if (refId != null && (Objects.equals(refId, team1Id) || Objects.equals(refId, team2Id))) {
+            throw new IllegalArgumentException("Teams cannot ref their own game");
+        }
+        this.refId = refId;
+    }
+
+    public void setScore1(Long score1) {
         this.score1 = score1;
     }
 
-    public void setScore2(long score2) {
+    public void setScore2(Long score2) {
         this.score2 = score2;
     }
 
@@ -87,6 +108,15 @@ public class Match {
         this.scoreType = scoreType;
     }
 
+    public void setChildren(long child1, long child2) {
+        this.child1 = child1;
+        this.child2 = child2;
+    }
+
+    public void unsetChildren() {
+        this.child1 = this.child2 = null;
+    }
+
     public boolean isPersisted() {
         return id != null;
     }
@@ -95,19 +125,19 @@ public class Match {
         return tournament_id;
     }
 
-    public long getTeam1_id() {
-        return team1_id;
+    public Long getTeam1Id() {
+        return team1Id;
     }
 
-    public long getTeam2_id() {
-        return team2_id;
+    public Long getTeam2Id() {
+        return team2Id;
     }
 
-    public long getScore1() {
+    public Long getScore1() {
         return score1;
     }
 
-    public long getScore2() {
+    public Long getScore2() {
         return score2;
     }
 
@@ -123,8 +153,8 @@ public class Match {
         return timeEnd;
     }
 
-    public long getRefTeam_id() {
-        return refTeam_id;
+    public Long getRefId() {
+        return refId;
     }
 
     public int getMatchOrder() {
@@ -151,11 +181,11 @@ public class Match {
         Match match = (Match) o;
 
         if (tournament_id != match.tournament_id) return false;
-        if (team1_id != match.team1_id) return false;
-        if (team2_id != match.team2_id) return false;
-        if (refTeam_id != match.refTeam_id) return false;
-        if (score1 != match.score1) return false;
-        if (score2 != match.score2) return false;
+        if (!Objects.equals(team1Id, match.team1Id)) return false;
+        if (!Objects.equals(team2Id, match.team2Id)) return false;
+        if (!Objects.equals(refId, match.refId)) return false;
+        if (!Objects.equals(score1, match.score1)) return false;
+        if (!Objects.equals(score2, match.score2)) return false;
         if (order != match.order) return false;
         if (courtNumber != match.courtNumber) return false;
         if (id != null ? !id.equals(match.id) : match.id != null) return false;

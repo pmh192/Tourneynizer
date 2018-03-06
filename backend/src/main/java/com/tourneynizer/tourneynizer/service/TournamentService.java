@@ -4,6 +4,7 @@ import com.tourneynizer.tourneynizer.dao.TournamentDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentStatus;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 
@@ -30,7 +31,8 @@ public class TournamentService {
                     Integer.parseInt(values.get("maxTeams")),
                     TournamentType.values()[Integer.parseInt(values.get("type"))],
                     Integer.parseInt(values.get("numCourts")),
-                    user.getId()
+                    user.getId(),
+                    TournamentStatus.CREATED
             );
         }
         catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
@@ -76,5 +78,19 @@ public class TournamentService {
         catch (SQLException e) {
             throw new InternalErrorException(e);
         }
+    }
+
+    public void startTournament(long id, User user) throws InternalErrorException, BadRequestException{
+        Tournament tournament;
+        try { tournament = tournamentDao.findById(id); }
+        catch (SQLException e) { throw new InternalErrorException(e); }
+
+        if (tournament == null) { throw new BadRequestException("Couldn't find tournament with id " + id); }
+
+        if (tournament.getCreatorId() != user.getId()) {
+            throw new BadRequestException("You are not the creator of that tournament");
+        }
+
+        tournamentDao.startTournament(tournament);
     }
 }
