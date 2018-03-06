@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {Navbar, MenuItem, Nav, NavItem, NavDropdown, Button, DropdownButton, ButtonGroup, SplitButton} from 'react-bootstrap';
+import { Navbar, MenuItem, Nav, NavItem, NavDropdown, Button, DropdownButton, ButtonGroup, SplitButton } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 

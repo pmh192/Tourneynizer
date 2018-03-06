@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Jumbotron } from 'react-bootstrap';
+import { Jumbotron, Button, ButtonGroup } from 'react-bootstrap';
 import { GoogleMapsView } from '../CustomStyleComponents/GoogleMapsView';
+import { Link } from 'react-router-dom';
 
 class TournamentJoinPage extends Component{
 
@@ -52,9 +53,13 @@ class TournamentJoinPage extends Component{
 					<Jumbotron>
 						<h1>Tournament Details</h1>
 						<h3>You are viewing Tournament: "{this.state.name}"</h3>
-						<GoogleMapsView address={this.state.address}/>
-					</Jumbotron>
+						<ButtonGroup>
+							<Link to='/Teams/view'><Button>Join a Team</Button></Link>
+							<Button>Create a team</Button>
+						</ButtonGroup>
+						<div><GoogleMapsView address={this.state.address}/></div>
 
+					</Jumbotron>
 				</div>
 			);
 		}

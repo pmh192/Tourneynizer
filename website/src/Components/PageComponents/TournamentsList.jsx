@@ -45,18 +45,10 @@ class TournamentsList extends Component{
 	render(){
 		if(this.state.dataLoaded === true){
 			const data = this.state.tournaments;
-			const columns = [{
-				Header: 'ID',
-				accessor: 'id',
-				show: false,
-			},{
+			const columns = [
+			{
 				Header: 'Name',
 				accessor: 'name',
-				Cell: row => (
-					<div> 
-
-					</div>
-				)
 			},{
 				Header: 'Start Time',
 				accessor: 'startTime',
@@ -66,6 +58,16 @@ class TournamentsList extends Component{
 			},{
 				Header: 'Address',
 				accessor: 'address',
+			},{
+				Header: 'See Details',
+				accessor: 'id',
+				Cell: row => (
+					<div>
+						<Link to={'/Tournaments/join/' + row.value}>
+							<center>Details</center>
+						</Link>
+					</div>
+				)
 			}]
 			return(
 				<div>
@@ -76,43 +78,9 @@ class TournamentsList extends Component{
 					/>
 				</div>
 			);
-			/*const listItems = this.state.tournaments.map(function(tourney, index){
-				let tourneyType = '';
-				if(tourney.type === 'VOLLEYBALL_POOLED'){
-					tourneyType = 'Pooled';
-				}else{
-					tourneyType = 'Bracket';
-				}
-				const linkName = '/Tournaments/join/' + tourney.id;
-				return (
-					<div className='tableInfo'>
-						<Tournament 
-							key={tourney.id} 
-							name={tourney.name} 
-							startTime={tourney.startTime} 
-							type={tourneyType} 
-							address={tourney.address}
-						/>
-						
-						<Link to={linkName}>
-							<td>See Details</td>
-						</Link>
-					</div>
-				);
-			});
-			return(
-				<div>
-					<div className='tourneyList'>
-						{listItems}
-					</div>
-				</div>
-			);
 		}else{
-			return <div><h1>Tournaments could not be displayed. Try reloading the page</h1></div>
-		}*/
-	}else{
-		return( <div> </div>);
-	}
+			return( <div> </div>);
+		}
 	}
 }
 

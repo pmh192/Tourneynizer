@@ -50,7 +50,7 @@ export class GoogleMapsView extends Component{
 				<div className='googleMap' >
 					<Map 
 					  	google={window.google} 
-					  	zoom={14}
+					  	zoom={17}
 					  	style={style}
 					  	initialCenter={{
 		            		lat:this.state.latitude,
@@ -58,9 +58,9 @@ export class GoogleMapsView extends Component{
 		          		}}
 
 	          		>
-					<Marker onClick={this.onMarkerClick}
-							name={'Current location'} />
-				  </Map>
+						<Marker onClick={this.onMarkerClick}
+								name={'Current location'} />
+					</Map>
 				</div>
 			);
 		}
