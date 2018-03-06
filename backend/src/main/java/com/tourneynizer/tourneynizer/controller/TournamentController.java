@@ -4,6 +4,7 @@ import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentStatus;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TournamentService;
@@ -77,5 +78,18 @@ public class TournamentController {
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private static TournamentStatus[] values;
+    private synchronized static TournamentStatus[] getValues() {
+        if (values== null) {
+            values = TournamentStatus.values();
+        }
+        return values;
+    }
+
+    @GetMapping("/api/enum/tournament/status")
+    public ResponseEntity<?> tournamentStatus() {
+        return new ResponseEntity<Object>(getValues(), new HttpHeaders(), HttpStatus.OK);
     }
 }
