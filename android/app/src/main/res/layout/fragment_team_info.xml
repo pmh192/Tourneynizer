@@ -1,41 +1,85 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.tourneynizer.tourneynizer.fragments.TeamInfoFragment">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/marginSize"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:id="@+id/logo"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/titleTextColor"
+            android:textSize="@dimen/largeTextSize"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/logo"
+            android:id="@+id/teamName"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/logo"
+            android:layout_below="@id/teamName"
+            android:id="@+id/creatorName"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:textSize="@dimen/mediumTextSize"
+        android:textAlignment="center"
+        android:textColor="@color/titleTextColor"
+        android:text="@string/partOfTournament"/>
 
-        <RelativeLayout
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="@dimen/mediumTextSize"
+        android:id="@+id/tournamentName"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginSize"
+        android:textAlignment="center"
+        android:textColor="@color/titleTextColor"
+        android:textSize="@dimen/mediumTextSize"
+        android:text="@string/teamMembers"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/requestJoin"
+            android:id="@+id/memberList"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:id="@+id/logo"
-                android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/requestJoin"
+            android:text="@string/requestToJoin"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/titleTextColor"
-                android:textSize="@dimen/largeTextSize"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@id/logo"
-                android:id="@+id/teamName"
-                android:textAlignment="center"/>
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

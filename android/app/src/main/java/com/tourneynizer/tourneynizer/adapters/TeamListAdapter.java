@@ -18,11 +18,8 @@ import com.tourneynizer.tourneynizer.model.Team;
 
 public class TeamListAdapter extends ListAdapter<Team> {
 
-    private Activity activity;
-
-    public TeamListAdapter(Activity a) {
-        super(a, R.layout.team_list_item_layout);
-        activity = a;
+    public TeamListAdapter(Context c) {
+        super(c, R.layout.team_list_item_layout);
     }
 
     @Override

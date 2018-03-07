@@ -39,9 +39,10 @@ public class TeamRequestService {
                 Log.e("Error", error.toString());
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void acceptRequestFromUser(TeamRequest tRequest) {
+    public void acceptRequestForTeam(TeamRequest tRequest) {
         String url = HTTPService.DOMAIN + "team/" + tRequest.getTeamID() + "/request/" + tRequest.getID() + "/accept";
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -55,6 +56,23 @@ public class TeamRequestService {
                 Log.e("Error", error.toString());
             }
         });
+    }
+
+    public void declineRequest(TeamRequest tRequest) {
+        String url = HTTPService.DOMAIN + "requests/" + tRequest.getID();
+        CookieRequestFactory factory = new CookieRequestFactory();
+        StringRequest request = factory.makeStringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Success", "Request declined");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void getRequestsForSelf(final OnTeamRequestsLoadedListener listener) {
@@ -79,6 +97,7 @@ public class TeamRequestService {
                 Log.e("Error", error.toString());
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void getRequestsBySelf(final OnTeamRequestsLoadedListener listener) {
@@ -103,5 +122,6 @@ public class TeamRequestService {
                 Log.e("Error", error.toString());
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 }

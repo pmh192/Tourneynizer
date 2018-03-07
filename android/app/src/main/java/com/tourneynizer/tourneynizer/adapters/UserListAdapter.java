@@ -18,11 +18,8 @@ import com.tourneynizer.tourneynizer.model.User;
 
 public class UserListAdapter extends ListAdapter<User> {
 
-    private Activity activity;
-
-    public UserListAdapter(Activity a) {
-        super(a, R.layout.tournament_list_item_layout);
-        activity = a;
+    public UserListAdapter(Context c) {
+        super(c, R.layout.tournament_list_item_layout);
     }
 
     @Override

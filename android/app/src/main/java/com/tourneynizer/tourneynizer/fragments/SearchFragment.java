@@ -48,12 +48,7 @@ public class SearchFragment extends UIQueueFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                performUITask(new Runnable() {
-                    @Override
-                    public void run() {
-                        listAdapter.clear();
-                    }
-                });
+                listAdapter.clear();
                 userService.getUserFromEmail(query, new UserService.OnUserLoadedListener() {
                     @Override
                     public void onUserLoaded(final User user) {

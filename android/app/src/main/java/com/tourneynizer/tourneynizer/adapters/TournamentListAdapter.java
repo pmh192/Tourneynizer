@@ -1,6 +1,5 @@
 package com.tourneynizer.tourneynizer.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -18,11 +17,8 @@ import com.tourneynizer.tourneynizer.model.Tournament;
 
 public class TournamentListAdapter extends ListAdapter<Tournament> {
 
-    private Activity activity;
-
-    public TournamentListAdapter(Activity a) {
-        super(a, R.layout.tournament_list_item_layout);
-        activity = a;
+    public TournamentListAdapter(Context c) {
+        super(c, R.layout.tournament_list_item_layout);
     }
 
     @Override

@@ -101,12 +101,7 @@ public class TournamentListFragment extends UIQueueFragment {
 	}
 
 	public void refresh() {
-        performUITask(new Runnable() {
-            @Override
-            public void run() {
-                listAdapter.clear();
-            }
-        });
+        listAdapter.clear();
 		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {

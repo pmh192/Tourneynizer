@@ -2,10 +2,12 @@ package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tourneynizer.tourneynizer.R;
@@ -71,6 +73,12 @@ public class JoinTeamFragment extends UIQueueFragment {
             refresh();
         }
         teamsList.setAdapter(listAdapter);
+        teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                goToTeamInfo(listAdapter.getItem(i));
+            }
+        });
         return view;
     }
 
@@ -106,5 +114,10 @@ public class JoinTeamFragment extends UIQueueFragment {
                 });
             }
         });
+    }
+
+    public void goToTeamInfo(Team t) {
+        Fragment fragment = TeamInfoFragment.newInstance(t);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 }
