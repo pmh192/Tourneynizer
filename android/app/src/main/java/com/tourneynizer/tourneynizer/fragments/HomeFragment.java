@@ -51,8 +51,7 @@ public class HomeFragment extends UIQueueFragment {
 	private ListView listView;
 	private RadioGroup segmentController;
 	private SwipeRefreshLayout refresher;
-	private SparseArray<ListAdapter> listAdapters;
-	private SparseArray<AdapterView.OnItemClickListener> listeners;
+	private SparseArray<Integer> idMapper;
 	private TeamService teamService;
 	private TournamentService tournamentService;
 	private TeamRequestService teamRequestService;
@@ -143,20 +142,20 @@ public class HomeFragment extends UIQueueFragment {
         ((ViewGroup) listView.getParent()).addView(progressBar);
         listView.setEmptyView(progressBar);
 		segmentController = view.findViewById(R.id.radioGroup);
-		listAdapters = new SparseArray<>();
-		listeners = new SparseArray<>();
+		idMapper = new SparseArray<>();
 		for (int i = 0; i < ADAPTERS.length; i++) {
 			int id = segmentController.getChildAt(i).getId();
-			listAdapters.put(id, ADAPTERS[i]);
-			listeners.put(id, CLICK_LISTENERS[i]);
+			idMapper.put(id, i);
 		}
-		listView.setAdapter(listAdapters.get(segmentController.getCheckedRadioButtonId()));
-        listView.setOnItemClickListener(listeners.get(segmentController.getCheckedRadioButtonId()));
+		int index = idMapper.get(segmentController.getCheckedRadioButtonId());
+		listView.setAdapter(ADAPTERS[index]);
+        listView.setOnItemClickListener(CLICK_LISTENERS[index]);
 		segmentController.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup radioGroup, int i) {
-				listView.setAdapter(listAdapters.get(i));
-				listView.setOnItemClickListener(listeners.get(i));
+			    int index = idMapper.get(i);
+				listView.setAdapter(ADAPTERS[index]);
+				listView.setOnItemClickListener(CLICK_LISTENERS[index]);
 			}
 		});
 		return view;
@@ -173,7 +172,7 @@ public class HomeFragment extends UIQueueFragment {
 	public void refreshAll() {
 		refreshTeamAdapter();
 		refreshTournamentAdapter();
-		refreshTeamAdapter();
+		refreshTeamRequestAdapter();
 	}
 
 	public void refreshTeamAdapter() {

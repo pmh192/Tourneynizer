@@ -1,6 +1,7 @@
 package com.tourneynizer.tourneynizer.fragments;
 
 
+import android.media.MediaRouter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,18 +15,27 @@ import android.widget.TextView;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.UserListAdapter;
 import com.tourneynizer.tourneynizer.model.Team;
+import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.services.TeamRequestService;
+import com.tourneynizer.tourneynizer.services.TournamentService;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 import java.util.List;
 
-public class TeamInfoFragment extends Fragment {
+public class TeamInfoFragment extends UIQueueFragment {
 
     private static final String TEAM = "com.tourneynizer.tourneynizer.model.Team";
     private static final String USERS = "com.tourneynizer.tourneynizer.model.User[]";
 
     private Team team;
+    private Tournament tournament;
+    private User creator;
     private ListView listView;
+    private UserService userService;
+    private TournamentService tournamentService;
+    private TextView tournamentLabel;
+    private TextView creatorLabel;
     private UserListAdapter listAdapter;
     private TeamRequestService teamRequestService;
 
@@ -43,11 +53,13 @@ public class TeamInfoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             team = getArguments().getParcelable(TEAM);
         }
         teamRequestService = new TeamRequestService();
-        super.onCreate(savedInstanceState);
+        userService = new UserService();
+        tournamentService = new TournamentService();
     }
 
     @Override
@@ -71,10 +83,43 @@ public class TeamInfoFragment extends Fragment {
         logoView.setImageBitmap(team.getLogo());
         TextView teamName = view.findViewById(R.id.teamName);
         teamName.setText(team.getName());
-        TextView creatorName = view.findViewById(R.id.creatorName);
-        creatorName.setText("Created by " + team.getCreatorID());
-        TextView tournamentName = view.findViewById(R.id.tournamentName);
-        tournamentName.setText("" + team.getTournamentID());
+        creatorLabel = view.findViewById(R.id.creatorName);
+        userService.getUserFromID(team.getCreatorID(), new UserService.OnUserLoadedListener() {
+            @Override
+            public void onUserLoaded(final User user) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        creatorLabel.setText("Created by " + user.getName());
+                    }
+                });
+                creatorLabel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        goToUserInfo(user);
+                    }
+                });
+            }
+        });
+        tournamentLabel = view.findViewById(R.id.tournamentName);
+        tournamentService.getFromId(team.getTournamentID(), new TournamentService.OnTournamentLoadedListener() {
+            @Override
+            public void onTournamentLoaded(final Tournament tournament) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        tournamentLabel.setText(tournament.getName());
+
+                    }
+                });
+                tournamentLabel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        goToTournamentInfo(tournament);
+                    }
+                });
+            }
+        });
         View requestButton = view.findViewById(R.id.requestJoin);
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,5 +132,15 @@ public class TeamInfoFragment extends Fragment {
 
     public void refresh() {
 
+    }
+
+    public void goToUserInfo(User u) {
+        Fragment fragment = UserProfileFragment.newInstance(u);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
+    public void goToTournamentInfo(Tournament t) {
+        Fragment fragment = TournamentInfoFragment.newInstance(t);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 }
