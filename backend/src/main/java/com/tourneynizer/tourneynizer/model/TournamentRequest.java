@@ -2,15 +2,15 @@ package com.tourneynizer.tourneynizer.model;
 
 import java.sql.Timestamp;
 
-public class TeamRequest {
-    private long id, teamId, userId, requesterId;
-    private Boolean accepted;
+public class TournamentRequest {
+    private long id, teamId, tournamentId, requesterId;
+    private boolean accepted;
     private Timestamp timeRequested;
 
-    public TeamRequest(long id, long teamId, long userId, long requesterId, Boolean accepted, Timestamp timeRequested) {
+    public TournamentRequest(long id, long teamId, long tournamentId, long requesterId, boolean accepted, Timestamp timeRequested) {
         this.id = id;
         this.teamId = teamId;
-        this.userId = userId;
+        this.tournamentId = tournamentId;
         this.requesterId = requesterId;
         this.accepted = accepted;
         this.timeRequested = timeRequested;
@@ -24,15 +24,15 @@ public class TeamRequest {
         return teamId;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getTournamentId() {
+        return tournamentId;
     }
 
     public long getRequesterId() {
         return requesterId;
     }
 
-    public Boolean isAccepted() {
+    public boolean isAccepted() {
         return accepted;
     }
 
@@ -45,17 +45,13 @@ public class TeamRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TeamRequest that = (TeamRequest) o;
+        TournamentRequest that = (TournamentRequest) o;
 
         if (id != that.id) return false;
         if (teamId != that.teamId) return false;
-        if (userId != that.userId) return false;
+        if (tournamentId != that.tournamentId) return false;
         if (requesterId != that.requesterId) return false;
-        if (accepted != null ? !accepted.equals(that.accepted) : that.accepted != null) return false;
+        if (accepted != that.accepted) return false;
         return timeRequested.equals(that.timeRequested);
-    }
-
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
     }
 }

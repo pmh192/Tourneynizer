@@ -1,9 +1,7 @@
 package com.tourneynizer.tourneynizer.dao;
 
-import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class TeamDao {
     private final JdbcTemplate jdbcTemplate;
@@ -62,7 +61,7 @@ public class TeamDao {
         team.persist(keyHolder.getKey().longValue(), now);
     }
 
-    private final RowMapper<Team> rowMapper = (resultSet, rowNum) -> new Team(
+    static final RowMapper<Team> rowMapper = (resultSet, rowNum) -> new Team(
             resultSet.getLong(1),
             resultSet.getString(2),
             resultSet.getTimestamp(3),
@@ -79,5 +78,27 @@ public class TeamDao {
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<Team> findByTournament(Tournament tournament) {
+        String sql = "SELECT * FROM teams WHERE tournament_id=?;";
+        return this.jdbcTemplate.query(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, tournament.getId());
+            return preparedStatement;
+        }, rowMapper);
+    }
+
+    public List<Team> findByTournament(Tournament tournament, boolean complete) {
+        String op = complete ? ">=" : "<";
+        String sql = "SELECT * FROM teams WHERE tournament_id=? AND " +
+                "(SELECT COUNT(id) FROM roster WHERE team_id=teams.id)" + op + "?;";
+
+        return this.jdbcTemplate.query(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, tournament.getId());
+            preparedStatement.setInt(2, tournament.getTeamSize());
+            return preparedStatement;
+        }, rowMapper);
     }
 }
