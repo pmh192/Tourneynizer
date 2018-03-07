@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
 import '../../resources/index.css';
-
-var apiURL = 'http://127.0.0.1:8080/'
+import { API_URL } from '../../resources/constants.jsx';
 
 class AccountCreationForm extends Component{
 	constructor(props, context) {
@@ -70,14 +69,13 @@ class AccountCreationForm extends Component{
 			this.getEmailValidationState() === 'success'
 		){
 			let shouldRefresh = false;
-			let requestURL = apiURL + 'api/user/create';
 			let fullName = this.state.firstName + ' ' + this.state.lastName;
 			var data = {
 				email: this.state.email,
 				name: fullName,
 				password: this.state.password,
 			};
-			fetch(apiURL + 'api/user/create', {
+			fetch(API_URL + 'api/user/create', {
 					method: 'POST',
 					mode: 'cors',
 					body: JSON.stringify(data),
