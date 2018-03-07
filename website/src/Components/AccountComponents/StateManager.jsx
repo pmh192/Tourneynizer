@@ -46,7 +46,6 @@ class StateManager extends Component{
 	render(){
 		return (
 			<div id='routing'>
-
 				<Switch>
 					<Route exact path="/" render={()=> <HomePage update={this.update}/>} />
 					<Route exact path="/LoginPage" render={()=> <LoginPage getUserInfo={this.getUserInfo} />}/>
@@ -55,7 +54,7 @@ class StateManager extends Component{
 					<Route exact path="/Tournaments/create" component={TournamentCreatePage} />
 					<Route exact path="/Tournaments/join/:tourneyId" component={TournamentJoinPage} />
 					<Route exact path="/Tournaments/rules" component={TournamentRulesPage} />
-					<Route exact path="/Teams/view" component={TeamsViewPage} />
+					<Route exact path="/Teams/view/:tourneyId" component={TeamsViewPage} />
 					<Route exact path="/Profile/view" component={ProfileAboutPage} />
 					<Route exact path="/Profile/current" component={ProfileCurrentPage} />
 					<Route exact path="/Profile/history" component={ProfileHistoryPage} />

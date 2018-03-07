@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, Col, Button} from 'react-bootstrap';
-import '../../resources/index.css'
+import '../../resources/index.css';
+import { API_URL } from '../../resources/constants.jsx';
 
 class LoginPageForm extends Component{
 	constructor(){
@@ -20,7 +21,7 @@ class LoginPageForm extends Component{
 
     handleSubmit(e) {
     	console.log('submitting')
-    	let apiURL = 'http://localhost:8080/api/auth/login';
+    	let apiURL = API_URL + 'api/auth/login';
     	let data = {
     		email: this.state.email,
     		password: this.state.password,

@@ -3,6 +3,7 @@ import Tournament from './Tournament'
 import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import { API_URL } from '../../resources/constants.jsx';
 
 class TournamentsList extends Component{
 	//will take in a js objects created from server data and render them in a table
@@ -15,7 +16,7 @@ class TournamentsList extends Component{
 	}
 
 	getTournaments(){
-		let apiURL = 'http://169.231.234.195:8080/api/tournament/getAll';
+		let apiURL = API_URL + 'api/tournament/getAll';
 		console.log("executing 'getTournaments()'");
 		fetch(apiURL, {
 			method: 'GET'
