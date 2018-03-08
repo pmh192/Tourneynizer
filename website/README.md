@@ -25,4 +25,4 @@ Have NodeJS and NPM installed. You can download both as a bundle here: https://n
 ![Alt text](./screenshots/Loginpage.png?raw=true "LoginPage")
 ![Alt text](./screenshots/newtournamentview.png?raw=true "New Tournament View")
 ![Alt text](./screenshots/Googlemaps.png?raw=true "Google Maps")
-![Alt text](./screenshots/Createtournament.png?raw=true "Create a Tournament")
+![Alt text](./screenshots/CreateTournament.png?raw=true "Create a Tournament")
