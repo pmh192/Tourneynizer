@@ -82,7 +82,7 @@ public class TeamRequestController {
     }
 
     @GetMapping("/api/user/requests/sent")
-    public ResponseEntity<?> getTeamRequests(@CookieValue("session") String session) {
+    public ResponseEntity<?> getRequestsForUser(@CookieValue("session") String session) {
         List<TeamRequest> requests;
         try {
             User user = sessionService.findBySession(session);
@@ -95,11 +95,24 @@ public class TeamRequestController {
     }
 
     @GetMapping("/api/user/requests/pending")
-    public ResponseEntity<?> getUserRequests(@CookieValue("session") String session) {
+    public ResponseEntity<?> getRequestsByUser(@CookieValue("session") String session) {
         List<TeamRequest> requests;
         try {
             User user = sessionService.findBySession(session);
             requests = teamRequestService.findAllRequestsByUser(user);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/team/{id}/requests/sent")
+    public ResponseEntity<?> getRequestsForTeam(@CookieValue("session") String session, @PathVariable("id") long id) {
+        List<TeamRequest> requests;
+        try {
+            User user = sessionService.findBySession(session);
+            requests = teamRequestService.findAllRequestsForTeam(id, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
