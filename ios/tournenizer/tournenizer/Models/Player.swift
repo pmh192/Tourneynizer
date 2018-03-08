@@ -10,9 +10,4 @@ import Foundation
 
 class Player: User {
     var isLeader: Bool = false;
-
-    init(email: String, name: String, timeCreated: Date, isLeader: Bool) {
-        self.isLeader = isLeader;
-        super.init(email: email, name: name, timeCreated: timeCreated);
-    }
 };

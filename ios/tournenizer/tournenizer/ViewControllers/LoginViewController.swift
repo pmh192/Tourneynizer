@@ -296,7 +296,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     // Register onclick function
     @objc func registerClicked(_ sender: UIButton!) {
-        self.navigationController?.pushViewController(RegisterViewController(), animated: true);
+        self.navigationController?.pushViewController(CreateUserViewController(), animated: true);
     }
 
     // Register onclick function

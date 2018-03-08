@@ -35,4 +35,10 @@ class Constants {
     };
 
     static let statusBarCoverHeight: CGFloat = 50;
+    static let serverURL = "http://169.231.234.195:8080/api";
+
+    class error {
+        static let serverError = "There was an error with the server. Please try again later.";
+        static let genericError = "There was an error. Please try again later."
+    }
 };
