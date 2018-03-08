@@ -86,9 +86,9 @@ a.dropdown-toggle:hover {
 	margin: 0;
 }
 
-/*login form styling*/
-.LoginForm {
-	padding: 5px;
+/*form styling used on the various forms throughout app*/
+.FormStyling {
+	padding: 20px;
 	width: 25%;
 	height: auto;
 	background-color: #DDDDDD;
@@ -98,8 +98,8 @@ a.dropdown-toggle:hover {
 	border-radius: 3px;
 }
 
-.AccountForm {
-	padding: 5px;
+.TournamentForm {
+	padding: 20px;
 	width: 25%;
 	height: auto;
 	background-color: #DDDDDD;
@@ -108,3 +108,4 @@ a.dropdown-toggle:hover {
 	border-color: #FFFFFF;
 	border-radius: 3px;
 }
+

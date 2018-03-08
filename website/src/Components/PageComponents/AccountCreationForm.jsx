@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
 import '../../resources/index.css';
 import { API_URL } from '../../resources/constants.jsx';
 
@@ -15,7 +15,7 @@ class AccountCreationForm extends Component{
 			lastName: '',
 		};
 
-		this.onSubmit.bind;
+		this.onSubmit.bind(this);
 	}
 
 	handleChange(e) {
@@ -104,9 +104,8 @@ class AccountCreationForm extends Component{
 
 	render(){
 		return(
-			<div className='MarginSpacer'>
-				<div id="creationForm" className='AccountForm'>
-					<form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
+				<div  className='FormStyling'>
+					<Form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
 						<FormGroup
 							controlId="firstName"
 							validationState={this.getNameValidationState()}
@@ -179,9 +178,8 @@ class AccountCreationForm extends Component{
 							</Col>
 						</FormGroup>
 						<Button type="submit">Sign up</Button>
-					</form>
+					</Form>
 				</div>
-			</div>
 		);
 	}
 }
