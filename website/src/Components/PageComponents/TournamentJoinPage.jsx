@@ -46,7 +46,6 @@ class TournamentJoinPage extends Component{
 
 	render(){
 		console.log(this.props.match.params.tourneyId);
-<<<<<<< HEAD
 		if(!this.state.dataLoaded){
 			return(<div><h1>Data wasn't available</h1></div>);
 		}else{

@@ -3,12 +3,14 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Geocode from "react-geocode";
 
 export class GoogleMapsView extends Component{
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
+
 		this.state = {
-			selectedPlace: {
-				name: 'Santa Barbara, CA 93106'
-			}
+			address: this.props.address,
+			latitude: 0,
+			longitude: 0,
+			geocoded: false,
 		}
 	}
 
