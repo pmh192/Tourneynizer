@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, Col, Button} from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Col, Button} from 'react-bootstrap';
 import '../../resources/index.css';
 import { API_URL } from '../../resources/constants.jsx';
 
@@ -53,8 +53,8 @@ class LoginPageForm extends Component{
 
 	render(){
 		return(
-			<div className='LoginForm'>
-				<form horizontal='true' onSubmit={this.handleSubmit}>
+			<div className='FormStyling'>
+				<Form horizontal='true' onSubmit={this.handleSubmit}>
 					<FormGroup
 						controlId="email"
 						>
@@ -82,7 +82,7 @@ class LoginPageForm extends Component{
 					<Col>
 						<Button type="submit">Sign in</Button>
 					</Col>
-				</form>
+				</Form>
 			</div>
 		);
 	}

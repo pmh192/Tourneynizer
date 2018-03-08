@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Jumbotron, Button, ButtonGroup } from 'react-bootstrap';
 import { GoogleMapsView } from '../CustomStyleComponents/GoogleMapsView';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../resources/constants.jsx'
 
 class TournamentJoinPage extends Component{
 
@@ -16,7 +17,7 @@ class TournamentJoinPage extends Component{
 	}
 
 	getTournament(){
-		let apiURL = 'http://169.231.234.195:8080/api/tournament/' + this.props.match.params.tourneyId;
+		let apiURL = API_URL + 'api/tournament/' + this.props.match.params.tourneyId;
 		console.log("executing 'getTournaments()'");
 		fetch(apiURL, {
 			method: 'GET'
