@@ -5,6 +5,9 @@ import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class MatchDaoTest extends TestWithContext {
@@ -26,15 +29,19 @@ public class MatchDaoTest extends TestWithContext {
         super.clearDB();
     }
 
-    private User getUser() throws Exception {
-        User user = new User("person@place.com", "Name", "");
+    private User getUser(int i) throws Exception {
+        User user = new User("person" + i + "@place.com", "Name", "");
         user.setPlaintextPassword("HI");
         userDao.insert(user);
         return user;
     }
 
     private Tournament getTournament(User user) throws Exception {
-        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1,
+        return getTournament(user, 0);
+    }
+
+    private Tournament getTournament(User user, int i) throws Exception {
+        Tournament tournament = new Tournament("name" + i, "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1,
                 user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;
@@ -48,7 +55,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test
     public void insert() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 0);
         Team team2 = getTeam(user, tournament, 1);
@@ -60,7 +67,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test
     public void insert2() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 0);
         Team team2 = getTeam(user, tournament, 1);
@@ -72,7 +79,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test
     public void insertBadId() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
         Team team2 = getTeam(user, tournament, 2);
@@ -88,7 +95,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test(expected = IllegalArgumentException.class)
     public void insertSameTeams_12() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team = getTeam(user, tournament, 1);
         new Match(tournament.getId(), team.getId(), team.getId(), 0, null, ScoreType.ONE_SET);
@@ -96,7 +103,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test
     public void insertEquality() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
         Team team2 = getTeam(user, tournament, 2);
@@ -111,7 +118,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test
     public void insertEquality2() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
         Team team2 = getTeam(user, tournament, 2);
@@ -126,7 +133,7 @@ public class MatchDaoTest extends TestWithContext {
 
     @Test
     public void retrieve() throws Exception {
-        User user = getUser();
+        User user = getUser(0);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
         Team team2 = getTeam(user, tournament, 2);
@@ -143,5 +150,33 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void retrieveNull() throws Exception {
         assertNull(matchDao.findById(-1L));
+    }
+
+    @Test
+    public void findByTournament() throws Exception {
+        User user = getUser(0);
+        User user2 = getUser(1);
+        Tournament tournament1 = getTournament(user, 0);
+        Tournament tournament2 = getTournament(user2, 1);
+        Team team1 = getTeam(user, tournament1, 0);
+        Team team2 = getTeam(user2, tournament2, 1);
+
+        Match match1 = new Match(tournament1.getId(), team1.getId(), team2.getId(), 0, null, ScoreType.ONE_SET);
+        matchDao.insert(match1, user);
+
+        Match match2 = new Match(tournament1.getId(), team1.getId(), team2.getId(), 0, null, ScoreType.ONE_SET);
+        matchDao.insert(match2, user);
+
+        Match match3 = new Match(tournament2.getId(), team1.getId(), team2.getId(), 0, null, ScoreType.ONE_SET);
+        matchDao.insert(match3, user);
+
+        List<Match> expected1 = Arrays.asList(match1, match2);
+        List<Match> expected2 = Arrays.asList(match3);
+
+        List<Match> actual1 = matchDao.findByTournament(tournament1);
+        List<Match> actual2 = matchDao.findByTournament(tournament2);
+
+        assertEquals(expected1, actual1);
+        assertEquals(expected2, actual2);
     }
 }

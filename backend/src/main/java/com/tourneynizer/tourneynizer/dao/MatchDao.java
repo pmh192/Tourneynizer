@@ -1,8 +1,8 @@
 package com.tourneynizer.tourneynizer.dao;
 
-import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.model.Match;
 import com.tourneynizer.tourneynizer.model.ScoreType;
+import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,6 +14,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.List;
 
 import static com.tourneynizer.tourneynizer.helper.JDBCHelper.getNullableLong;
 import static com.tourneynizer.tourneynizer.helper.JDBCHelper.setNullable;
@@ -25,7 +27,7 @@ public class MatchDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void insert(Match match, User user) throws EmailTakenException, SQLException {
+    public void insert(Match match, User user) throws SQLException {
         if (match.isPersisted()) {
             throw new IllegalArgumentException("Match is already persisted");
         }
@@ -81,5 +83,10 @@ public class MatchDao {
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<Match> findByTournament(Tournament tournament) {
+        String sql = "SELECT * FROM matches WHERE tournament=?;";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
     }
 }

@@ -50,21 +50,20 @@ public class Match {
     }
 
     public void setteam1Id(Long team1Id) {
-        if (this.team2Id != null && team1Id == this.team2Id) {
+        if (this.team2Id != null && this.team2Id.equals(team1Id)) {
             throw new IllegalArgumentException("Teams cannot play themselves");
         }
-        if (this.refId != null && team1Id == this.refId) {
+        if (this.refId != null && this.refId.equals(team1Id)) {
             throw new IllegalArgumentException("Teams cannot ref their own game");
         }
         this.team1Id = team1Id;
     }
 
     public void setteam2Id(Long team2Id) {
-        System.out.println(team2Id + " " + this.team1Id);
-        if (this.team1Id != null && team2Id == this.team1Id) {
+        if (this.team1Id != null && this.team1Id.equals(team2Id)) {
             throw new IllegalArgumentException("Teams cannot play themselves");
         }
-        if (this.refId != null && team2Id == this.refId) {
+        if (this.refId != null && this.refId.equals(team2Id)) {
             throw new IllegalArgumentException("Teams cannot ref their own game");
         }
         this.team2Id = team2Id;
@@ -163,6 +162,14 @@ public class Match {
 
     public int getCourtNumber() {
         return courtNumber;
+    }
+
+    public Long getChild1() {
+        return child1;
+    }
+
+    public Long getChild2() {
+        return child2;
     }
 
     public void persist(long id) {

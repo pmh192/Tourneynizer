@@ -1,12 +1,11 @@
 package com.tourneynizer.tourneynizer.service;
 
+import com.tourneynizer.tourneynizer.dao.MatchDao;
+import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TournamentDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentStatus;
-import com.tourneynizer.tourneynizer.model.TournamentType;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -15,9 +14,13 @@ import java.util.Map;
 
 public class TournamentService {
     private final TournamentDao tournamentDao;
+    private final TeamDao teamDao;
+    private final MatchGenerator matchGenerator;
 
-    public TournamentService(TournamentDao tournamentDao) {
+    public TournamentService(TournamentDao tournamentDao, TeamDao teamDao, MatchDao matchDao) {
         this.tournamentDao = tournamentDao;
+        this.teamDao = teamDao;
+        this.matchGenerator = new MatchGenerator(matchDao);
     }
 
     public Tournament createTournament(Map<String, String> values, User user) throws BadRequestException, InternalErrorException {
@@ -80,7 +83,7 @@ public class TournamentService {
         }
     }
 
-    public void startTournament(long id, User user) throws InternalErrorException, BadRequestException{
+    public void startTournament(long id, User user) throws InternalErrorException, BadRequestException {
         Tournament tournament;
         try { tournament = tournamentDao.findById(id); }
         catch (SQLException e) { throw new InternalErrorException(e); }
@@ -92,5 +95,9 @@ public class TournamentService {
         }
 
         tournamentDao.startTournament(tournament);
+
+        List<Team> teams = teamDao.findByTournament(tournament, true);
+        try { matchGenerator.createTournamentMatches(teams, user, tournament); }
+        catch (SQLException e) { throw new InternalErrorException(e); }
     }
 }
