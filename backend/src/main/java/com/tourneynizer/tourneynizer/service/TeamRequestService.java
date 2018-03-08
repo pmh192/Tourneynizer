@@ -4,7 +4,6 @@ import com.tourneynizer.tourneynizer.dao.RosterDao;
 import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TeamRequestDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
-import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
@@ -24,10 +23,6 @@ public class TeamRequestService {
     }
 
     public void requestTeam(long id, User requester) throws BadRequestException {
-        if (requester == null) {
-            throw new UserMustBeLoggedInException();
-        }
-
         Team team = teamDao.findById(id);
         if (team == null) {
             throw new BadRequestException("No team exists with id " + id);
@@ -36,6 +31,20 @@ public class TeamRequestService {
 
         try {
             this.teamRequestDao.requestTeam(requester, team);
+        }
+        catch (IllegalArgumentException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+
+    public void requestUser(long teamId, User requested, User user) throws BadRequestException {
+        Team team = teamDao.findById(teamId);
+        if (team == null) {
+            throw new BadRequestException("No team exists with id " + teamId);
+        }
+
+        try {
+            this.teamRequestDao.requestUser(requested, team, user);
         }
         catch (IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());

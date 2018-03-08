@@ -1,11 +1,13 @@
 package com.tourneynizer.tourneynizer.controller;
 
 import com.tourneynizer.tourneynizer.error.BadRequestException;
+import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TeamRequestService;
+import com.tourneynizer.tourneynizer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,16 +23,18 @@ public class TeamRequestController {
 
     private final TeamRequestService teamRequestService;
     private final SessionService sessionService;
+    private final UserService userService;
 
     @Autowired
-    public TeamRequestController(TeamRequestService teamRequestService, SessionService sessionService) {
+    public TeamRequestController(TeamRequestService teamRequestService, SessionService sessionService, UserService userService) {
         this.teamRequestService = teamRequestService;
         this.sessionService = sessionService;
+        this.userService = userService;
     }
 
 
     @PostMapping("/api/team/{id}/request")
-    public ResponseEntity<?> sendRequest(@CookieValue("session") String session,
+    public ResponseEntity<?> requestTeam(@CookieValue("session") String session,
                                          @PathVariable("id") long id) {
 
         try {
@@ -41,6 +45,26 @@ public class TeamRequestController {
         }
 
         return new ResponseEntity<Object>(Collections.emptyMap(), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @PostMapping("/api/user/{userId}/request/team/{teamId}")
+    public ResponseEntity<?> requestUser(@CookieValue("session") String session,
+                                             @PathVariable("userId") long userId, @PathVariable("teamId") long teamId) {
+        try {
+            User user = sessionService.findBySession(session);
+
+            User requested = userService.findById(userId);
+            if (requested == null) { throw new BadRequestException("No user found with id: " + userId); }
+
+            teamRequestService.requestUser(teamId, requested, user);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(),
+                HttpStatus.OK);
     }
 
     @PostMapping("/api/team/{teamId}/requests/{requestId}/accept")
