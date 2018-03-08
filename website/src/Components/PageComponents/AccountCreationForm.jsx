@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, FormControl, HelpBlock, Col, Button, Panel } from 'react-bootstrap';
 import '../../resources/index.css';
-
-var apiURL = 'http://169.231.234.195:8080/'
+import { API_URL } from '../../resources/constants.jsx';
 
 class AccountCreationForm extends Component{
 	constructor(props, context) {
@@ -16,7 +15,7 @@ class AccountCreationForm extends Component{
 			lastName: '',
 		};
 
-		this.onSubmit.bind;
+		this.onSubmit.bind(this);
 	}
 
 	handleChange(e) {
@@ -70,14 +69,13 @@ class AccountCreationForm extends Component{
 			this.getEmailValidationState() === 'success'
 		){
 			let shouldRefresh = false;
-			let requestURL = apiURL + 'api/user/create';
 			let fullName = this.state.firstName + ' ' + this.state.lastName;
 			var data = {
 				email: this.state.email,
 				name: fullName,
 				password: this.state.password,
 			};
-			fetch('http://169.231.234.195:8080/api/user/create', {
+			fetch(API_URL + 'api/user/create', {
 					method: 'POST',
 					mode: 'cors',
 					body: JSON.stringify(data),
@@ -106,9 +104,8 @@ class AccountCreationForm extends Component{
 
 	render(){
 		return(
-			<div className='MarginSpacer'>
-				<div id="creationForm" className='AccountForm'>
-					<form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
+				<div  className='FormStyling'>
+					<Form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
 						<FormGroup
 							controlId="firstName"
 							validationState={this.getNameValidationState()}
@@ -181,9 +178,8 @@ class AccountCreationForm extends Component{
 							</Col>
 						</FormGroup>
 						<Button type="submit">Sign up</Button>
-					</form>
+					</Form>
 				</div>
-			</div>
 		);
 	}
 }

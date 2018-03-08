@@ -11,10 +11,11 @@ public class Tournament {
     private int teamSize, maxTeams, numCourts;
     private TournamentType type;
     private long creatorId;
+    private TournamentStatus status;
 
 
     public Tournament(String name, String address, Timestamp startTime, int teamSize, int maxTeams, TournamentType type,
-                      int numCourts, long creatorId) {
+                      int numCourts, long creatorId, TournamentStatus status) {
 
 
         setName(name);
@@ -25,12 +26,13 @@ public class Tournament {
         setTournamentType(type);
         setNumCourts(numCourts);
         setCreatorId(creatorId);
+        setStatus(status);
     }
 
     public Tournament(Long id, String name, String address, Timestamp timeCreated, Timestamp startTime, int teamSize,
-                      int maxTeams, TournamentType type, int numCourts, long creatorId) {
+                      int maxTeams, TournamentType type, int numCourts, long creatorId, TournamentStatus status) {
 
-        this(name, address, startTime, teamSize, maxTeams, type, numCourts, creatorId);
+        this(name, address, startTime, teamSize, maxTeams, type, numCourts, creatorId, status);
         persist(id, timeCreated);
     }
 
@@ -60,7 +62,6 @@ public class Tournament {
         this.startTime = startTime;
     }
 
-
     public void setTeamSize(int teamSize) {
         this.teamSize = teamSize;
     }
@@ -76,6 +77,10 @@ public class Tournament {
     public void setTournamentType(TournamentType type) {
         if (type == null) { throw new IllegalArgumentException("Tournament type cannot be null"); }
         this.type = type;
+    }
+
+    public void setStatus(TournamentStatus status) {
+        this.status = status;
     }
 
     public void setCreatorId(long creatorId) {
@@ -121,6 +126,8 @@ public class Tournament {
     public long getCreatorId() {
         return creatorId;
     }
+
+    public TournamentStatus getStatus() { return status; }
 
     @JsonIgnore
     public boolean isPersisted() {

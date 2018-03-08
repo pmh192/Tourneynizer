@@ -1,10 +1,7 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.helper.TestWithContext;
-import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentType;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,7 +43,7 @@ public class TeamDaoTest extends TestWithContext {
     }
 
     private Tournament getTournament(User user, int teamSize) throws Exception {
-        Tournament tournament = new Tournament("name", "address", null, teamSize, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
+        Tournament tournament = new Tournament("name", "address", null, teamSize, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;
     }

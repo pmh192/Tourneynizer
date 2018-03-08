@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller("UserController")
@@ -70,6 +69,16 @@ public class UserController {
         }
 
         return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/user/get")
+    public ResponseEntity<?> getSelf(@CookieValue("session") String session) {
+        try {
+            User user = sessionService.findBySession(session);
+            return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

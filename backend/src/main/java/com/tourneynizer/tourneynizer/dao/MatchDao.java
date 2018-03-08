@@ -1,7 +1,9 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.error.EmailTakenException;
-import com.tourneynizer.tourneynizer.model.*;
+import com.tourneynizer.tourneynizer.model.Match;
+import com.tourneynizer.tourneynizer.model.ScoreType;
+import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +14,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import static com.tourneynizer.tourneynizer.helper.JDBCHelper.getNullableLong;
+import static com.tourneynizer.tourneynizer.helper.JDBCHelper.setNullable;
 
 public class MatchDao {
     private final JdbcTemplate jdbcTemplate;
@@ -34,14 +38,14 @@ public class MatchDao {
             this.jdbcTemplate.update(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
                 preparedStatement.setLong(1, match.getTournamentId());
-                preparedStatement.setLong(2, match.getTeam1_id());
-                preparedStatement.setLong(3, match.getTeam2_id());
-                preparedStatement.setLong(4, match.getScore1());
-                preparedStatement.setLong(5, match.getScore2());
+                setNullable(preparedStatement, 2, match.getTeam1Id());
+                setNullable(preparedStatement, 3, match.getTeam2Id());
+                setNullable(preparedStatement, 4, match.getScore1());
+                setNullable(preparedStatement, 5, match.getScore2());
                 preparedStatement.setInt(6, match.getScoreType().ordinal());
                 preparedStatement.setTimestamp(7, match.getTimeStart());
                 preparedStatement.setTimestamp(8, match.getTimeEnd());
-                preparedStatement.setLong(9, match.getRefTeam_id());
+                setNullable(preparedStatement, 9, match.getRefId());
                 preparedStatement.setInt(10, match.getMatchOrder());
                 preparedStatement.setInt(11, match.getCourtNumber());
 
@@ -57,11 +61,11 @@ public class MatchDao {
     private final RowMapper<Match> rowMapper = (resultSet, rowNum) -> new Match(
             resultSet.getLong(1),
             resultSet.getLong(2),
-            resultSet.getLong(3),
-            resultSet.getLong(4),
-            resultSet.getLong(12),
-            resultSet.getLong(7),
-            resultSet.getLong(8),
+            getNullableLong(resultSet, 3),
+            getNullableLong(resultSet, 4),
+            getNullableLong(resultSet, 12),
+            getNullableLong(resultSet, 7),
+            getNullableLong(resultSet, 8),
             resultSet.getInt(13),
             resultSet.getInt(14),
             resultSet.getTimestamp(10),

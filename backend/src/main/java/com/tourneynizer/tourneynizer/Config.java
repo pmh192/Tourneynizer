@@ -47,7 +47,8 @@ public class Config {
     public TeamService teamService() {
         TeamDao teamDao = context.getBean("TeamDao", TeamDao.class);
         TournamentDao tournamentDao = context.getBean("TournamentDao", TournamentDao.class);
-        return new TeamService(teamDao, tournamentDao);
+        RosterDao rosterDao = context.getBean("RosterDao", RosterDao.class);
+        return new TeamService(teamDao, tournamentDao, rosterDao);
     }
 
     @Bean
