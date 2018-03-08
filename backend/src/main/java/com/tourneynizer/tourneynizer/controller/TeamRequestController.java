@@ -68,7 +68,7 @@ public class TeamRequestController {
     }
 
     @PostMapping("/api/team/{teamId}/requests/{requestId}/accept")
-    public ResponseEntity<?> acceptRequest(@CookieValue("session") String session,
+    public ResponseEntity<?> acceptUserRequest(@CookieValue("session") String session,
                                            @PathVariable("teamId") long teamId,
                                            @PathVariable("requestId") long requestId) {
 
@@ -77,6 +77,20 @@ public class TeamRequestController {
             teamRequestService.acceptUserRequest(user, teamId, requestId);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+        return null;
+    }
+
+    @PostMapping("/api/user/requests/{id}/accept")
+    public ResponseEntity<?> acceptTeamRequest(@CookieValue("session") String session, @PathVariable("id") long id) {
+
+        try {
+            User user = sessionService.findBySession(session);
+            teamRequestService.acceptTeamRequest(id, user);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return null;
     }

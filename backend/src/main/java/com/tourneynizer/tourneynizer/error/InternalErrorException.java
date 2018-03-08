@@ -5,4 +5,7 @@ public class InternalErrorException extends Exception {
         super(e);
     }
 
+    public InternalErrorException(String str) {
+        super(str);
+    }
 }

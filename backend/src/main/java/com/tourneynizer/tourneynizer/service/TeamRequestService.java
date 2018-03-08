@@ -4,6 +4,7 @@ import com.tourneynizer.tourneynizer.dao.RosterDao;
 import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TeamRequestDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
+import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
@@ -66,7 +67,25 @@ public class TeamRequestService {
 
         teamRequestDao.removeRequest(teamRequest);
         rosterDao.registerUser(user, team);
+    }
 
+    public void acceptTeamRequest(long requestId, User user) throws BadRequestException, InternalErrorException {
+        TeamRequest teamRequest = teamRequestDao.findById(requestId);
+        if (teamRequest == null) {
+            throw new BadRequestException("Cannot find teamRequest with id " + requestId);
+        }
+
+        if (teamRequest.getUserId() != user.getId()) {
+            throw new BadRequestException("This request isn't for you");
+        }
+
+        Team team = teamDao.findById(teamRequest.getTeamId());
+        if (team == null) {
+            throw new InternalErrorException("teamRequest references non existant team");
+        }
+
+        teamRequestDao.removeRequest(teamRequest);
+        rosterDao.registerUser(user, team);
     }
 
     public List<TeamRequest> findAllRequestsForUser(User user) {
