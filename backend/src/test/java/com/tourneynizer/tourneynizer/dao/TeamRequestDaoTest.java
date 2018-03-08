@@ -110,7 +110,7 @@ public class TeamRequestDaoTest extends TestWithContext {
         TeamRequest r1 = teamRequestDao.requestUser(user, team, creator);
         TeamRequest r2 = teamRequestDao.requestTeam(user2, team);
 
-        List<TeamRequest> requests = teamRequestDao.getTeamRequests(team);
+        List<TeamRequest> requests = teamRequestDao.getRequestsForTeam(team);
         List<TeamRequest> expected = Collections.singletonList(r2);
 
         for (TeamRequest r : requests) {
@@ -149,6 +149,23 @@ public class TeamRequestDaoTest extends TestWithContext {
 
         List<TeamRequest> requests = teamRequestDao.getRequestsByUser(user);
         List<TeamRequest> expected = Collections.singletonList(r2);
+
+        assertEquals(expected, requests);
+    }
+
+    @Test
+    public void getRequestsByTeam() throws Exception {
+        User creator = getUser(10);
+        User user = getUser(0);
+        Tournament tournament = getTournament(user);
+        Team team1 = getTeam(creator, tournament, 0);
+        Team team2 = getTeam(creator, tournament, 1);
+
+        TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
+        TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
+
+        List<TeamRequest> requests = teamRequestDao.getRequestsByTeam(team1);
+        List<TeamRequest> expected = Collections.singletonList(r1);
 
         assertEquals(expected, requests);
     }

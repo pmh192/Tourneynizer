@@ -4,7 +4,7 @@ import com.tourneynizer.tourneynizer.dao.RosterDao;
 import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TeamRequestDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
-import com.tourneynizer.tourneynizer.error.UserMustBeLoggedInException;
+import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
@@ -24,10 +24,6 @@ public class TeamRequestService {
     }
 
     public void requestTeam(long id, User requester) throws BadRequestException {
-        if (requester == null) {
-            throw new UserMustBeLoggedInException();
-        }
-
         Team team = teamDao.findById(id);
         if (team == null) {
             throw new BadRequestException("No team exists with id " + id);
@@ -36,8 +32,20 @@ public class TeamRequestService {
 
         try {
             this.teamRequestDao.requestTeam(requester, team);
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException(e.getMessage());
         }
-        catch (IllegalArgumentException e) {
+    }
+
+    public void requestUser(long teamId, User requested, User user) throws BadRequestException {
+        Team team = teamDao.findById(teamId);
+        if (team == null) {
+            throw new BadRequestException("No team exists with id " + teamId);
+        }
+
+        try {
+            this.teamRequestDao.requestUser(requested, team, user);
+        } catch (IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());
         }
     }
@@ -59,15 +67,59 @@ public class TeamRequestService {
 
         teamRequestDao.removeRequest(teamRequest);
         rosterDao.registerUser(user, team);
+    }
 
+    public void acceptTeamRequest(long requestId, User user) throws BadRequestException, InternalErrorException {
+        TeamRequest teamRequest = teamRequestDao.findById(requestId);
+        if (teamRequest == null) {
+            throw new BadRequestException("Cannot find teamRequest with id " + requestId);
+        }
+
+        if (teamRequest.getUserId() != user.getId()) {
+            throw new BadRequestException("This request isn't for you");
+        }
+
+        Team team = teamDao.findById(teamRequest.getTeamId());
+        if (team == null) {
+            throw new InternalErrorException("teamRequest references non existant team");
+        }
+
+        teamRequestDao.removeRequest(teamRequest);
+        rosterDao.registerUser(user, team);
     }
 
     public List<TeamRequest> findAllRequestsForUser(User user) {
         return teamRequestDao.getRequestsForUser(user);
     }
 
+    public List<TeamRequest> findAllRequestsForTeam(long teamId, User user) throws BadRequestException {
+        Team team = teamDao.findById(teamId);
+        if (team == null) {
+            throw new BadRequestException("No team exists with id " + teamId);
+        }
+
+        if (team.getCreatorId() != user.getId()) {
+            throw new BadRequestException("You are not the creator of this team");
+        }
+
+        return teamRequestDao.getRequestsForTeam(team);
+    }
+
     public List<TeamRequest> findAllRequestsByUser(User user) {
         return teamRequestDao.getRequestsByUser(user);
+    }
+
+    public List<TeamRequest> findAllRequestsByTeam(long teamId, User user) throws BadRequestException {
+        Team team = teamDao.findById(teamId);
+        if (team == null) {
+            throw new BadRequestException("No team exists with id " + teamId);
+        }
+
+        if (team.getCreatorId() != user.getId()) {
+            throw new BadRequestException("You are not the creator of this team");
+        }
+
+        return teamRequestDao.getRequestsByTeam(team);
     }
 
     public void deleteRequest(User user, long id) throws BadRequestException {
@@ -92,8 +144,7 @@ public class TeamRequestService {
             if (team.getCreatorId() != user.getId()) {
                 throw new BadRequestException("You are not the owner of this team");
             }
-        }
-        else { // Team requests user
+        } else { // Team requests user
             if (teamRequest.getUserId() != user.getId()) {
                 throw new BadRequestException("This is not your request");
             }
@@ -101,8 +152,7 @@ public class TeamRequestService {
 
         try {
             teamRequestDao.declineRequest(teamRequest);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());
         }
     }
