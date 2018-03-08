@@ -120,6 +120,19 @@ public class TeamRequestController {
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
     }
 
+    @GetMapping("/api/team/{id}/requests/pending")
+    public ResponseEntity<?> getRequestsByTeam(@CookieValue("session") String session, @PathVariable("id") long id) {
+        List<TeamRequest> requests;
+        try {
+            User user = sessionService.findBySession(session);
+            requests = teamRequestService.findAllRequestsByTeam(id, user);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
+    }
+
     @DeleteMapping("/api/requests/{id}")
     public ResponseEntity<?> deleteRequest(@CookieValue("session") String session,
                                            @PathVariable("id") long id) {
