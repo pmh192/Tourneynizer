@@ -36,7 +36,7 @@ public class MatchGeneratorTest extends TestWithContext{
     }
 
     private Tournament getTournament(User user) throws Exception {
-        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1,
+        Tournament tournament = new Tournament("name", 3.4, 6.7, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET,
                 user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;

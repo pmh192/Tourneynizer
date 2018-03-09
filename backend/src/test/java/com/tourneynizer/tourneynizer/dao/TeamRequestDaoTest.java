@@ -40,7 +40,7 @@ public class TeamRequestDaoTest extends TestWithContext {
     }
 
     private Tournament getTournament(User user) throws Exception {
-        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1,
+        Tournament tournament = new Tournament("name", 4.5, 6.7, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET,
                 user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;
@@ -111,7 +111,7 @@ public class TeamRequestDaoTest extends TestWithContext {
         TeamRequest r1 = teamRequestDao.requestUser(user, team, creator);
         TeamRequest r2 = teamRequestDao.requestTeam(user2, team);
 
-        List<TeamRequest> requests = teamRequestDao.getTeamRequests(team);
+        List<TeamRequest> requests = teamRequestDao.getRequestsForTeam(team);
         List<TeamRequest> expected = Collections.singletonList(r2);
 
         assertEquals(expected, requests);
@@ -147,6 +147,23 @@ public class TeamRequestDaoTest extends TestWithContext {
 
         List<TeamRequest> requests = teamRequestDao.getRequestsByUser(user);
         List<TeamRequest> expected = Collections.singletonList(r2);
+
+        assertEquals(expected, requests);
+    }
+
+    @Test
+    public void getRequestsByTeam() throws Exception {
+        User creator = getUser(10);
+        User user = getUser(0);
+        Tournament tournament = getTournament(user);
+        Team team1 = getTeam(creator, tournament, 0);
+        Team team2 = getTeam(creator, tournament, 1);
+
+        TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
+        TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
+
+        List<TeamRequest> requests = teamRequestDao.getRequestsByTeam(team1);
+        List<TeamRequest> expected = Collections.singletonList(r1);
 
         assertEquals(expected, requests);
     }

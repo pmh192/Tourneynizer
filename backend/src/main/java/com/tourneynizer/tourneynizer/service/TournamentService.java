@@ -28,12 +28,12 @@ public class TournamentService {
         try {
             tournament = new Tournament(
                     values.get("name"),
-                    values.get("address"),
+                    Double.parseDouble(values.get("lat")),
+                    Double.parseDouble(values.get("lng")),
                     new Timestamp(Long.parseLong(values.get("startTime"))),
                     Integer.parseInt(values.get("teamSize")),
                     Integer.parseInt(values.get("maxTeams")),
-                    TournamentType.values()[Integer.parseInt(values.get("type"))],
-                    Integer.parseInt(values.get("numCourts")),
+                    TournamentType.valueOf(values.get("type")),
                     user.getId(),
                     TournamentStatus.CREATED
             );

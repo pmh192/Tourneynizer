@@ -89,8 +89,13 @@ public class TeamRequestDao {
         return getRequestsHelper(idMapper, sql, user.getId());
     }
 
-    public List<TeamRequest> getTeamRequests(Team team) {
+    public List<TeamRequest> getRequestsForTeam(Team team) {
         String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id<>?;";
+        return getRequestsHelper(teamRequestRowMapper, sql, new Long[]{team.getId(), team.getCreatorId()});
+    }
+
+    public List<TeamRequest> getRequestsByTeam(Team team) {
+        String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id=?;";
         return getRequestsHelper(teamRequestRowMapper, sql, new Long[]{team.getId(), team.getCreatorId()});
     }
 

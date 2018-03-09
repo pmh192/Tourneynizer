@@ -6,33 +6,34 @@ import java.sql.Timestamp;
 
 public class Tournament {
     private Long id;
-    private String name, address;
+    private String name;
+    private double lat, lng;
     private Timestamp timeCreated, startTime;
-    private int teamSize, maxTeams, numCourts;
+    private int teamSize, maxTeams;
     private TournamentType type;
     private long creatorId;
     private TournamentStatus status;
 
 
-    public Tournament(String name, String address, Timestamp startTime, int teamSize, int maxTeams, TournamentType type,
-                      int numCourts, long creatorId, TournamentStatus status) {
+    public Tournament(String name, double lat, double lng, Timestamp startTime, int teamSize, int maxTeams,
+                      TournamentType type, long creatorId, TournamentStatus status) {
 
 
         setName(name);
-        setAddress(address);
+        setLat(lat);
+        setLng(lng);
         setStartTime(startTime);
         setTeamSize(teamSize);
         setMaxTeams(maxTeams);
         setTournamentType(type);
-        setNumCourts(numCourts);
         setCreatorId(creatorId);
         setStatus(status);
     }
 
-    public Tournament(Long id, String name, String address, Timestamp timeCreated, Timestamp startTime, int teamSize,
-                      int maxTeams, TournamentType type, int numCourts, long creatorId, TournamentStatus status) {
+    public Tournament(Long id, String name, double lat, double lng, Timestamp timeCreated, Timestamp startTime, int teamSize,
+                      int maxTeams, TournamentType type, long creatorId, TournamentStatus status) {
 
-        this(name, address, startTime, teamSize, maxTeams, type, numCourts, creatorId, status);
+        this(name, lat, lng, startTime, teamSize, maxTeams, type, creatorId, status);
         persist(id, timeCreated);
     }
 
@@ -51,11 +52,12 @@ public class Tournament {
         this.name = name;
     }
 
-    public void setAddress(String address) {
-        if (address == null) { throw new IllegalArgumentException("Address is required"); }
-        if (address.trim().isEmpty()) { throw new IllegalArgumentException("Address cannot be empty"); }
-        if (address.length() >= 256) { throw new IllegalArgumentException("That address is too long"); }
-        this.address = address;
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public void setStartTime(Timestamp startTime) {
@@ -68,10 +70,6 @@ public class Tournament {
 
     public void setMaxTeams(int maxTeams) {
         this.maxTeams = maxTeams;
-    }
-
-    public void setNumCourts(int numCourts) {
-        this.numCourts = numCourts;
     }
 
     public void setTournamentType(TournamentType type) {
@@ -95,8 +93,13 @@ public class Tournament {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     public Timestamp getTimeCreated() {
@@ -113,10 +116,6 @@ public class Tournament {
 
     public int getMaxTeams() {
         return maxTeams;
-    }
-
-    public int getNumCourts() {
-        return numCourts;
     }
 
     public TournamentType getType() {
@@ -147,12 +146,12 @@ public class Tournament {
 
         return equalsHelper(other.id, this.id) &&
                 equalsHelper(other.name, this.name) &&
-                equalsHelper(other.address, this.address) &&
+                equalsHelper(other.lat, this.lat) &&
+                equalsHelper(other.lng, this.lng) &&
                 equalsHelper(other.timeCreated, this.timeCreated) &&
                 equalsHelper(other.startTime, this.startTime) &&
                 equalsHelper(other.maxTeams, this.maxTeams) &&
                 equalsHelper(other.teamSize, this.teamSize) &&
-                equalsHelper(other.numCourts, this.numCourts) &&
                 equalsHelper(other.type, this.type) &&
                 equalsHelper(other.creatorId, this.creatorId);
     }

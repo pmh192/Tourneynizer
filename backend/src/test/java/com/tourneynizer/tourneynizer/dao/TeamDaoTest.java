@@ -43,7 +43,7 @@ public class TeamDaoTest extends TestWithContext {
     }
 
     private Tournament getTournament(User user, int teamSize) throws Exception {
-        Tournament tournament = new Tournament("name", "address", null, teamSize, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId(), TournamentStatus.CREATED);
+        Tournament tournament = new Tournament("name", 2.4, 5.3, null, teamSize, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;
     }
