@@ -41,18 +41,11 @@ class TournamentListViewContainerController : UIViewController {
 
         tournamentList = TournamentListViewController();
         tournamentList.setSelectCallback(onSelect(_:));
-
-        TournamentService.shared.getAllTournaments { (error: String?, tournamentList: [Tournament]?) in
-            if(error != nil) {
-                return DispatchQueue.main.async {
-                    self.displayError(error!);
-                }
-            }
-
-            return DispatchQueue.main.async {
-                self.tournamentList.setTournaments(tournamentList!);
-            }
+        tournamentList.setReloadCallback {
+            self.loadTournaments()
         }
+
+        self.loadTournaments();
 
         addChildViewController(tournamentList);
         contentView.addSubview(tournamentList.view);
@@ -96,5 +89,19 @@ class TournamentListViewContainerController : UIViewController {
         }
 
         super.updateViewConstraints();
+    }
+
+    func loadTournaments() {
+        TournamentService.shared.getAllTournaments { (error: String?, tournamentList: [Tournament]?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                self.tournamentList.setTournaments(tournamentList!);
+            }
+        }
     }
 }
