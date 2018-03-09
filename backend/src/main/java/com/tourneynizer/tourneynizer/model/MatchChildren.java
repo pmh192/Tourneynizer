@@ -1,5 +1,12 @@
 package com.tourneynizer.tourneynizer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@JsonSerialize(using = MatchChildrenSerializer.class)
 public class MatchChildren {
 
     private Long matchChild1, matchChild2;
@@ -38,21 +45,41 @@ public class MatchChildren {
         return matchChild2;
     }
 
+    @JsonIgnore
     public Long getMatchChild1() {
         return matchChild1;
     }
 
+    @JsonIgnore
     public Long getMatchChild2() {
         return matchChild2;
     }
 
+    @JsonIgnore
     public Long getTeamChild1() {
         return teamChild1;
     }
 
+    @JsonIgnore
     public Long getTeamChild2() {
         return teamChild2;
     }
+
+    Map<String, String> jsonFirst() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", teamChild1 != null ? "team" : "match");
+        map.put("id", "" + first());
+        return map;
+    }
+
+    Map<String, String> jsonSecond() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", teamChild2 != null ? "team" : "match");
+        map.put("id", "" + second());
+        return map;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

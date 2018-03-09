@@ -1,5 +1,6 @@
 package com.tourneynizer.tourneynizer.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -35,4 +36,12 @@ public class MatchChildrenTest {
         assertEquals(1L, children.second());
     }
 
+    @Test
+    public void json() throws Exception {
+        MatchChildren children = new MatchChildren(0L, null, 1L, null);
+        String json = new ObjectMapper().writeValueAsString(children);
+        String expected = "[{\"id\":\"0\",\"type\":\"team\"},{\"id\":\"1\",\"type\":\"match\"}]";
+
+        assertEquals(expected, json);
+    }
 }

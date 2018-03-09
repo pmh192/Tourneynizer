@@ -1,5 +1,7 @@
 package com.tourneynizer.tourneynizer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -81,6 +83,7 @@ public class Match {
         this.scoreType = scoreType;
     }
 
+    @JsonIgnore
     public boolean isPersisted() {
         return id != null;
     }
