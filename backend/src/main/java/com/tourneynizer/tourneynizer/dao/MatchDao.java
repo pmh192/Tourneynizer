@@ -99,4 +99,9 @@ public class MatchDao {
         String sql = "SELECT * FROM matches WHERE tournament=?;";
         return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
     }
+
+//    public List<Match> getCompletedMatches(Tournament tournament) {
+//        String sql = "SELECT * FROM matches WHERE tournament=? AND finished=True;";
+//        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
+//    }
 }
