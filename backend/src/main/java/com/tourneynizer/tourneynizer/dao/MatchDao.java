@@ -39,15 +39,10 @@ public class MatchDao {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
                 preparedStatement.setLong(1, match.getTournamentId());
 
-                Long team1Id = null, team2Id = null, match1Id = null, match2Id = null;
-                Long team1 = match.getMatchChildren().getTeamChild1();
-                Long team2 = match.getMatchChildren().getTeamChild2();
-                Long match1 = match.getMatchChildren().getMatchChild1();
-                Long match2 = match.getMatchChildren().getMatchChild2();
-                if (team1 != null) { team1Id = team1; }
-                if (team2 != null) { team2Id = team2; }
-                if (match1 != null) { match1Id = match1; }
-                if (match2 != null) { match2Id = match2; }
+                Long team1Id = match.getMatchChildren().getTeamChild1();
+                Long team2Id = match.getMatchChildren().getTeamChild2();
+                Long match1Id = match.getMatchChildren().getMatchChild1();
+                Long match2Id = match.getMatchChildren().getMatchChild2();
                 setNullable(preparedStatement, 2, team1Id);
                 setNullable(preparedStatement, 3, team2Id);
                 setNullable(preparedStatement, 4, match1Id);
