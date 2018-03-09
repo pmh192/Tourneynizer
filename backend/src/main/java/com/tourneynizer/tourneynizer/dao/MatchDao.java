@@ -1,6 +1,5 @@
 package com.tourneynizer.tourneynizer.dao;
 
-import com.tourneynizer.tourneynizer.error.EmailTakenException;
 import com.tourneynizer.tourneynizer.model.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,7 +11,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.List;
+
+import static com.tourneynizer.tourneynizer.helper.JDBCHelper.getNullableLong;
+import static com.tourneynizer.tourneynizer.helper.JDBCHelper.setNullable;
 
 public class MatchDao {
     private final JdbcTemplate jdbcTemplate;
@@ -21,29 +24,43 @@ public class MatchDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void insert(Match match, User user) throws EmailTakenException, SQLException {
+    public void insert(Match match, User user) throws SQLException {
         if (match.isPersisted()) {
             throw new IllegalArgumentException("Match is already persisted");
         }
 
-        String sql = "INSERT INTO matches (tournament, team1_id, team2_id, score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO matches (tournament, team1_id, team2_id, match_child1, match_child2, " +
+                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             this.jdbcTemplate.update(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
                 preparedStatement.setLong(1, match.getTournamentId());
-                preparedStatement.setLong(2, match.getTeam1_id());
-                preparedStatement.setLong(3, match.getTeam2_id());
-                preparedStatement.setLong(4, match.getScore1());
-                preparedStatement.setLong(5, match.getScore2());
-                preparedStatement.setInt(6, match.getScoreType().ordinal());
-                preparedStatement.setTimestamp(7, match.getTimeStart());
-                preparedStatement.setTimestamp(8, match.getTimeEnd());
-                preparedStatement.setLong(9, match.getRefTeam_id());
-                preparedStatement.setInt(10, match.getMatchOrder());
-                preparedStatement.setInt(11, match.getCourtNumber());
+
+                Long team1Id = null, team2Id = null, match1Id = null, match2Id = null;
+                Long team1 = match.getMatchChildren().getTeamChild1();
+                Long team2 = match.getMatchChildren().getTeamChild2();
+                Long match1 = match.getMatchChildren().getMatchChild1();
+                Long match2 = match.getMatchChildren().getMatchChild2();
+                if (team1 != null) { team1Id = team1; }
+                if (team2 != null) { team2Id = team2; }
+                if (match1 != null) { match1Id = match1; }
+                if (match2 != null) { match2Id = match2; }
+                setNullable(preparedStatement, 2, team1Id);
+                setNullable(preparedStatement, 3, team2Id);
+                setNullable(preparedStatement, 4, match1Id);
+                setNullable(preparedStatement, 5, match2Id);
+
+                setNullable(preparedStatement, 6, match.getScore1());
+                setNullable(preparedStatement, 7, match.getScore2());
+                preparedStatement.setInt(8, match.getScoreType().ordinal());
+                preparedStatement.setTimestamp(9, match.getTimeStart());
+                preparedStatement.setTimestamp(10, match.getTimeEnd());
+                setNullable(preparedStatement, 11, match.getRefId());
+                preparedStatement.setInt(12, match.getMatchOrder());
+                preparedStatement.setInt(13, match.getCourtNumber());
 
                 return preparedStatement;
             }, keyHolder);
@@ -57,11 +74,15 @@ public class MatchDao {
     private final RowMapper<Match> rowMapper = (resultSet, rowNum) -> new Match(
             resultSet.getLong(1),
             resultSet.getLong(2),
-            resultSet.getLong(3),
-            resultSet.getLong(4),
-            resultSet.getLong(12),
-            resultSet.getLong(7),
-            resultSet.getLong(8),
+            new MatchChildren(
+                    getNullableLong(resultSet, 3),
+                    getNullableLong(resultSet, 4),
+                    getNullableLong(resultSet, 16),
+                    getNullableLong(resultSet, 17)
+                    ),
+            getNullableLong(resultSet, 12),
+            getNullableLong(resultSet, 7),
+            getNullableLong(resultSet, 8),
             resultSet.getInt(13),
             resultSet.getInt(14),
             resultSet.getTimestamp(10),
@@ -77,5 +98,10 @@ public class MatchDao {
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<Match> findByTournament(Tournament tournament) {
+        String sql = "SELECT * FROM matches WHERE tournament=?;";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
     }
 }

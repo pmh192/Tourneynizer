@@ -40,7 +40,8 @@ public class TeamRequestDaoTest extends TestWithContext {
     }
 
     private Tournament getTournament(User user) throws Exception {
-        Tournament tournament = new Tournament("name", 4.5, 6.7, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId());
+        Tournament tournament = new Tournament("name", 4.5, 6.7, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET,
+                user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;
     }
@@ -113,9 +114,6 @@ public class TeamRequestDaoTest extends TestWithContext {
         List<TeamRequest> requests = teamRequestDao.getRequestsForTeam(team);
         List<TeamRequest> expected = Collections.singletonList(r2);
 
-        for (TeamRequest r : requests) {
-            System.out.println(r.getTeamId() + ", " + r.getRequesterId());
-        }
         assertEquals(expected, requests);
     }
 
