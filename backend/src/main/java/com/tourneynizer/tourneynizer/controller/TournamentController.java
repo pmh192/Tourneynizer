@@ -4,6 +4,7 @@ import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.ErrorMessage;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TournamentService;
@@ -42,6 +43,25 @@ public class TournamentController {
         }
 
         return new ResponseEntity<>(tournament, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    private static String[] typeValues;
+
+    // made public so I can test it
+    public synchronized static String[] getTournamentTypeValues() {
+        if (typeValues == null) {
+            TournamentType[] types = TournamentType.values();
+            typeValues = new String[types.length];
+            for (int i = 0; i < types.length; i++) {
+                typeValues[i] = types[i].toString();
+            }
+        }
+        return typeValues;
+    }
+
+    @GetMapping("/api/enum/tournament/type")
+    public ResponseEntity<?> getTournamentTypes() {
+        return new ResponseEntity<Object>(getTournamentTypeValues(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping("/api/tournament/getAll")
