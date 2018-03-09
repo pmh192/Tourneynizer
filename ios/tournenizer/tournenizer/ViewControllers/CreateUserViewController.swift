@@ -31,7 +31,7 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
     let emailFieldPrompt = "Email";
     var nameFieldPrompt = "Name";
     let passwordNoMatchError = "Passwords don't match.";
-    let emptyFieldError = "Please fill in all information.";
+    let emptyFieldError = "Please fill in all fields.";
     let loginPromptPadding: CGFloat = 10;
     let registerButtonBorderRadius: CGFloat = 5;
     let registerButtonBorderWidth: CGFloat = 5;
@@ -251,13 +251,12 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
         let user = User(email: email, name: name, password: password);
         UserService.shared.createUser(user, cb: { (error: String?, newUser: User?) in
             if(error != nil) {
-                DispatchQueue.main.async {
+                return DispatchQueue.main.async {
                     self.setError(error!);
                 };
-                return;
             }
 
-            DispatchQueue.main.async {
+            return DispatchQueue.main.async {
                 self.clearFields();
                 self.exit(self.loginButton);
             };

@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum TournamentType {
+enum TournamentType : String, Codable {
     case VOLLEYBALL_POOLED, VOLLEYBALL_BRACKET;
 };

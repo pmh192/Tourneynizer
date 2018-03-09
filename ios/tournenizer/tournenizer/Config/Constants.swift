@@ -35,10 +35,27 @@ class Constants {
     };
 
     static let statusBarCoverHeight: CGFloat = 50;
-    static let serverURL = "http://169.231.234.195:8080/api";
+    static let serverURL = "http://169.231.234.195:8080";
 
     class error {
         static let serverError = "There was an error with the server. Please try again later.";
         static let genericError = "There was an error. Please try again later."
+    };
+
+    class route {
+        class auth {
+            static let login = "/api/auth/login";
+            static let logout = "/api/auth/logout";
+        };
+
+        class user {
+            static let create = "/api/user/create";
+            static let current = "/api/user/get";
+        };
+
+        class tournament {
+            static let all = "/api/tournament/getAll";
+            static let create = "/api/tournament/create";
+        }
     }
 };

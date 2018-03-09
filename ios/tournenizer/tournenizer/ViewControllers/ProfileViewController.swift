@@ -37,6 +37,7 @@ class ProfileViewController : UIViewController {
 
     let teamsTitle = "Past Teams:";
     let logoutText = "Sign Out";
+    let dialogBody = Constants.error.serverError;
 
     var profileList: TeamListViewController!;
 
@@ -207,6 +208,20 @@ class ProfileViewController : UIViewController {
     }
 
     @objc func logout() {
+        UserService.shared.logout { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(Constants.error.serverError);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                self.exitToLogin();
+            }
+        }
+    }
+
+    func exitToLogin() {
         let animation = CATransition();
         animation.type = kCATransitionReveal;
         animation.subtype = kCATransitionFromBottom;

@@ -15,6 +15,18 @@ class RequestFactory {
         var request = URLRequest(url: url);
         request.setValue("application/json", forHTTPHeaderField: "Content-Type");
         request.httpMethod = "\(type)";
+
+        let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: Constants.serverURL + Constants.route.auth.login)!);
+        if(cookies != nil) {
+            var str = "";
+
+            for cookie in cookies! {
+                str.append("\(cookie.name)=\(cookie.value)");
+            }
+
+            request.setValue(str, forHTTPHeaderField: "Cookie");
+        }
+
         return request;
     }
 };

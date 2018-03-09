@@ -21,6 +21,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var registerButton: UIButton!;
     var registerStack: UIStackView!;
     var fakeKeyboardView: UIView?;
+    var errorPrompt: UILabel!;
 
     // Definitions for all style related constants
     let logoLabelHeight: CGFloat = 150;
@@ -36,6 +37,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     let loginButtonText = "Login";
     let registerPromptText = "Don't have an account?";
     let registerButtonText = "Sign up.";
+    let emptyFieldError = "Please fill in all fields.";
 
     override func loadView() {
         // Initialize view
@@ -58,6 +60,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             view.textColor = Constants.color.red;
             view.textAlignment = .center;
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.header);
+            return view;
+        }();
+
+        errorPrompt = {
+            let view = UILabel.newAutoLayout();
+            view.textColor = Constants.color.red;
+            view.textAlignment = .center;
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
             return view;
         }();
 
@@ -113,9 +123,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return view;
         }();
 
-        loginStack = { [usernameField, passwordField, loginButton] in
+        loginStack = { [usernameField, passwordField, loginButton, errorPrompt] in
             let view = UIStackView();
             view.axis = .vertical;
+            view.addSubview(errorPrompt!);
             view.addSubview(usernameField!);
             view.addSubview(passwordField!);
             view.addSubview(loginButton!);
@@ -185,6 +196,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             usernameField.autoPinEdge(.bottom, to: .top, of: passwordField, withOffset: -loginClusterElementVerticalPadding);
             usernameField.autoPinEdge(toSuperviewEdge: .leading);
             usernameField.autoPinEdge(toSuperviewEdge: .trailing);
+
+            errorPrompt.autoPinEdge(.bottom, to: .top, of: usernameField, withOffset: -loginClusterElementVerticalPadding);
+            errorPrompt.autoPinEdge(toSuperviewEdge: .leading);
+            errorPrompt.autoPinEdge(toSuperviewEdge: .trailing);
 
             registerButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: registerPromptPadding);
             registerButton.autoCenterInSuperview();
@@ -289,6 +304,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             passwordField.becomeFirstResponder();
         } else {
             passwordField.resignFirstResponder();
+            loginClicked(loginButton!);
         }
 
         return false;
@@ -301,14 +317,41 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     // Register onclick function
     @objc func loginClicked(_ sender: UIButton!) {
+        if(usernameField.text == nil || usernameField.text == "" ||
+           passwordField.text == nil || passwordField.text == "") {
+            setError(emptyFieldError);
+            return;
+        }
+
+        setError("");
+        let user = User(email: usernameField.text!, name: "", password: passwordField.text!);
+        
+        UserService.shared.login(user: user) { (error: String?, user: User?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.setError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                self.transitionToDashboard();
+            }
+        }
+    }
+
+    func transitionToDashboard() {
         let animation = CATransition();
         animation.type = kCATransitionReveal;
         animation.subtype = kCATransitionFromBottom;
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
         animation.duration = CFTimeInterval(0.35);
-        
+
         let window = UIApplication.shared.keyWindow;
         window?.layer.add(animation, forKey: nil);
         window?.rootViewController = DashboardViewController();
+    }
+
+    func setError(_ error: String) {
+        self.errorPrompt.text = error;
     }
 }

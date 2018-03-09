@@ -200,6 +200,7 @@ class TournamentViewController : UIViewController {
 
     override func viewDidLayoutSubviews() {
         if(mapView == nil) {
+            // TODO: change this
             let camera = GMSCameraPosition.camera(withLatitude: 34.414593, longitude: -119.854979, zoom: 18.0);
             mapView = GMSMapView.map(withFrame: mapViewContainer.bounds, camera: camera);
             let marker = GMSMarker();

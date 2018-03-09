@@ -10,18 +10,17 @@ import Foundation;
 
 class Service {
     func makeRequest(url: String, type: HTTPMethod, body: Data?, cb: @escaping (String?, Data?) -> Void) {
-        let request = RequestFactory.shared.createRequest(type: type, url: URL(string: Constants.serverURL + url)!);
+        let path = URL(string: Constants.serverURL + url)!;
 
+        let request = RequestFactory.shared.createRequest(type: type, url: path);
         let task = URLSession.shared.uploadTask(with: request, from: body) { dat, res, error in
             if(error != nil) {
                 print("error: \(error.debugDescription)");
-                cb(Constants.error.serverError, nil);
-                return;
+                return cb(Constants.error.serverError, nil);
             }
 
             guard let response = res as? HTTPURLResponse else {
-                cb(Constants.error.serverError, nil);
-                return;
+                return cb(Constants.error.serverError, nil);
             }
 
             guard let data: Data = dat else {
@@ -31,15 +30,13 @@ class Service {
 
             if(!(200...299).contains(response.statusCode)) {
                 guard let error = try? JSONDecoder().decode(ServerError.self, from: data) else {
-                    cb(Constants.error.genericError, nil);
-                    return;
+                    return cb(Constants.error.genericError, nil);
                 }
 
-                cb(error.message, nil);
-                return;
+                return cb(error.message, nil);
             }
 
-            cb(nil, data);
+            return cb(nil, data);
         };
 
         task.resume();
