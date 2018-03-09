@@ -51,6 +51,14 @@ public class MatchGenerator {
             this.match = null;
         }
 
+        public Match getMatch() {
+            return match;
+        }
+
+        public Team getTeam() {
+            return team;
+        }
+
         public long getValueId() {
             return match != null ? match.getId() : team.getId();
         }
@@ -79,7 +87,15 @@ public class MatchGenerator {
             MatchNode node1 = tree.poll();
             MatchNode node2 = tree.poll();
 
-            Match parent = new Match(tournament.getId(), order++, node1.getValueId(), node2.getValueId(), null, ScoreType.ONE_SET);
+            Long team1 = null, team2 = null, match1 = null, match2 = null;
+            if (node1.getMatch() != null) { match1 = node1.getValueId(); }
+            else {                          team1 = node1.getValueId(); }
+
+            if (node2.getMatch() != null) { match2 = node2.getValueId(); }
+            else {                          team2 = node2.getValueId(); }
+
+            MatchChildren children = new MatchChildren(team1, team2, match1, match2);
+            Match parent = new Match(tournament.getId(), children, order++, null, ScoreType.ONE_SET);
             matchDao.insert(parent, user);
             tree.add(new MatchNode(parent, orderInserted++, Math.max(node1.height, node2.height) + 1));
             matches.add(parent);

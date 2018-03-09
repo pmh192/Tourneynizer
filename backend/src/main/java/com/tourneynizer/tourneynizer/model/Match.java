@@ -5,36 +5,27 @@ import java.util.Objects;
 
 public class Match {
 
-    private Long id, child1, child2, team1Id, team2Id, refId, score1, score2;
+    private Long id, refId, score1, score2;
+    private MatchChildren matchChildren;
     private long tournament_id;
     private int order, courtNumber;
     private Timestamp timeStart, timeEnd;
     private ScoreType scoreType;
 
 
-    public Match(long tournamentId, long team1Id, long team2Id, int order, Timestamp timeStart, ScoreType type) {
+    public Match(long tournamentId, MatchChildren children, int order, Timestamp timeStart, ScoreType type) {
         setTournamentId(tournamentId);
-        setteam1Id(team1Id);
-        setteam2Id(team2Id);
+        setMatchChildren(children);
         setOrder(order);
         setTimeStart(timeStart);
         setScoreType(type);
     }
 
-    public Match(long tournamentId, int order, long child1, long child2, Timestamp timeStart, ScoreType type) {
-        setTournamentId(tournamentId);
-        setOrder(order);
-        setChildren(child1, child2);
-        setTimeStart(timeStart);
-        setScoreType(type);
-    }
-
-    public Match(long id, long tournament_id, Long team1Id, Long team2Id, Long refId, Long score1, Long score2, int order,
+    public Match(long id, long tournament_id, MatchChildren children, Long refId, Long score1, Long score2, int order,
                  int courtNumber, Timestamp timeStart, Timestamp timeEnd, ScoreType scoreType) {
         persist(id);
         setTournamentId(tournament_id);
-        setteam1Id(team1Id);
-        setteam2Id(team2Id);
+        setMatchChildren(children);
         setRefId(refId);
         setScore1(score1);
         setScore2(score2);
@@ -49,28 +40,11 @@ public class Match {
         this.tournament_id = tournament_id;
     }
 
-    public void setteam1Id(Long team1Id) {
-        if (this.team2Id != null && this.team2Id.equals(team1Id)) {
-            throw new IllegalArgumentException("Teams cannot play themselves");
-        }
-        if (this.refId != null && this.refId.equals(team1Id)) {
-            throw new IllegalArgumentException("Teams cannot ref their own game");
-        }
-        this.team1Id = team1Id;
-    }
-
-    public void setteam2Id(Long team2Id) {
-        if (this.team1Id != null && this.team1Id.equals(team2Id)) {
-            throw new IllegalArgumentException("Teams cannot play themselves");
-        }
-        if (this.refId != null && this.refId.equals(team2Id)) {
-            throw new IllegalArgumentException("Teams cannot ref their own game");
-        }
-        this.team2Id = team2Id;
-    }
 
     public void setRefId(Long refId) {
-        if (refId != null && (Objects.equals(refId, team1Id) || Objects.equals(refId, team2Id))) {
+        long firstChild = matchChildren.first();
+        long secondChild = matchChildren.second();
+        if (refId != null && (Objects.equals(refId, firstChild) || Objects.equals(refId, secondChild))) {
             throw new IllegalArgumentException("Teams cannot ref their own game");
         }
         this.refId = refId;
@@ -107,29 +81,12 @@ public class Match {
         this.scoreType = scoreType;
     }
 
-    public void setChildren(long child1, long child2) {
-        this.child1 = child1;
-        this.child2 = child2;
-    }
-
-    public void unsetChildren() {
-        this.child1 = this.child2 = null;
-    }
-
     public boolean isPersisted() {
         return id != null;
     }
 
     public Long getTournamentId() {
         return tournament_id;
-    }
-
-    public Long getTeam1Id() {
-        return team1Id;
-    }
-
-    public Long getTeam2Id() {
-        return team2Id;
     }
 
     public Long getScore1() {
@@ -164,14 +121,6 @@ public class Match {
         return courtNumber;
     }
 
-    public Long getChild1() {
-        return child1;
-    }
-
-    public Long getChild2() {
-        return child2;
-    }
-
     public void persist(long id) {
         this.id = id;
     }
@@ -188,8 +137,7 @@ public class Match {
         Match match = (Match) o;
 
         if (tournament_id != match.tournament_id) return false;
-        if (!Objects.equals(team1Id, match.team1Id)) return false;
-        if (!Objects.equals(team2Id, match.team2Id)) return false;
+        if (!Objects.equals(matchChildren, match.matchChildren)) return false;
         if (!Objects.equals(refId, match.refId)) return false;
         if (!Objects.equals(score1, match.score1)) return false;
         if (!Objects.equals(score2, match.score2)) return false;
@@ -199,5 +147,16 @@ public class Match {
         if (timeStart != null ? !timeStart.equals(match.timeStart) : match.timeStart != null) return false;
         if (timeEnd != null ? !timeEnd.equals(match.timeEnd) : match.timeEnd != null) return false;
         return scoreType == match.scoreType;
+    }
+
+    public void setMatchChildren(MatchChildren matchChildren) {
+        if (matchChildren.first() == matchChildren.second()) {
+            throw new IllegalArgumentException("Two teams cannot play each other");
+        }
+        this.matchChildren = matchChildren;
+    }
+
+    public MatchChildren getMatchChildren() {
+        return matchChildren;
     }
 }

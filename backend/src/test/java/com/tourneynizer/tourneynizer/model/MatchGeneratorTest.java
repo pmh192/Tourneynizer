@@ -7,11 +7,9 @@ import com.tourneynizer.tourneynizer.dao.UserDao;
 import com.tourneynizer.tourneynizer.helper.TestWithContext;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.util.collections.Sets;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -70,8 +68,8 @@ public class MatchGeneratorTest extends TestWithContext{
 
         assertEquals(1, actual.size());
         Match match = actual.get(0);
-        Set<Long> children = Sets.newSet(match.getChild1(), match.getChild2());
-        Set<Long> expected = Sets.newSet(team1.getId(), team2.getId());
+        MatchChildren children = match.getMatchChildren();
+        MatchChildren expected = new MatchChildren(team1.getId(), team2.getId(), null, null);
 
         assertEquals(expected, children);
     }
@@ -96,12 +94,16 @@ public class MatchGeneratorTest extends TestWithContext{
         Match match1 = actual.get(0);
         Match match2 = actual.get(1);
         Match match3 = actual.get(2);
-        Set<Long> children = Sets.newSet(match1.getChild1(), match1.getChild2(), match2.getChild1(), match2.getChild2());
-        Set<Long> expected = Sets.newSet(team1.getId(), team2.getId(), team3.getId(), team4.getId());
+        MatchChildren children = match1.getMatchChildren();
+        MatchChildren expected = new MatchChildren(team1.getId(), team2.getId(), null, null);
         assertEquals(expected, children);
 
-        children = Sets.newSet(match3.getChild1(), match3.getChild2());
-        expected = Sets.newSet(match1.getId(), match2.getId());
+        children = match2.getMatchChildren();
+        expected = new MatchChildren(team3.getId(), team4.getId(), null, null);
+        assertEquals(expected, children);
+
+        children = match3.getMatchChildren();
+        expected = new MatchChildren(null, null, match1.getId(), match2.getId());
         assertEquals(expected, children);
 
     }
@@ -122,7 +124,8 @@ public class MatchGeneratorTest extends TestWithContext{
 
         assertEquals(2, actual.size());
         Match finalMatch = actual.get(1);
-        assertTrue(finalMatch.getChild1().equals(team3.getId()) || finalMatch.getChild2().equals(team3.getId()));
+        MatchChildren children = finalMatch.getMatchChildren();
+        assertTrue(children.first() == team3.getId() || children.second() == team3.getId());
     }
 
 }
