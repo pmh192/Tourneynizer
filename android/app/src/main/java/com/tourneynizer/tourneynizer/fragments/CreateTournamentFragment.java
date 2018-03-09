@@ -140,6 +140,7 @@ public class CreateTournamentFragment extends Fragment {
 				}
 				if (place == null) {
 					locationLabel.setError("Select a location");
+					ready = false;
 				}
 				String[] dates = dateLabel.getText().toString().split("/");
 				String[] indicators = timeLabel.getText().toString().split(" ");

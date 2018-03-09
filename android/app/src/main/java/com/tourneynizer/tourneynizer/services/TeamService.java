@@ -55,12 +55,7 @@ public class TeamService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
-                try {
-                    Log.e("Error Response", new String(error.networkResponse.data, "UTF8"));
-                } catch (UnsupportedEncodingException e) {
-
-                }
+                HTTPService.errorPrinterHelper(error);
                 listener.onTeamLoaded(null);
             }
         });
@@ -90,7 +85,7 @@ public class TeamService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTeamsLoaded(null);
             }
         });
@@ -116,7 +111,7 @@ public class TeamService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTeamsLoaded(null);
             }
         });
@@ -142,12 +137,7 @@ public class TeamService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
-                try {
-                    Log.e("Error Response", new String(error.networkResponse.data, "UTF8"));
-                } catch (UnsupportedEncodingException e) {
-
-                }
+                HTTPService.errorPrinterHelper(error);
                 listener.onTeamsLoaded(null);
             }
         });
@@ -165,7 +155,7 @@ public class TeamService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
             }
         });
     }

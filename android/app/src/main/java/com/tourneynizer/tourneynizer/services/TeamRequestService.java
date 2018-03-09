@@ -36,7 +36,24 @@ public class TeamRequestService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void sendRequestToUser(Team t, User u) {
+        String url = HTTPService.DOMAIN + "user/" + u.getId() + "/request/team/" + t.getId();
+        CookieRequestFactory factory = new CookieRequestFactory();
+        StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Success", "Request Sent");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
@@ -53,7 +70,23 @@ public class TeamRequestService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
+            }
+        });
+    }
+
+    public void acceptRequestForUser(TeamRequest tRequest) {
+        String url = HTTPService.DOMAIN + "user/requests/" + tRequest.getID() + "/accept";
+        CookieRequestFactory factory = new CookieRequestFactory();
+        StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Success", "Request Accepted");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
             }
         });
     }
@@ -69,14 +102,14 @@ public class TeamRequestService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void getRequestsForSelf(final OnTeamRequestsLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "user/requests/team";
+        String url = HTTPService.DOMAIN + "user/requests/sent";
         CookieRequestFactory factory = new CookieRequestFactory();
         Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -94,7 +127,60 @@ public class TeamRequestService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
+                listener.onTeamRequestsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getRequestsForTeam(Team t, final OnTeamRequestsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "team/" + t.getId() + "/requests/sent";
+        CookieRequestFactory factory = new CookieRequestFactory();
+        Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                TeamRequest[] teamRequests = new TeamRequest[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teamRequests[i] = JSONConverter.getInstance().convertJSONToTeamRequest(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teamRequests = null;
+                }
+                listener.onTeamRequestsLoaded(teamRequests);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
+                listener.onTeamRequestsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getRequestsByTeam(Team t, final OnTeamRequestsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "team/" + t.getId() + "/requests/pending";
+        CookieRequestFactory factory = new CookieRequestFactory();
+        Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                TeamRequest[] teamRequests = new TeamRequest[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teamRequests[i] = JSONConverter.getInstance().convertJSONToTeamRequest(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teamRequests = null;
+                }
+                listener.onTeamRequestsLoaded(teamRequests);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
+                listener.onTeamRequestsLoaded(null);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
@@ -119,7 +205,8 @@ public class TeamRequestService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
+                listener.onTeamRequestsLoaded(null);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);

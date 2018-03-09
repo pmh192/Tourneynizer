@@ -51,11 +51,11 @@ public class JSONConverter {
             Address address;
             try {
                 // May throw an IOException
-                List<Address> addresses = coder.getFromLocationName(tJSON.getString("address"), 5);
+                List<Address> addresses = coder.getFromLocation(tJSON.getDouble("lat"), tJSON.getDouble("lng"), 5);
                 if (addresses == null || addresses.size() == 0) {
                     address = new Address(Locale.getDefault());
-                    address.setLatitude(10);
-                    address.setLongitude(100);
+                    address.setLatitude(tJSON.getDouble("lat"));
+                    address.setLongitude(tJSON.getDouble("lng"));
                 } else {
                     address = addresses.get(0);
                 }
@@ -78,8 +78,9 @@ public class JSONConverter {
             tJSON.put("name", tDef.getName());
             tJSON.put("description", tDef.getDescription());
             tJSON.put("logo", tDef.getLogo());
-            tJSON.put("type", tDef.getTournamentType().ordinal());
-            tJSON.put("address", tDef.getAddress().getAddress());
+            tJSON.put("type", tDef.getTournamentType());
+            tJSON.put("lat", tDef.getAddress().getLatLng().latitude);
+            tJSON.put("lng", tDef.getAddress().getLatLng().longitude);
             tJSON.put("startTime", tDef.getStartTime().getTime());
             tJSON.put("teamSize", tDef.getTeamSize());
             tJSON.put("maxTeams", tDef.getMaxTeams());

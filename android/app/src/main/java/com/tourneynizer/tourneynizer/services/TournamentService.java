@@ -46,8 +46,7 @@ public class TournamentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTournamentLoaded(null);
             }
         });
@@ -85,8 +84,7 @@ public class TournamentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTournamentsLoaded(null);
             }
         });
@@ -106,8 +104,7 @@ public class TournamentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTournamentLoaded(null);
             }
         });

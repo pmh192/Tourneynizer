@@ -20,7 +20,7 @@
     <string name="chooseLocation">Choose Location</string>
     <string name="selectTournamentType">Select the type of Tournament</string>
     <string name="teamToEnterTournament">To enter a tournament, you must be part of a team</string>
-    <string name="viewPendingTeams">View Pending Teams</string>
+    <string name="viewPendingTeams">View Open Teams</string>
     <string name="createOwnTeam">Create New Team</string>
     <string name="createTeam">Create Team</string>
     <string name="teamName">Team Name:</string>

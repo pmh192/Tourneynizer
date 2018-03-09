@@ -41,7 +41,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -59,7 +59,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -86,8 +86,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Response", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -113,8 +112,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", "" + error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -142,15 +140,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    try {
-                        Log.d("Error", new String(error.networkResponse.data, "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-
-                    }
-                }
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -167,7 +157,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
