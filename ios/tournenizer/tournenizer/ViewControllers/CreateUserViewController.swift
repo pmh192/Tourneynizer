@@ -226,6 +226,7 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
 
     // Login onclick function
     @objc func exit(_ sender: UIButton!) {
+        self.setError("");
         self.navigationController?.popViewController(animated: true);
     }
 

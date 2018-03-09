@@ -312,6 +312,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     // Register onclick function
     @objc func registerClicked(_ sender: UIButton!) {
+        self.setError("");
         self.navigationController?.pushViewController(CreateUserViewController(), animated: true);
     }
 
