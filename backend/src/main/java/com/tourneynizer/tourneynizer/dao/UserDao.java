@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class UserDao {
     private final JdbcTemplate jdbcTemplate;
@@ -85,6 +86,11 @@ public class UserDao {
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<User> getAll() throws SQLException {
+        String sql = "SELECT * FROM users;";
+        return this.jdbcTemplate.query(sql, rowMapper);
     }
 }
 

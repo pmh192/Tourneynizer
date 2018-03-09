@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -52,6 +54,19 @@ public class UserDaoTest extends TestWithContext {
         User user2 = userDao.findById(user1.getId());
 
         assertTrue(user1.equals(user2));
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        User user1 = new User("person@place.com", "Name", "");
+        userDao.insert(user1);
+        User user2 = new User("person2@place.com", "Name", "");
+        userDao.insert(user2);
+
+        List<User> users = Arrays.asList(user1, user2);
+        List<User> actual = userDao.getAll();
+
+        assertEquals(users, actual);
     }
 
     @Test
