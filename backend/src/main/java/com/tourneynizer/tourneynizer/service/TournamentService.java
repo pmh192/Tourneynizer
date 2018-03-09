@@ -29,7 +29,7 @@ public class TournamentService {
                     new Timestamp(Long.parseLong(values.get("startTime"))),
                     Integer.parseInt(values.get("teamSize")),
                     Integer.parseInt(values.get("maxTeams")),
-                    TournamentType.valueOf(values.get("type")),
+                    TournamentType.userFriendlyValueOf(values.get("type")),
                     user.getId()
             );
         }
