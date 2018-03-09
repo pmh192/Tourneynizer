@@ -17,7 +17,6 @@ class MyTournamentsViewController : UIViewController {
         view.backgroundColor = Constants.color.white;
 
         tournamentList.setTournaments([
-            Tournament(id: 0, name: "Tournament of The Champions of the Void of Los Angeles", description: nil, address: "Greek Park, Isla Vista", startTime: Date(), maxTeams: 20, currentTeams: nil, timeCreated: Date(), tournamentType: nil, numCourts: nil, creatorId: 0, cancelled: nil, teamSize: 2)
         ]);
         tournamentList.setSelectCallback(selectTournament(_:));
 

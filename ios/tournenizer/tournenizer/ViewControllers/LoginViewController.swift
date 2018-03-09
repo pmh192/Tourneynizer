@@ -353,5 +353,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     func setError(_ error: String) {
         self.errorPrompt.text = error;
+        self.view.setNeedsLayout();
+        self.view.layoutIfNeeded();
     }
 }

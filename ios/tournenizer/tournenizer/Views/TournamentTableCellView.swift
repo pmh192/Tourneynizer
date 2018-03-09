@@ -35,7 +35,7 @@ class TournamentTableCellView : UITableViewCell {
     func setTournament(_ tournament: Tournament) {
         self.tournament = tournament;
         nameLabel.text = tournament.name;
-        addressLabel.text = tournament.address;
+        addressLabel.text = "\(tournament.lat) \(tournament.lng)";
 
         let formatter = DateFormatter();
         formatter.dateFormat = "MM/dd/yyyy";

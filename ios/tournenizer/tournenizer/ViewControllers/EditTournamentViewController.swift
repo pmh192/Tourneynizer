@@ -36,7 +36,7 @@ class EditTournamentViewController : CreateTournamentViewController {
         }
 
         self.numCourtsField.text = tournamentCopy.numCourts?.description;
-        self.locationField.text = tournamentCopy.address;
+        self.locationField.text = "\(tournamentCopy.lat) \(tournamentCopy.lng)";
         self.nextButton.setTitle("Edit", for: .normal);
 
         backView = {

@@ -13,7 +13,8 @@ class Tournament : Codable {
     var id: CUnsignedLong;
     var name: String;
     var description: String?;
-    var address: String;
+    var lat: Double;
+    var lng: Double;
     var startTime: Date;
     var maxTeams: Int;
     var currentTeams: Int?;
@@ -24,11 +25,12 @@ class Tournament : Codable {
     var cancelled: Bool?;
     var teamSize: Int;
 
-    init(id: CUnsignedLong, name: String, description: String?, address: String, startTime: Date, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, numCourts: Int?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
+    init(id: CUnsignedLong, name: String, description: String?, lat: Double, lng: Double, startTime: Date, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, numCourts: Int?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
         self.id = id;
         self.name = name;
         self.description = description;
-        self.address = address;
+        self.lat = lat;
+        self.lng = lng;
         self.startTime = startTime;
         self.maxTeams = maxTeams;
         self.currentTeams = currentTeams;
@@ -44,7 +46,8 @@ class Tournament : Codable {
         self.id = tournament.id;
         self.name = tournament.name;
         self.description = tournament.description;
-        self.address = tournament.address;
+        self.lat = tournament.lat;
+        self.lng = tournament.lng;
         self.startTime = tournament.startTime;
         self.maxTeams = tournament.maxTeams;
         self.currentTeams = tournament.currentTeams;
@@ -60,7 +63,8 @@ class Tournament : Codable {
         self.id = 0;
         self.name = "";
         self.description = "";
-        self.address = "";
+        self.lat = 0;
+        self.lng = 0;
         self.startTime = Date();
         self.maxTeams = -1;
         self.currentTeams = -1;

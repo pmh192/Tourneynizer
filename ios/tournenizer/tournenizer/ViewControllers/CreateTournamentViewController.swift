@@ -432,13 +432,12 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             return nil;
         }
 
-        let address = (place.formattedAddress == nil) ? "" : place.formattedAddress!;
-
         return Tournament(
             id: 0,
             name: name,
             description: nil,
-            address: address,
+            lat: place.coordinate.latitude,
+            lng: place.coordinate.longitude,
             startTime: startTimePicker.date,
             maxTeams: maxTeams,
             currentTeams: 0,
