@@ -24,7 +24,8 @@ public class TournamentService {
         try {
             tournament = new Tournament(
                     values.get("name"),
-                    values.get("address"),
+                    Double.parseDouble(values.get("lat")),
+                    Double.parseDouble(values.get("lng")),
                     new Timestamp(Long.parseLong(values.get("startTime"))),
                     Integer.parseInt(values.get("teamSize")),
                     Integer.parseInt(values.get("maxTeams")),
