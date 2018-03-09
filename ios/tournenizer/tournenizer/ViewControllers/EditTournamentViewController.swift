@@ -29,14 +29,14 @@ class EditTournamentViewController : CreateTournamentViewController {
         self.teamSizeField.text = tournamentCopy.teamSize.description;
         self.maxTeamsField.text = tournamentCopy.maxTeams.description;
 
-        if(tournamentCopy.tournamentType == TournamentType.VOLLEYBALL_BRACKET) {
+        if(tournamentCopy.type == TournamentType.VOLLEYBALL_BRACKET) {
             self.typeField.text = pickerOptions[0];
         } else {
             self.typeField.text = pickerOptions[1];
         }
 
-        self.numCourtsField.text = tournamentCopy.courts?.description;
-        self.locationField.text = tournamentCopy.address;
+        self.numCourtsField.text = tournamentCopy.numCourts?.description;
+        self.locationField.text = "\(tournamentCopy.lat) \(tournamentCopy.lng)";
         self.nextButton.setTitle("Edit", for: .normal);
 
         backView = {

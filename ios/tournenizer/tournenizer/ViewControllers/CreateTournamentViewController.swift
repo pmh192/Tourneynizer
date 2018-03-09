@@ -371,14 +371,14 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             maxTeamsField.layer.borderColor = UIColor.clear.cgColor;
         }
 
-        let courts: Int = {
+        let numCourts: Int = {
             guard let value = Int(numCourtsField.text!) else {
                 return -1;
             }
             return value;
         }();
 
-        if(courts <= 0) {
+        if(numCourts <= 0) {
             numCourtsField.layer.borderColor = Constants.color.red.cgColor;
             error = true;
         } else {
@@ -436,15 +436,14 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             id: 0,
             name: name,
             description: nil,
-            address: "\(place.coordinate.latitude) \(place.coordinate.longitude)",
+            lat: place.coordinate.latitude,
+            lng: place.coordinate.longitude,
             startTime: startTimePicker.date,
-            endTime: nil,
             maxTeams: maxTeams,
             currentTeams: 0,
             timeCreated: Date(),
             tournamentType: type,
-            logo: nil,
-            courts: courts,
+            numCourts: numCourts,
             creatorId: 0,
             cancelled: false,
             teamSize: teamSize
@@ -457,11 +456,21 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             return;
         }
 
-        let alert = UIAlertController(title: dialogTitle, message: dialogBody, preferredStyle: .alert);
-        alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in
-            self.clearFields();
-        }));
-        self.present(alert, animated: true, completion: nil);
+        TournamentService.shared.createTournament(tournament!) { (error: String?, tournament: Tournament?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                let alert = UIAlertController(title: self.dialogTitle, message: self.dialogBody, preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: { _ in
+                    self.clearFields();
+                }));
+                self.present(alert, animated: true, completion: nil);
+            }
+        }
     }
 
     @objc func locationEdit() {
