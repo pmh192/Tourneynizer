@@ -44,9 +44,7 @@ public class Match {
 
 
     public void setRefId(Long refId) {
-        long firstChild = matchChildren.first();
-        long secondChild = matchChildren.second();
-        if (refId != null && (Objects.equals(refId, firstChild) || Objects.equals(refId, secondChild))) {
+        if (refId != null && matchChildren.getKnownTeamChildren().contains(refId)) {
             throw new IllegalArgumentException("Teams cannot ref their own game");
         }
         this.refId = refId;
@@ -153,9 +151,6 @@ public class Match {
     }
 
     public void setMatchChildren(MatchChildren matchChildren) {
-        if (matchChildren.first() == matchChildren.second()) {
-            throw new IllegalArgumentException("Two teams cannot play each other");
-        }
         this.matchChildren = matchChildren;
     }
 
