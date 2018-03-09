@@ -32,8 +32,8 @@ public class TournamentDao {
                     tournament.getCreatorId() + ", " + user.getId());
         }
 
-        String sql = "INSERT INTO tournaments (name, lat, lng, startTime, teamSize, maxTeams, timeCreated, type, numCourts, creator_id)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO tournaments (name, lat, lng, startTime, teamSize, maxTeams, timeCreated, type, creator_id)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -48,8 +48,7 @@ public class TournamentDao {
                 preparedStatement.setInt(6, tournament.getMaxTeams());
                 preparedStatement.setTimestamp(7, now);
                 preparedStatement.setInt(8, tournament.getType().ordinal());
-                preparedStatement.setInt(9, tournament.getNumCourts());
-                preparedStatement.setLong(10, tournament.getCreatorId());
+                preparedStatement.setLong(9, tournament.getCreatorId());
 
                 return preparedStatement;
             }, keyHolder);
@@ -63,15 +62,14 @@ public class TournamentDao {
     private final RowMapper<Tournament> rowMapper = (resultSet, rowNum) -> new Tournament(
             resultSet.getLong(1),
             resultSet.getString(2),
-            resultSet.getDouble(10),
-            resultSet.getDouble(11),//lng
+            resultSet.getDouble(9),
+            resultSet.getDouble(10),//lng
             resultSet.getTimestamp(6),
             resultSet.getTimestamp(3),
             resultSet.getInt(4),
             resultSet.getInt(5),
             TournamentType.values()[resultSet.getInt(7)],
-            resultSet.getInt(8),
-            resultSet.getLong(9)
+            resultSet.getLong(8)
     );
 
     public Tournament findById(Long id) throws SQLException {

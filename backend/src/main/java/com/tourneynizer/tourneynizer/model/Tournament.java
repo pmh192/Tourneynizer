@@ -9,13 +9,13 @@ public class Tournament {
     private String name;
     private double lat, lng;
     private Timestamp timeCreated, startTime;
-    private int teamSize, maxTeams, numCourts;
+    private int teamSize, maxTeams;
     private TournamentType type;
     private long creatorId;
 
 
     public Tournament(String name, double lat, double lng, Timestamp startTime, int teamSize, int maxTeams,
-                      TournamentType type, int numCourts, long creatorId) {
+                      TournamentType type, long creatorId) {
 
 
         setName(name);
@@ -25,14 +25,13 @@ public class Tournament {
         setTeamSize(teamSize);
         setMaxTeams(maxTeams);
         setTournamentType(type);
-        setNumCourts(numCourts);
         setCreatorId(creatorId);
     }
 
     public Tournament(Long id, String name, double lat, double lng, Timestamp timeCreated, Timestamp startTime, int teamSize,
-                      int maxTeams, TournamentType type, int numCourts, long creatorId) {
+                      int maxTeams, TournamentType type, long creatorId) {
 
-        this(name, lat, lng, startTime, teamSize, maxTeams, type, numCourts, creatorId);
+        this(name, lat, lng, startTime, teamSize, maxTeams, type, creatorId);
         persist(id, timeCreated);
     }
 
@@ -70,10 +69,6 @@ public class Tournament {
 
     public void setMaxTeams(int maxTeams) {
         this.maxTeams = maxTeams;
-    }
-
-    public void setNumCourts(int numCourts) {
-        this.numCourts = numCourts;
     }
 
     public void setTournamentType(TournamentType type) {
@@ -118,10 +113,6 @@ public class Tournament {
         return maxTeams;
     }
 
-    public int getNumCourts() {
-        return numCourts;
-    }
-
     public TournamentType getType() {
         return type;
     }
@@ -154,7 +145,6 @@ public class Tournament {
                 equalsHelper(other.startTime, this.startTime) &&
                 equalsHelper(other.maxTeams, this.maxTeams) &&
                 equalsHelper(other.teamSize, this.teamSize) &&
-                equalsHelper(other.numCourts, this.numCourts) &&
                 equalsHelper(other.type, this.type) &&
                 equalsHelper(other.creatorId, this.creatorId);
     }
