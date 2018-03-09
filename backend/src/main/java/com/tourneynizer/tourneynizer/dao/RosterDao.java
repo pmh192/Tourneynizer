@@ -18,13 +18,13 @@ public class RosterDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void registerUser(User user, Team team, boolean isLeader) {
+    static void registerUser(User user, Team team, boolean isLeader, JdbcTemplate jdbcTemplate) {
         String sql = "INSERT INTO roster (team_id, user_id, timeAdded, isLeader)" +
                 " VALUES (?, ?, ?, ?);";
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         try {
-            this.jdbcTemplate.update(connection -> {
+            jdbcTemplate.update(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setLong(1, team.getId());
                 preparedStatement.setLong(2, user.getId());
@@ -41,8 +41,8 @@ public class RosterDao {
         }
     }
 
-    public void registerUser(User user, Team team) {
-        registerUser(user, team, false);
+    static void registerUser(User user, Team team, JdbcTemplate jdbcTemplate) {
+        registerUser(user, team, false, jdbcTemplate);
     }
 
     private final RowMapper<Long> idMapper = (resultSet, i) -> resultSet.getLong(1);
@@ -64,5 +64,9 @@ public class RosterDao {
             preparedStatement.setLong(1, user.getId());
             return preparedStatement;
         }, TeamDao.rowMapper);
+    }
+
+    public void registerUser(User user, Team team) {
+        registerUser(user, team, jdbcTemplate);
     }
 }

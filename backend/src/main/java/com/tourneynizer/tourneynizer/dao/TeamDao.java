@@ -59,6 +59,8 @@ public class TeamDao {
         }
 
         team.persist(keyHolder.getKey().longValue(), now);
+        UserParticipationDao.registerUser(user.getId(), team.getTournamentId(), jdbcTemplate);
+        RosterDao.registerUser(user, team, jdbcTemplate);
     }
 
     static final RowMapper<Team> rowMapper = (resultSet, rowNum) -> new Team(
