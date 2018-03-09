@@ -20,12 +20,11 @@ class Tournament : Codable {
     var currentTeams: Int?;
     var timeCreated: Date;
     var type: TournamentType?;
-    var numCourts: Int?;
     var creatorId: CUnsignedLong;
     var cancelled: Bool?;
     var teamSize: Int;
 
-    init(id: CUnsignedLong, name: String, description: String?, lat: Double, lng: Double, startTime: Date, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, numCourts: Int?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
+    init(id: CUnsignedLong, name: String, description: String?, lat: Double, lng: Double, startTime: Date, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
         self.id = id;
         self.name = name;
         self.description = description;
@@ -36,7 +35,6 @@ class Tournament : Codable {
         self.currentTeams = currentTeams;
         self.timeCreated = timeCreated;
         self.type = tournamentType;
-        self.numCourts = numCourts;
         self.creatorId = creatorId;
         self.cancelled = cancelled;
         self.teamSize = teamSize;
@@ -53,7 +51,6 @@ class Tournament : Codable {
         self.currentTeams = tournament.currentTeams;
         self.timeCreated = tournament.timeCreated;
         self.type = tournament.type;
-        self.numCourts = tournament.numCourts;
         self.creatorId = tournament.creatorId;
         self.cancelled = tournament.cancelled;
         self.teamSize = tournament.teamSize;
@@ -70,7 +67,6 @@ class Tournament : Codable {
         self.currentTeams = -1;
         self.timeCreated = Date();
         self.type = TournamentType.VOLLEYBALL_BRACKET;
-        self.numCourts = -1;
         self.creatorId = 0;
         self.cancelled = false;
         self.teamSize = -1;

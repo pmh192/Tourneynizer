@@ -26,7 +26,7 @@ class TournamentService : Service  {
     }
 
     func createTournament(_ tournament: Tournament, cb: @escaping (String?, Tournament?) -> Void) {
-        let data = encodeTournament(tournament);
+        let data = encode(tournament);
         if(data == nil) {
             return cb(Constants.error.genericError, nil);
         }
@@ -36,28 +36,12 @@ class TournamentService : Service  {
                 return cb(error, nil);
             }
 
-            let tournament = self.decodeTournament(data!);
+            let tournament: Tournament? = self.decode(data!);
             if(tournament == nil) {
                 return cb(Constants.error.genericError, nil);
             }
 
             return cb(nil, tournament!);
         }
-    }
-
-    private func encodeTournament(_ tournament: Tournament) -> Data? {
-        guard let data = try? JSONEncoder().encode(tournament) else {
-            return nil;
-        }
-
-        return data;
-    }
-
-    private func decodeTournament(_ data: Data) -> Tournament? {
-        guard let tournament = try? JSONDecoder().decode(Tournament.self, from: data) else {
-            return nil;
-        }
-
-        return tournament;
     }
 };

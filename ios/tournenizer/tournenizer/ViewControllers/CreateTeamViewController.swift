@@ -46,6 +46,7 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
     let buttonWidth: CGFloat = 100;
 
     let userListController = UserListViewController();
+    var tournament: Tournament!;
 
     private func promptGenerator() -> UILabel {
         let view = UILabel.newAutoLayout();
@@ -137,7 +138,7 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
         userListController.editable = true;
         userListController.separatorColor = Constants.color.white;
         userListController.tableView.allowsMultipleSelectionDuringEditing = false;
-        userListController.addUser(User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()));
+        userListController.addUser(UserService.shared.getCurrentUser()!);
 
         addChildViewController(userListController);
         contentView.addSubview(userListController.view);
@@ -236,11 +237,19 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
             return;
         }
 
-        let alert = UIAlertController(title: dialogTitle, message: String(format: dialogBody, nameField.text ?? ""), preferredStyle: .alert);
-        alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in
-            self.navigationController?.popToRootViewController(animated: true);
-        }));
-        self.present(alert, animated: true, completion: nil);
+        let team = Team(id: 0, name: nameField.text!, timeCreated: Date(), tournamentId: tournament!.id);
+
+        TeamService.shared.createTeam(tournament: tournament!, team: team, roster: userListController.getUsers()) { (error: String?, success: Bool?) in
+            if(error != nil) {
+                self.displayError(error!);
+            }
+
+            let alert = UIAlertController(title: self.dialogTitle, message: String(format: self.dialogBody, self.nameField.text ?? ""), preferredStyle: .alert);
+            alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: { _ in
+                self.navigationController?.popViewController(animated: true);
+            }));
+            self.present(alert, animated: true, completion: nil);
+        }
     }
 
     func addUser(_ user: User) {
@@ -257,6 +266,10 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         nameField.resignFirstResponder();
         return false;
+    }
+
+    func setTournament(_ tournament: Tournament) {
+        self.tournament = tournament;
     }
 
 }

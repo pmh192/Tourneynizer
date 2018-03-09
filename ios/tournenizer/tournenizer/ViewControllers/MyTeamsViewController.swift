@@ -15,11 +15,7 @@ class MyTeamsViewController : UIViewController {
         view = UIView();
         view.backgroundColor = Constants.color.white;
 
-        teamList.setTeams([
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void")
-        ]);
+        teamList.setTeams([]);
         teamList.setSelectCallback(selectTeam(_:));
         teamList.tableView.allowsSelection = true;
 

@@ -18,7 +18,7 @@ class UserService : Service {
     }
 
     func createUser(_ user: User, cb: @escaping (String?, User?) -> Void) {
-        let data = encodeUser(user);
+        let data = encode(user);
         if(data == nil) {
             return cb(Constants.error.genericError, nil);
         }
@@ -28,7 +28,7 @@ class UserService : Service {
                 return cb(error, nil);
             }
 
-            let newUser = self.decodeUser(data!);
+            let newUser: User? = self.decode(data!);
             if(newUser == nil) {
                 return cb(Constants.error.genericError, nil);
             }
@@ -38,7 +38,7 @@ class UserService : Service {
     }
 
     func login(user: User, cb: @escaping (String?, User?) -> Void) {
-        let data = encodeUser(user);
+        let data = encode(user);
         if(data == nil) {
             return cb(Constants.error.genericError, nil);
         }
@@ -48,7 +48,7 @@ class UserService : Service {
                 return cb(error, nil);
             }
 
-            let currentUser = self.decodeUser(data!);
+            let currentUser: User? = self.decode(data!);
             if(currentUser == nil) {
                 return cb(Constants.error.genericError, nil);
             }
@@ -75,7 +75,7 @@ class UserService : Service {
                 return cb(false);
             }
 
-            let user = self.decodeUser(data!);
+            let user: User? = self.decode(data!);
             if(user == nil) {
                 return cb(false);
             }
@@ -83,21 +83,5 @@ class UserService : Service {
             self.currentUser = user;
             return cb(true);
         }
-    }
-
-    private func encodeUser(_ user: User) -> Data? {
-        guard let data = try? JSONEncoder().encode(user) else {
-            return nil;
-        }
-
-        return data;
-    }
-
-    private func decodeUser(_ data: Data) -> User? {
-        guard let user = try? JSONDecoder().decode(User.self, from: data) else {
-            return nil;
-        }
-
-        return user;
     }
 };

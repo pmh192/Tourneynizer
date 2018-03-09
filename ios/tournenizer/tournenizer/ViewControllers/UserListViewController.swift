@@ -105,5 +105,9 @@ class UserListViewController : UITableViewController {
         users.append(user);
         self.tableView.reloadData();
     }
+
+    func getUsers() -> [User] {
+        return users;
+    }
 }
 

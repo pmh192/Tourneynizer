@@ -56,6 +56,18 @@ class Constants {
         class tournament {
             static let all = "/api/tournament/getAll";
             static let create = "/api/tournament/create";
+
+            static func teamAll(id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description + "/team/all";
+            }
+
+            static func teamComplete(id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description + "/team/complete";
+            }
+
+            static func createTeam(id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description + "/team/create";
+            }
         }
     }
 };

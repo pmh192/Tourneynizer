@@ -33,7 +33,7 @@ class TeamCellView : UITableViewCell {
     func setTeam(_ team: Team) {
         self.team = team;
         nameLabel.text = team.name;
-        tournamentLabel.text = team.tournament;
+        tournamentLabel.text = team.tournamentId.description;
 
         setNeedsLayout();
         layoutIfNeeded();
