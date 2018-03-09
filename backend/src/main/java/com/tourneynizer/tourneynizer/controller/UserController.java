@@ -72,6 +72,16 @@ public class UserController {
         return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
     }
 
+    @GetMapping("/api/user/get")
+    public ResponseEntity<?> getSelf(@CookieValue("session") String session) {
+        try {
+            User user = sessionService.findBySession(session);
+            return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/api/user/all")
     public ResponseEntity<?> getAll() {
         List<User> users;

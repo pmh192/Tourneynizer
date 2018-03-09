@@ -2,10 +2,7 @@ package com.tourneynizer.tourneynizer.controller;
 
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.model.ErrorMessage;
-import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TeamService;
 import com.tourneynizer.tourneynizer.service.TournamentService;
@@ -14,11 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller("TeamController")
@@ -49,6 +44,17 @@ public class TeamController {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/team/getAll")
+    public ResponseEntity<?> userIn(@CookieValue("session") String session) {
+        try {
+            User user = sessionService.findBySession(session);
+            List<Team> teams = teamService.getAllWith(user);
+            return new ResponseEntity<Object>(teams, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
     }
 }

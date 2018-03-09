@@ -1,5 +1,6 @@
 package com.tourneynizer.tourneynizer.service;
 
+import com.tourneynizer.tourneynizer.dao.RosterDao;
 import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TournamentDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
@@ -16,10 +17,12 @@ public class TeamService {
 
     private final TeamDao teamDao;
     private final TournamentDao tournamentDao;
+    private final RosterDao rosterDao;
 
-    public TeamService(TeamDao teamDao, TournamentDao tournamentDao) {
+    public TeamService(TeamDao teamDao, TournamentDao tournamentDao, RosterDao rosterDao) {
         this.teamDao = teamDao;
         this.tournamentDao = tournamentDao;
+        this.rosterDao = rosterDao;
     }
 
     public Team createTeam(User user, Tournament tournament, Map<String, String> values) throws BadRequestException, InternalErrorException {
@@ -58,5 +61,9 @@ public class TeamService {
         if (tournament == null) { throw new BadRequestException("Couldn't find tournament with id " + id); }
 
         return teamDao.findByTournament(tournament, complete);
+    }
+
+    public List<Team> getAllWith(User user) {
+        return rosterDao.findByUser(user);
     }
 }
