@@ -29,7 +29,6 @@ public class TournamentService {
                     Integer.parseInt(values.get("teamSize")),
                     Integer.parseInt(values.get("maxTeams")),
                     TournamentType.values()[Integer.parseInt(values.get("type"))],
-                    Integer.parseInt(values.get("numCourts")),
                     user.getId()
             );
         }
