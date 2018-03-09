@@ -57,10 +57,11 @@ public class MatchGeneratorTest extends TestWithContext{
     public void createBracket2() throws Exception {
         MatchGenerator generator = new MatchGenerator(matchDao);
         User user = getUser(0);
+        User user2 = getUser(1);
         Tournament tournament = getTournament(user);
 
         Team team1 = getTeam(user, tournament, 0);
-        Team team2 = getTeam(user, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 1);
 
         List<Team> teams = Arrays.asList(team1, team2);
 
@@ -78,12 +79,15 @@ public class MatchGeneratorTest extends TestWithContext{
     public void createBracket4() throws Exception {
         MatchGenerator generator = new MatchGenerator(matchDao);
         User user = getUser(0);
+        User user2 = getUser(1);
+        User user3 = getUser(2);
+        User user4 = getUser(3);
         Tournament tournament = getTournament(user);
 
         Team team1 = getTeam(user, tournament, 0);
-        Team team2 = getTeam(user, tournament, 1);
-        Team team3 = getTeam(user, tournament, 2);
-        Team team4 = getTeam(user, tournament, 3);
+        Team team2 = getTeam(user2, tournament, 1);
+        Team team3 = getTeam(user3, tournament, 2);
+        Team team4 = getTeam(user4, tournament, 3);
 
         List<Team> teams = Arrays.asList(team1, team2, team3, team4);
 
@@ -112,11 +116,13 @@ public class MatchGeneratorTest extends TestWithContext{
     public void createBracket3() throws Exception {
         MatchGenerator generator = new MatchGenerator(matchDao);
         User user = getUser(0);
+        User user2 = getUser(1);
+        User user3 = getUser(2);
         Tournament tournament = getTournament(user);
 
         Team team1 = getTeam(user, tournament, 0);
-        Team team2 = getTeam(user, tournament, 1);
-        Team team3 = getTeam(user, tournament, 2);
+        Team team2 = getTeam(user2, tournament, 1);
+        Team team3 = getTeam(user3, tournament, 2);
 
         List<Team> teams = Arrays.asList(team1, team2, team3);
 
