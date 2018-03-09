@@ -141,7 +141,7 @@ class TournamentViewController : UIViewController {
         teamsLabel = UILabel.newAutoLayout();
         maxTeamsLabel = UILabel.newAutoLayout();
 
-        locationLabel.text = tournament.address;
+        locationLabel.text = "\(tournament.lat) \(tournament.lng)";
         descriptionLabel.text = tournament.description;
 
         let formatter = DateFormatter();
@@ -200,13 +200,11 @@ class TournamentViewController : UIViewController {
 
     override func viewDidLayoutSubviews() {
         if(mapView == nil) {
-            let camera = GMSCameraPosition.camera(withLatitude: 34.414593, longitude: -119.854979, zoom: 18.0);
+            let camera = GMSCameraPosition.camera(withLatitude: tournament.lat, longitude: tournament.lng, zoom: 18.0);
             mapView = GMSMapView.map(withFrame: mapViewContainer.bounds, camera: camera);
             let marker = GMSMarker();
-            marker.position = CLLocationCoordinate2D(latitude: 34.414593, longitude: -119.854979);
+            marker.position = CLLocationCoordinate2D(latitude: tournament.lat, longitude: tournament.lng);
             marker.map = mapView;
-            marker.title = "Sydney";
-            marker.snippet = "Australia";
             mapViewContainer.addSubview(mapView);
         }
     }

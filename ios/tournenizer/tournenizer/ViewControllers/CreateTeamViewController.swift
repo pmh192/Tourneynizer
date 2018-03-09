@@ -232,14 +232,6 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
             errorPrompt.text = "";
         }
 
-        let name = nameField.text!;
-        if(false) {
-            //name already exists
-            nameField.layer.borderColor = Constants.color.red.cgColor;
-            errorPrompt.text = errorExistsText;
-            error = true;
-        }
-
         if(error) {
             return;
         }
