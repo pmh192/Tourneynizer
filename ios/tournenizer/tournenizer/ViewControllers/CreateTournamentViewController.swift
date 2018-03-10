@@ -113,7 +113,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         titleLabel = {
             let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.mediumHeader);
             view.textColor = Constants.color.red;
             view.backgroundColor = Constants.color.navy;
             view.text = titleText;
@@ -218,10 +218,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
-            titleLabel.autoPinEdge(.top, to: .bottom, of: statusBarCover);
+            titleLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            titleLabel.autoSetDimension(.height, toSize: logoLabelHeight);
             titleLabel.autoPinEdge(toSuperviewEdge: .leading);
             titleLabel.autoPinEdge(toSuperviewEdge: .trailing);
-            titleLabel.autoSetDimension(.width, toSize: logoLabelHeight);
 
             namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             namePrompt.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: promptTopPadding);

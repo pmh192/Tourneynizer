@@ -84,4 +84,35 @@ class UserService : Service {
             return cb(true);
         }
     }
+
+    func getAllUsers(cb: @escaping ((String?, [User]?) -> Void)) {
+        makeRequest(url: Constants.route.user.all, type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            if(error != nil) {
+                return cb(error, nil);
+            }
+
+            let users: [User]? = self.decode(data!);
+            if(users == nil) {
+                return cb(Constants.error.genericError, nil);
+            }
+
+            return cb(nil, users);
+        }
+    }
+
+    func getUser(_ id: CUnsignedLong, cb: @escaping (String?, User?) -> Void) {
+
+        makeRequest(url: Constants.route.user.get(id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            if(error != nil) {
+                return cb(error, nil);
+            }
+
+            let user: User? = self.decode(data!);
+            if(user == nil) {
+                return cb(Constants.error.genericError, nil);
+            }
+
+            return cb(nil, user);
+        }
+    }
 };

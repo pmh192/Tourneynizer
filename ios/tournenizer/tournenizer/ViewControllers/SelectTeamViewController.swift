@@ -63,10 +63,14 @@ class SelectTeamViewController : UIViewController {
         let teamList = TeamListViewController();
         TeamService.shared.getAllTeamsForTournament(id: tournament.id) { (error: String?, teams: [Team]?) in
             if(error != nil) {
-                return self.displayError(error!);
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
             }
 
-            teamList.setTeams(teams!);
+            return DispatchQueue.main.async {
+                teamList.setTeams(teams!);
+            }
         }
 
         teamList.tableView.allowsSelection = true;
@@ -89,11 +93,21 @@ class SelectTeamViewController : UIViewController {
     }
 
     func select(_ team: Team) {
-        let alert = UIAlertController(title: dialogTitle, message: String(format: dialogBody, team.name), preferredStyle: .alert);
-        alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in
-            self.navigationController?.popViewController(animated: true);
-        }));
-        self.present(alert, animated: true, completion: nil);
+        TeamRequestService.shared.requestToJoinTeam(team) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                let alert = UIAlertController(title: self.dialogTitle, message: String(format: self.dialogBody, team.name), preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: { _ in
+                    self.navigationController?.popViewController(animated: true);
+                }));
+                self.present(alert, animated: true, completion: nil);
+            }
+        }
     }
 
     // Ensures that the corresponding methods are only called once

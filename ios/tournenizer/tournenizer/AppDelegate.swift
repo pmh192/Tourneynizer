@@ -22,13 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey(Keys.googleMapsKey);
         GMSServices.provideAPIKey(Keys.googleMapsKey);
 
-        UserService.shared.isLoggedIn { (loggedIn: Bool) in
-            DispatchQueue.main.async {
-                let viewController = (loggedIn) ? DashboardViewController() : LoginViewContainerController();
-                self.window!.rootViewController = viewController;
-                self.window!.makeKeyAndVisible();
-            }
-        }
+        let viewController = LoginViewContainerController();
+        self.window!.rootViewController = viewController;
+        self.window!.makeKeyAndVisible();
 
         return true;
     }

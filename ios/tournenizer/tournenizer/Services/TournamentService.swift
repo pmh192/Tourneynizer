@@ -17,8 +17,9 @@ class TournamentService : Service  {
                 return cb(error, nil);
             }
 
-            guard let tournamentList = try? JSONDecoder().decode([Tournament].self, from: data!) else {
-                return;
+            let tournamentList: [Tournament]? = self.decode(data!);
+            if(tournamentList == nil) {
+                return cb(Constants.error.genericError, nil);
             }
 
             return cb(nil, tournamentList);
@@ -32,6 +33,36 @@ class TournamentService : Service  {
         }
 
         makeRequest(url: Constants.route.tournament.create, type: .POST, body: data) { (error: String?, data: Data?) in
+            if(error != nil) {
+                return cb(error, nil);
+            }
+
+            let tournament: Tournament? = self.decode(data!);
+            if(tournament == nil) {
+                return cb(Constants.error.genericError, nil);
+            }
+
+            return cb(nil, tournament!);
+        }
+    }
+
+    func getMyTournaments(cb: @escaping (String?, [Tournament]?) -> Void) {
+        makeRequest(url: Constants.route.tournament.mine, type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            if(error != nil) {
+                return cb(error, nil);
+            }
+            
+            let tournamentList: [Tournament]? = self.decode(data!);
+            if(tournamentList == nil) {
+                return cb(Constants.error.genericError, nil);
+            }
+
+            return cb(nil, tournamentList);
+        }
+    }
+
+    func getTournament(_ id: CUnsignedLong, cb: @escaping (String?, Tournament?) -> Void) {
+        makeRequest(url: Constants.route.tournament.get(id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             if(error != nil) {
                 return cb(error, nil);
             }

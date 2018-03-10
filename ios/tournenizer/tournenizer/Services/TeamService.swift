@@ -12,12 +12,13 @@ class TeamService : Service {
     static let shared = TeamService();
 
     func getAllTeamsForTournament(id: CUnsignedLong, cb: @escaping ((String?, [Team]?) -> Void)) {
-        makeRequest(url: Constants.route.tournament.teamAll(id: id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+        makeRequest(url: Constants.route.tournament.teamAll(id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             if(error != nil) {
                 return cb(error, nil);
             }
 
-            guard let teamList = try? JSONDecoder().decode([Team].self, from: data!) else {
+            let teamList: [Team]? = self.decode(data!);
+            if(teamList == nil) {
                 return cb(error, nil);
             }
 
@@ -25,14 +26,23 @@ class TeamService : Service {
         };
     }
 
-    func createTeam(tournament: Tournament, team: Team, roster: [User], cb: @escaping ((String?, Bool?) -> Void)) {
+    func createTeam(tournament: Tournament, team: Team, cb: @escaping ((String?, Team?) -> Void)) {
         let data = encode(team);
-        makeRequest(url: Constants.route.tournament.createTeam(id: tournament.id), type: .POST, body: data!) { (error: String?, data: Data?) in
+        if(data == nil) {
+            return cb(Constants.error.genericError, nil);
+        }
+
+        makeRequest(url: Constants.route.tournament.createTeam(tournament.id), type: .POST, body: data!) { (error: String?, data: Data?) in
             if(error != nil) {
                 return cb(error, nil);
             }
 
-            print(data?.toUtf8String());
+            let newTeam: Team? = self.decode(data!);
+            if(newTeam == nil) {
+                return cb(Constants.error.genericError, nil);
+            }
+
+             return cb(nil, newTeam);
         };
     }
 };

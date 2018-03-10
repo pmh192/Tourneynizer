@@ -45,8 +45,6 @@ class ProfileViewController : UIViewController {
         view = UIView();
         view.backgroundColor = Constants.color.lightGray;
 
-        user = User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date());
-
         titleLabel = {
             let view = UILabel.newAutoLayout();
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.header);
@@ -220,5 +218,7 @@ class ProfileViewController : UIViewController {
         self.navigationController?.popViewController(animated: true);
     }
 
-
+    func setUser(user: User) {
+        self.user = user;
+    }
 }

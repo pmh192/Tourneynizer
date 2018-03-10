@@ -16,7 +16,6 @@ class MyTeamsViewController : UIViewController {
         view.backgroundColor = Constants.color.white;
 
         teamList.setTeams([]);
-        teamList.setSelectCallback(selectTeam(_:));
         teamList.tableView.allowsSelection = true;
 
         addChildViewController(teamList);
@@ -25,12 +24,6 @@ class MyTeamsViewController : UIViewController {
         teamList.didMove(toParentViewController: self);
 
         view.setNeedsUpdateConstraints();
-    }
-
-    func selectTeam(_ team: Team) {
-        let vc = EditTeamViewController();
-        vc.setTeam(team);
-        self.navigationController?.pushViewController(vc, animated: true);
     }
 
     // Ensures that the corresponding methods are only called once

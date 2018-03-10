@@ -82,7 +82,7 @@ class UserActionsViewController : UIViewController {
         topBarControllers = [
             MyTournamentsViewController(),
             MyTeamsViewController(),
-            TeamRequestsViewController()
+            MyTeamRequestsViewController()
         ].map {vc -> UIViewController in
             let viewController = UINavigationController();
             viewController.pushViewController(vc, animated: false);

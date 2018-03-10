@@ -15,10 +15,6 @@ class TeamListViewController : UITableViewController {
     let cellIdentifier = "TeamCell";
     let cellSpacingHeight: CGFloat = 5;
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-    }
-
     override func loadView() {
         super.loadView();
 
@@ -32,6 +28,7 @@ class TeamListViewController : UITableViewController {
 
     func setTeams(_ teams: [Team]) {
         self.teams = teams;
+        self.tableView.reloadData();
     }
 
     // Ensures that the corresponding methods are only called once
