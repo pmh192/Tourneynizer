@@ -72,7 +72,7 @@ public class TeamDao {
             resultSet.getBoolean(5)
     );
 
-    public Team findById(Long id) {
+    public Team findById(Long id) throws SQLException {
         String sql = "SELECT * FROM teams WHERE id=" + id + ";";
         try {
             return this.jdbcTemplate.queryForObject(sql, rowMapper);

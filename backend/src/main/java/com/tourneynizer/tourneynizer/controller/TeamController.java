@@ -57,4 +57,14 @@ public class TeamController {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/api/team/{id}")
+    public ResponseEntity<?> getTeam(@PathVariable("id") long id) {
+        try {
+            Team team = teamService.findById(id);
+            return new ResponseEntity<Object>(team, new HttpHeaders(), HttpStatus.OK);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

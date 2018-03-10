@@ -39,6 +39,14 @@ public class TeamService {
         }
     }
 
+    public Team findById(long id) throws InternalErrorException {
+        try {
+            return teamDao.findById(id);
+        } catch (SQLException e) {
+            throw new InternalErrorException(e);
+        }
+    }
+
     public List<Team> findByTournament(long id) throws BadRequestException, InternalErrorException {
         Tournament tournament;
         try {
