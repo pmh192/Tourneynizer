@@ -53,7 +53,7 @@ public class TeamRequestDao {
         if (team.getCreatorId() == user.getId()) {
             throw new IllegalArgumentException("You can't request to be on a team you've created.");
         }
-        return insert(team.getId(), user.getId(), user.getId());
+        return insert(team.getId(), team.getCreatorId(), user.getId());
     }
 
     public TeamRequest requestUser(User requested, Team team, User requester) {
@@ -100,12 +100,12 @@ public class TeamRequestDao {
     }
 
     public List<TeamRequest> getRequestsForUser(User user) {
-        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id<>user_id;";
+        String sql = "SELECT * FROM teamRequest INNER JOIN teams on (teamRequest.team_id = teams.id) WHERE teamRequest.user_id=? AND teamRequest.user_id<>teams.creator_id;";
         return getRequestsHelper(teamRequestRowMapper, sql, user.getId());
     }
 
     public List<TeamRequest> getRequestsByUser(User user) {
-        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id=user_id;";
+        String sql = "SELECT * FROM teamRequest WHERE requester_id=?;";
         return getRequestsHelper(teamRequestRowMapper, sql, user.getId());
     }
 

@@ -96,7 +96,7 @@ public class TeamRequestController {
     }
 
     @GetMapping("/api/user/requests/sent")
-    public ResponseEntity<?> getRequestsForUser(@CookieValue("session") String session) {
+    public ResponseEntity<?> getRequestsByUser(@CookieValue("session") String session) {
         List<TeamRequest> requests;
         try {
             User user = sessionService.findBySession(session);
@@ -109,7 +109,7 @@ public class TeamRequestController {
     }
 
     @GetMapping("/api/user/requests/pending")
-    public ResponseEntity<?> getRequestsByUser(@CookieValue("session") String session) {
+    public ResponseEntity<?> getRequestsForUser(@CookieValue("session") String session) {
         List<TeamRequest> requests;
         try {
             User user = sessionService.findBySession(session);
