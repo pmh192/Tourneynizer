@@ -6,7 +6,6 @@ import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.Match;
 import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.User;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -57,16 +56,5 @@ public class MatchService {
 
     public List<Match> getAllCompleted(long tournamentId) throws BadRequestException, InternalErrorException {
         return matchDao.getCompleted(getTournament(tournamentId));
-    }
-
-    public void startMatch(long matchId, long tournamentId, User user) throws BadRequestException, InternalErrorException {
-        Match match = getMatch(matchId);
-
-        if (match.getTournamentId() != tournamentId) {
-            throw new BadRequestException("That match is not part of that tournament");
-        }
-
-//        if (u)
-        matchDao.startMatch(match);
     }
 }

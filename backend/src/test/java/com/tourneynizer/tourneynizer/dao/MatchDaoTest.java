@@ -270,10 +270,38 @@ public class MatchDaoTest extends TestWithContext {
         actual = matchDao.getUnstarted(tournament);
         assertEquals(expected, actual);
 
+        expected = Arrays.asList(match1);
+        actual = matchDao.getInProgress(tournament);
+        assertEquals(expected, actual);
+
         matchDao.endMatch(match1, 4, 5);
 
         expected = Arrays.asList(match1);
         actual = matchDao.getCompleted(tournament);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void updateScore() throws Exception {
+        User creator = getUser(0);
+        User creator2 = getUser(1);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(creator, tournament, 0);
+        Team team2 = getTeam(creator2, tournament, 1);
+
+        MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+
+        matchDao.insert(match1);
+        Long score1 = match1.getScore1();
+        Long score2 = match1.getScore2();
+        assertNull(score1);
+        assertNull(score2);
+
+        matchDao.updateScore(match1, 5, 3);
+        score1 = match1.getScore1();
+        score2 = match1.getScore2();
+        assertEquals(score1.longValue(), 5);
+        assertEquals(score2.longValue(), 3);
     }
 }
