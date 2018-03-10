@@ -17,6 +17,7 @@ public class TestWithContext {
     }
 
     protected void clearDB() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "user_participation");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "sessions");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "teamRequest");
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "tournamentRequest");

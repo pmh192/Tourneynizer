@@ -162,7 +162,8 @@ public class MatchDaoTest extends TestWithContext {
         Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
         matchDao.insert(match, user);
 
-        Match expected = new Match(match.getId(), tournament.getId(), matchChildren, null,null, null, 0, 0, null, null, ScoreType.ONE_SET);
+        Match expected = new Match(match.getId(), tournament.getId(), matchChildren, null,null, null, 0, 0, null, null,
+                ScoreType.ONE_SET, MatchStatus.CREATED);
 
         assertEquals(expected, matchDao.findById(match.getId()));
     }

@@ -115,6 +115,8 @@ public class TeamRequestDaoTest extends TestWithContext {
         List<TeamRequest> expected = Collections.singletonList(r2);
 
         assertEquals(expected, requests);
+        assertEquals(r2.getRequesterId(), user2.getId().longValue());
+        assertEquals(r1.getRequesterId(), creator.getId().longValue());
     }
 
     @Test

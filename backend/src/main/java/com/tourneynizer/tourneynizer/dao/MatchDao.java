@@ -30,8 +30,8 @@ public class MatchDao {
         }
 
         String sql = "INSERT INTO matches (tournament, team1_id, team2_id, match_child1, match_child2, " +
-                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber, status)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -56,6 +56,7 @@ public class MatchDao {
                 setNullable(preparedStatement, 11, match.getRefId());
                 preparedStatement.setInt(12, match.getMatchOrder());
                 preparedStatement.setInt(13, match.getCourtNumber());
+                preparedStatement.setShort(14, (short) match.getMatchStatus().ordinal());
 
                 return preparedStatement;
             }, keyHolder);
@@ -82,7 +83,8 @@ public class MatchDao {
             resultSet.getInt(14),
             resultSet.getTimestamp(10),
             resultSet.getTimestamp(11),
-            ScoreType.values()[resultSet.getInt(9)]
+            ScoreType.values()[resultSet.getInt(9)],
+            MatchStatus.values()[resultSet.getShort(18)]
     );
 
     public Match findById(Long id) {
