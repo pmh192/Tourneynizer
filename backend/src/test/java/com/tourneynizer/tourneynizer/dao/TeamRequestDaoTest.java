@@ -127,10 +127,10 @@ public class TeamRequestDaoTest extends TestWithContext {
         Team team2 = getTeam(creator2, tournament, 1);
 
         TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
-        TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
+        TeamRequest r2 = teamRequestDao.requestUser(creator, team2, creator2);
 
-        List<TeamRequest> requests = teamRequestDao.getRequestsForUser(user);
-        List<TeamRequest> expected = Collections.singletonList(r1);
+        List<TeamRequest> requests = teamRequestDao.getRequestsForUser(creator);
+        List<TeamRequest> expected = Collections.singletonList(r2);
 
         assertEquals(expected, requests);
     }

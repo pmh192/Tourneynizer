@@ -96,19 +96,6 @@ public class TeamRequestController {
     }
 
     @GetMapping("/api/user/requests/sent")
-    public ResponseEntity<?> getRequestsForUser(@CookieValue("session") String session) {
-        List<TeamRequest> requests;
-        try {
-            User user = sessionService.findBySession(session);
-            requests = teamRequestService.findAllRequestsForUser(user);
-        } catch (BadRequestException e) {
-            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
-    }
-
-    @GetMapping("/api/user/requests/pending")
     public ResponseEntity<?> getRequestsByUser(@CookieValue("session") String session) {
         List<TeamRequest> requests;
         try {
@@ -121,7 +108,20 @@ public class TeamRequestController {
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/team/{id}/requests/sent")
+    @GetMapping("/api/user/requests/pending")
+    public ResponseEntity<?> getRequestsForUser(@CookieValue("session") String session) {
+        List<TeamRequest> requests;
+        try {
+            User user = sessionService.findBySession(session);
+            requests = teamRequestService.findAllRequestsForUser(user);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/team/{id}/requests/pending")
     public ResponseEntity<?> getRequestsForTeam(@CookieValue("session") String session, @PathVariable("id") long id) {
         List<TeamRequest> requests;
         try {
@@ -134,7 +134,7 @@ public class TeamRequestController {
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/team/{id}/requests/pending")
+    @GetMapping("/api/team/{id}/requests/sent")
     public ResponseEntity<?> getRequestsByTeam(@CookieValue("session") String session, @PathVariable("id") long id) {
         List<TeamRequest> requests;
         try {
