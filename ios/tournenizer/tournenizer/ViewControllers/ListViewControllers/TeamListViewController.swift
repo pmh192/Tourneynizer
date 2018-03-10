@@ -12,12 +12,9 @@ import PureLayout;
 
 class TeamListViewController : UITableViewController {
     var teams: [Team] = [];
+    var tournaments: [Tournament] = [];
     let cellIdentifier = "TeamCell";
     let cellSpacingHeight: CGFloat = 5;
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-    }
 
     override func loadView() {
         super.loadView();
@@ -30,8 +27,10 @@ class TeamListViewController : UITableViewController {
         tableView.estimatedRowHeight = 50;
     }
 
-    func setTeams(_ teams: [Team]) {
+    func setData(teams: [Team], tournaments: [Tournament]) {
         self.teams = teams;
+        self.tournaments = tournaments;
+        self.tableView.reloadData();
     }
 
     // Ensures that the corresponding methods are only called once
@@ -73,17 +72,12 @@ class TeamListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cb?(teams[indexPath.section]);
-
-        if(cb == nil) {
-            let vc = TeamViewController();
-            vc.setTeam(teams[indexPath.section]);
-            self.navigationController?.pushViewController(vc, animated: true);
-        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TeamCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? TeamCellView;
         cell?.setTeam(teams[indexPath.section]);
+        cell?.setTournament(tournaments[indexPath.section]);
         cell?.setNeedsUpdateConstraints();
         cell?.updateConstraintsIfNeeded();
 
@@ -93,4 +87,17 @@ class TeamListViewController : UITableViewController {
             return UITableViewCell();
         }
     }
+
+    var reloadCallback: (() -> Void)?;
+
+    func setReloadCallback(_ cb: @escaping (() -> Void)) {
+        self.reloadCallback = cb;
+    }
+
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if(scrollView.contentOffset.y <= -50) {
+            reloadCallback?();
+        }
+    }
+
 }

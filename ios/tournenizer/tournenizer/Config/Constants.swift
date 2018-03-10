@@ -36,10 +36,11 @@ class Constants {
 
     static let statusBarCoverHeight: CGFloat = 50;
     static let serverURL = "http://169.231.234.195:8080";
+    //static let serverURL = "http://localhost:8080";
 
     class error {
-        static let serverError = "There was an error with the server. Please try again later.";
-        static let genericError = "There was an error. Please try again later."
+        static let serverError = "There was an error with the server.";
+        static let genericError = "There was an error."
     };
 
     class route {
@@ -51,11 +52,57 @@ class Constants {
         class user {
             static let create = "/api/user/create";
             static let current = "/api/user/get";
+            static let requests = "/api/user/requests/pending";
+            static let all = "/api/user/all";
+            static func get(_ id: CUnsignedLong) -> String {
+                return "/api/user/" + id.description;
+            }
         };
 
         class tournament {
             static let all = "/api/tournament/getAll";
             static let create = "/api/tournament/create";
-        }
+            static let mine = "/api/tournament/getAllCreated";
+            static func get(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description;
+            }
+
+            static func teamAll(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description + "/team/all";
+            }
+
+            static func teamComplete(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description + "/team/complete";
+            }
+
+            static func createTeam(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/" + id.description + "/team/create";
+            }
+        };
+
+        class team {
+            static func joinTeam(_ id: CUnsignedLong) -> String {
+                return "/api/team/" + id.description + "/request";
+            }
+
+            static func userJoinTeam(userId: CUnsignedLong, teamId: CUnsignedLong) -> String {
+                return "/api/user/" + userId.description + "/request/team/" + teamId.description;
+            }
+
+            static let current = "/api/team/getAll";
+            static func get(_ id: CUnsignedLong) -> String {
+                return "/api/team/" + id.description;
+            }
+        };
+
+        class teamRequest {
+            static func accept(_ id: CUnsignedLong) -> String {
+                return "/api/user/requests/" + id.description + "/accept";
+            }
+
+            static func reject(_ id: CUnsignedLong) -> String {
+                return "/api/requests/" + id.description;
+            }
+        };
     }
 };

@@ -59,6 +59,8 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
             view.textColor = Constants.color.red;
             view.textAlignment = .center;
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
+            view.lineBreakMode = .byWordWrapping;
+            view.numberOfLines = 0;
             return view;
         }();
 

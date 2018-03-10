@@ -17,7 +17,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var teamSizePrompt: UILabel!;
     var maxTeamsPrompt: UILabel!;
     var typePrompt: UILabel!;
-    var numCourtsPrompt: UILabel!;
     var locationPrompt: UILabel!;
     var statusBarCover: UIView!;
 
@@ -32,7 +31,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var teamSizeField: UITextField!;
     var maxTeamsField: UITextField!;
     var typeField: UITextField!;
-    var numCourtsField: UITextField!;
     var locationField: UITextField!;
     var nextButton: UIButton!;
     var clearButton: UIButton!;
@@ -115,7 +113,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         titleLabel = {
             let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.mediumHeader);
             view.textColor = Constants.color.red;
             view.backgroundColor = Constants.color.navy;
             view.text = titleText;
@@ -137,9 +135,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
         typePrompt = promptGenerator();
         typePrompt.text = typePromptText;
-
-        numCourtsPrompt = promptGenerator();
-        numCourtsPrompt.text = numCourtsPromptText;
 
         locationPrompt = promptGenerator();
         locationPrompt.text = locationPromptText;
@@ -177,9 +172,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         typeField.selectedTextRange = nil;
         typeField.inputAccessoryView = pickerToolbar;
 
-        numCourtsField = fieldGenerator();
-        numCourtsField.keyboardType = .numbersAndPunctuation;
-
         locationField = fieldGenerator();
         locationField.addTarget(self, action: #selector(locationEdit), for: .editingDidBegin);
         locationField.inputView = UIView();
@@ -203,14 +195,12 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         view.addSubview(teamSizePrompt);
         view.addSubview(maxTeamsPrompt);
         view.addSubview(typePrompt);
-        view.addSubview(numCourtsPrompt);
         view.addSubview(locationPrompt);
         view.addSubview(nameField);
         view.addSubview(startTimeField);
         view.addSubview(teamSizeField);
         view.addSubview(maxTeamsField);
         view.addSubview(typeField);
-        view.addSubview(numCourtsField);
         view.addSubview(locationField);
         view.addSubview(nextButton);
         view.addSubview(clearButton);
@@ -228,10 +218,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
-            titleLabel.autoPinEdge(.top, to: .bottom, of: statusBarCover);
+            titleLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            titleLabel.autoSetDimension(.height, toSize: logoLabelHeight);
             titleLabel.autoPinEdge(toSuperviewEdge: .leading);
             titleLabel.autoPinEdge(toSuperviewEdge: .trailing);
-            titleLabel.autoSetDimension(.width, toSize: logoLabelHeight);
 
             namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             namePrompt.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: promptTopPadding);
@@ -253,12 +243,8 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             typePrompt.autoPinEdge(.top, to: .bottom, of: maxTeamsPrompt, withOffset: promptTopPadding);
             typePrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
 
-            numCourtsPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
-            numCourtsPrompt.autoPinEdge(.top, to: .bottom, of: typePrompt, withOffset: promptTopPadding);
-            numCourtsPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
-
             locationPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
-            locationPrompt.autoPinEdge(.top, to: .bottom, of: numCourtsPrompt, withOffset: promptTopPadding);
+            locationPrompt.autoPinEdge(.top, to: .bottom, of: typePrompt, withOffset: promptTopPadding);
             locationPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
 
             nameField.autoAlignAxis(.baseline, toSameAxisOf: namePrompt);
@@ -280,10 +266,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             typeField.autoAlignAxis(.baseline, toSameAxisOf: typePrompt);
             typeField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
             typeField.autoPinEdge(.leading, to: .trailing, of: typePrompt);
-
-            numCourtsField.autoAlignAxis(.baseline, toSameAxisOf: numCourtsPrompt);
-            numCourtsField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
-            numCourtsField.autoPinEdge(.leading, to: .trailing, of: numCourtsPrompt);
 
             locationField.autoAlignAxis(.baseline, toSameAxisOf: locationPrompt);
             locationField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
@@ -316,8 +298,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             maxTeamsField.becomeFirstResponder();
         } else if(textField == maxTeamsField) {
             typeField.becomeFirstResponder();
-        } else if(textField == numCourtsField) {
-            locationField.becomeFirstResponder();
         }
 
         return false;
@@ -347,7 +327,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     @objc func nextField(sender: UIBarButtonItem) {
         if(typeField.isFirstResponder) {
             pickerView(optionPicker, didSelectRow: optionPicker.selectedRow(inComponent: 0), inComponent: 0);
-            numCourtsField.becomeFirstResponder();
+            locationField.becomeFirstResponder();
         } else {
             updateTextField(sender: startTimePicker);
             teamSizeField.becomeFirstResponder();
@@ -369,20 +349,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             maxTeamsField.layer.borderColor = Constants.color.red.cgColor;
         } else {
             maxTeamsField.layer.borderColor = UIColor.clear.cgColor;
-        }
-
-        let numCourts: Int = {
-            guard let value = Int(numCourtsField.text!) else {
-                return -1;
-            }
-            return value;
-        }();
-
-        if(numCourts <= 0) {
-            numCourtsField.layer.borderColor = Constants.color.red.cgColor;
-            error = true;
-        } else {
-            numCourtsField.layer.borderColor = UIColor.clear.cgColor;
         }
 
         let teamSize: Int = {
@@ -443,7 +409,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             currentTeams: 0,
             timeCreated: Date(),
             tournamentType: type,
-            numCourts: numCourts,
             creatorId: 0,
             cancelled: false,
             teamSize: teamSize
@@ -504,7 +469,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         teamSizeField.text = "";
         maxTeamsField.text = "";
         typeField.text = "";
-        numCourtsField.text = "";
         locationField.text = "";
 
         nameField.layer.borderColor = UIColor.clear.cgColor;
@@ -512,7 +476,6 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         teamSizeField.layer.borderColor = UIColor.clear.cgColor;
         maxTeamsField.layer.borderColor = UIColor.clear.cgColor;
         typeField.layer.borderColor = UIColor.clear.cgColor;
-        numCourtsField.layer.borderColor = UIColor.clear.cgColor;
         locationField.layer.borderColor = UIColor.clear.cgColor;
     }
 }

@@ -1,19 +1,22 @@
 //
-//  TeamCellView.swift
+//  TeamRequestCellView.swift
 //  tournenizer
 //
-//  Created by Ankush Rayabhari on 2/16/18.
+//  Created by Ankush Rayabhari on 3/9/18.
 //  Copyright © 2018 Ankush Rayabhari. All rights reserved.
 //
 
 import UIKit;
 import Foundation;
 
-class TeamCellView : UITableViewCell {
+class TeamRequestCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var tournamentLabel: UILabel!;
-    var team: Team!;
+    var creatorLabel: UILabel!;
+    var teamRequest: TeamRequest!;
     var tournament: Tournament!;
+    var requester: User!;
+    var team: Team!;
 
     let topPadding: CGFloat = 10;
     let bottomPadding: CGFloat = 10;
@@ -31,15 +34,23 @@ class TeamCellView : UITableViewCell {
         setupViews();
     }
 
+    func setTeamRequest(_ teamRequest: TeamRequest) {
+        self.teamRequest = teamRequest;
+    }
+
     func setTeam(_ team: Team) {
         self.team = team;
-        nameLabel.text = team.name;
-
+        self.nameLabel.text = team.name;
     }
 
     func setTournament(_ tournament: Tournament) {
         self.tournament = tournament;
-        tournamentLabel.text = tournament.name;
+        self.tournamentLabel.text = tournament.name;
+    }
+
+    func setRequester(_ requester: User) {
+        self.requester = requester;
+        self.creatorLabel.text = requester.name;
     }
 
     func setupViews() {
@@ -61,10 +72,18 @@ class TeamCellView : UITableViewCell {
             return view;
         }();
 
+        creatorLabel = {
+            let view = UILabel.newAutoLayout();
+            view.textColor = Constants.color.darkGray;
+            view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.small);
+            return view;
+        }();
+
         self.selectionStyle = .none;
 
         contentView.addSubview(nameLabel!);
         contentView.addSubview(tournamentLabel!);
+        contentView.addSubview(creatorLabel!);
     }
 
     override func updateConstraints() {
@@ -80,9 +99,12 @@ class TeamCellView : UITableViewCell {
         tournamentLabel.autoPinEdge(.top, to: .bottom, of: nameLabel);
         tournamentLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
         tournamentLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
-        tournamentLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: sidePadding);
+
+        creatorLabel.autoPinEdge(.top, to: .bottom, of: tournamentLabel);
+        creatorLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sidePadding);
+        creatorLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sidePadding);
+        creatorLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: sidePadding);
 
         super.updateConstraints();
     }
 };
-

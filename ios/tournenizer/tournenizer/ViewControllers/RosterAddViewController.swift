@@ -1,26 +1,28 @@
 //
-//  CreateTeamViewController.swift
+//  RosterAddViewController.swift
 //  tournenizer
 //
-//  Created by Ankush Rayabhari on 2/18/18.
+//  Created by Ankush Rayabhari on 3/9/18.
 //  Copyright © 2018 Ankush Rayabhari. All rights reserved.
 //
 
 import UIKit;
+import PureLayout;
 
-class CreateTeamViewController : UIViewController, UITextFieldDelegate {
+class RosterAddViewController : UIViewController {
     var selectLabel: UILabel!;
+    var contentView: UIView!;
     var statusBarCover: UIView!;
     var backView: UIButton!;
-    var namePrompt: UILabel!;
-    var nameField: UITextField!;
-    var createButton: UIButton!;
-    var errorPrompt: UILabel!;
+    var rosterPrompt: UILabel!;
+    var rosterButton: UIButton!;
 
     let selectText = "Create a team.";
-    let namePromptText = "Name:";
-    let createButtonText = "Create";
-    let errorEmptyText = "Team name cannot be empty.";
+    let dialogTitle = "User Request Sent";
+    let dialogBody = "You have successfully requested the user to join your team.";
+    let dialogButtonText = "Ok";
+    let rosterPromptText = "Planned Roster:";
+    let rosterButtonText = "Add Player";
 
     let actionsBarHeight: CGFloat = 50;
     let topTitlePadding: CGFloat = 20;
@@ -37,25 +39,12 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
     let buttonWidth: CGFloat = 100;
 
     let userListController = UserListViewController();
-    var tournament: Tournament!;
+    var team: Team!;
 
     private func promptGenerator() -> UILabel {
         let view = UILabel.newAutoLayout();
         view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
         view.textColor = Constants.color.darkGray;
-        return view;
-    }
-
-    private func fieldGenerator() -> UITextField {
-        let view = UITextField.newAutoLayout();
-        view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
-        view.textColor = Constants.color.navy;
-        view.returnKeyType = .done;
-        view.backgroundColor = Constants.color.lightGray;
-        view.textAlignment = .center;
-        view.delegate = self;
-        view.layer.borderWidth = errorBorderWidth;
-        view.layer.borderColor = UIColor.clear.cgColor;
         return view;
     }
 
@@ -101,18 +90,27 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
             return view;
         }();
 
-        namePrompt = promptGenerator();
-        namePrompt.text = namePromptText;
+        rosterPrompt = promptGenerator();
+        rosterPrompt.text = rosterPromptText;
 
-        nameField = fieldGenerator();
+        contentView = UIView.newAutoLayout();
+        contentView.backgroundColor = Constants.color.lightGray;
 
-        errorPrompt = promptGenerator();
-        errorPrompt.textColor = Constants.color.red;
-        errorPrompt.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.small);
+        rosterButton = buttonGenerator();
+        rosterButton.setTitle(rosterButtonText, for: .normal);
+        rosterButton.addTarget(self, action: #selector(addPlayer), for: .touchUpInside);
 
-        createButton = buttonGenerator();
-        createButton.setTitle(createButtonText, for: .normal);
-        createButton.addTarget(self, action: #selector(create), for: .touchUpInside);
+        userListController.tableView.backgroundColor = Constants.color.lightGray;
+        userListController.tableView.allowsSelection = false;
+        userListController.editable = true;
+        userListController.separatorColor = Constants.color.white;
+        userListController.tableView.allowsMultipleSelectionDuringEditing = false;
+        userListController.addUser(UserService.shared.getCurrentUser()!);
+
+        addChildViewController(userListController);
+        contentView.addSubview(userListController.view);
+        userListController.view.frame = contentView.bounds;
+        userListController.didMove(toParentViewController: self);
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));
         tap.cancelsTouchesInView = false;
@@ -121,10 +119,10 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
         view.addSubview(statusBarCover);
         view.addSubview(backView);
         view.addSubview(selectLabel);
-        view.addSubview(namePrompt);
-        view.addSubview(nameField);
-        view.addSubview(createButton);
-        view.addSubview(errorPrompt);
+        view.addSubview(contentView);
+        view.addSubview(rosterPrompt);
+        view.addSubview(rosterButton);
+        view.addSubview(contentView);
         view.setNeedsUpdateConstraints();
     }
 
@@ -148,20 +146,18 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
             selectLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
             selectLabel.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);
 
-            namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
-            namePrompt.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: promptTopPadding);
-            namePrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
+            rosterButton.autoPinEdge(.top, to: .bottom, of: selectLabel, withOffset: promptTopPadding);
+            rosterButton.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
+            rosterButton.autoSetDimension(.width, toSize: buttonWidth);
 
-            nameField.autoAlignAxis(.baseline, toSameAxisOf: namePrompt);
-            nameField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
-            nameField.autoPinEdge(.leading, to: .trailing, of: namePrompt);
+            rosterPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
+            rosterPrompt.autoPinEdge(.trailing, to: .leading, of: rosterButton, withOffset: promptPadding);
+            rosterPrompt.autoAlignAxis(.baseline, toSameAxisOf: rosterButton);
 
-            errorPrompt.autoPinEdge(.leading, to: .leading, of: nameField);
-            errorPrompt.autoPinEdge(.top, to: .bottom, of: nameField);
-
-            createButton.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
-            createButton.autoPinEdge(.top, to: .bottom, of: namePrompt, withOffset: promptTopPadding);
-            createButton.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
+            contentView.autoPinEdge(.top, to: .bottom, of: rosterButton, withOffset: promptPadding);
+            contentView.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
+            contentView.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
+            contentView.autoPinEdge(toSuperviewEdge: .bottom, withInset: promptPadding);
 
             didUpdateConstraints = true;
         }
@@ -170,35 +166,15 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
     }
 
     @objc func exit() {
-        self.navigationController?.popViewController(animated: true);
+        let vcIndex = self.navigationController!.viewControllers.count-3;
+        let vc = self.navigationController?.viewControllers[vcIndex];
+        self.navigationController?.popToViewController(vc!, animated: true);
     }
 
-    @objc func create() {
-        var error = false;
+    func addUser(_ user: User) {
+        self.navigationController?.popViewController(animated: true);
 
-        if(nameField.text == nil || nameField.text == "") {
-            nameField.layer.borderColor = Constants.color.red.cgColor;
-            errorPrompt.text = errorEmptyText;
-            error = true;
-        } else {
-            nameField.layer.borderColor = UIColor.clear.cgColor;
-            errorPrompt.text = "";
-        }
-
-        if(error) {
-            return;
-        }
-
-        let team = Team(
-            id: 0,
-            name: nameField.text!,
-            timeCreated: Date(),
-            checkedIn: false,
-            creatorId: 0,
-            tournamentId: tournament!.id
-        );
-
-        TeamService.shared.createTeam(tournament: tournament!, team: team) { (error: String?, team: Team?) in
+        TeamRequestService.shared.requestUserToJoinTeam(team: team, user: user) { (error: String?) in
             if(error != nil) {
                 return DispatchQueue.main.async {
                     self.displayError(error!);
@@ -206,21 +182,24 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
             }
 
             return DispatchQueue.main.async {
-                let vc = RosterAddViewController();
-                vc.setTeam(team!);
-                self.navigationController?.pushViewController(vc, animated: true);
+                self.userListController.addUser(user);
+                let alert = UIAlertController(title: self.dialogTitle, message: self.dialogBody, preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: nil));
+                self.present(alert, animated: true, completion: nil);
             }
         }
     }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nameField.resignFirstResponder();
-        return false;
+    @objc func addPlayer() {
+        let vc = UsersViewController();
+        vc.cb = addUser(_:);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 
-    func setTournament(_ tournament: Tournament) {
-        self.tournament = tournament;
+    func setTeam(_ team: Team) {
+        self.team = team;
     }
 
 }
+
 

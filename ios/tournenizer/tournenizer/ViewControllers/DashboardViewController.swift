@@ -113,12 +113,15 @@ class DashboardViewController : UIViewController {
             return view;
         }();
 
+        let profileVC = ProfileViewController();
+        profileVC.setUser(UserService.shared.getCurrentUser()!);
+
         tabBarControllers = [
             TournamentListViewContainerController(),
-            PlayersViewController(),
+            UsersViewController(),
             CreateTournamentViewController(),
             UserActionsViewController(),
-            ProfileViewController()
+            profileVC
         ].map {vc -> UIViewController in
             let viewController = UINavigationController();
             viewController.pushViewController(vc, animated: false);

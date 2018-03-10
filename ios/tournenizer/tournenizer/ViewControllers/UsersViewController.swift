@@ -9,7 +9,7 @@
 import UIKit;
 import PureLayout;
 
-class PlayersViewController : UIViewController, UITextFieldDelegate {
+class UsersViewController : UIViewController, UITextFieldDelegate {
     var statusBarCover: UIView!;
     var contentView: UIView!;
     var searchField: UITextField!;
@@ -19,10 +19,10 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
     let playerPadding: CGFloat = 5;
 
     var userListController: UserListViewController!;
-
     let searchFieldPrompt = "Search...";
-
     var cb: ((User) -> Void)?;
+    var users: [User] = [];
+
 
     override func loadView() {
         view = UIView();
@@ -47,42 +47,13 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
             return view;
         }();
         searchField.delegate = self;
+        searchField.addTarget(self, action: #selector(filterUsers), for: .editingChanged);
 
         userListController = UserListViewController();
-        userListController.setUsers([
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()),
-            User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date())
-        ]);
+        userListController.setReloadCallback {
+            self.loadUsers();
+        }
+        loadUsers();
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));
         tap.cancelsTouchesInView = false;
@@ -98,7 +69,6 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
         } else {
             userListController.addSelectionCallback(selectUser(_:));
         }
-
 
         view.addSubview(statusBarCover);
         view.addSubview(searchField);
@@ -145,5 +115,35 @@ class PlayersViewController : UIViewController, UITextFieldDelegate {
         searchField.resignFirstResponder();
         return false;
     }
-}
 
+    @objc func filterUsers() {
+        if(searchField.text == nil || searchField.text == "") {
+            self.userListController.setUsers(users);
+            return;
+        }
+
+        let searchText = searchField.text!.lowercased();
+
+        let filteredUsers = users.filter { (user: User) -> Bool in
+            return (user.name.lowercased().contains(searchText)) ||
+                   (user.email.lowercased().contains(searchText));
+        }
+
+        self.userListController.setUsers(filteredUsers);
+    }
+
+    func loadUsers() {
+        UserService.shared.getAllUsers { (error: String?, users: [User]?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                self.users = users!;
+                self.filterUsers();
+            }
+        }
+    }
+}

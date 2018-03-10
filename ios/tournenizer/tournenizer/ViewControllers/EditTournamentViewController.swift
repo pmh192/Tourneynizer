@@ -35,7 +35,6 @@ class EditTournamentViewController : CreateTournamentViewController {
             self.typeField.text = pickerOptions[1];
         }
 
-        self.numCourtsField.text = tournamentCopy.numCourts?.description;
         self.locationField.text = "\(tournamentCopy.lat) \(tournamentCopy.lng)";
         self.nextButton.setTitle("Edit", for: .normal);
 

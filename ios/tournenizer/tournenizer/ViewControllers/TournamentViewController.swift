@@ -282,11 +282,15 @@ class TournamentViewController : UIViewController {
     }
 
     @objc func join() {
-        self.navigationController?.pushViewController(SelectTeamViewController(), animated: true);
+        let vc = SelectTeamViewController();
+        vc.setTournament(tournament);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 
     @objc func create() {
-        self.navigationController?.pushViewController(CreateTeamViewController(), animated: true);
+        let vc = CreateTeamViewController();
+        vc.setTournament(tournament);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 
     @objc func edit() {
