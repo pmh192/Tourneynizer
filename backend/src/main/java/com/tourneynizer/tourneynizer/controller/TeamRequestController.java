@@ -121,7 +121,7 @@ public class TeamRequestController {
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/team/{id}/requests/sent")
+    @GetMapping("/api/team/{id}/requests/pending")
     public ResponseEntity<?> getRequestsForTeam(@CookieValue("session") String session, @PathVariable("id") long id) {
         List<TeamRequest> requests;
         try {
@@ -134,7 +134,7 @@ public class TeamRequestController {
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/team/{id}/requests/pending")
+    @GetMapping("/api/team/{id}/requests/sent")
     public ResponseEntity<?> getRequestsByTeam(@CookieValue("session") String session, @PathVariable("id") long id) {
         List<TeamRequest> requests;
         try {
