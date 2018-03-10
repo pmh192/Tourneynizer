@@ -100,7 +100,7 @@ public class TeamRequestController {
         List<TeamRequest> requests;
         try {
             User user = sessionService.findBySession(session);
-            requests = teamRequestService.findAllRequestsForUser(user);
+            requests = teamRequestService.findAllRequestsByUser(user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
@@ -113,7 +113,7 @@ public class TeamRequestController {
         List<TeamRequest> requests;
         try {
             User user = sessionService.findBySession(session);
-            requests = teamRequestService.findAllRequestsByUser(user);
+            requests = teamRequestService.findAllRequestsForUser(user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
