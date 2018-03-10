@@ -13,6 +13,7 @@ class TeamRequestListViewController : UITableViewController {
     var teamRequests: [TeamRequest] = [];
     var tournaments: [Tournament] = [];
     var users: [User] = [];
+    var teams: [Team] = [];
 
     let cellIdentifier = "TeamRequestCell";
     let cellSpacingHeight: CGFloat = 5;
@@ -26,10 +27,11 @@ class TeamRequestListViewController : UITableViewController {
         tableView.estimatedRowHeight = 50;
     }
 
-    func setData(teamRequests: [TeamRequest], tournaments: [Tournament], requesters: [User]) {
+    func setData(teamRequests: [TeamRequest], tournaments: [Tournament], requesters: [User], teams: [Team]) {
         self.teamRequests = teamRequests;
         self.tournaments = tournaments;
         self.users = requesters;
+        self.teams = teams;
         self.tableView.reloadData();
     }
 
@@ -58,6 +60,7 @@ class TeamRequestListViewController : UITableViewController {
         cell?.setTournament(tournaments[indexPath.section]);
         cell?.setRequester(users[indexPath.section]);
         cell?.setTeamRequest(teamRequests[indexPath.section]);
+        cell?.setTeam(teams[indexPath.section]);
         cell?.setNeedsUpdateConstraints()
         cell?.updateConstraintsIfNeeded()
 

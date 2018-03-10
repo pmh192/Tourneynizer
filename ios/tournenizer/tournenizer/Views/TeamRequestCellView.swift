@@ -16,6 +16,7 @@ class TeamRequestCellView : UITableViewCell {
     var teamRequest: TeamRequest!;
     var tournament: Tournament!;
     var requester: User!;
+    var team: Team!;
 
     let topPadding: CGFloat = 10;
     let bottomPadding: CGFloat = 10;
@@ -35,7 +36,11 @@ class TeamRequestCellView : UITableViewCell {
 
     func setTeamRequest(_ teamRequest: TeamRequest) {
         self.teamRequest = teamRequest;
-        self.nameLabel.text = "Fake Tournament";
+    }
+
+    func setTeam(_ team: Team) {
+        self.team = team;
+        self.nameLabel.text = team.name;
     }
 
     func setTournament(_ tournament: Tournament) {

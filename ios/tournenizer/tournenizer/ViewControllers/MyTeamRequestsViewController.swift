@@ -68,12 +68,12 @@ class MyTeamRequestsViewController : UIViewController {
     }
 
     func loadTeamRequests() {
-        TeamRequestService.shared.getRequestsForCurrentUser { (error: String?, teamRequests: [TeamRequest]?, tournaments: [Tournament]?, users: [User]?) in
+        TeamRequestService.shared.getRequestsForCurrentUser { (error: String?, teamRequests: [TeamRequest]?, tournaments: [Tournament]?, users: [User]?, teams: [Team]?) in
             if(error != nil) {
                 return;
             }
             
-            self.teamRequestView.setData(teamRequests: teamRequests!, tournaments: tournaments!, requesters: users!);
+            self.teamRequestView.setData(teamRequests: teamRequests!, tournaments: tournaments!, requesters: users!, teams: teams!);
         }
     }
 }

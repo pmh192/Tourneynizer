@@ -11,55 +11,65 @@ import Foundation;
 class TeamRequestService : Service {
     static let shared = TeamRequestService();
 
-    func getRequestsForCurrentUser(cb: @escaping ((String?, [TeamRequest]?, [Tournament]?, [User]?) -> Void)) {
+    func getRequestsForCurrentUser(cb: @escaping ((String?, [TeamRequest]?, [Tournament]?, [User]?, [Team]?) -> Void)) {
         makeRequest(url: Constants.route.user.requests, type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             if(error != nil) {
-                return cb(error, nil, nil, nil);
+                return cb(error, nil, nil, nil, nil);
             }
 
             let teamRequests: [TeamRequest]? = self.decode(data!);
             if(teamRequests == nil) {
-                return cb(Constants.error.genericError, nil, nil, nil);
+                return cb(Constants.error.genericError, nil, nil, nil, nil);
             }
 
             var users = [User?](repeating: nil, count: teamRequests!.count);
+            var teams = [Team?](repeating: nil, count: teamRequests!.count);
+            var tournaments = [Tournament?](repeating: nil, count: teamRequests!.count);
 
-            let userGroup = DispatchGroup();
+            let group = DispatchGroup();
             var errorOccured = false;
             for (index, req) in teamRequests!.enumerated() {
-                userGroup.enter();
-                UserService.shared.getUser(req.userId, cb: { (error: String?, user: User?) in
+                if(errorOccured) {
+                    return cb(Constants.error.serverError, nil, nil, nil, nil);
+                }
+
+                group.enter();
+                group.enter();
+                group.enter();
+
+                UserService.shared.getUser(req.requesterId, cb: { (error: String?, user: User?) in
                     if(error != nil) {
                         errorOccured = true;
                         return;
                     }
 
                     users[index] = user!;
-                    userGroup.leave();
+                    group.leave();
+                });
+
+                TeamService.shared.getTeam(req.teamId, cb: { (error: String?, team: Team?) in
+                    if(error != nil) {
+                        errorOccured = true;
+                        return;
+                    }
+
+                    teams[index] = team!;
+                    group.leave();
+
+                    TournamentService.shared.getTournament(team!.tournamentId, cb: { (error: String?, tournament: Tournament?) in
+                        if(error != nil) {
+                            errorOccured = true;
+                            return;
+                        }
+
+                        tournaments[index] = tournament!;
+                        group.leave();
+                    });
                 });
             }
 
-            var tournaments = [Tournament?](repeating: nil, count: teamRequests!.count);
-
-            userGroup.notify(queue: .main) {
-                if(errorOccured) {
-                    return cb(Constants.error.serverError, nil, nil, nil);
-                }
-
-                let tournamentGroup = DispatchGroup();
-                for (index, req) in teamRequests!.enumerated() {
-                    tournamentGroup.enter();
-                    tournaments[index] = Tournament();
-                    tournamentGroup.leave();
-                }
-
-                tournamentGroup.notify(queue: .main) {
-                    if(errorOccured) {
-                        return cb(Constants.error.serverError, nil, nil, nil);
-                    }
-
-                    return cb(nil, teamRequests, tournaments as! [Tournament], users as! [User]);
-                }
+            group.notify(queue: .main) {
+                return cb(nil, teamRequests, tournaments as? [Tournament], users as? [User], teams as? [Team]);
             }
         }
     }

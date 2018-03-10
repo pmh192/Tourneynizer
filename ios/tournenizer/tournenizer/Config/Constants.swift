@@ -90,6 +90,9 @@ class Constants {
             }
 
             static let current = "/api/team/getAll";
+            static func get(_ id: CUnsignedLong) -> String {
+                return "/api/team/" + id.description;
+            }
         };
 
         class teamRequest {
