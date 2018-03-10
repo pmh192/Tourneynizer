@@ -60,6 +60,11 @@ public class TeamRequestDao {
         if (team.getCreatorId() != requester.getId()) {
             throw new IllegalArgumentException("Only the creator of a team can request other users");
         }
+
+        if (requested.getId() == requester.getId()) {
+            throw new IllegalArgumentException("You can't request yourself to join the team.")
+        }
+
         return insert(team.getId(), requested.getId(), requester.getId());
     }
 

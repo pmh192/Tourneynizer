@@ -17,7 +17,7 @@ Modify `./scripts/test.conf`, `./scripts/dev.conf`, and `./scripts/prod.conf` to
 
 Now run `./scripts/migrate.sh`. Now all your databases will have tables in them. That's it for now!
 
-For connecting to the database, you'll need to have the proper environment variables set. Export the following into a file called `variables.env`.
+For connecting to the database, you'll need to have the proper environment variables set. Export the following into a file called `.env`.
 ```
 export TOURNEYNIZER_DRIVER_CLASS_NAME_TEST=org.postgresql.Driver
 export TOURNEYNIZER_URL_TEST=jdbc:postgresql://localhost:5432/tourneynizer-test
@@ -32,7 +32,7 @@ export TOURNEYNIZER_URL_PROD=jdbc:postgresql://localhost:5432/tourneynizer-prod
 export TOURNEYNIZER_USERNAME_PROD=[The username you set up for the db]
 export TOURNEYNIZER_PASSWORD_PROD=[The password you set up for the db]
 ```
-Then, run `source variables.env` to load the environment variables. Currently only the environment variables ending in `DEV` need to be set to run, and the ones ending in `TEST` to run tests.
+Then, run `source .env` to load the environment variables. Currently only the environment variables ending in `DEV` need to be set to run, and the ones ending in `TEST` to run tests.
 
 Run `mvn test` to run tests.
 Run `mvn spring-boot:run` to start the server in dev mode on port 8080.
