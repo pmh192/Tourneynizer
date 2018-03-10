@@ -9,8 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
+import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.services.TeamRequestService;
+import com.tourneynizer.tourneynizer.services.TeamService;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 /**
  * Created by ryanwiener on 3/6/18.
@@ -19,6 +23,8 @@ import com.tourneynizer.tourneynizer.services.TeamRequestService;
 public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
 
     private TeamRequestService teamRequestService;
+    private User requester;
+    private Team team;
 
     public TeamRequestListAdapter(Context c) {
         super(c, R.layout.team_request_list_item_layout);

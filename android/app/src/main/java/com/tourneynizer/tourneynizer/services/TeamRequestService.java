@@ -109,7 +109,7 @@ public class TeamRequestService {
     }
 
     public void getRequestsForSelf(final OnTeamRequestsLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "user/requests/sent";
+        String url = HTTPService.DOMAIN + "user/requests/pending";
         CookieRequestFactory factory = new CookieRequestFactory();
         Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -135,32 +135,6 @@ public class TeamRequestService {
     }
 
     public void getRequestsForTeam(Team t, final OnTeamRequestsLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "team/" + t.getId() + "/requests/sent";
-        CookieRequestFactory factory = new CookieRequestFactory();
-        Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                TeamRequest[] teamRequests = new TeamRequest[response.length()];
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        teamRequests[i] = JSONConverter.getInstance().convertJSONToTeamRequest(response.getJSONObject(i));
-                    }
-                } catch (JSONException e) {
-                    teamRequests = null;
-                }
-                listener.onTeamRequestsLoaded(teamRequests);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                HTTPService.errorPrinterHelper(error);
-                listener.onTeamRequestsLoaded(null);
-            }
-        });
-        HTTPService.getInstance().getRequestQueue().add(request);
-    }
-
-    public void getRequestsByTeam(Team t, final OnTeamRequestsLoadedListener listener) {
         String url = HTTPService.DOMAIN + "team/" + t.getId() + "/requests/pending";
         CookieRequestFactory factory = new CookieRequestFactory();
         Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -186,8 +160,34 @@ public class TeamRequestService {
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
+    public void getRequestsByTeam(Team t, final OnTeamRequestsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "team/" + t.getId() + "/requests/sent";
+        CookieRequestFactory factory = new CookieRequestFactory();
+        Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                TeamRequest[] teamRequests = new TeamRequest[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teamRequests[i] = JSONConverter.getInstance().convertJSONToTeamRequest(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teamRequests = null;
+                }
+                listener.onTeamRequestsLoaded(teamRequests);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
+                listener.onTeamRequestsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
     public void getRequestsBySelf(final OnTeamRequestsLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "user/requests/pending";
+        String url = HTTPService.DOMAIN + "user/requests/sent";
         CookieRequestFactory factory = new CookieRequestFactory();
         Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

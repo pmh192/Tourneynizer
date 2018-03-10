@@ -79,7 +79,7 @@ public class JSONConverter {
             tJSON.put("name", tDef.getName());
             tJSON.put("description", tDef.getDescription());
             tJSON.put("logo", tDef.getLogo());
-            tJSON.put("type", tDef.getTournamentType());
+            tJSON.put("type", tDef.getTournamentType().name());
             tJSON.put("lat", tDef.getAddress().getLatLng().latitude);
             tJSON.put("lng", tDef.getAddress().getLatLng().longitude);
             tJSON.put("startTime", tDef.getStartTime().getTime());
@@ -123,7 +123,6 @@ public class JSONConverter {
         } catch (JSONException e) {
             tRequest = null;
         }
-        Log.d("Parsed", "" + tRequest);
         return tRequest;
     }
 }
