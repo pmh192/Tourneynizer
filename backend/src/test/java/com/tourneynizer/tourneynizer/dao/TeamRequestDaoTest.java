@@ -95,7 +95,7 @@ public class TeamRequestDaoTest extends TestWithContext {
         teamRequestDao.requestTeam(user2, team);
 
         List<Long> requests = teamRequestDao.getRequestIds(team);
-        List<Long> expected = Arrays.asList(team.getCreatorId(), team.getCreatorId());
+        List<Long> expected = Arrays.asList(user.getId(), user2.getId());
 
         assertEquals(expected, requests);
     }
