@@ -30,7 +30,7 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
         final TeamRequest teamRequest = getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.tournament_list_item_layout, parent, false);
+            convertView = inflater.inflate(R.layout.team_request_list_item_layout, parent, false);
         }
         TextView description = convertView.findViewById(R.id.description);
         description.setText(teamRequest.getRequesterID() + " requested you to join " + teamRequest.getTeamID());

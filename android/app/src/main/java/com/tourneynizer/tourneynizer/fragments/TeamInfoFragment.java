@@ -13,11 +13,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.adapters.TeamRequestListAdapter;
 import com.tourneynizer.tourneynizer.adapters.UserListAdapter;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.services.TeamRequestService;
+import com.tourneynizer.tourneynizer.services.TeamService;
 import com.tourneynizer.tourneynizer.services.TournamentService;
 import com.tourneynizer.tourneynizer.services.UserService;
 
@@ -34,8 +36,10 @@ public class TeamInfoFragment extends UIQueueFragment {
     private ListView listView;
     private UserService userService;
     private TournamentService tournamentService;
+    private TeamService teamService;
     private TextView tournamentLabel;
     private TextView creatorLabel;
+    private TextView requestButton;
     private UserListAdapter listAdapter;
     private TeamRequestService teamRequestService;
 
@@ -60,6 +64,7 @@ public class TeamInfoFragment extends UIQueueFragment {
         teamRequestService = new TeamRequestService();
         userService = new UserService();
         tournamentService = new TournamentService();
+        teamService = new TeamService();
     }
 
     @Override
@@ -83,10 +88,33 @@ public class TeamInfoFragment extends UIQueueFragment {
         logoView.setImageBitmap(team.getLogo());
         TextView teamName = view.findViewById(R.id.teamName);
         teamName.setText(team.getName());
+        requestButton = view.findViewById(R.id.requestButton);
         creatorLabel = view.findViewById(R.id.creatorName);
         userService.getUserFromID(team.getCreatorID(), new UserService.OnUserLoadedListener() {
             @Override
             public void onUserLoaded(final User user) {
+                userService.getSelf(new UserService.OnUserLoadedListener() {
+                    @Override
+                    public void onUserLoaded(final User self) {
+                        if (self.equals(user)) {
+                            requestButton.setText("View Requests");
+                            requestButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    goToTeamRequests();
+                                }
+                            });
+                        } else {
+                            requestButton.setText("Request To Join");
+                            requestButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    teamRequestService.sendRequestToTeam(team);
+                                }
+                            });
+                        }
+                    }
+                });
                 performUITask(new Runnable() {
                     @Override
                     public void run() {
@@ -120,13 +148,6 @@ public class TeamInfoFragment extends UIQueueFragment {
                 });
             }
         });
-        View requestButton = view.findViewById(R.id.requestJoin);
-        requestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                teamRequestService.sendRequestToTeam(team);
-            }
-        });
         return view;
     }
 
@@ -141,6 +162,11 @@ public class TeamInfoFragment extends UIQueueFragment {
 
     public void goToTournamentInfo(Tournament t) {
         Fragment fragment = TournamentInfoFragment.newInstance(t);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
+    public void goToTeamRequests() {
+        Fragment fragment = TeamRequestListFragment.newInstance(team);
         ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 }

@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_above="@id/requestJoin"
+            android:layout_above="@id/requestButton"
             android:id="@+id/memberList"/>
 
         <Button
@@ -80,7 +80,7 @@
             android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/marginSize"
-            android:id="@+id/requestJoin"
+            android:id="@+id/requestButton"
             android:text="@string/requestToJoin"/>
 
     </RelativeLayout>

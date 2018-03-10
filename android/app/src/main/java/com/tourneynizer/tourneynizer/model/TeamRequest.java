@@ -1,5 +1,7 @@
 package com.tourneynizer.tourneynizer.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.sql.Time;
@@ -8,7 +10,7 @@ import java.sql.Time;
  * Created by ryanl on 2/28/2018.
  */
 
-public class TeamRequest {
+public class TeamRequest implements Parcelable {
 
     private long id;
     private long teamID;
@@ -25,6 +27,28 @@ public class TeamRequest {
         this.accepted = accepted;
         this.timeRequested = timeRequested;
     }
+
+    private TeamRequest(Parcel in) {
+        id = in.readLong();
+        teamID = in.readLong();
+        userID = in.readLong();
+        requesterID = in.readLong();
+        byte tmpAccepted = in.readByte();
+        accepted = tmpAccepted == 0 ? null : tmpAccepted == 1;
+        timeRequested = (Time) in.readSerializable();
+    }
+
+    public static final Creator<TeamRequest> CREATOR = new Creator<TeamRequest>() {
+        @Override
+        public TeamRequest createFromParcel(Parcel in) {
+            return new TeamRequest(in);
+        }
+
+        @Override
+        public TeamRequest[] newArray(int size) {
+            return new TeamRequest[size];
+        }
+    };
 
     public long getID() {
         return id;
@@ -48,5 +72,20 @@ public class TeamRequest {
 
     public @NonNull Time getTimeRequested() {
         return timeRequested;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeLong(teamID);
+        parcel.writeLong(userID);
+        parcel.writeLong(requesterID);
+        parcel.writeByte((byte) (accepted == null ? 0 : accepted ? 1 : 2));
+        parcel.writeSerializable(timeRequested);
     }
 }

@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.services.TournamentService;
 import com.tourneynizer.tourneynizer.services.UserService;
 
 import java.text.SimpleDateFormat;

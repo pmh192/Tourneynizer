@@ -42,4 +42,5 @@
     <string name="partOfTournament">Part of Tournament</string>
     <string name="teamMembers">Members</string>
     <string name="requestToJoin">Request to join</string>
+    <string name="teamRequests">Team Requests</string>
 </resources>

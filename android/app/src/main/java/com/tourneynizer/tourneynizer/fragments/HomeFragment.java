@@ -10,6 +10,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,7 @@ public class HomeFragment extends UIQueueFragment {
 	private ListView listView;
 	private RadioGroup segmentController;
 	private SwipeRefreshLayout refresher;
-	private SparseArray<Integer> idMapper;
+	private SparseIntArray idMapper;
 	private TeamService teamService;
 	private TournamentService tournamentService;
 	private TeamRequestService teamRequestService;
@@ -134,6 +135,7 @@ public class HomeFragment extends UIQueueFragment {
 			refreshAll();
 		}
 		listView = view.findViewById(R.id.listView);
+		/*
         ProgressBar progressBar = new ProgressBar(getContext());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         layoutParams.gravity = Gravity.CENTER;
@@ -141,8 +143,9 @@ public class HomeFragment extends UIQueueFragment {
         progressBar.setIndeterminate(true);
         ((ViewGroup) listView.getParent()).addView(progressBar);
         listView.setEmptyView(progressBar);
+        */
 		segmentController = view.findViewById(R.id.radioGroup);
-		idMapper = new SparseArray<>();
+		idMapper = new SparseIntArray();
 		for (int i = 0; i < ADAPTERS.length; i++) {
 			int id = segmentController.getChildAt(i).getId();
 			idMapper.put(id, i);
@@ -177,6 +180,7 @@ public class HomeFragment extends UIQueueFragment {
 
 	public void refreshTeamAdapter() {
         ADAPTERS[0].clear();
+        refresher.setRefreshing(true);
 		teamService.getMyTeams(new TeamService.OnTeamsLoadedListener() {
 			@Override
 			public void onTeamsLoaded(final Team[] teams) {
@@ -184,7 +188,7 @@ public class HomeFragment extends UIQueueFragment {
 					@Override
 					public void run() {
 						ADAPTERS[0].addAll(teams);
-						//refresher.setRefreshing(false);
+						refresher.setRefreshing(false);
 					}
 				});
 			}
@@ -193,7 +197,8 @@ public class HomeFragment extends UIQueueFragment {
 
 	public void refreshTournamentAdapter() {
         ADAPTERS[1].clear();
-		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
+        refresher.setRefreshing(true);
+		tournamentService.getAllCreatedTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
 				performUITask(new Runnable() {
@@ -208,7 +213,8 @@ public class HomeFragment extends UIQueueFragment {
 	}
 
     public void refreshTeamRequestAdapter() {
-        ADAPTERS[1].clear();
+        ADAPTERS[2].clear();
+        refresher.setRefreshing(true);
         teamRequestService.getRequestsForSelf(new TeamRequestService.OnTeamRequestsLoadedListener() {
             @Override
             public void onTeamRequestsLoaded(final TeamRequest[] teamRequests) {

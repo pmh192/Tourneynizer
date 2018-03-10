@@ -100,6 +100,7 @@ public class JoinTeamFragment extends UIQueueFragment {
 
     public void refresh() {
         listAdapter.clear();
+        swipeRefresher.setRefreshing(true);
         teamService.getPendingTeams(tournament, new TeamService.OnTeamsLoadedListener() {
             @Override
             public void onTeamsLoaded(final Team[] teams) {

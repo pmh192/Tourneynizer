@@ -46,7 +46,7 @@ public class TournamentListFragment extends UIQueueFragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_tournament_list, container, false);
 		ListView listView = view.findViewById(R.id.tournamentList);
-
+        /*
 		// sets progress bar to fill list view when empty
 		ProgressBar progressBar = new ProgressBar(getContext());
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -55,7 +55,7 @@ public class TournamentListFragment extends UIQueueFragment {
 		progressBar.setIndeterminate(true);
 		((ViewGroup) listView.getParent()).addView(progressBar);
 		listView.setEmptyView(progressBar);
-
+        */
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -102,6 +102,7 @@ public class TournamentListFragment extends UIQueueFragment {
 
 	public void refresh() {
         listAdapter.clear();
+        swipeRefresher.setRefreshing(true);
 		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {

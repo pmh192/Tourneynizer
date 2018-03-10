@@ -63,7 +63,29 @@ public class TeamService {
     }
 
     public void getMyTeams(final OnTeamsLoadedListener listener) {
-        listener.onTeamsLoaded(new Team[] {new Team(1, "Coach", new Time(0), 2, 1)});
+        String url = HTTPService.DOMAIN + "team/getAll";
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        Request request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Team[] teams = new Team[response.length()];
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        teams[i] = JSONConverter.getInstance().convertJSONToTeam(response.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    teams = null;
+                }
+                listener.onTeamsLoaded(teams);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onTeamsLoaded(null);
+                HTTPService.errorPrinterHelper(error);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void getTeams(Tournament t, final OnTeamsLoadedListener listener) {

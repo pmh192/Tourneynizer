@@ -3,6 +3,7 @@ package com.tourneynizer.tourneynizer.util;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.util.Log;
 
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
@@ -112,11 +113,17 @@ public class JSONConverter {
 
     public TeamRequest convertJSONToTeamRequest(JSONObject tRequestJSON) {
         TeamRequest tRequest;
+        Log.d("Tournament Request", tRequestJSON.toString());
         try {
-            tRequest = new TeamRequest(tRequestJSON.getLong("id"), tRequestJSON.getLong("teamId"), tRequestJSON.getLong("userId"), tRequestJSON.getLong("requesterId"), (Boolean) tRequestJSON.get("accepted"), new Time(tRequestJSON.getLong("timeRequested")));
+            Boolean accepted = null;
+            if (!tRequestJSON.isNull("accepted")) {
+                accepted = tRequestJSON.getBoolean("accepted");
+            }
+            tRequest = new TeamRequest(tRequestJSON.getLong("id"), tRequestJSON.getLong("teamId"), tRequestJSON.getLong("userId"), tRequestJSON.getLong("requesterId"), accepted, new Time(tRequestJSON.getLong("timeRequested")));
         } catch (JSONException e) {
             tRequest = null;
         }
+        Log.d("Parsed", "" + tRequest);
         return tRequest;
     }
 }

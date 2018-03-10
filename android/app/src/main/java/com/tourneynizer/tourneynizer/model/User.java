@@ -111,4 +111,12 @@ public class User implements Parcelable {
     public int getTournamentsParticipated() {
         return tournamentsParticipated;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            return id == ((User) obj).id;
+        }
+        return false;
+    }
 }

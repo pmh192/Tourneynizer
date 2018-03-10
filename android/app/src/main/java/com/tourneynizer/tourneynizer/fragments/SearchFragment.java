@@ -67,21 +67,22 @@ public class SearchFragment extends UIQueueFragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                performUITask(new Runnable() {
-                    @Override
-                    public void run() {
-                        listAdapter.clear();
-                    }
-                });
+                listAdapter.clear();
+                if (newText.equals("")) {
+                    loadAllUsers();
+                }
                 return false;
             }
         });
         listAdapter = new UserListAdapter(getActivity());
         if (savedInstanceState != null) {
+            listAdapter.clear();
             ArrayList<User> users = savedInstanceState.getParcelableArrayList(USERS);
             if (users != null) {
                 listAdapter.addAll(users);
             }
+        } else {
+            loadAllUsers();
         }
         ListView userList = view.findViewById(R.id.userList);
         userList.setAdapter(listAdapter);
@@ -97,6 +98,21 @@ public class SearchFragment extends UIQueueFragment {
     public void goToProfile(User user) {
         Fragment fragment = UserProfileFragment.newInstance(user);
         ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
+    public void loadAllUsers() {
+        listAdapter.clear();
+        userService.getAll(new UserService.OnUsersLoadedListener() {
+            @Override
+            public void onUsersLoaded(final User[] users) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter.addAll(users);
+                    }
+                });
+            }
+        });
     }
 
     @Override
