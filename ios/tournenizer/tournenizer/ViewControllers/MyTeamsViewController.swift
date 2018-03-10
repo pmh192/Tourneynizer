@@ -44,13 +44,13 @@ class MyTeamsViewController : UIViewController {
     }
 
     func loadTeams() {
-        TeamService.shared.getAllTeamsForCurrentUser { (error: String?, teams: [Team]?) in
+        TeamService.shared.getAllTeamsForCurrentUser { (error: String?, teams: [Team]?, tournaments: [Tournament]?) in
             if(error != nil) {
                 return;
             }
 
             DispatchQueue.main.async {
-                self.teamList.setTeams(teams!);
+                self.teamList.setData(teams: teams!, tournaments: tournaments!);
             }
         }
     }

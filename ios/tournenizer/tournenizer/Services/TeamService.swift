@@ -46,18 +46,47 @@ class TeamService : Service {
         };
     }
 
-    func getAllTeamsForCurrentUser(cb: @escaping ((String?, [Team]?) -> Void)) {
+    func getAllTeamsForCurrentUser(cb: @escaping ((String?, [Team]?, [Tournament]?) -> Void)) {
         makeRequest(url: Constants.route.team.current, type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             if(error != nil) {
-                return cb(error, nil);
+                return cb(error, nil, nil);
             }
 
             let teamList: [Team]? = self.decode(data!);
             if(teamList == nil) {
-                return cb(error, nil);
+                return cb(error, nil, nil);
             }
 
-            return cb(nil, teamList);
+            var tournaments = [Tournament?](repeating: nil, count: teamList!.count);
+
+            let group = DispatchGroup();
+            var errorOccurred = AtomicBoolean();
+
+            for (index, team) in teamList!.enumerated() {
+                if(errorOccurred.value) {
+                    return cb(Constants.error.serverError, nil, nil);
+                }
+
+                group.enter();
+
+                TournamentService.shared.getTournament(team.tournamentId, cb: { (error: String?, tournament: Tournament?) in
+                    if(error != nil) {
+                        errorOccurred.value = true;
+                        return;
+                    }
+
+                    tournaments[index] = tournament;
+                    group.leave();
+                });
+            }
+
+            group.notify(queue: .main) {
+                if(errorOccurred.value) {
+                    return cb(Constants.error.serverError, nil, nil);
+                }
+
+                return cb(nil, teamList, tournaments as? [Tournament]);
+            }
         }
     }
 

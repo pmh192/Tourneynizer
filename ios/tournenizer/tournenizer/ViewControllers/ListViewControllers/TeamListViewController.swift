@@ -12,6 +12,7 @@ import PureLayout;
 
 class TeamListViewController : UITableViewController {
     var teams: [Team] = [];
+    var tournaments: [Tournament] = [];
     let cellIdentifier = "TeamCell";
     let cellSpacingHeight: CGFloat = 5;
 
@@ -26,8 +27,9 @@ class TeamListViewController : UITableViewController {
         tableView.estimatedRowHeight = 50;
     }
 
-    func setTeams(_ teams: [Team]) {
+    func setData(teams: [Team], tournaments: [Tournament]) {
         self.teams = teams;
+        self.tournaments = tournaments;
         self.tableView.reloadData();
     }
 
@@ -75,6 +77,7 @@ class TeamListViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TeamCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? TeamCellView;
         cell?.setTeam(teams[indexPath.section]);
+        cell?.setTournament(tournaments[indexPath.section]);
         cell?.setNeedsUpdateConstraints();
         cell?.updateConstraintsIfNeeded();
 

@@ -108,7 +108,6 @@ class ProfileViewController : UIViewController {
 
 
         profileList = TeamListViewController();
-        profileList.setTeams([]);
 
         addChildViewController(profileList);
         contentView.addSubview(profileList.view);

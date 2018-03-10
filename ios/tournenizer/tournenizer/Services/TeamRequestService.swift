@@ -27,9 +27,9 @@ class TeamRequestService : Service {
             var tournaments = [Tournament?](repeating: nil, count: teamRequests!.count);
 
             let group = DispatchGroup();
-            var errorOccured = false;
+            var errorOccurred = AtomicBoolean();
             for (index, req) in teamRequests!.enumerated() {
-                if(errorOccured) {
+                if(errorOccurred.value) {
                     return cb(Constants.error.serverError, nil, nil, nil, nil);
                 }
 
@@ -39,7 +39,7 @@ class TeamRequestService : Service {
 
                 UserService.shared.getUser(req.requesterId, cb: { (error: String?, user: User?) in
                     if(error != nil) {
-                        errorOccured = true;
+                        errorOccurred.value = true;
                         return;
                     }
 
@@ -49,7 +49,7 @@ class TeamRequestService : Service {
 
                 TeamService.shared.getTeam(req.teamId, cb: { (error: String?, team: Team?) in
                     if(error != nil) {
-                        errorOccured = true;
+                        errorOccurred.value = true;
                         return;
                     }
 
@@ -58,7 +58,7 @@ class TeamRequestService : Service {
 
                     TournamentService.shared.getTournament(team!.tournamentId, cb: { (error: String?, tournament: Tournament?) in
                         if(error != nil) {
-                            errorOccured = true;
+                            errorOccurred.value = true;
                             return;
                         }
 
@@ -69,6 +69,10 @@ class TeamRequestService : Service {
             }
 
             group.notify(queue: .main) {
+                if(errorOccurred.value) {
+                    return cb(Constants.error.serverError, nil, nil, nil, nil);
+                }
+
                 return cb(nil, teamRequests, tournaments as? [Tournament], users as? [User], teams as? [Team]);
             }
         }

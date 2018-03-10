@@ -69,7 +69,7 @@ class SelectTeamViewController : UIViewController {
             }
 
             return DispatchQueue.main.async {
-                teamList.setTeams(teams!);
+                teamList.setData(teams: teams!, tournaments: [Tournament](repeating: self.tournament, count: teams!.count));
             }
         }
 
