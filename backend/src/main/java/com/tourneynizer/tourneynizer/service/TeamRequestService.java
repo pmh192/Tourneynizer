@@ -9,6 +9,7 @@ import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class TeamRequestService {
@@ -23,11 +24,18 @@ public class TeamRequestService {
         this.rosterDao = rosterDao;
     }
 
-    public void requestTeam(long id, User requester) throws BadRequestException {
-        Team team = teamDao.findById(id);
-        if (team == null) {
-            throw new BadRequestException("No team exists with id " + id);
-        }
+    private Team getTeam(long id) throws BadRequestException, InternalErrorException {
+        Team team;
+        try { team = teamDao.findById(id); }
+        catch (SQLException e) { throw new InternalErrorException(e); }
+
+        if (team == null) { throw new BadRequestException("No team exists with id " + id); }
+
+        return team;
+    }
+
+    public void requestTeam(long id, User requester) throws BadRequestException, InternalErrorException {
+        Team team = getTeam(id);
         // TODO don't allow requests for users already on a team
 
         try {
@@ -37,11 +45,8 @@ public class TeamRequestService {
         }
     }
 
-    public void requestUser(long teamId, User requested, User user) throws BadRequestException {
-        Team team = teamDao.findById(teamId);
-        if (team == null) {
-            throw new BadRequestException("No team exists with id " + teamId);
-        }
+    public void requestUser(long teamId, User requested, User user) throws BadRequestException, InternalErrorException {
+        Team team = getTeam(teamId);
 
         try {
             this.teamRequestDao.requestUser(requested, team, user);
@@ -50,8 +55,8 @@ public class TeamRequestService {
         }
     }
 
-    public void acceptUserRequest(User user, long teamId, long requestId) throws BadRequestException {
-        Team team = teamDao.findById(teamId);
+    public void acceptUserRequest(User user, long teamId, long requestId) throws BadRequestException, InternalErrorException {
+        Team team = getTeam(teamId);
         TeamRequest teamRequest = teamRequestDao.findById(requestId);
 
         if (teamRequest == null) {
@@ -79,10 +84,7 @@ public class TeamRequestService {
             throw new BadRequestException("This request isn't for you");
         }
 
-        Team team = teamDao.findById(teamRequest.getTeamId());
-        if (team == null) {
-            throw new InternalErrorException("teamRequest references non existant team");
-        }
+        Team team = getTeam(teamRequest.getTeamId());
 
         teamRequestDao.removeRequest(teamRequest);
         rosterDao.registerUser(user, team);
@@ -92,11 +94,8 @@ public class TeamRequestService {
         return teamRequestDao.getRequestsForUser(user);
     }
 
-    public List<TeamRequest> findAllRequestsForTeam(long teamId, User user) throws BadRequestException {
-        Team team = teamDao.findById(teamId);
-        if (team == null) {
-            throw new BadRequestException("No team exists with id " + teamId);
-        }
+    public List<TeamRequest> findAllRequestsForTeam(long teamId, User user) throws BadRequestException, InternalErrorException {
+        Team team = getTeam(teamId);
 
         if (team.getCreatorId() != user.getId()) {
             throw new BadRequestException("You are not the creator of this team");
@@ -109,11 +108,8 @@ public class TeamRequestService {
         return teamRequestDao.getRequestsByUser(user);
     }
 
-    public List<TeamRequest> findAllRequestsByTeam(long teamId, User user) throws BadRequestException {
-        Team team = teamDao.findById(teamId);
-        if (team == null) {
-            throw new BadRequestException("No team exists with id " + teamId);
-        }
+    public List<TeamRequest> findAllRequestsByTeam(long teamId, User user) throws BadRequestException, InternalErrorException {
+        Team team = getTeam(teamId);
 
         if (team.getCreatorId() != user.getId()) {
             throw new BadRequestException("You are not the creator of this team");
@@ -134,13 +130,13 @@ public class TeamRequestService {
         teamRequestDao.removeRequest(teamRequest);
     }
 
-    public void declineRequest(User user, long id) throws BadRequestException {
+    public void declineRequest(User user, long id) throws BadRequestException, InternalErrorException {
         TeamRequest teamRequest = teamRequestDao.findById(id);
         if (teamRequest == null) {
             throw new BadRequestException("Couldn't find a team request with id " + id);
         }
         if (teamRequest.getRequesterId() == teamRequest.getUserId()) { // User request
-            Team team = teamDao.findById(teamRequest.getTeamId());
+            Team team = getTeam(teamRequest.getTeamId());
             if (team.getCreatorId() != user.getId()) {
                 throw new BadRequestException("You are not the owner of this team");
             }

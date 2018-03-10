@@ -29,6 +29,16 @@ public class TournamentRequestService {
         this.tournamentDao = tournamentDao;
     }
 
+    private Team getTeam(long id) throws BadRequestException, InternalErrorException {
+        Team team;
+        try { team = teamDao.findById(id); }
+        catch (SQLException e) { throw new InternalErrorException(e); }
+
+        if (team == null) { throw new BadRequestException("No team exists with id " + id); }
+
+        return team;
+    }
+
     private Tournament getTournament(long id) throws BadRequestException, InternalErrorException{
         Tournament tournament;
         try {
@@ -46,11 +56,8 @@ public class TournamentRequestService {
     public TournamentRequest requestTournament(long tournamentId, long teamId, User user) throws BadRequestException,
             InternalErrorException {
         Tournament tournament = getTournament(tournamentId);
-        Team team = teamDao.findById(teamId);
+        Team team = getTeam(teamId);
 
-        if (team == null) {
-            throw new BadRequestException("Couldn't find team with id " + teamId);
-        }
         if (team.getTournamentId() != tournament.getId()) {
             throw new BadRequestException("That team is not playing in that tournament");
         }
