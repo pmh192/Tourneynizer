@@ -56,7 +56,7 @@ public class TournamentRequestService {
     public TournamentRequest requestTournament(long tournamentId, long teamId, User user) throws BadRequestException,
             InternalErrorException {
         Tournament tournament = getTournament(tournamentId);
-        Team team = getTeam(tournamentId);
+        Team team = getTeam(teamId);
 
         if (team.getTournamentId() != tournament.getId()) {
             throw new BadRequestException("That team is not playing in that tournament");
