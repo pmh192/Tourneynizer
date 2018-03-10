@@ -62,7 +62,7 @@ public class TeamRequestDao {
         }
 
         if (requested.getId() == requester.getId()) {
-            throw new IllegalArgumentException("You can't request yourself to join the team.")
+            throw new IllegalArgumentException("You can't request yourself to join the team.");
         }
 
         return insert(team.getId(), requested.getId(), requester.getId());
