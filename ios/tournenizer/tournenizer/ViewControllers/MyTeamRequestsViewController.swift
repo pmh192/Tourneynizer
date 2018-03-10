@@ -10,21 +10,21 @@ import Foundation;
 import UIKit;
 
 class MyTeamRequestsViewController : UIViewController {
-    let teamRequests = TeamRequestListViewController();
+    let teamRequestView = TeamRequestListViewController();
 
     override func loadView() {
         view = UIView();
         view.backgroundColor = Constants.color.white;
-        teamRequests.setReloadCallback {
+        teamRequestView.setReloadCallback {
             self.loadTeamRequests();
         }
-        teamRequests.setAcceptCallback(acceptRequest(_:index:));
-        teamRequests.setRejectCallback(rejectRequest(_:index:));
+        teamRequestView.setAcceptCallback(acceptRequest(_:index:));
+        teamRequestView.setRejectCallback(rejectRequest(_:index:));
         
-        addChildViewController(teamRequests);
-        teamRequests.view.frame = view.bounds;
-        view.addSubview(teamRequests.view);
-        teamRequests.didMove(toParentViewController: self);
+        addChildViewController(teamRequestView);
+        teamRequestView.view.frame = view.bounds;
+        view.addSubview(teamRequestView.view);
+        teamRequestView.didMove(toParentViewController: self);
 
         loadTeamRequests();
 
@@ -48,14 +48,11 @@ class MyTeamRequestsViewController : UIViewController {
     }
 
     func loadTeamRequests() {
-        TeamRequestService.shared.getRequestsForCurrentUser { (error: String?, requests: [TeamRequest]?) in
+        TeamRequestService.shared.getRequestsForCurrentUser { (error: String?, teamRequests: [TeamRequest]?, tournaments: [Tournament]?, users: [User]?) in
             if(error != nil) {
                 return;
             }
-
-            DispatchQueue.main.async {
-                self.teamRequests.setTeamRequests(requests!);
-            }
+            self.teamRequestView.setData(teamRequests: teamRequests!, tournaments: tournaments!, requesters: users!);
         }
     }
 }

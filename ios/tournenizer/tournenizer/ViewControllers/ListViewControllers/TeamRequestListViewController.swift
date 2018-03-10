@@ -11,6 +11,9 @@ import PureLayout;
 
 class TeamRequestListViewController : UITableViewController {
     var teamRequests: [TeamRequest] = [];
+    var tournaments: [Tournament] = [];
+    var users: [User] = [];
+
     let cellIdentifier = "TeamRequestCell";
     let cellSpacingHeight: CGFloat = 5;
     
@@ -23,8 +26,10 @@ class TeamRequestListViewController : UITableViewController {
         tableView.estimatedRowHeight = 50;
     }
 
-    func setTeamRequests(_ teamRequests: [TeamRequest]) {
+    func setData(teamRequests: [TeamRequest], tournaments: [Tournament], requesters: [User]) {
         self.teamRequests = teamRequests;
+        self.tournaments = tournaments;
+        self.users = requesters;
         self.tableView.reloadData();
     }
 
@@ -43,6 +48,8 @@ class TeamRequestListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TeamRequestCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? TeamRequestCellView;
+        cell?.setTournament(tournaments[indexPath.section]);
+        cell?.setRequester(users[indexPath.section]);
         cell?.setTeamRequest(teamRequests[indexPath.section]);
         cell?.setNeedsUpdateConstraints()
         cell?.updateConstraintsIfNeeded()

@@ -35,14 +35,17 @@ class TeamRequestCellView : UITableViewCell {
 
     func setTeamRequest(_ teamRequest: TeamRequest) {
         self.teamRequest = teamRequest;
+        self.nameLabel.text = "Fake Tournament";
     }
 
     func setTournament(_ tournament: Tournament) {
         self.tournament = tournament;
+        self.tournamentLabel.text = tournament.name;
     }
 
     func setRequester(_ requester: User) {
         self.requester = requester;
+        self.creatorLabel.text = requester.name;
     }
 
     func setupViews() {
@@ -54,7 +57,6 @@ class TeamRequestCellView : UITableViewCell {
             view.numberOfLines = 0;
             view.textColor = Constants.color.darkGray;
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
-            view.text = "Fake Tournament";
             return view;
         }();
 

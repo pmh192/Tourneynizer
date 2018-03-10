@@ -51,7 +51,7 @@ class Constants {
         class user {
             static let create = "/api/user/create";
             static let current = "/api/user/get";
-            static let requests = "/api/user/requests/pending";
+            static let requests = "/api/user/requests/sent";
             static let all = "/api/user/all";
             static func get(_ id: CUnsignedLong) -> String {
                 return "/api/user/" + id.description;
