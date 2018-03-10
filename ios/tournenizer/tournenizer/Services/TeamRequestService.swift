@@ -22,8 +22,6 @@ class TeamRequestService : Service {
                 return cb(Constants.error.genericError, nil, nil, nil);
             }
 
-            print(data?.toUtf8String());
-
             var users = [User?](repeating: nil, count: teamRequests!.count);
 
             let userGroup = DispatchGroup();
@@ -67,7 +65,7 @@ class TeamRequestService : Service {
     }
 
     func requestToJoinTeam(_ team: Team, cb: @escaping ((String?) -> Void)) {
-        makeRequest(url: Constants.route.team.joinTeam(id: team.id), type: .POST, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+        makeRequest(url: Constants.route.team.joinTeam(team.id), type: .POST, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             return cb(error);
         }
     }
@@ -75,6 +73,18 @@ class TeamRequestService : Service {
     func requestUserToJoinTeam(team: Team, user: User, cb: @escaping ((String?) -> Void)) {
         makeRequest(url: Constants.route.team.userJoinTeam(userId: user.id, teamId: team.id), type: .POST, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             return cb(error);
+        }
+    }
+
+    func acceptRequest(_ teamRequest: TeamRequest, cb: @escaping ((String?) -> Void)) {
+        makeRequest(url: Constants.route.teamRequest.accept(teamRequest.id), type: .POST, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            cb(error);
+        }
+    }
+
+    func rejectRequest(_ teamRequest: TeamRequest, cb: @escaping ((String?) -> Void)) {
+        makeRequest(url: Constants.route.teamRequest.reject(teamRequest.id), type: .DELETE, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            cb(error);
         }
     }
 };

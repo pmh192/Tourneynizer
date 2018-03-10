@@ -45,4 +45,19 @@ class TeamService : Service {
              return cb(nil, newTeam);
         };
     }
+
+    func getAllTeamsForCurrentUser(cb: @escaping ((String?, [Team]?) -> Void)) {
+        makeRequest(url: Constants.route.team.current, type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            if(error != nil) {
+                return cb(error, nil);
+            }
+
+            let teamList: [Team]? = self.decode(data!);
+            if(teamList == nil) {
+                return cb(error, nil);
+            }
+
+            return cb(nil, teamList);
+        }
+    }
 };

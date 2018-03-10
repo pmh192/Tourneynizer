@@ -33,6 +33,13 @@ class TeamRequestListViewController : UITableViewController {
         self.tableView.reloadData();
     }
 
+    func removeElementAtIndex(_ index: Int) {
+        teamRequests.remove(at: index);
+        tournaments.remove(at: index);
+        users.remove(at: index);
+        self.tableView.reloadData();
+    }
+
     // Ensures that the corresponding methods are only called once
     var didUpdateConstraints = false;
 

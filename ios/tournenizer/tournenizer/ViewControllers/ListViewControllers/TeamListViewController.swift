@@ -70,12 +70,6 @@ class TeamListViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cb?(teams[indexPath.section]);
-
-        if(cb == nil) {
-            let vc = TeamViewController();
-            vc.setTeam(teams[indexPath.section]);
-            self.navigationController?.pushViewController(vc, animated: true);
-        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,4 +84,17 @@ class TeamListViewController : UITableViewController {
             return UITableViewCell();
         }
     }
+
+    var reloadCallback: (() -> Void)?;
+
+    func setReloadCallback(_ cb: @escaping (() -> Void)) {
+        self.reloadCallback = cb;
+    }
+
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if(scrollView.contentOffset.y <= -50) {
+            reloadCallback?();
+        }
+    }
+
 }

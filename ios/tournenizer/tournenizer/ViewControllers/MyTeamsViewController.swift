@@ -15,8 +15,10 @@ class MyTeamsViewController : UIViewController {
         view = UIView();
         view.backgroundColor = Constants.color.white;
 
-        teamList.setTeams([]);
         teamList.tableView.allowsSelection = true;
+        teamList.setReloadCallback {
+            self.loadTeams();
+        }
 
         addChildViewController(teamList);
         teamList.view.frame = view.bounds;
@@ -24,6 +26,8 @@ class MyTeamsViewController : UIViewController {
         teamList.didMove(toParentViewController: self);
 
         view.setNeedsUpdateConstraints();
+
+        loadTeams();
     }
 
     // Ensures that the corresponding methods are only called once
@@ -37,6 +41,18 @@ class MyTeamsViewController : UIViewController {
         }
 
         super.updateViewConstraints();
+    }
+
+    func loadTeams() {
+        TeamService.shared.getAllTeamsForCurrentUser { (error: String?, teams: [Team]?) in
+            if(error != nil) {
+                return;
+            }
+
+            DispatchQueue.main.async {
+                self.teamList.setTeams(teams!);
+            }
+        }
     }
 }
 

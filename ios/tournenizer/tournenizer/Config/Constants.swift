@@ -36,6 +36,7 @@ class Constants {
 
     static let statusBarCoverHeight: CGFloat = 50;
     static let serverURL = "http://169.231.234.195:8080";
+    //static let serverURL = "http://localhost:8080";
 
     class error {
         static let serverError = "There was an error with the server.";
@@ -51,7 +52,7 @@ class Constants {
         class user {
             static let create = "/api/user/create";
             static let current = "/api/user/get";
-            static let requests = "/api/user/requests/sent";
+            static let requests = "/api/user/requests/pending";
             static let all = "/api/user/all";
             static func get(_ id: CUnsignedLong) -> String {
                 return "/api/user/" + id.description;
@@ -80,12 +81,24 @@ class Constants {
         };
 
         class team {
-            static func joinTeam(id: CUnsignedLong) -> String {
+            static func joinTeam(_ id: CUnsignedLong) -> String {
                 return "/api/team/" + id.description + "/request";
             }
 
             static func userJoinTeam(userId: CUnsignedLong, teamId: CUnsignedLong) -> String {
                 return "/api/user/" + userId.description + "/request/team/" + teamId.description;
+            }
+
+            static let current = "/api/team/getAll";
+        };
+
+        class teamRequest {
+            static func accept(_ id: CUnsignedLong) -> String {
+                return "/api/user/requests/" + id.description + "/accept";
+            }
+
+            static func reject(_ id: CUnsignedLong) -> String {
+                return "/api/requests/" + id.description;
             }
         };
     }

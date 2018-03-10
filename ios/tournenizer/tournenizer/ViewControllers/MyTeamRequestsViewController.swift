@@ -32,11 +32,31 @@ class MyTeamRequestsViewController : UIViewController {
     }
 
     func acceptRequest(_ teamRequest: TeamRequest, index: Int) {
+        TeamRequestService.shared.acceptRequest(teamRequest) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
 
+            return DispatchQueue.main.async {
+                self.teamRequestView.removeElementAtIndex(index);
+            }
+        }
     }
 
     func rejectRequest(_ teamRequest: TeamRequest, index: Int) {
+        TeamRequestService.shared.rejectRequest(teamRequest) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
 
+            return DispatchQueue.main.async {
+                self.teamRequestView.removeElementAtIndex(index);
+            }
+        }
     }
 
     // Ensures that the corresponding methods are only called once
@@ -52,6 +72,7 @@ class MyTeamRequestsViewController : UIViewController {
             if(error != nil) {
                 return;
             }
+            
             self.teamRequestView.setData(teamRequests: teamRequests!, tournaments: tournaments!, requesters: users!);
         }
     }
