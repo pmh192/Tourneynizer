@@ -24,7 +24,7 @@ public class MatchDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void insert(Match match, User user) throws SQLException {
+    public void insert(Match match) throws SQLException {
         if (match.isPersisted()) {
             throw new IllegalArgumentException("Match is already persisted");
         }
@@ -87,7 +87,7 @@ public class MatchDao {
             MatchStatus.values()[resultSet.getShort(18)]
     );
 
-    public Match findById(Long id) {
+    public Match findById(Long id) throws SQLException {
         String sql = "SELECT * FROM matches WHERE id=" + id + ";";
         try {
             return this.jdbcTemplate.queryForObject(sql, rowMapper);
@@ -106,4 +106,54 @@ public class MatchDao {
 //        String sql = "SELECT * FROM matches WHERE tournament=? AND finished=True;";
 //        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
 //    }
+
+    public void startMatch(Match match) {
+        String sql = "UPDATE matches SET status=? WHERE id=?";
+        int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.STARTED.ordinal(), match.getId()},
+                new int[] {Types.SMALLINT, Types.BIGINT});
+        if (updated == 1) {
+            match.setMatchStatus(MatchStatus.STARTED);
+        }
+    }
+
+    public void endMatch(Match match, long score1, long score2) {
+        String sql = "UPDATE matches SET status=?, score1=?, score2=? WHERE id=?;";
+        int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.COMPLETED.ordinal(), score1, score2, match.getId()},
+                new int[] {Types.SMALLINT, Types.BIGINT, Types.BIGINT, Types.BIGINT});
+
+        if (updated == 1) {
+            match.setMatchStatus(MatchStatus.COMPLETED);
+            match.setScore1(score1);
+            match.setScore2(score2);
+        }
+    }
+
+    public void updateScore(Match match, long score1, long score2) {
+        String sql = "UPDATE matches SET score1=?, score2=? WHERE id=?;";
+        int updated = jdbcTemplate.update(sql, new Object[]{score1, score2, match.getId()},
+                new int[] {Types.BIGINT, Types.BIGINT, Types.BIGINT});
+
+        if (updated == 1) {
+            match.setScore1(score1);
+            match.setScore2(score2);
+        }
+    }
+
+    private List<Match> getByStatus(Tournament tournament, MatchStatus matchStatus) {
+        String sql = "SELECT * FROM matches WHERE tournament=? AND status=?;";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId(), (short) matchStatus.ordinal()},
+                new int[]{Types.BIGINT, Types.SMALLINT}, rowMapper);
+    }
+
+    public List<Match> getCompleted(Tournament tournament) {
+        return getByStatus(tournament, MatchStatus.COMPLETED);
+    }
+
+    public List<Match> getUnstarted(Tournament tournament) {
+        return getByStatus(tournament, MatchStatus.CREATED);
+    }
+
+    public List<Match> getInProgress(Tournament tournament) {
+        return getByStatus(tournament, MatchStatus.STARTED);
+    }
 }

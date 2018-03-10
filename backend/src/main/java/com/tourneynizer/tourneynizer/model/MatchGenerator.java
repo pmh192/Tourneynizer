@@ -96,7 +96,7 @@ public class MatchGenerator {
 
             MatchChildren children = new MatchChildren(team1, team2, match1, match2);
             Match parent = new Match(tournament.getId(), children, order++, null, ScoreType.ONE_SET);
-            matchDao.insert(parent, user);
+            matchDao.insert(parent);
             tree.add(new MatchNode(parent, orderInserted++, Math.max(node1.height, node2.height) + 1));
             matches.add(parent);
         }
