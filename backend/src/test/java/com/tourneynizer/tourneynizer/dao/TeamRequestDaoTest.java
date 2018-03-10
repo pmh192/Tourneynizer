@@ -121,11 +121,12 @@ public class TeamRequestDaoTest extends TestWithContext {
 
     @Test
     public void getRequestsForUser() throws Exception {
-        User creator = getUser(10);
-        User user = getUser(0);
+        User creator = getUser(0);
+        User creator2 = getUser(1);
+        User user = getUser(2);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(creator, tournament, 0);
-        Team team2 = getTeam(creator, tournament, 1);
+        Team team2 = getTeam(creator2, tournament, 1);
 
         TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
         TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
@@ -138,11 +139,13 @@ public class TeamRequestDaoTest extends TestWithContext {
 
     @Test
     public void getRequestsByUser() throws Exception {
-        User creator = getUser(10);
-        User user = getUser(0);
+        User creator = getUser(0);
+        User creator2 = getUser(1);
+        User user = getUser(2);
+
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(creator, tournament, 0);
-        Team team2 = getTeam(creator, tournament, 1);
+        Team team2 = getTeam(creator2, tournament, 1);
 
         TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
         TeamRequest r2 = teamRequestDao.requestTeam(user, team2);
@@ -155,11 +158,12 @@ public class TeamRequestDaoTest extends TestWithContext {
 
     @Test
     public void getRequestsByTeam() throws Exception {
-        User creator = getUser(10);
-        User user = getUser(0);
+        User creator = getUser(0);
+        User creator2 = getUser(1);
+        User user = getUser(2);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(creator, tournament, 0);
-        Team team2 = getTeam(creator, tournament, 1);
+        Team team2 = getTeam(creator2, tournament, 1);
 
         TeamRequest r1 = teamRequestDao.requestUser(user, team1, creator);
         TeamRequest r2 = teamRequestDao.requestTeam(user, team2);

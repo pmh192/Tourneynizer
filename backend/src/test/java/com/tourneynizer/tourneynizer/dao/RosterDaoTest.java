@@ -5,7 +5,6 @@ import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,26 +55,25 @@ public class RosterDaoTest extends TestWithContext {
 
     @Test
     public void registerUser() throws Exception {
-        User user = getUser(1);
+        User creator = getUser(0);
+        User user1 = getUser(1);
         User user2 = getUser(2);
         User user3 = getUser(3);
-        Tournament tournament = getTournament(user);
-        Team team1 = getTeam(user, tournament);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(creator, tournament);
 
-        rosterDao.registerUser(user, team1);
+        rosterDao.registerUser(user1, team1);
 
         List<Long> ids = rosterDao.teamRoster(team1);
 
-        List<Long> expected = new ArrayList<>();
-        expected.add(user.getId());
+        List<Long> expected = Arrays.asList(creator.getId(), user1.getId());
 
         assertEquals(expected, ids);
 
         rosterDao.registerUser(user2, team1);
         rosterDao.registerUser(user3, team1);
 
-        expected.add(user2.getId());
-        expected.add(user3.getId());
+        expected = Arrays.asList(creator.getId(), user1.getId(), user2.getId(), user3.getId());
 
         assertEquals(expected, rosterDao.teamRoster(team1));
     }

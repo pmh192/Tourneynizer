@@ -55,9 +55,10 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void insert() throws Exception {
         User user = getUser(0);
+        User user2 = getUser(1);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 0);
-        Team team2 = getTeam(user, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 1);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
         Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
@@ -68,9 +69,10 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void insert2() throws Exception {
         User user = getUser(0);
+        User user2 = getUser(1);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 0);
-        Team team2 = getTeam(user, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 1);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
         Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
@@ -86,9 +88,10 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void insertBadId() throws Exception {
         User user = getUser(0);
+        User user2 = getUser(1);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
-        Team team2 = getTeam(user, tournament, 2);
+        Team team2 = getTeam(user2, tournament, 2);
 
         MatchChildren children;
 
@@ -116,9 +119,10 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void insertEquality() throws Exception {
         User user = getUser(0);
+        User user2 = getUser(1);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
-        Team team2 = getTeam(user, tournament, 2);
+        Team team2 = getTeam(user2, tournament, 2);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
         Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
@@ -132,9 +136,10 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void insertEquality2() throws Exception {
         User user = getUser(0);
+        User user2 = getUser(1);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
-        Team team2 = getTeam(user, tournament, 2);
+        Team team2 = getTeam(user2, tournament, 2);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
         Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
@@ -153,10 +158,12 @@ public class MatchDaoTest extends TestWithContext {
     @Test
     public void retrieve() throws Exception {
         User user = getUser(0);
+        User user2 = getUser(1);
+        User user3 = getUser(2);
         Tournament tournament = getTournament(user);
         Team team1 = getTeam(user, tournament, 1);
-        Team team2 = getTeam(user, tournament, 2);
-        Team team3 = getTeam(user, tournament, 3);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
         Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
