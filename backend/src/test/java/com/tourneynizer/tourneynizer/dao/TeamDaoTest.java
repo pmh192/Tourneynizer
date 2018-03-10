@@ -178,4 +178,25 @@ public class TeamDaoTest extends TestWithContext {
 
         assertEquals(expected, found);
     }
+
+    @Test
+    public void getTeamCreated() throws Exception {
+        User user = getUser(1);
+        Tournament tournament = getTournament(user);
+        Team team = getTeam(user, tournament, 0);
+
+        Team created = teamDao.getTeamCreated(tournament, user);
+        assertEquals(team, created);
+    }
+
+    @Test
+    public void getTeamCreatedNull() throws Exception {
+        User user = getUser(1);
+        User user2 = getUser(2);
+        Tournament tournament = getTournament(user);
+        getTeam(user, tournament, 0);
+
+        Team created = teamDao.getTeamCreated(tournament, user2);
+        assertNull(created);
+    }
 }

@@ -42,6 +42,8 @@ public class TeamRequestController {
             teamRequestService.requestTeam(id, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<Object>(Collections.emptyMap(), new HttpHeaders(), HttpStatus.OK);
@@ -77,7 +79,10 @@ public class TeamRequestController {
             teamRequestService.acceptUserRequest(user, teamId, requestId);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return null;
     }
 
@@ -129,6 +134,8 @@ public class TeamRequestController {
             requests = teamRequestService.findAllRequestsForTeam(id, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
@@ -142,6 +149,8 @@ public class TeamRequestController {
             requests = teamRequestService.findAllRequestsByTeam(id, user);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<Object>(requests, new HttpHeaders(), HttpStatus.OK);
@@ -155,6 +164,8 @@ public class TeamRequestController {
             teamRequestService.declineRequest(user, id);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(), HttpStatus.OK);
