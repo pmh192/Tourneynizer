@@ -8,39 +8,19 @@ import static org.junit.Assert.assertEquals;
 
 public class MatchChildrenTest {
     @Test
-    public void type1() throws Exception {
-        MatchChildren children = new MatchChildren(0L, 1L, null, null);
-        assertEquals(0L, children.first());
-        assertEquals(1L, children.second());
-    }
-
-    @Test
-    public void type2() throws Exception {
-        MatchChildren children = new MatchChildren(0L, null, 1L, null);
-        assertEquals(0L, children.first());
-        assertEquals(1L, children.second());
-
-        children = new MatchChildren(0L, null, null, 1L);
-        assertEquals(0L, children.first());
-        assertEquals(1L, children.second());
-
-        children = new MatchChildren(null, 0L, null, 1L);
-        assertEquals(0L, children.first());
-        assertEquals(1L, children.second());
-    }
-
-    @Test
-    public void type3() throws Exception {
-        MatchChildren children = new MatchChildren(null, null,0L, 1L);
-        assertEquals(0L, children.first());
-        assertEquals(1L, children.second());
-    }
-
-    @Test
     public void json() throws Exception {
-        MatchChildren children = new MatchChildren(0L, null, 1L, null);
+        MatchChildren children = new MatchChildren(null, null, 0L, 1L);
         String json = new ObjectMapper().writeValueAsString(children);
-        String expected = "[{\"id\":\"0\",\"type\":\"team\"},{\"id\":\"1\",\"type\":\"match\"}]";
+        String expected = "{\"teams\":[null,null],\"matches\":[{\"id\":0},{\"id\":1}]}";
+
+        assertEquals(expected, json);
+    }
+
+    @Test
+    public void json2() throws Exception {
+        MatchChildren children = new MatchChildren(null, 3L, 0L, 1L);
+        String json = new ObjectMapper().writeValueAsString(children);
+        String expected = "{\"teams\":[null,{\"id\":3}],\"matches\":[{\"id\":0},{\"id\":1}]}";
 
         assertEquals(expected, json);
     }
