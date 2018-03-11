@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { API_URL } from '../../resources/constants.jsx';
 
 class ProfileAboutPage extends Component{
@@ -44,7 +45,10 @@ class ProfileAboutPage extends Component{
 		}else{
 			return(
 				<div>
-					<Jumbotron><h1>{this.state.user.name}'s Profile</h1></Jumbotron>
+					<Jumbotron>
+						<h1>{this.state.user.name}'s Profile</h1>
+
+					</Jumbotron>
 				</div>
 			);
 		}
