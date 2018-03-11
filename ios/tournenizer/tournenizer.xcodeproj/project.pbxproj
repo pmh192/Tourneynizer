@@ -13,6 +13,7 @@
 		57050C79203A24FA00E2C222 /* TeamRequestListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57050C78203A24FA00E2C222 /* TeamRequestListViewController.swift */; };
 		57050C7B203A256600E2C222 /* MyTeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57050C7A203A256600E2C222 /* MyTeamsViewController.swift */; };
 		57050C7D203A258100E2C222 /* MyTournamentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */; };
+		570EF8FD2054BBAC006DA8E3 /* PlayerStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570EF8FC2054BBAC006DA8E3 /* PlayerStatistics.swift */; };
 		570FB2B62053148600EDBA63 /* RosterAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FB2B52053148600EDBA63 /* RosterAddViewController.swift */; };
 		570FB2B820533CFB00EDBA63 /* TeamRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FB2B720533CFB00EDBA63 /* TeamRequestService.swift */; };
 		570FB2BA20533D3700EDBA63 /* TeamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FB2B920533D3700EDBA63 /* TeamRequest.swift */; };
@@ -89,6 +90,7 @@
 		57050C78203A24FA00E2C222 /* TeamRequestListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRequestListViewController.swift; sourceTree = "<group>"; };
 		57050C7A203A256600E2C222 /* MyTeamsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTeamsViewController.swift; sourceTree = "<group>"; };
 		57050C7C203A258100E2C222 /* MyTournamentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTournamentsViewController.swift; sourceTree = "<group>"; };
+		570EF8FC2054BBAC006DA8E3 /* PlayerStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatistics.swift; sourceTree = "<group>"; };
 		570FB2B52053148600EDBA63 /* RosterAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterAddViewController.swift; sourceTree = "<group>"; };
 		570FB2B720533CFB00EDBA63 /* TeamRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRequestService.swift; sourceTree = "<group>"; };
 		570FB2B920533D3700EDBA63 /* TeamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRequest.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				57826E112037A1C800686493 /* Team.swift */,
 				5782517B2051FB3000A237DF /* ServerError.swift */,
 				570FB2B920533D3700EDBA63 /* TeamRequest.swift */,
+				570EF8FC2054BBAC006DA8E3 /* PlayerStatistics.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -661,6 +664,7 @@
 				5726EC82202B7BB9009BABE8 /* UsersViewController.swift in Sources */,
 				57B5B474201FE6B900C2C1DD /* CreateUserViewController.swift in Sources */,
 				57628F732039F5EF00E6C335 /* SelectTeamViewController.swift in Sources */,
+				570EF8FD2054BBAC006DA8E3 /* PlayerStatistics.swift in Sources */,
 				5725F66D2051C6E3001A79F2 /* RequestFactory.swift in Sources */,
 				5745BC7B2052785600CD5E96 /* TeamService.swift in Sources */,
 				570FEAB62026B3E900B94FD9 /* UIColorExtension.swift in Sources */,
