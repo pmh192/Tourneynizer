@@ -175,7 +175,7 @@ public class TeamRequestController {
     public ResponseEntity<?> approveRequest(@CookieValue("session") String session, @PathVariable("id") long id) {
         try {
             User user = sessionService.findBySession(session);
-            teamRequestService.acceptTeamRequest(id, user);
+            teamRequestService.acceptRequest(user, id);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {
