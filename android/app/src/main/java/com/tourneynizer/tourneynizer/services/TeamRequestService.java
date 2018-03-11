@@ -25,100 +25,114 @@ public class TeamRequestService {
         public void onTeamRequestsLoaded(TeamRequest[] teamRequests);
     }
 
-    public void sendRequestToTeam(Team t) {
+    public interface OnRequestCompletedListener {
+        public void onRequestCompleted(VolleyError error);
+    }
+
+    public void sendRequestToTeam(Team t, final OnRequestCompletedListener listener) {
         String url = HTTPService.DOMAIN + "team/" + t.getId() + "/request";
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Success", "Request Sent");
+                listener.onRequestCompleted(null);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 HTTPService.errorPrinterHelper(error);
+                listener.onRequestCompleted(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void sendRequestToUser(Team t, User u) {
+    public void sendRequestToUser(Team t, User u, final OnRequestCompletedListener listener) {
         String url = HTTPService.DOMAIN + "user/" + u.getId() + "/request/team/" + t.getId();
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Success", "Request Sent");
+                listener.onRequestCompleted(null);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 HTTPService.errorPrinterHelper(error);
+                listener.onRequestCompleted(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void acceptRequest(final TeamRequest teamRequest) {
+    public void acceptRequest(final TeamRequest teamRequest, final OnRequestCompletedListener listener) {
         UserService userService = new UserService();
         userService.getSelf(new UserService.OnUserLoadedListener() {
             @Override
             public void onUserLoaded(User user) {
                 if (user.getId() == teamRequest.getUserID()) {
-                    acceptRequestForUser(teamRequest);
+                    acceptRequestForUser(teamRequest, listener);
                 } else {
-                    acceptRequestForTeam(teamRequest);
+                    acceptRequestForTeam(teamRequest, listener);
                 }
             }
         });
     }
 
-    public void acceptRequestForTeam(TeamRequest tRequest) {
-        String url = HTTPService.DOMAIN + "team/" + tRequest.getTeamID() + "/request/" + tRequest.getID() + "/accept";
+    public void acceptRequestForTeam(TeamRequest tRequest, final OnRequestCompletedListener listener) {
+        String url = HTTPService.DOMAIN + "team/" + tRequest.getTeamID() + "/requests/" + tRequest.getID() + "/accept";
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Success", "Request Accepted");
+                listener.onRequestCompleted(null);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 HTTPService.errorPrinterHelper(error);
+                listener.onRequestCompleted(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void acceptRequestForUser(TeamRequest tRequest) {
+    public void acceptRequestForUser(TeamRequest tRequest, final OnRequestCompletedListener listener) {
         String url = HTTPService.DOMAIN + "user/requests/" + tRequest.getID() + "/accept";
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Success", "Request Accepted");
+                listener.onRequestCompleted(null);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 HTTPService.errorPrinterHelper(error);
+                listener.onRequestCompleted(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void declineRequest(TeamRequest tRequest) {
+    public void declineRequest(TeamRequest tRequest, final OnRequestCompletedListener listener) {
         String url = HTTPService.DOMAIN + "requests/" + tRequest.getID();
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Success", "Request declined");
+                listener.onRequestCompleted(null);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 HTTPService.errorPrinterHelper(error);
+                listener.onRequestCompleted(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);

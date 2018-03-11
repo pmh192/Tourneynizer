@@ -78,7 +78,7 @@ public class CreateTeamFragment extends Fragment {
             public void onTeamLoaded(Team team) {
                 if (team != null) {
                     Toast.makeText(getContext(), "Team was successfully made", Toast.LENGTH_SHORT).show();
-                    clearFields();
+                    goToTeamInfo(team);
                 } else {
                     showErrorMessage();
                 }
@@ -99,7 +99,10 @@ public class CreateTeamFragment extends Fragment {
         alertDialog.show();
     }
 
-    public void clearFields() {
-        nameField.setText(null);
+    public void goToTeamInfo(Team team) {
+        Fragment fragment = TeamInfoFragment.newInstance(team);
+        RootFragment parent = (RootFragment) getParentFragment();
+        parent.popFragment();
+        parent.pushFragment(fragment);
     }
 }

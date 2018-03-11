@@ -187,7 +187,7 @@ public class CreateTournamentFragment extends Fragment {
                         public void onTournamentLoaded(Tournament tournament) {
                             if (tournament != null) {
                                 Toast.makeText(getContext(), "Tournament was created successfully", Toast.LENGTH_SHORT).show();
-                                clearFields();
+                                goToTournamentInfo(tournament);
                             } else {
                                 showErrorMessage();
                             }
@@ -236,16 +236,9 @@ public class CreateTournamentFragment extends Fragment {
 		}
 	}
 
-	private void clearFields() {
-        nameField.setText(null);
-        description.setText(null);
-        tournamentTypes.setSelection(0);
-        locationLabel.setText(null);
-        place = null;
-        dateLabel.setText(null);
-        timeLabel.setText(null);
-        teamSize.setText(null);
-        maxTeams.setText(null);
+	private void goToTournamentInfo(Tournament t) {
+	    Fragment fragment = TournamentInfoFragment.newInstance(t);
+		((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 
 	@Override

@@ -81,19 +81,19 @@ public class TeamRequestListFragment extends UIQueueFragment {
         listAdapter.clear();
         if (swipeRefresher != null) {
             swipeRefresher.setRefreshing(true);
-            teamRequestService.getRequestsForTeam(team, new TeamRequestService.OnTeamRequestsLoadedListener() {
-                @Override
-                public void onTeamRequestsLoaded(final TeamRequest[] teamRequests) {
-                    performUITask(new Runnable() {
-                        @Override
-                        public void run() {
-                            listAdapter.addAll(teamRequests);
-                            swipeRefresher.setRefreshing(false);
-                        }
-                    });
-                }
-            });
         }
+        teamRequestService.getRequestsForTeam(team, new TeamRequestService.OnTeamRequestsLoadedListener() {
+            @Override
+            public void onTeamRequestsLoaded(final TeamRequest[] teamRequests) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter.addAll(teamRequests);
+                        swipeRefresher.setRefreshing(false);
+                    }
+                });
+            }
+        });
     }
 
     @Override

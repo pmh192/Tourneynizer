@@ -1,14 +1,18 @@
 package com.tourneynizer.tourneynizer.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
@@ -69,18 +73,41 @@ public class UserProfileFragment extends Fragment {
         gamesWon.setText(String.format(Locale.getDefault(), "%d", user.getWins()));
         TextView gamesLost = view.findViewById(R.id.gamesLost);
         gamesLost.setText(String.format(Locale.getDefault(), "%d", user.getLosses()));
-        View requestButton = view.findViewById(R.id.registerButton);
+        final View requestButton = view.findViewById(R.id.registerButton);
         if (team == null) {
             requestButton.setVisibility(View.GONE);
         } else {
             requestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    teamRequestService.sendRequestToUser(team, user);
+                    teamRequestService.sendRequestToUser(team, user, new TeamRequestService.OnRequestCompletedListener() {
+                        @Override
+                        public void onRequestCompleted(VolleyError error) {
+                            if (error == null) {
+                                Toast.makeText(getContext(), "Request was sent to " + user.getName(), Toast.LENGTH_SHORT).show();
+                                requestButton.setVisibility(View.GONE);
+                            } else {
+                                showErrorDialogue();
+                            }
+                        }
+                    });
                 }
             });
         }
         return view;
+    }
+
+    private void showErrorDialogue() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle("Couldn't Send Request");
+        alertDialog.setMessage("Can't send a request to " + user.getName() + ". Make sure that they aren't already part of another team for this tournament");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override
