@@ -47,7 +47,6 @@ class ProfileAboutPage extends Component{
 				<div>
 					<Jumbotron>
 						<h1>{this.state.user.name}'s Profile</h1>
-
 					</Jumbotron>
 				</div>
 			);

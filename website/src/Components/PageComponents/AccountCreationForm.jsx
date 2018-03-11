@@ -13,6 +13,7 @@ class AccountCreationForm extends Component{
 			confirmPassword: '',
 			firstName: '',
 			lastName: '',
+			submitted: false,
 		};
 
 		this.onSubmit.bind(this);
@@ -68,7 +69,6 @@ class AccountCreationForm extends Component{
 			this.getPasswordValidationState() === 'success' && 
 			this.getEmailValidationState() === 'success'
 		){
-			let shouldRefresh = false;
 			let fullName = this.state.firstName + ' ' + this.state.lastName;
 			var data = {
 				email: this.state.email,
@@ -86,8 +86,11 @@ class AccountCreationForm extends Component{
 				})
 				.then(function (response) {
 					if(response.status === 200){
-						shouldRefresh = true;
-						alert('Account created!');
+						//if server successfully creates the account
+						//alert('Account created!');
+						this.setState({
+							submitted: true,
+						})
 					}else{
 						alert('Error with account creation');
 					}
@@ -95,17 +98,17 @@ class AccountCreationForm extends Component{
 				.catch(function (error) {
 					console.log(error);
 				})
-			if(!shouldRefresh){
-				console.log('shouldn\'t refresh');
-				e.preventDefault();
-			}
+			e.preventDefault();
 		}
 	}
 
 	render(){
-		return(
+		if(this.state.submitted){
+			window.location.reload();
+		}else{
+			return(
 				<div  className='FormStyling'>
-					<Form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
+					<Form horizontal='true' onSubmit={this.onSubmit}>
 						<FormGroup
 							controlId="firstName"
 							validationState={this.getNameValidationState()}
@@ -180,7 +183,8 @@ class AccountCreationForm extends Component{
 						<Button type="submit">Sign up</Button>
 					</Form>
 				</div>
-		);
+			);
+		}
 	}
 }
 

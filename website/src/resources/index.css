@@ -25,6 +25,17 @@ div.btn-group > a > .btn-primary:hover, div.btn-group > a > .btn-primary:focus{
 	background-color: grey;
 }
 
+/*Change options on navbar text items (signed in as:)*/
+p.navbar-text {
+	margin-top: 5px;
+	font-size: 15px;
+}
+
+/*make signed in black*/
+.navbar-default .navbar-text {
+	color: #000000;
+}
+
 .navbar {
 	margin-bottom: 0px;
 }

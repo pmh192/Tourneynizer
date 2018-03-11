@@ -9,7 +9,7 @@ class LoginPageForm extends Component{
 		this.state = {
 			email: '',
 			password: '',
-			name: '',
+			submitted: false,
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -40,51 +40,56 @@ class LoginPageForm extends Component{
 			if(response.status === 200){
 				response.json().then( json => {
 					this.props.getUserInfo(json);
+					this.setState({
+						submitted: true,
+					})
 				})
 			}
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
-		console.log(this.state.email);
-		console.log(document.cookie);
 		e.preventDefault();
     }
 
 	render(){
-		return(
-			<div className='FormStyling'>
-				<Form horizontal='true' onSubmit={this.handleSubmit}>
-					<FormGroup
-						controlId="email"
-						>
+		if(!this.state.submitted){
+			return(
+				<div className='FormStyling'>
+					<Form horizontal='true' onSubmit={this.handleSubmit}>
+						<FormGroup
+							controlId="email"
+							>
+							<Col>
+								<FormControl
+									type="email"
+									value={this.state.email}
+									placeholder="Email address"
+									onChange={this.handleChange}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup
+							controlId="password"
+							>
+							<Col>
+								<FormControl
+									type="password"
+									value={this.state.password}
+									placeholder="Enter Your Password"
+									onChange={this.handleChange}
+								/>
+							</Col>
+						</FormGroup>
 						<Col>
-							<FormControl
-								type="email"
-								value={this.state.email}
-								placeholder="Email address"
-								onChange={this.handleChange}
-							/>
+							<Button type="submit">Sign in</Button>
 						</Col>
-					</FormGroup>
-					<FormGroup
-						controlId="password"
-						>
-						<Col>
-							<FormControl
-								type="password"
-								value={this.state.password}
-								placeholder="Enter Your Password"
-								onChange={this.handleChange}
-							/>
-						</Col>
-					</FormGroup>
-					<Col>
-						<Button type="submit">Sign in</Button>
-					</Col>
-				</Form>
-			</div>
-		);
+					</Form>
+				</div>
+			);
+		}else{
+			window.location.reload();
+		}
 	}
 }
 

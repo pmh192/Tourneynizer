@@ -67,6 +67,8 @@ class TournamentCreationForm extends Component{
 				response.json().then( json => {
 					console.log(json);
 				})
+			}else{
+				alert('You must be logged in to create a Tournament');
 			}
 		})
 		.catch(function (error) {
