@@ -154,7 +154,7 @@ public class TeamRequestService {
     }
 
     public void acceptRequest(User user, long id) throws BadRequestException, InternalErrorException {
-        TeamRequest request = teamRequestDao.findById(id);
+        TeamRequest request = findById(id);
 
         if(request.getRequesterId() == request.getUserId()) {
             acceptUserRequest(user, request.getTeamId(), request.getId());
