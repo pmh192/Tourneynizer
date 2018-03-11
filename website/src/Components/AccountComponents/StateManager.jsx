@@ -56,7 +56,7 @@ class StateManager extends Component{
 					<Route exact path="/Tournaments/join/:tourneyId" component={TournamentJoinPage} />
 					<Route exact path="/Tournaments/rules" component={TournamentRulesPage} />
 					<Route exact path="/Teams/view/:tourneyId" component={TeamsViewPage} />
-					<Route exact path="/Teams/create/" component={TeamCreationPage} />
+					<Route exact path="/Teams/create/:tourneyId" component={TeamCreationPage} />
 					<Route exact path="/Profile/view" component={ProfileAboutPage} />
 					<Route exact path="/Profile/current" component={ProfileCurrentPage} />
 					<Route exact path="/Profile/history" component={ProfileHistoryPage} />

@@ -60,7 +60,7 @@ class TournamentJoinPage extends Component{
 						<h3>You are viewing Tournament: "{this.state.name}"</h3>
 						<ButtonGroup>
 							<Link to={'/Teams/view/' + this.state.id}><Button>Join a Team</Button></Link>
-							<Link to={'/Teams/create/'}><Button>Create a team</Button></Link>
+							<Link to={'/Teams/create/' + this.state.id}><Button>Create a team</Button></Link>
 						</ButtonGroup>
 						<div><GoogleMapsView address={this.state.address} latitude={this.state.latitude} longitude={this.state.longitude}/></div>
 					</Jumbotron>
