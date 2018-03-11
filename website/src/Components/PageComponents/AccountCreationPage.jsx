@@ -5,7 +5,7 @@ import AccountCreationForm from './AccountCreationForm'
 class AccountCreationPage extends Component {
 	render() {
 		return (
-			<div>
+			<div className= 'MarginSpacer'>
 				<Jumbotron>
 					<h1>Create an account</h1>
 					<AccountCreationForm />

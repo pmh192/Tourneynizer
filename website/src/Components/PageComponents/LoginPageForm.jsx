@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, Col, Button} from 'react-bootstrap';
-import '../../resources/index.css'
+import { Form, FormGroup, FormControl, Col, Button} from 'react-bootstrap';
+import '../../resources/index.css';
+import { API_URL } from '../../resources/constants.jsx';
 
 class LoginPageForm extends Component{
 	constructor(){
@@ -20,7 +21,7 @@ class LoginPageForm extends Component{
 
     handleSubmit(e) {
     	console.log('submitting')
-    	let apiURL = 'http://169.231.234.195:8080/api/auth/login';
+    	let apiURL = API_URL + 'api/auth/login';
     	let data = {
     		email: this.state.email,
     		password: this.state.password,
@@ -32,6 +33,8 @@ class LoginPageForm extends Component{
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
+ 			credentials: 'include',
+			
 		})
 		.then( response => {
 			if(response.status === 200){
@@ -44,13 +47,14 @@ class LoginPageForm extends Component{
 			console.log(error);
 		})
 		console.log(this.state.email);
+		console.log(document.cookie);
 		e.preventDefault();
     }
 
 	render(){
 		return(
-			<div className='LoginForm'>
-				<form horizontal='true' onSubmit={this.handleSubmit}>
+			<div className='FormStyling'>
+				<Form horizontal='true' onSubmit={this.handleSubmit}>
 					<FormGroup
 						controlId="email"
 						>
@@ -78,7 +82,7 @@ class LoginPageForm extends Component{
 					<Col>
 						<Button type="submit">Sign in</Button>
 					</Col>
-				</form>
+				</Form>
 			</div>
 		);
 	}
