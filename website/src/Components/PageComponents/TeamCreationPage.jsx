@@ -27,7 +27,7 @@ class TeamCreationPage extends Component{
 	//handles submission of the form
 	handleSubmit(e){
 		console.log('submitting')
-    	let apiURL = API_URL + '/api/tournament/' + this.state.tournament.id + '/team/create';
+    	let apiURL = API_URL + 'api/tournament/' + this.state.tournament.id + '/team/create';
     	let data = {
 			name:this.state.name,
 			tournamentId:this.state.tournament.id,
