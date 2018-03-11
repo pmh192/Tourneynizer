@@ -16,7 +16,7 @@ class AccountCreationForm extends Component{
 			submitted: false,
 		};
 
-		this.onSubmit.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	handleChange(e) {
@@ -63,6 +63,7 @@ class AccountCreationForm extends Component{
 	}
 
 	onSubmit(e){
+
 		//send user creation request to server
 		if(
 			this.getConfirmPasswordValidationState() === 'success' && 
@@ -77,38 +78,36 @@ class AccountCreationForm extends Component{
 			};
 			fetch(API_URL + 'api/user/create', {
 					method: 'POST',
-					mode: 'cors',
 					body: JSON.stringify(data),
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
 					},
-				})
-				.then(function (response) {
-					if(response.status === 200){
-						//if server successfully creates the account
-						//alert('Account created!');
-						this.setState({
-							submitted: true,
-						})
-					}else{
-						alert('Error with account creation');
-					}
-				})
-				.catch(function (error) {
-					console.log(error);
-				})
-			e.preventDefault();
+					include:'credentials',
+			})
+			.then((response) => {
+				if(response.status === 200){
+					//if server successfully creates the account
+					alert('Account created!');
+					this.setState({
+						submitted: true,
+					})
+				}else{
+					alert('Error with account creation');
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
 		}
+		e.preventDefault();
 	}
 
 	render(){
-		if(this.state.submitted){
-			window.location.reload();
-		}else{
+		if(!this.state.submitted){
 			return(
 				<div  className='FormStyling'>
-					<Form horizontal='true' onSubmit={this.onSubmit}>
+					<Form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
 						<FormGroup
 							controlId="firstName"
 							validationState={this.getNameValidationState()}
@@ -184,6 +183,8 @@ class AccountCreationForm extends Component{
 					</Form>
 				</div>
 			);
+		}else{
+			window.location.reload();
 		}
 	}
 }
