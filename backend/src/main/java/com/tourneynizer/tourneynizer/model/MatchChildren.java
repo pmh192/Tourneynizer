@@ -20,16 +20,6 @@ public class MatchChildren {
             throw new IllegalArgumentException("Two teams cannot play each other");
         }
 
-        if (team1 == null) {
-            team1 = team2;
-            team2 = null;
-        }
-
-        if (match1 == null) {
-            match1 = match2;
-            match2 = null;
-        }
-
         this.matchChild1 = match1;
         this.matchChild2 = match2;
         this.teamChild1 = team1;
@@ -37,22 +27,6 @@ public class MatchChildren {
 
         if (this.teamChild1 != null) { knownTeamChildren.add(this.teamChild1); }
         if (this.teamChild2 != null) { knownTeamChildren.add(this.teamChild2); }
-    }
-
-    public long first() {
-        if (teamChild1 != null) {
-            return teamChild1;
-        }
-        return matchChild1;
-    }
-
-    public long second() {
-        if (teamChild1 != null) {
-            if (teamChild2 != null) { return teamChild2; }
-            return matchChild1;
-        }
-
-        return matchChild2;
     }
 
     @JsonIgnore
@@ -79,21 +53,6 @@ public class MatchChildren {
     public Set<Long> getKnownTeamChildren() {
         return knownTeamChildren;
     }
-
-    Map<String, String> jsonFirst() {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", teamChild1 != null ? "team" : "match");
-        map.put("id", "" + first());
-        return map;
-    }
-
-    Map<String, String> jsonSecond() {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", teamChild2 != null ? "team" : "match");
-        map.put("id", "" + second());
-        return map;
-    }
-
 
 
     @Override

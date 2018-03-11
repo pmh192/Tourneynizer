@@ -131,7 +131,7 @@ public class MatchGeneratorTest extends TestWithContext{
         assertEquals(2, actual.size());
         Match finalMatch = actual.get(1);
         MatchChildren children = finalMatch.getMatchChildren();
-        assertTrue(children.first() == team3.getId() || children.second() == team3.getId());
+        assertTrue(children.getKnownTeamChildren().contains(team3.getId()));
     }
 
 }
