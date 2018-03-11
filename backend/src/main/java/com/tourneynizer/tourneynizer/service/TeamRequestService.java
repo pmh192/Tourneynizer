@@ -152,4 +152,23 @@ public class TeamRequestService {
             throw new BadRequestException(e.getMessage());
         }
     }
+
+    public void acceptRequest(User user, long id) throws BadRequestException, InternalErrorException {
+        TeamRequest request = teamRequestDao.findById(id);
+
+        if(request.getRequesterId() == request.getUserId()) {
+            acceptUserRequest(user, request.getTeamId(), request.getId());
+        } else {
+            acceptTeamRequest(request.getId(), user);
+        }
+    }
+
+    public TeamRequest findById(long id) throws BadRequestException {
+        TeamRequest teamRequest = teamRequestDao.findById(id);
+        if (teamRequest == null) {
+            throw new BadRequestException("The team request does not exist.");
+        }
+
+        return teamRequest;
+    }
 }

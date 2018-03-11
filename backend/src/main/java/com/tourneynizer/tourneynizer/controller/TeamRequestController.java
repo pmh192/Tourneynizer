@@ -170,4 +170,18 @@ public class TeamRequestController {
 
         return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(), HttpStatus.OK);
     }
+
+    @GetMapping("/api/requests/{id}/accept")
+    public ResponseEntity<?> approveRequest(@CookieValue("session") String session, @PathVariable("id") long id) {
+        try {
+            User user = sessionService.findBySession(session);
+            teamRequestService.acceptTeamRequest(id, user);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(), HttpStatus.OK);
+    }
 }
