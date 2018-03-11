@@ -2,14 +2,21 @@ package com.tourneynizer.tourneynizer.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.credentials.Credential;
+import com.google.android.gms.auth.api.credentials.Credentials;
+import com.google.android.gms.auth.api.credentials.CredentialsClient;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.services.UserService;
@@ -17,6 +24,8 @@ import com.tourneynizer.tourneynizer.services.UserService;
 import static com.tourneynizer.tourneynizer.activities.LaunchActivity.CREDENTIAL;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private static final int RESOLVE_CODE_WRITE = 1;
 
     private UserService userService;
 
@@ -67,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onUserLoaded(User user) {
                             if (user != null) {
+                                storeCredentials();
                                 goToMain(user);
                             } else {
                                 showErrorMessage();
@@ -84,6 +94,37 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+	private void storeCredentials() {
+		TextView emailText = findViewById(R.id.email);
+		TextView passwordText = findViewById(R.id.password);
+		Credential credential = new Credential.Builder(emailText.getText().toString()).setPassword(passwordText.getText().toString()).build();
+		CredentialsClient credentialsClient = Credentials.getClient(this);
+		credentialsClient.save(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+			@Override
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful()) {
+					Log.d("Hype", "SAVE: OK");
+				} else {
+                    Exception err = task.getException();
+                    if (err instanceof ResolvableApiException) {
+                        // Try to resolve the save request. This will prompt the user if
+                        // the credential is new.
+                        ResolvableApiException rae = (ResolvableApiException) err;
+                        try {
+                            rae.startResolutionForResult(RegisterActivity.this, RESOLVE_CODE_WRITE);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Could not resolve the request
+                            Log.e("Error", "Failed to send resolution.", e);
+                        }
+                    } else {
+                        Log.e("Error", "Failed to send resolution.", err);
+                        // Request has no resolution
+                    }
+                }
+			}
+		});
+	}
 
     private void showErrorMessage() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();

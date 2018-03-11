@@ -46,4 +46,6 @@
     <string name="viewRequests">View Requests</string>
     <string name="requestPlayers">Find Players</string>
     <string name="requestPlayer">Request Player</string>
+    <string name="startTournament">Start Tournament</string>
+    <string name="matches">Matches</string>
 </resources>

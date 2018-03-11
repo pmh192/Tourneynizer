@@ -34,6 +34,10 @@ public class TournamentService {
         void onTournamentsLoaded(Tournament[] tournaments);
     }
 
+    public interface OnErrorListener {
+        void onError(VolleyError error);
+    }
+
     public void getFromId(long id, final OnTournamentLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + id;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -130,18 +134,20 @@ public class TournamentService {
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void startTournament(Tournament t) {
+    public void startTournament(Tournament t, final OnErrorListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/start";
         CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
         Request request = cookieRequestFactory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Success", "Tournament has been started");
+                listener.onError(null);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 HTTPService.errorPrinterHelper(error);
+                listener.onError(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
+import android.util.Pair;
 
+import com.tourneynizer.tourneynizer.model.Match;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.Tournament;
@@ -43,6 +45,17 @@ public class JSONConverter {
             throw new NullPointerException();
         }
         return jsonConverter;
+    }
+
+    private Object nullableRetrieverHelper(JSONObject j, String name) {
+        if (j.isNull(name)) {
+            return null;
+        }
+        try {
+            return j.get(name);
+        } catch (JSONException e) {
+            return null;
+        }
     }
 
     public Tournament convertJSONToTournament(JSONObject tJSON) {
@@ -111,13 +124,40 @@ public class JSONConverter {
         return t;
     }
 
+    public Match convertJSONToMatch(JSONObject mJSON) {
+        Match m;
+        try {
+            Long refereeID = (Long) nullableRetrieverHelper(mJSON, "getRefId");
+            JSONObject children = mJSON.getJSONObject("matchChildren");
+            JSONObject teams = children.getJSONObject("teams");
+            JSONObject matches = children.getJSONObject("matches");
+            Long team1ID = (Long) nullableRetrieverHelper(teams, "id");
+            Long team2ID = (Long) nullableRetrieverHelper(teams, "id");
+            Long child1ID = (Long) nullableRetrieverHelper(teams, "id");
+            Long child2ID = (Long) nullableRetrieverHelper(teams, "id");
+            Long score1 = (Long) nullableRetrieverHelper(mJSON, "score1");
+            Long score2 = (Long) nullableRetrieverHelper(mJSON, "score2");
+            Long time1 = (Long) nullableRetrieverHelper(mJSON, "timeStart");
+            Time startTime = null;
+            if (time1 != null) {
+                startTime = new Time(time1);
+            }
+            Long time2 = (Long) nullableRetrieverHelper(mJSON, "timeEnd");
+            Time endTime = null;
+            if (time2 != null) {
+                endTime = new Time(time2);
+            }
+            m = new Match(mJSON.getLong("id"), mJSON.getLong("tournamentId"), mJSON.getInt("matchOrder"), refereeID,  team1ID, team2ID, score1, score1, child1ID, child2ID, mJSON.getString("scoreType"), startTime, endTime);
+        } catch (JSONException e) {
+            m = null;
+        }
+        return m;
+    }
+
     public TeamRequest convertJSONToTeamRequest(JSONObject tRequestJSON) {
         TeamRequest tRequest;
         try {
-            Boolean accepted = null;
-            if (!tRequestJSON.isNull("accepted")) {
-                accepted = tRequestJSON.getBoolean("accepted");
-            }
+            Boolean accepted = (Boolean) nullableRetrieverHelper(tRequestJSON, "accepted");
             tRequest = new TeamRequest(tRequestJSON.getLong("id"), tRequestJSON.getLong("teamId"), tRequestJSON.getLong("userId"), tRequestJSON.getLong("requesterId"), accepted, new Time(tRequestJSON.getLong("timeRequested")));
         } catch (JSONException e) {
             tRequest = null;

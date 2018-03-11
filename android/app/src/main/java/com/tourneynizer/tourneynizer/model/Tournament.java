@@ -38,6 +38,7 @@ public class Tournament implements Parcelable {
     private Bitmap logo;
     private long creatorUserID;
     private boolean cancelled;
+    public String status;
 
     public Tournament(Tournament t) {
         this(t.id, t.name, t.description, t.address, t.startTime, t.endTime, t.maxTeams, t.currentTeams, t.timeCreated, t.tournamentType, t.logo, t.creatorUserID, t.cancelled);
@@ -76,6 +77,7 @@ public class Tournament implements Parcelable {
         logo = in.readParcelable(Bitmap.class.getClassLoader());
         creatorUserID = in.readLong();
         cancelled = in.readByte() == 1;
+        status = in.readString();
     }
 
     public long getID() {
@@ -130,6 +132,14 @@ public class Tournament implements Parcelable {
         return cancelled;
     }
 
+    public boolean hasStarted() {
+        return !status.equals("CREATED");
+    }
+
+    public boolean hasFinished() {
+        return status.equals("FINISHED");
+    }
+
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeLong(id);
@@ -144,6 +154,7 @@ public class Tournament implements Parcelable {
         out.writeParcelable(logo, flags);
         out.writeLong(creatorUserID);
         out.writeByte((byte) (cancelled ? 1 : 0));
+        out.writeString(status);
     }
 
     @Override
