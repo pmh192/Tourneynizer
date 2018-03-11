@@ -52,10 +52,10 @@ class Constants {
         class user {
             static let create = "/api/user/create";
             static let current = "/api/user/get";
-            static let requests = "/api/user/requests/pending";
+
             static let all = "/api/user/all";
             static func get(_ id: CUnsignedLong) -> String {
-                return "/api/user/" + id.description;
+                return "/api/user/\(id)";
             }
         };
 
@@ -64,44 +64,59 @@ class Constants {
             static let create = "/api/tournament/create";
             static let mine = "/api/tournament/getAllCreated";
             static func get(_ id: CUnsignedLong) -> String {
-                return "/api/tournament/" + id.description;
+                return "/api/tournament/\(id)";
             }
 
             static func teamAll(_ id: CUnsignedLong) -> String {
-                return "/api/tournament/" + id.description + "/team/all";
+                return "/api/tournament/\(id)/team/all";
             }
 
             static func teamComplete(_ id: CUnsignedLong) -> String {
-                return "/api/tournament/" + id.description + "/team/complete";
+                return "/api/tournament/\(id)/team/complete";
             }
 
             static func createTeam(_ id: CUnsignedLong) -> String {
-                return "/api/tournament/" + id.description + "/team/create";
+                return "/api/tournament/\(id)/team/create";
             }
         };
 
         class team {
-            static func joinTeam(_ id: CUnsignedLong) -> String {
-                return "/api/team/" + id.description + "/request";
-            }
-
-            static func userJoinTeam(userId: CUnsignedLong, teamId: CUnsignedLong) -> String {
-                return "/api/user/" + userId.description + "/request/team/" + teamId.description;
-            }
-
             static let current = "/api/team/getAll";
             static func get(_ id: CUnsignedLong) -> String {
-                return "/api/team/" + id.description;
+                return "/api/team/\(id)";
+            }
+
+            static func getMembers(_ id: CUnsignedLong) -> String {
+                return "/api/team/\(id)/getMembers";
             }
         };
 
         class teamRequest {
+            static let pendingUserRequests = "/api/user/requests/pending";
+            static let sentUserRequests = "/api/user/requests/sent";
+
+            static func pendingTeamRequests(_ id: CUnsignedLong) -> String {
+                return "/api/team/\(id)/requests/pending";
+            }
+
+            static func sentTeamRequests(_ id: CUnsignedLong) -> String {
+                return "/api/team/\(id)/requests/sent";
+            }
+
+            static func requestJoinTeam(_ id: CUnsignedLong) -> String {
+                return "/api/team/\(id)/request";
+            }
+
+            static func requestUserJoinTeam(userId: CUnsignedLong, teamId: CUnsignedLong) -> String {
+                return "/api/user/\(userId)/request/team/\(teamId)";
+            }
+
             static func accept(_ id: CUnsignedLong) -> String {
-                return "/api/user/requests/" + id.description + "/accept";
+                return "/api/user/requests/\(id)/accept";
             }
 
             static func reject(_ id: CUnsignedLong) -> String {
-                return "/api/requests/" + id.description;
+                return "/api/requests/\(id)";
             }
         };
     }

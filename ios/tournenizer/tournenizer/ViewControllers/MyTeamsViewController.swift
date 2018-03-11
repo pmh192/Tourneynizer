@@ -20,6 +20,8 @@ class MyTeamsViewController : UIViewController {
             self.loadTeams();
         }
 
+        teamList.setSelectCallback(selectTeam(_:))
+
         addChildViewController(teamList);
         teamList.view.frame = view.bounds;
         view.addSubview(teamList.view);
@@ -53,6 +55,12 @@ class MyTeamsViewController : UIViewController {
                 self.teamList.setData(teams: teams!, tournaments: tournaments!);
             }
         }
+    }
+
+    func selectTeam(_ team: Team) {
+        let vc = TeamViewController();
+        vc.setTeam(team);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 }
 
