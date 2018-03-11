@@ -71,7 +71,7 @@ public class TeamRequestService {
         }
 
         teamRequestDao.removeRequest(teamRequest);
-        rosterDao.registerUser(user, team);
+        rosterDao.registerUser(teamRequest.getUserId(), team);
     }
 
     public void acceptTeamRequest(long requestId, User user) throws BadRequestException, InternalErrorException {

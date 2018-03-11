@@ -18,7 +18,8 @@ public class RosterDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    static void registerUser(User user, Team team, boolean isLeader, JdbcTemplate jdbcTemplate) {
+
+    static void registerUser(long userId, Team team, boolean isLeader, JdbcTemplate jdbcTemplate) {
         String sql = "INSERT INTO roster (team_id, user_id, tournament_id, timeAdded, isLeader)" +
                 " VALUES (?, ?, ?, ?, ?);";
 
@@ -27,7 +28,7 @@ public class RosterDao {
             jdbcTemplate.update(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setLong(1, team.getId());
-                preparedStatement.setLong(2, user.getId());
+                preparedStatement.setLong(2, userId);
                 preparedStatement.setLong(3, team.getTournamentId());
                 preparedStatement.setTimestamp(4, now);
                 preparedStatement.setBoolean(5, isLeader);
@@ -40,6 +41,14 @@ public class RosterDao {
             }
             throw e;
         }
+    }
+
+    static void registerUser(User user, Team team, boolean isLeader, JdbcTemplate jdbcTemplate) {
+        registerUser(user.getId(), team, isLeader, jdbcTemplate);
+    }
+
+    static void registerUser(long userId, Team team, JdbcTemplate jdbcTemplate) {
+        registerUser(userId, team, false, jdbcTemplate);
     }
 
     static void registerUser(User user, Team team, JdbcTemplate jdbcTemplate) {
@@ -69,5 +78,9 @@ public class RosterDao {
 
     public void registerUser(User user, Team team) {
         registerUser(user, team, jdbcTemplate);
+    }
+
+    public void registerUser(long userId, Team team) {
+        registerUser(userId, team, jdbcTemplate);
     }
 }
