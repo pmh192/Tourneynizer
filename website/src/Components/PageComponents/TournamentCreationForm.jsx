@@ -17,7 +17,6 @@ class TournamentCreationForm extends Component{
 			teamSize: undefined,
 			maxTeams: undefined,
 			tournamentType: 0,
-			address: '',
 			latitude:0,
 			longitude:0,
 			date: undefined,
