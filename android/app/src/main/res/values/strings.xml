@@ -43,4 +43,7 @@
     <string name="teamMembers">Members</string>
     <string name="requestToJoin">Request to join</string>
     <string name="teamRequests">Team Requests</string>
+    <string name="viewRequests">View Requests</string>
+    <string name="requestPlayers">Find Players</string>
+    <string name="requestPlayer">Request Player</string>
 </resources>

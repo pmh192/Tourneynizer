@@ -94,6 +94,18 @@ public class HomeFragment extends UIQueueFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             }
         };
+		if (savedInstanceState != null) {
+			for (int i = 0; i < SAVE_KEYS.length; i++) {
+				ArrayList<Parcelable> data = savedInstanceState.getParcelableArrayList(SAVE_KEYS[i]);
+				if (data != null) {
+					ADAPTERS[i].addAll(data);
+				} else {
+					refreshAll();
+				}
+			}
+		} else {
+			refreshAll();
+		}
 	}
 
 	@Override
@@ -122,28 +134,7 @@ public class HomeFragment extends UIQueueFragment {
 				refreshAll();
 			}
 		});
-		if (savedInstanceState != null) {
-			for (int i = 0; i < SAVE_KEYS.length; i++) {
-				ArrayList<Parcelable> data = savedInstanceState.getParcelableArrayList(SAVE_KEYS[i]);
-				if (data != null) {
-					ADAPTERS[i].addAll(data);
-				} else {
-					refreshAll();
-				}
-			}
-		} else {
-			refreshAll();
-		}
 		listView = view.findViewById(R.id.listView);
-		/*
-        ProgressBar progressBar = new ProgressBar(getContext());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        layoutParams.gravity = Gravity.CENTER;
-        progressBar.setLayoutParams(layoutParams);
-        progressBar.setIndeterminate(true);
-        ((ViewGroup) listView.getParent()).addView(progressBar);
-        listView.setEmptyView(progressBar);
-        */
 		segmentController = view.findViewById(R.id.radioGroup);
 		idMapper = new SparseIntArray();
 		for (int i = 0; i < ADAPTERS.length; i++) {
@@ -180,15 +171,21 @@ public class HomeFragment extends UIQueueFragment {
 
 	public void refreshTeamAdapter() {
         ADAPTERS[0].clear();
-        refresher.setRefreshing(true);
+		if (refresher != null) {
+			refresher.setRefreshing(true);
+		}
 		teamService.getMyTeams(new TeamService.OnTeamsLoadedListener() {
 			@Override
 			public void onTeamsLoaded(final Team[] teams) {
 				performUITask(new Runnable() {
 					@Override
 					public void run() {
-						ADAPTERS[0].addAll(teams);
-						refresher.setRefreshing(false);
+						if (teams != null) {
+							ADAPTERS[0].addAll(teams);
+						}
+						if (refresher != null) {
+							refresher.setRefreshing(false);
+						}
 					}
 				});
 			}
@@ -197,15 +194,21 @@ public class HomeFragment extends UIQueueFragment {
 
 	public void refreshTournamentAdapter() {
         ADAPTERS[1].clear();
-        refresher.setRefreshing(true);
+		if (refresher != null) {
+			refresher.setRefreshing(true);
+		}
 		tournamentService.getAllCreatedTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
 				performUITask(new Runnable() {
 					@Override
 					public void run() {
-						ADAPTERS[1].addAll(tournaments);
-						refresher.setRefreshing(false);
+						if (tournaments != null) {
+							ADAPTERS[1].addAll(tournaments);
+						}
+						if (refresher != null) {
+							refresher.setRefreshing(false);
+						}
 					}
 				});
 			}
@@ -214,15 +217,21 @@ public class HomeFragment extends UIQueueFragment {
 
     public void refreshTeamRequestAdapter() {
         ADAPTERS[2].clear();
-        refresher.setRefreshing(true);
+		if (refresher != null) {
+			refresher.setRefreshing(true);
+		}
         teamRequestService.getRequestsForSelf(new TeamRequestService.OnTeamRequestsLoadedListener() {
             @Override
             public void onTeamRequestsLoaded(final TeamRequest[] teamRequests) {
                 performUITask(new Runnable() {
                     @Override
                     public void run() {
-                        ADAPTERS[2].addAll(teamRequests);
-                        refresher.setRefreshing(false);
+                    	if (teamRequests != null) {
+							ADAPTERS[2].addAll(teamRequests);
+						}
+						if (refresher != null) {
+							refresher.setRefreshing(false);
+						}
                     }
                 });
             }

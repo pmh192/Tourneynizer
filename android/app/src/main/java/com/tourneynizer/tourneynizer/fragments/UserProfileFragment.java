@@ -10,24 +10,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.model.Team;
+import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.services.TeamRequestService;
 
 import java.util.Locale;
 
 public class UserProfileFragment extends Fragment {
 
     private static final String USER = "com.tourneynizer.tourneynizer.data.User";
+    private static final String TEAM = "com.tourneynizer.tourneynizer.data.Team";
 
     private User user;
+    private Team team;
+    private TeamRequestService teamRequestService;
 
     public UserProfileFragment() {
         // Required empty public constructor
     }
 
     public static UserProfileFragment newInstance(User user) {
+        return newInstance(user, null);
+    }
+
+    public static UserProfileFragment newInstance(User user, Team t) {
         UserProfileFragment fragment = new UserProfileFragment();
         Bundle args = new Bundle();
         args.putParcelable(USER, user);
+        args.putParcelable(TEAM, t);
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,7 +48,9 @@ public class UserProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             user = getArguments().getParcelable(USER);
+            team = getArguments().getParcelable(TEAM);
         }
+        teamRequestService = new TeamRequestService();
     }
 
     @Override
@@ -56,6 +69,17 @@ public class UserProfileFragment extends Fragment {
         gamesWon.setText(String.format(Locale.getDefault(), "%d", user.getWins()));
         TextView gamesLost = view.findViewById(R.id.gamesLost);
         gamesLost.setText(String.format(Locale.getDefault(), "%d", user.getLosses()));
+        View requestButton = view.findViewById(R.id.registerButton);
+        if (team == null) {
+            requestButton.setVisibility(View.GONE);
+        } else {
+            requestButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    teamRequestService.sendRequestToUser(team, user);
+                }
+            });
+        }
         return view;
     }
 

@@ -113,7 +113,6 @@ public class JSONConverter {
 
     public TeamRequest convertJSONToTeamRequest(JSONObject tRequestJSON) {
         TeamRequest tRequest;
-        Log.d("Tournament Request", tRequestJSON.toString());
         try {
             Boolean accepted = null;
             if (!tRequestJSON.isNull("accepted")) {

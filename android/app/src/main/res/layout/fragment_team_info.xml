@@ -71,17 +71,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_above="@id/requestButton"
+            android:layout_above="@id/buttons"
             android:id="@+id/memberList"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/marginSize"
-            android:id="@+id/requestButton"
-            android:text="@string/requestToJoin"/>
+            android:orientation="horizontal"
+            android:id="@+id/buttons">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/marginSize"
+                android:id="@+id/requestButton1"
+                android:text="@string/viewRequests"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/marginSize"
+                android:id="@+id/requestButton2"
+                android:text="@string/requestPlayers"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

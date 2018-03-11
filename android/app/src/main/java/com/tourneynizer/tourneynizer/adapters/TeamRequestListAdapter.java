@@ -40,20 +40,22 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
         }
         TextView description = convertView.findViewById(R.id.description);
         description.setText(teamRequest.getRequesterID() + " requested you to join " + teamRequest.getTeamID());
-        View accept = convertView.findViewById(R.id.accept);
+        ImageView accept = convertView.findViewById(R.id.accept);
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teamRequestService.acceptRequestForTeam(teamRequest);
+                teamRequestService.acceptRequest(teamRequest);
             }
         });
-        View decline = convertView.findViewById(R.id.decline);
+        accept.setImageResource(R.drawable.green_check_mark);
+        ImageView decline = convertView.findViewById(R.id.decline);
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 teamRequestService.declineRequest(teamRequest);
             }
         });
+        decline.setImageResource(R.drawable.red_x);
         return convertView;
     }
 }

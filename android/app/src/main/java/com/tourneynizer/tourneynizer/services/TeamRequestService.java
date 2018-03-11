@@ -59,6 +59,20 @@ public class TeamRequestService {
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
+    public void acceptRequest(final TeamRequest teamRequest) {
+        UserService userService = new UserService();
+        userService.getSelf(new UserService.OnUserLoadedListener() {
+            @Override
+            public void onUserLoaded(User user) {
+                if (user.getId() == teamRequest.getUserID()) {
+                    acceptRequestForUser(teamRequest);
+                } else {
+                    acceptRequestForTeam(teamRequest);
+                }
+            }
+        });
+    }
+
     public void acceptRequestForTeam(TeamRequest tRequest) {
         String url = HTTPService.DOMAIN + "team/" + tRequest.getTeamID() + "/request/" + tRequest.getID() + "/accept";
         CookieRequestFactory factory = new CookieRequestFactory();
@@ -73,6 +87,7 @@ public class TeamRequestService {
                 HTTPService.errorPrinterHelper(error);
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void acceptRequestForUser(TeamRequest tRequest) {
@@ -89,6 +104,7 @@ public class TeamRequestService {
                 HTTPService.errorPrinterHelper(error);
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void declineRequest(TeamRequest tRequest) {
@@ -114,6 +130,7 @@ public class TeamRequestService {
         Request request = factory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                Log.d("Team Requests", response.toString());
                 TeamRequest[] teamRequests = new TeamRequest[response.length()];
                 try {
                     for (int i = 0; i < response.length(); i++) {

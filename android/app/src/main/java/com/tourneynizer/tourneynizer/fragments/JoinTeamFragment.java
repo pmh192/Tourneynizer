@@ -47,6 +47,17 @@ public class JoinTeamFragment extends UIQueueFragment {
             tournament = getArguments().getParcelable(TOURNAMENT);
         }
         teamService = new TeamService();
+        listAdapter = new TeamListAdapter(getActivity());
+        if (savedInstanceState != null) {
+            List<Team> teams = savedInstanceState.getParcelableArrayList(TEAMS);
+            if (teams != null) {
+                listAdapter.addAll(teams);
+            } else {
+                refresh();
+            }
+        } else {
+            refresh();
+        }
     }
 
     @Override
@@ -61,17 +72,6 @@ public class JoinTeamFragment extends UIQueueFragment {
                 refresh();
             }
         });
-        listAdapter = new TeamListAdapter(getActivity());
-        if (savedInstanceState != null) {
-            List<Team> teams = savedInstanceState.getParcelableArrayList(TEAMS);
-            if (teams != null) {
-                listAdapter.addAll(teams);
-            } else {
-                refresh();
-            }
-        } else {
-            refresh();
-        }
         teamsList.setAdapter(listAdapter);
         teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,7 +100,9 @@ public class JoinTeamFragment extends UIQueueFragment {
 
     public void refresh() {
         listAdapter.clear();
-        swipeRefresher.setRefreshing(true);
+        if (swipeRefresher != null) {
+            swipeRefresher.setRefreshing(true);
+        }
         teamService.getPendingTeams(tournament, new TeamService.OnTeamsLoadedListener() {
             @Override
             public void onTeamsLoaded(final Team[] teams) {
@@ -110,7 +112,9 @@ public class JoinTeamFragment extends UIQueueFragment {
                         if (teams != null) {
                             listAdapter.addAll(teams);
                         }
-                        swipeRefresher.setRefreshing(false);
+                        if (swipeRefresher != null) {
+                            swipeRefresher.setRefreshing(false);
+                        }
                     }
                 });
             }

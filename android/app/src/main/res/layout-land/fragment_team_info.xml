@@ -69,9 +69,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/marginSize"
-                android:id="@+id/requestJoin"
-                android:text="@string/requestToJoin"/>
+                android:layout_marginBottom="@dimen/marginSize"
+                android:id="@+id/requestButton1"
+                android:text="@string/viewRequests"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/marginSize"
+                android:id="@+id/requestButton2"
+                android:text="@string/requestPlayers"/>
 
         </LinearLayout>
 

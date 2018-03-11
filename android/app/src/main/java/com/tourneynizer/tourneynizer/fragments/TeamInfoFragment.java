@@ -39,7 +39,8 @@ public class TeamInfoFragment extends UIQueueFragment {
     private TeamService teamService;
     private TextView tournamentLabel;
     private TextView creatorLabel;
-    private TextView requestButton;
+    private TextView requestButton1;
+    private TextView requestButton2;
     private UserListAdapter listAdapter;
     private TeamRequestService teamRequestService;
 
@@ -65,13 +66,6 @@ public class TeamInfoFragment extends UIQueueFragment {
         userService = new UserService();
         tournamentService = new TournamentService();
         teamService = new TeamService();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_team_info, container, false);
-        listView = view.findViewById(R.id.memberList);
         listAdapter = new UserListAdapter(getContext());
         if (savedInstanceState != null) {
             List<User> users = savedInstanceState.getParcelableArrayList(USERS);
@@ -83,12 +77,20 @@ public class TeamInfoFragment extends UIQueueFragment {
         } else {
             refresh();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_team_info, container, false);
+        listView = view.findViewById(R.id.memberList);
         listView.setAdapter(listAdapter);
         ImageView logoView = view.findViewById(R.id.logo);
         logoView.setImageBitmap(team.getLogo());
         TextView teamName = view.findViewById(R.id.teamName);
         teamName.setText(team.getName());
-        requestButton = view.findViewById(R.id.requestButton);
+        requestButton1 = view.findViewById(R.id.requestButton1);
+        requestButton2 = view.findViewById(R.id.requestButton2);
         creatorLabel = view.findViewById(R.id.creatorName);
         userService.getUserFromID(team.getCreatorID(), new UserService.OnUserLoadedListener() {
             @Override
@@ -97,21 +99,30 @@ public class TeamInfoFragment extends UIQueueFragment {
                     @Override
                     public void onUserLoaded(final User self) {
                         if (self.equals(user)) {
-                            requestButton.setText("View Requests");
-                            requestButton.setOnClickListener(new View.OnClickListener() {
+                            requestButton1.setText(R.string.viewRequests);
+                            requestButton1.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     goToTeamRequests();
                                 }
                             });
+                            requestButton2.setVisibility(View.VISIBLE);
+                            requestButton2.setText(R.string.requestPlayers);
+                            requestButton2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    goToUserList();
+                                }
+                            });
                         } else {
-                            requestButton.setText("Request To Join");
-                            requestButton.setOnClickListener(new View.OnClickListener() {
+                            requestButton1.setText(R.string.requestToJoin);
+                            requestButton1.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     teamRequestService.sendRequestToTeam(team);
                                 }
                             });
+                            requestButton2.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -167,6 +178,11 @@ public class TeamInfoFragment extends UIQueueFragment {
 
     public void goToTeamRequests() {
         Fragment fragment = TeamRequestListFragment.newInstance(team);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
+    public void goToUserList() {
+        Fragment fragment = SearchFragment.newInstance(team);
         ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 }

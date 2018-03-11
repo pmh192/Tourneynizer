@@ -126,7 +126,11 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
         View view = inflater.inflate(R.layout.fragment_tournament_info, container, false);
 		((TextView) view.findViewById(R.id.tournamentName)).setText(tournament.getName());
         ((TextView) view.findViewById(R.id.tournamentType)).setText(tournament.getTournamentType().toString());
-        ((TextView) view.findViewById(R.id.description)).setText(tournament.getDescription());
+        TextView descriptionField =  view.findViewById(R.id.description);
+        descriptionField.setText(tournament.getDescription());
+        if (descriptionField.getText().toString().equals("")) {
+        	descriptionField.setVisibility(View.GONE);
+		}
 		map = view.findViewById(R.id.map);
 		map.onCreate(savedInstanceState);
 		map.getMapAsync(this);

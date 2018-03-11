@@ -2,6 +2,7 @@ package com.tourneynizer.tourneynizer.fragments;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,29 +40,26 @@ public class TournamentListFragment extends UIQueueFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		tournamentService = new TournamentService();
+		listAdapter = new TournamentListAdapter(getActivity());
+		if (savedInstanceState != null) {
+			List<Tournament> tournaments = savedInstanceState.getParcelableArrayList(TOURNAMENTS);
+			if (tournaments != null) {
+				listAdapter.addAll(tournaments);
+			} else {
+				refresh();
+			}
+		} else {
+			refresh();
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
+		if (getView() != null) {
+			return getView();
+		}
 		View view = inflater.inflate(R.layout.fragment_tournament_list, container, false);
-		ListView listView = view.findViewById(R.id.tournamentList);
-        /*
-		// sets progress bar to fill list view when empty
-		ProgressBar progressBar = new ProgressBar(getContext());
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-		layoutParams.gravity = Gravity.CENTER;
-		progressBar.setLayoutParams(layoutParams);
-		progressBar.setIndeterminate(true);
-		((ViewGroup) listView.getParent()).addView(progressBar);
-		listView.setEmptyView(progressBar);
-        */
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				goToInfo(listAdapter.getItem(i));
-			}
-		});
 		swipeRefresher = view.findViewById(R.id.swipeRefresher);
 		swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
@@ -69,17 +67,13 @@ public class TournamentListFragment extends UIQueueFragment {
 				refresh();
 			}
 		});
-		listAdapter = new TournamentListAdapter(getActivity());
-		if (savedInstanceState != null) {
-		    List<Tournament> tournaments = savedInstanceState.getParcelableArrayList(TOURNAMENTS);
-		    if (tournaments != null) {
-				listAdapter.addAll(tournaments);
-			} else {
-				refresh();
+		ListView listView = view.findViewById(R.id.tournamentList);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				goToInfo(listAdapter.getItem(i));
 			}
-		} else {
-		    refresh();
-		}
+		});
         listView.setAdapter(listAdapter);
 		return view;
 	}
@@ -102,7 +96,9 @@ public class TournamentListFragment extends UIQueueFragment {
 
 	public void refresh() {
         listAdapter.clear();
-        swipeRefresher.setRefreshing(true);
+        if (swipeRefresher != null) {
+			swipeRefresher.setRefreshing(true);
+		}
 		tournamentService.getAllTournaments(new TournamentService.OnTournamentsLoadedListener() {
 			@Override
 			public void onTournamentsLoaded(final Tournament[] tournaments) {
@@ -112,7 +108,9 @@ public class TournamentListFragment extends UIQueueFragment {
                         if (tournaments != null) {
                             listAdapter.addAll(tournaments);
                         }
-                        swipeRefresher.setRefreshing(false);
+                        if (swipeRefresher != null) {
+							swipeRefresher.setRefreshing(false);
+						}
                     }
                 });
 			}

@@ -5,91 +5,105 @@ tools:context="com.tourneynizer.tourneynizer.fragments.TournamentInfoFragment"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:padding="@dimen/paddingSize"
-        android:id="@+id/logo"
-        android:maxWidth="200dp" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/logo"
-        android:id="@+id/info"
-        android:padding="@dimen/paddingSize"
         android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:id="@+id/topArea">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/paddingSize"
+            android:id="@+id/logo"
+            android:maxWidth="200dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/logo"
+            android:id="@+id/info"
+            android:padding="@dimen/paddingSize"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/largeTextSize"
+                android:textColor="@color/titleTextColor"
+                android:id="@+id/tournamentName"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tournamentType"
+                android:textAlignment="center" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/largeTextSize"
-            android:textColor="@color/titleTextColor"
-            android:id="@+id/tournamentName"
-            android:textAlignment="center"/>
+            android:layout_below="@id/info"
+            android:id="@+id/description"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tournamentType"
-            android:textAlignment="center" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/info"
-        android:id="@+id/description"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/requestButtons"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/marginSize"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/joinTeam"
-            android:text="@string/viewPendingTeams" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/createTeam"
-            android:text="@string/createOwnTeam"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/timeRange"
-        android:layout_above="@id/requestButtons"
-        android:layout_marginTop="@dimen/marginSize"
-        android:textAlignment="center" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/creatorName"
-        android:layout_above="@id/timeRange"
-        android:layout_marginTop="@dimen/marginSize"
-        android:textAlignment="center" />
+    </RelativeLayout>
 
     <com.google.android.gms.maps.MapView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/creatorName"
-        android:layout_below="@id/description"
+        android:layout_above="@id/bottomArea"
+        android:layout_below="@id/topArea"
         android:id="@+id/map" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/bottomArea"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeRange"
+            android:layout_marginTop="@dimen/marginSize"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/creatorName"
+            android:layout_marginTop="@dimen/marginSize"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/requestButtons"
+            android:layout_marginBottom="@dimen/marginSize"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/joinTeam"
+                android:text="@string/viewPendingTeams" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/createTeam"
+                android:text="@string/createOwnTeam"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

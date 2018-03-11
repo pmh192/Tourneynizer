@@ -12,9 +12,16 @@
         android:inputType="textEmailAddress"
         android:queryHint="@string/search"/>
 
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/userList"/>
+        android:id="@+id/swipeRefresher">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/userList"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -48,6 +48,17 @@ public class TeamRequestListFragment extends UIQueueFragment {
             team = getArguments().getParcelable(TEAM);
         }
         teamRequestService = new TeamRequestService();
+        listAdapter = new TeamRequestListAdapter(getContext());
+        if (savedInstanceState != null) {
+            List<TeamRequest> teamRequests = savedInstanceState.getParcelableArrayList(TEAM_REQUESTS);
+            if (teamRequests != null) {
+                listAdapter.addAll(teamRequests);
+            } else {
+                refresh();
+            }
+        } else {
+            refresh();
+        }
     }
 
     @Override
@@ -62,36 +73,27 @@ public class TeamRequestListFragment extends UIQueueFragment {
                 refresh();
             }
         });
-        listAdapter = new TeamRequestListAdapter(getContext());
-        if (savedInstanceState != null) {
-            List<TeamRequest> teamRequests = savedInstanceState.getParcelableArrayList(TEAM_REQUESTS);
-            if (teamRequests != null) {
-                listAdapter.addAll(teamRequests);
-            } else {
-                refresh();
-            }
-        } else {
-            refresh();
-        }
         listView.setAdapter(listAdapter);
         return view;
     }
 
     public void refresh() {
         listAdapter.clear();
-        swipeRefresher.setRefreshing(true);
-        teamRequestService.getRequestsForTeam(team, new TeamRequestService.OnTeamRequestsLoadedListener() {
-            @Override
-            public void onTeamRequestsLoaded(final TeamRequest[] teamRequests) {
-                performUITask(new Runnable() {
-                    @Override
-                    public void run() {
-                        listAdapter.addAll(teamRequests);
-                        swipeRefresher.setRefreshing(false);
-                    }
-                });
-            }
-        });
+        if (swipeRefresher != null) {
+            swipeRefresher.setRefreshing(true);
+            teamRequestService.getRequestsForTeam(team, new TeamRequestService.OnTeamRequestsLoadedListener() {
+                @Override
+                public void onTeamRequestsLoaded(final TeamRequest[] teamRequests) {
+                    performUITask(new Runnable() {
+                        @Override
+                        public void run() {
+                            listAdapter.addAll(teamRequests);
+                            swipeRefresher.setRefreshing(false);
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override
