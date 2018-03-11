@@ -82,6 +82,7 @@ public class TeamRequestController {
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return null;
     }
 

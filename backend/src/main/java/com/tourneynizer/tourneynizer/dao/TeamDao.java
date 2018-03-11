@@ -103,4 +103,28 @@ public class TeamDao {
             return preparedStatement;
         }, rowMapper);
     }
+
+    public Team getTeamCreated(Tournament tournament, User user) {
+        String sql = "SELECT * FROM teams WHERE tournament_id=? AND creator_id=?";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{tournament.getId(), user.getId()},
+                    rowMapper);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public Team getTeamForTournament(Tournament tournament, User user) {
+        String sql = "SELECT * FROM teams WHERE id=(SELECT team_id FROM roster WHERE tournament_id=? AND " +
+                "user_id=?);";
+
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{tournament.getId(), user.getId()},
+                    rowMapper);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }

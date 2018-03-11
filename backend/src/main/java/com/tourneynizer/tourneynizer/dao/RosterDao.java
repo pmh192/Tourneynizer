@@ -19,8 +19,8 @@ public class RosterDao {
     }
 
     static void registerUser(User user, Team team, boolean isLeader, JdbcTemplate jdbcTemplate) {
-        String sql = "INSERT INTO roster (team_id, user_id, timeAdded, isLeader)" +
-                " VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO roster (team_id, user_id, tournament_id, timeAdded, isLeader)" +
+                " VALUES (?, ?, ?, ?, ?);";
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         try {
@@ -28,8 +28,9 @@ public class RosterDao {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setLong(1, team.getId());
                 preparedStatement.setLong(2, user.getId());
-                preparedStatement.setTimestamp(3, now);
-                preparedStatement.setBoolean(4, isLeader);
+                preparedStatement.setLong(3, team.getTournamentId());
+                preparedStatement.setTimestamp(4, now);
+                preparedStatement.setBoolean(5, isLeader);
 
                 return preparedStatement;
             });
