@@ -8,14 +8,7 @@ import HomePageContent from './HomePageContent.jsx'
 class HomePage extends Component {
 
 	render() {
-		let data = this.props.update();
-		let welcome = null;
-		if(data.loggedIn){
-			welcome = <div>Welcome, {data.name}!</div>;
-		}else{
-			welcome = <div>Please sign in</div>;
-		}
-
+		let welcome = <div>Welcome to Tourneynizer</div>;
 
 		return (
 			<div>
