@@ -31,10 +31,7 @@ class MyTournamentsViewController : UIViewController {
     }
 
     func selectTournament(_ tournament: Tournament) {
-        let vc = TournamentViewController();
-        vc.setJoinable(false);
-        vc.setTournament(tournament);
-        self.navigationController?.pushViewController(vc, animated: true);
+        
     }
 
     // Ensures that the corresponding methods are only called once

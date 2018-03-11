@@ -121,4 +121,8 @@ class TeamService : Service {
             return cb(nil, members);
         }
     }
+
+    func getTeamForTournament(_ tournamentId: CUnsignedLong, cb: @escaping ((String?, Team?) -> Void)) {
+        return cb(nil, nil);
+    }
 };
