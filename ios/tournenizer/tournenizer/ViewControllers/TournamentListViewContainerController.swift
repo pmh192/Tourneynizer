@@ -63,14 +63,19 @@ class TournamentListViewContainerController : UIViewController {
         let vc = TournamentViewController();
         vc.setTournament(tournament);
 
-        TeamService.shared.getTeamForTournament(tournament.id) { (error: String?, team: Team?) in
-            if(team != nil) {
-                vc.setTeam(team!);
-                vc.setRegistered(true);
-            }
+        if(tournament.creatorId == UserService.shared.getCurrentUser()!.id) {
+            vc.setDashboard(true);
+            self.navigationController?.pushViewController(vc, animated: true);
+        } else {
+            TeamService.shared.getTeamForTournament(tournament.id) { (error: String?, team: Team?) in
+                if(team != nil) {
+                    vc.setTeam(team!);
+                    vc.setRegistered(true);
+                }
 
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(vc, animated: true);
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(vc, animated: true);
+                }
             }
         }
     }

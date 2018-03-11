@@ -17,7 +17,7 @@ class TournamentViewController : UIViewController {
     var statusBarCover: UIView!;
 
     var titleLabel: UILabel!;
-    var locationLabel: UILabel!;
+    var teamSizeLabel: UILabel!;
     var descriptionLabel: UILabel!;
     var startTimeLabel: UILabel!;
     var teamsLabel: UILabel!;
@@ -28,6 +28,8 @@ class TournamentViewController : UIViewController {
     var createTeamButton: UIButton!;
     var teamViewContainer: UIView!;
     var actionsBar: UIView!;
+    var startButton: UIButton!;
+    var approveButton: UIButton!;
     var teamViewController: TeamListViewController!;
 
     let iconSize: CGFloat = 25;
@@ -43,11 +45,15 @@ class TournamentViewController : UIViewController {
     let buttonPadding: CGFloat = 10;
     let teamContainerHeight: CGFloat = 68;
     let logoText = "Tournament Information";
+    let joinButtonText = "Join Existing Team";
+    let createButtonText = "Create Team";
+    let startButtonText = "Start Tournament";
+    let approveButtonText = "Approve Teams";
 
     var tournament: Tournament!;
     var team: Team!;
     var registered = false;
-    var displayTitle = true;
+    var dashboard = false;
 
     override func loadView() {
         view = UIView();
@@ -95,7 +101,7 @@ class TournamentViewController : UIViewController {
 
         joinButton = {
             let view = UIButton.newAutoLayout();
-            view.setTitle("Join Existing Team", for: .normal);
+            view.setTitle(joinButtonText, for: .normal);
             view.setTitleColor(Constants.color.white, for: .normal);
             view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.layer.cornerRadius = signupButtonBorderRadius;
@@ -109,7 +115,7 @@ class TournamentViewController : UIViewController {
 
         createTeamButton = {
             let view = UIButton.newAutoLayout();
-            view.setTitle("Create Team", for: .normal);
+            view.setTitle(createButtonText, for: .normal);
             view.setTitleColor(Constants.color.white, for: .normal);
             view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
             view.layer.cornerRadius = signupButtonBorderRadius;
@@ -121,28 +127,56 @@ class TournamentViewController : UIViewController {
         }();
         createTeamButton.addTarget(self, action: #selector(create), for: .touchUpInside);
 
-        locationLabel = UILabel.newAutoLayout();
+        startButton = {
+                let view = UIButton.newAutoLayout();
+                view.setTitle(startButtonText, for: .normal);
+                view.setTitleColor(Constants.color.white, for: .normal);
+                view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+                view.layer.cornerRadius = signupButtonBorderRadius;
+                view.layer.borderWidth = signupButtonBorderWidth;
+                view.layer.borderColor = Constants.color.lightBlue.cgColor;
+                view.backgroundColor = Constants.color.lightBlue;
+                view.titleLabel?.lineBreakMode = .byCharWrapping;
+                return view;
+        }();
+        startButton.addTarget(self, action: #selector(start), for: .touchUpInside);
+
+        approveButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle(approveButtonText, for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = signupButtonBorderRadius;
+            view.layer.borderWidth = signupButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+        approveButton.addTarget(self, action: #selector(approve), for: .touchUpInside);
+
+        teamSizeLabel = UILabel.newAutoLayout();
         descriptionLabel = UILabel.newAutoLayout();
         startTimeLabel = UILabel.newAutoLayout();
         teamsLabel = UILabel.newAutoLayout();
         maxTeamsLabel = UILabel.newAutoLayout();
 
-        locationLabel.text = "\(tournament.lat) \(tournament.lng)";
+        teamSizeLabel.text = "Team Size: \(tournament.teamSize)";
         descriptionLabel.text = tournament.description;
 
         let formatter = DateFormatter();
         formatter.dateFormat = "MM/dd/yyyy HH:mm";
 
-        startTimeLabel.text = "Start Time: " + formatter.string(from: tournament.startTime);
+        startTimeLabel.text = "Start Time: \(formatter.string(from: tournament.startTime))";
 
         if(tournament.currentTeams != nil) {
-            teamsLabel.text = "Teams: " + tournament.currentTeams!.description;
+            teamsLabel.text = "Teams: \(tournament.currentTeams!.description)";
         }
 
-        maxTeamsLabel.text = "Max Teams: " + tournament.maxTeams.description;
+        maxTeamsLabel.text = "Max Teams: \(tournament.maxTeams.description)";
 
         let common: [UILabel] = [
-            locationLabel,
+            teamSizeLabel,
             descriptionLabel,
             startTimeLabel,
             teamsLabel,
@@ -168,27 +202,29 @@ class TournamentViewController : UIViewController {
         view.addSubview(actionsBar);
         view.addSubview(backView);
         view.addSubview(titleLabel);
-        view.addSubview(locationLabel);
+        view.addSubview(teamSizeLabel);
         view.addSubview(descriptionLabel);
         view.addSubview(startTimeLabel);
         view.addSubview(teamsLabel);
         view.addSubview(maxTeamsLabel);
         view.addSubview(mapViewContainer);
+        view.addSubview(logoLabel);
 
-        if(displayTitle) {
-            view.addSubview(logoLabel);
-        }
-
-        if(!registered) {
-            view.addSubview(joinButton);
-            view.addSubview(createTeamButton);
+        if(dashboard) {
+            view.addSubview(startButton);
+            view.addSubview(approveButton);
         } else {
-            view.addSubview(teamViewContainer);
+            if(!registered) {
+                view.addSubview(joinButton);
+                view.addSubview(createTeamButton);
+            } else {
+                view.addSubview(teamViewContainer);
 
-            addChildViewController(teamViewController);
-            teamViewController.view.frame = teamViewContainer.bounds;
-            teamViewContainer.addSubview(teamViewController.view);
-            teamViewController.didMove(toParentViewController: self);
+                addChildViewController(teamViewController);
+                teamViewController.view.frame = teamViewContainer.bounds;
+                teamViewContainer.addSubview(teamViewController.view);
+                teamViewController.didMove(toParentViewController: self);
+            }
         }
 
         view.setNeedsUpdateConstraints();
@@ -230,48 +266,53 @@ class TournamentViewController : UIViewController {
             titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
             titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
-            locationLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: padding);
-            locationLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
-            locationLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+            teamSizeLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: padding);
+            teamSizeLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            teamSizeLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
-            descriptionLabel.autoPinEdge(.top, to: .bottom, of: locationLabel, withOffset: padding);
-            descriptionLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
-            descriptionLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+            descriptionLabel.autoPinEdge(.top, to: .bottom, of: teamSizeLabel, withOffset: padding);
+            descriptionLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            descriptionLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
             startTimeLabel.autoPinEdge(.top, to: .bottom, of: descriptionLabel, withOffset: padding);
-            startTimeLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
-            startTimeLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+            startTimeLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            startTimeLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
             teamsLabel.autoPinEdge(.top, to: .bottom, of: startTimeLabel, withOffset: padding);
-            teamsLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
-            teamsLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+            teamsLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            teamsLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
             maxTeamsLabel.autoPinEdge(.top, to: .bottom, of: teamsLabel, withOffset: padding);
-            maxTeamsLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
-            maxTeamsLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+            maxTeamsLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            maxTeamsLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
             mapViewContainer.autoPinEdge(.top, to: .bottom, of: maxTeamsLabel, withOffset: mapPadding);
             mapViewContainer.autoPinEdge(toSuperviewEdge: .leading, withInset: mapPadding);
             mapViewContainer.autoPinEdge(toSuperviewEdge: .trailing, withInset: mapPadding);
 
-            if(displayTitle) {
-                logoLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
-                logoLabel.autoSetDimension(.height, toSize: logoLabelHeight);
-                logoLabel.autoPinEdge(toSuperviewEdge: .leading);
-                logoLabel.autoPinEdge(toSuperviewEdge: .trailing);
-            }
+            logoLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            logoLabel.autoSetDimension(.height, toSize: logoLabelHeight);
+            logoLabel.autoPinEdge(toSuperviewEdge: .leading);
+            logoLabel.autoPinEdge(toSuperviewEdge: .trailing);
 
-            if(!registered) {
-                let views: NSArray = [joinButton, createTeamButton] as NSArray;
-                views.autoDistributeViews(along: .horizontal, alignedTo: .horizontal, withFixedSpacing: padding, insetSpacing: true, matchedSizes: true);
-                joinButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
-                mapViewContainer.autoPinEdge(.bottom, to: .top, of: joinButton, withOffset: -mapPadding);
+            if(dashboard) {
+                let views: NSArray = [startButton, approveButton] as NSArray;
+                views.autoDistributeViews(along: .horizontal, alignedTo: .horizontal, withFixedSpacing: titlePadding, insetSpacing: true, matchedSizes: true);
+                startButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
+                mapViewContainer.autoPinEdge(.bottom, to: .top, of: startButton, withOffset: -mapPadding);
             } else {
-                teamViewContainer.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
-                teamViewContainer.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
-                teamViewContainer.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
-                teamViewContainer.autoSetDimension(.height, toSize: teamContainerHeight);
-                mapViewContainer.autoPinEdge(.bottom, to: .top, of: teamViewContainer, withOffset: -mapPadding);
+                if(!registered) {
+                    let views: NSArray = [joinButton, createTeamButton] as NSArray;
+                    views.autoDistributeViews(along: .horizontal, alignedTo: .horizontal, withFixedSpacing: titlePadding, insetSpacing: true, matchedSizes: true);
+                    joinButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
+                    mapViewContainer.autoPinEdge(.bottom, to: .top, of: joinButton, withOffset: -mapPadding);
+                } else {
+                    teamViewContainer.autoPinEdge(toSuperviewEdge: .leading, withInset: padding);
+                    teamViewContainer.autoPinEdge(toSuperviewEdge: .trailing, withInset: padding);
+                    teamViewContainer.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
+                    teamViewContainer.autoSetDimension(.height, toSize: teamContainerHeight);
+                    mapViewContainer.autoPinEdge(.bottom, to: .top, of: teamViewContainer, withOffset: -mapPadding);
+                }
             }
 
             didUpdateConstraints = true;
@@ -292,21 +333,24 @@ class TournamentViewController : UIViewController {
         self.navigationController?.pushViewController(vc, animated: true);
     }
 
-    @objc func edit() {
-        let vc = EditTournamentViewController();
-        vc.setTournament(self.tournament);
-        vc.setCallback(cb: { (t: Tournament) -> Void in
-            self.tournament = t;
-        });
-        self.navigationController?.pushViewController(vc, animated: true);
-    }
-
     @objc func exit() {
         self.navigationController?.popViewController(animated: true);
     }
 
+    @objc func approve() {
+
+    }
+
+    @objc func start() {
+
+    }
+
     func setRegistered(_ registered: Bool) {
         self.registered = registered;
+    }
+
+    func setDashboard(_ dashboard: Bool) {
+        self.dashboard = dashboard;
     }
 
     func setTeam(_ team: Team) {
