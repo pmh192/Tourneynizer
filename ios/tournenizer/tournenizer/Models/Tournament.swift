@@ -9,36 +9,32 @@
 import Foundation;
 import UIKit;
 
-class Tournament {
+class Tournament : Codable {
     var id: CUnsignedLong;
     var name: String;
     var description: String?;
-    var address: String;
+    var lat: Double;
+    var lng: Double;
     var startTime: Date;
-    var endTime: Date?;
     var maxTeams: Int;
     var currentTeams: Int?;
     var timeCreated: Date;
-    var tournamentType: TournamentType?;
-    var logo: UIImage?;
-    var courts: Int?;
+    var type: TournamentType?;
     var creatorId: CUnsignedLong;
     var cancelled: Bool?;
     var teamSize: Int;
 
-    init(id: CUnsignedLong, name: String, description: String?, address: String, startTime: Date, endTime: Date?, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, logo: UIImage?, courts: Int?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
+    init(id: CUnsignedLong, name: String, description: String?, lat: Double, lng: Double, startTime: Date, maxTeams: Int, currentTeams: Int?, timeCreated: Date, tournamentType: TournamentType?, creatorId: CUnsignedLong, cancelled: Bool?, teamSize: Int) {
         self.id = id;
         self.name = name;
         self.description = description;
-        self.address = address;
+        self.lat = lat;
+        self.lng = lng;
         self.startTime = startTime;
-        self.endTime = endTime;
         self.maxTeams = maxTeams;
         self.currentTeams = currentTeams;
         self.timeCreated = timeCreated;
-        self.tournamentType = tournamentType;
-        self.logo = logo;
-        self.courts = courts;
+        self.type = tournamentType;
         self.creatorId = creatorId;
         self.cancelled = cancelled;
         self.teamSize = teamSize;
@@ -48,15 +44,13 @@ class Tournament {
         self.id = tournament.id;
         self.name = tournament.name;
         self.description = tournament.description;
-        self.address = tournament.address;
+        self.lat = tournament.lat;
+        self.lng = tournament.lng;
         self.startTime = tournament.startTime;
-        self.endTime = tournament.endTime;
         self.maxTeams = tournament.maxTeams;
         self.currentTeams = tournament.currentTeams;
         self.timeCreated = tournament.timeCreated;
-        self.tournamentType = tournament.tournamentType;
-        self.logo = tournament.logo;
-        self.courts = tournament.courts;
+        self.type = tournament.type;
         self.creatorId = tournament.creatorId;
         self.cancelled = tournament.cancelled;
         self.teamSize = tournament.teamSize;
@@ -66,15 +60,13 @@ class Tournament {
         self.id = 0;
         self.name = "";
         self.description = "";
-        self.address = "";
+        self.lat = 0;
+        self.lng = 0;
         self.startTime = Date();
-        self.endTime = Date();
         self.maxTeams = -1;
         self.currentTeams = -1;
         self.timeCreated = Date();
-        self.tournamentType = TournamentType.VOLLEYBALL_BRACKET;
-        self.logo = nil;
-        self.courts = -1;
+        self.type = TournamentType.VOLLEYBALL_BRACKET;
         self.creatorId = 0;
         self.cancelled = false;
         self.teamSize = -1;

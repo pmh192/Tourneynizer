@@ -1,11 +1,11 @@
 package com.tourneynizer.tourneynizer.service;
 
+import com.tourneynizer.tourneynizer.dao.MatchDao;
+import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TournamentDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentType;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -14,9 +14,13 @@ import java.util.Map;
 
 public class TournamentService {
     private final TournamentDao tournamentDao;
+    private final TeamDao teamDao;
+    private final MatchGenerator matchGenerator;
 
-    public TournamentService(TournamentDao tournamentDao) {
+    public TournamentService(TournamentDao tournamentDao, TeamDao teamDao, MatchDao matchDao) {
         this.tournamentDao = tournamentDao;
+        this.teamDao = teamDao;
+        this.matchGenerator = new MatchGenerator(matchDao);
     }
 
     public Tournament createTournament(Map<String, String> values, User user) throws BadRequestException, InternalErrorException {
@@ -24,13 +28,14 @@ public class TournamentService {
         try {
             tournament = new Tournament(
                     values.get("name"),
-                    values.get("address"),
+                    Double.parseDouble(values.get("lat")),
+                    Double.parseDouble(values.get("lng")),
                     new Timestamp(Long.parseLong(values.get("startTime"))),
                     Integer.parseInt(values.get("teamSize")),
                     Integer.parseInt(values.get("maxTeams")),
-                    TournamentType.values()[Integer.parseInt(values.get("type"))],
-                    Integer.parseInt(values.get("numCourts")),
-                    user.getId()
+                    TournamentType.valueOf(values.get("type")),
+                    user.getId(),
+                    TournamentStatus.CREATED
             );
         }
         catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
@@ -67,5 +72,32 @@ public class TournamentService {
         }
 
         return tournament;
+    }
+
+    public List<Tournament> ownedBy(User user) throws InternalErrorException{
+        try {
+            return tournamentDao.ownedBy(user);
+        }
+        catch (SQLException e) {
+            throw new InternalErrorException(e);
+        }
+    }
+
+    public void startTournament(long id, User user) throws InternalErrorException, BadRequestException {
+        Tournament tournament;
+        try { tournament = tournamentDao.findById(id); }
+        catch (SQLException e) { throw new InternalErrorException(e); }
+
+        if (tournament == null) { throw new BadRequestException("Couldn't find tournament with id " + id); }
+
+        if (tournament.getCreatorId() != user.getId()) {
+            throw new BadRequestException("You are not the creator of that tournament");
+        }
+
+        tournamentDao.startTournament(tournament);
+
+        List<Team> teams = teamDao.findByTournament(tournament, true);
+        try { matchGenerator.createTournamentMatches(teams, user, tournament); }
+        catch (SQLException e) { throw new InternalErrorException(e); }
     }
 }

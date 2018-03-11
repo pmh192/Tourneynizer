@@ -34,6 +34,7 @@ class UserListViewController : UITableViewController {
 
     func setUsers(_ users: [User]) {
         self.users = users;
+        self.tableView.reloadData();
     }
 
     // Ensures that the corresponding methods are only called once
@@ -104,6 +105,22 @@ class UserListViewController : UITableViewController {
     func addUser(_ user: User) {
         users.append(user);
         self.tableView.reloadData();
+    }
+
+    func getUsers() -> [User] {
+        return users;
+    }
+
+    var reloadCallback: (() -> Void)?;
+
+    func setReloadCallback(_ cb: @escaping (() -> Void)) {
+        self.reloadCallback = cb;
+    }
+
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if(scrollView.contentOffset.y <= -50) {
+            reloadCallback?();
+        }
     }
 }
 

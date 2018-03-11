@@ -2,10 +2,7 @@ package com.tourneynizer.tourneynizer.controller;
 
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.model.ErrorMessage;
-import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TeamService;
 import com.tourneynizer.tourneynizer.service.TournamentService;
@@ -40,11 +37,32 @@ public class TeamController {
         try {
             Tournament tournament = tournamentService.findById(id);
             User user = sessionService.findBySession(session);
-            Team team = teamService.createTeam(user, values);
+            Team team = teamService.createTeam(user, tournament, values);
 
             return new ResponseEntity<>(team, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/team/getAll")
+    public ResponseEntity<?> userIn(@CookieValue("session") String session) {
+        try {
+            User user = sessionService.findBySession(session);
+            List<Team> teams = teamService.getAllWith(user);
+            return new ResponseEntity<Object>(teams, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/api/team/{id}")
+    public ResponseEntity<?> getTeam(@PathVariable("id") long id) {
+        try {
+            Team team = teamService.findById(id);
+            return new ResponseEntity<Object>(team, new HttpHeaders(), HttpStatus.OK);
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

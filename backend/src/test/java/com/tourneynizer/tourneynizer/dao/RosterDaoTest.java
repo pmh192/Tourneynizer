@@ -1,18 +1,14 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.helper.TestWithContext;
-import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentType;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.jdbc.JdbcTestUtils;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class RosterDaoTest extends TestWithContext {
     private final UserDao userDao;
@@ -30,14 +26,7 @@ public class RosterDaoTest extends TestWithContext {
 
     @Before
     public void clearDB() {
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "sessions");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teamRequest");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "roster");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "matches");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "teams");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "tournaments");
-        JdbcTestUtils.deleteFromTables(super.jdbcTemplate, "users");
+        super.clearDB();
     }
 
     private User getUser(int i) throws Exception {
@@ -48,39 +37,43 @@ public class RosterDaoTest extends TestWithContext {
     }
 
     private Tournament getTournament(User user) throws Exception {
-        Tournament tournament = new Tournament("name", "address", null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, 1, user.getId());
+        Tournament tournament = new Tournament("name", 3.4, 2.3, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET,
+                user.getId(), TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
         return tournament;
     }
 
     private Team getTeam(User user, Tournament tournament) throws Exception {
-        Team team = new Team("name", user.getId(), tournament.getId());
+        return getTeam(user, tournament, 0);
+    }
+
+    private Team getTeam(User user, Tournament tournament, int i) throws Exception {
+        Team team = new Team("name" + i, user.getId(), tournament.getId());
         teamDao.insert(team, user);
         return team;
     }
 
     @Test
     public void registerUser() throws Exception {
-        User user = getUser(1);
+        User creator = getUser(0);
+        User user1 = getUser(1);
         User user2 = getUser(2);
         User user3 = getUser(3);
-        Tournament tournament = getTournament(user);
-        Team team1 = getTeam(user, tournament);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(creator, tournament);
 
-        rosterDao.registerUser(user, team1);
+        rosterDao.registerUser(user1, team1);
 
         List<Long> ids = rosterDao.teamRoster(team1);
 
-        List<Long> expected = new ArrayList<>();
-        expected.add(user.getId());
+        List<Long> expected = Arrays.asList(creator.getId(), user1.getId());
 
         assertEquals(expected, ids);
 
         rosterDao.registerUser(user2, team1);
         rosterDao.registerUser(user3, team1);
 
-        expected.add(user2.getId());
-        expected.add(user3.getId());
+        expected = Arrays.asList(creator.getId(), user1.getId(), user2.getId(), user3.getId());
 
         assertEquals(expected, rosterDao.teamRoster(team1));
     }
@@ -93,5 +86,37 @@ public class RosterDaoTest extends TestWithContext {
 
         rosterDao.registerUser(user, team);
         rosterDao.registerUser(user, team);
+    }
+
+    @Test
+    public void findByUser() throws Exception {
+        User creator = getUser(1);
+        User creator2 = getUser(7);
+        User t1 = getUser(2);
+        User t2 = getUser(3);
+        User user1 = getUser(4);
+        User user2 = getUser(5);
+
+        Tournament tournament1 = getTournament(creator);
+        Tournament tournament2 = getTournament(creator2);
+        Team team1 = getTeam(t1, tournament1, 0);
+        Team team2 = getTeam(t2, tournament1, 1);
+
+        Team team4 = getTeam(t1, tournament2, 0);
+        Team team5 = getTeam(t2, tournament2, 1);
+
+        rosterDao.registerUser(user1, team1);
+        rosterDao.registerUser(user1, team4);
+        rosterDao.registerUser(user2, team2);
+
+        List<Team> expected1 = Arrays.asList(team1, team4);
+        List<Team> expected2 = Arrays.asList(team2);
+
+        List<Team> actual1 = rosterDao.findByUser(user1);
+        List<Team> actual2 = rosterDao.findByUser(user2);
+
+        assertEquals(expected1, actual1);
+        assertEquals(expected2, actual2);
+
     }
 }

@@ -7,6 +7,7 @@ import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserService {
     private final UserDao userDao;
@@ -62,5 +63,14 @@ public class UserService {
             throw new BadRequestException("User doesn't exists with email " + email);
         }
         return user;
+    }
+
+    public List<User> getAll() throws InternalErrorException {
+        try {
+            return userDao.getAll();
+        }
+        catch (SQLException e) {
+            throw new InternalErrorException(e);
+        }
     }
 }

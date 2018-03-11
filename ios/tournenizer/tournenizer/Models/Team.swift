@@ -9,16 +9,20 @@
 import Foundation;
 import UIKit;
 
-class Team {
+class Team : Codable {
     var id: CUnsignedLong;
     var name: String;
     var timeCreated: Date;
-    var tournament: String;
+    var checkedIn: Bool;
+    var creatorId: Int;
+    var tournamentId: CUnsignedLong;
 
-    init(id: CUnsignedLong, name: String, timeCreated: Date, tournament: String) {
+    init(id: CUnsignedLong, name: String, timeCreated: Date, checkedIn: Bool, creatorId: Int, tournamentId: CUnsignedLong) {
         self.id = id;
         self.name = name;
         self.timeCreated = timeCreated;
-        self.tournament = tournament;
+        self.checkedIn = checkedIn;
+        self.creatorId = creatorId;
+        self.tournamentId = tournamentId;
     }
 }

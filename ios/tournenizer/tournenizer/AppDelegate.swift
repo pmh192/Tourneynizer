@@ -17,15 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?;
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds);
 
         GMSPlacesClient.provideAPIKey(Keys.googleMapsKey);
         GMSServices.provideAPIKey(Keys.googleMapsKey);
 
         let viewController = LoginViewContainerController();
-        window!.rootViewController = viewController;
-        window!.makeKeyAndVisible();
+        self.window!.rootViewController = viewController;
+        self.window!.makeKeyAndVisible();
+
         return true;
     }
 

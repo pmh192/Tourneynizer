@@ -13,6 +13,7 @@ class TeamCellView : UITableViewCell {
     var nameLabel: UILabel!;
     var tournamentLabel: UILabel!;
     var team: Team!;
+    var tournament: Tournament!;
 
     let topPadding: CGFloat = 10;
     let bottomPadding: CGFloat = 10;
@@ -33,12 +34,12 @@ class TeamCellView : UITableViewCell {
     func setTeam(_ team: Team) {
         self.team = team;
         nameLabel.text = team.name;
-        tournamentLabel.text = team.tournament;
 
-        setNeedsLayout();
-        layoutIfNeeded();
-        setNeedsUpdateConstraints();
-        updateConstraintsIfNeeded();
+    }
+
+    func setTournament(_ tournament: Tournament) {
+        self.tournament = tournament;
+        tournamentLabel.text = tournament.name;
     }
 
     func setupViews() {

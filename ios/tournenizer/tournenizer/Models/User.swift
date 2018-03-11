@@ -9,16 +9,18 @@
 import Foundation;
 import UIKit;
 
-class User {
+class User : Codable {
+    var id: CUnsignedLong;
     var email: String;
     var name: String;
+    var password: String?;
     var timeCreated: Date;
-    var pastTeams: [Team];
 
-    init(email: String, name: String, timeCreated: Date, pastTeams: [Team] = []) {
+    init(email: String, name: String, password: String? = nil, timeCreated: Date = Date(), id: CUnsignedLong = 0) {
         self.email = email;
         self.name = name;
+        self.password = password;
         self.timeCreated = timeCreated;
-        self.pastTeams = pastTeams;
+        self.id = id;
     }
 };

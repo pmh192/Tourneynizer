@@ -74,17 +74,28 @@ class TournamentListViewController : UITableViewController {
     }
 
     var cb: ((Tournament) -> Void)?;
+    var reloadCallback: (() -> Void)?;
 
     func setSelectCallback(_ cb: @escaping ((Tournament) -> Void)) {
         self.cb = cb;
     }
 
+    func setReloadCallback(_ cb: @escaping (() -> Void)) {
+        self.reloadCallback = cb;
+    }
+
     func setTournaments(_ tournaments: [Tournament]) {
-        self.tournaments = tournaments;
+        self.tournaments = tournaments.reversed();
         self.tableView.reloadData();
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cb?(tournaments[indexPath.section]);
+    }
+
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if(scrollView.contentOffset.y <= -50) {
+            reloadCallback?();
+        }
     }
 }

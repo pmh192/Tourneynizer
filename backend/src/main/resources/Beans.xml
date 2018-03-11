@@ -11,5 +11,7 @@
     <import resource="beans/dao/RosterDao.xml" />
     <import resource="beans/dao/TeamRequestDao.xml" />
     <import resource="beans/dao/SessionDao.xml" />
+    <import resource="beans/dao/TournamentRequestDao.xml" />
+    <import resource="beans/dao/UserParticipationDao.xml" />
 
 </beans>

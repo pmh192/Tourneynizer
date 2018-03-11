@@ -26,6 +26,8 @@ class SelectTeamViewController : UIViewController {
     let iconSize: CGFloat = 25;
     let contentPadding: CGFloat = 5;
 
+    var tournament: Tournament!;
+
     override func loadView() {
         view = UIView();
         view.backgroundColor = Constants.color.lightGray;
@@ -59,24 +61,17 @@ class SelectTeamViewController : UIViewController {
         contentView = UIView.newAutoLayout();
 
         let teamList = TeamListViewController();
-        teamList.setTeams([
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void"),
-            Team(id: 0, name: "Team Coach", timeCreated: Date(), tournament: "Tournament of the Champions of the Void")
-        ]);
+        TeamService.shared.getAllTeamsForTournament(id: tournament.id) { (error: String?, teams: [Team]?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                teamList.setData(teams: teams!, tournaments: [Tournament](repeating: self.tournament, count: teams!.count));
+            }
+        }
 
         teamList.tableView.allowsSelection = true;
         teamList.setSelectCallback(select(_:));
@@ -93,12 +88,26 @@ class SelectTeamViewController : UIViewController {
         view.setNeedsUpdateConstraints();
     }
 
+    func setTournament(_ tournament: Tournament) {
+        self.tournament = tournament;
+    }
+
     func select(_ team: Team) {
-        let alert = UIAlertController(title: dialogTitle, message: String(format: dialogBody, team.name), preferredStyle: .alert);
-        alert.addAction(UIAlertAction(title: dialogButtonText, style: .default, handler: { _ in
-            self.navigationController?.popToRootViewController(animated: true);
-        }));
-        self.present(alert, animated: true, completion: nil);
+        TeamRequestService.shared.requestToJoinTeam(team) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                let alert = UIAlertController(title: self.dialogTitle, message: String(format: self.dialogBody, team.name), preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: { _ in
+                    self.navigationController?.popViewController(animated: true);
+                }));
+                self.present(alert, animated: true, completion: nil);
+            }
+        }
     }
 
     // Ensures that the corresponding methods are only called once

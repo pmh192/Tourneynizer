@@ -9,7 +9,7 @@
 import UIKit;
 import PureLayout;
 
-class RegisterViewController: UIViewController, UITextFieldDelegate {
+class CreateUserViewController: UIViewController, UITextFieldDelegate {
     // Declarations for all subviews
     var loginPrompt: UILabel!;
     var loginButton: UIButton!;
@@ -20,6 +20,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     var nameField: UITextField!;
     var emailField: UITextField!;
     var registerStack: UIStackView!;
+    var errorPrompt: UILabel!;
 
     // Definitions for all style related constants
     let loginPromptText = "Already have an account?";
@@ -29,6 +30,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     let reenterPasswordFieldPrompt = "Re-enter password";
     let emailFieldPrompt = "Email";
     var nameFieldPrompt = "Name";
+    let passwordNoMatchError = "Passwords don't match.";
+    let emptyFieldError = "Please fill in all fields.";
     let loginPromptPadding: CGFloat = 10;
     let registerButtonBorderRadius: CGFloat = 5;
     let registerButtonBorderWidth: CGFloat = 5;
@@ -48,6 +51,16 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             view.textColor = Constants.color.gray;
             view.textAlignment = .center;
             view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
+            return view;
+        }();
+
+        errorPrompt = {
+            let view = UILabel.newAutoLayout();
+            view.textColor = Constants.color.red;
+            view.textAlignment = .center;
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
+            view.lineBreakMode = .byWordWrapping;
+            view.numberOfLines = 0;
             return view;
         }();
 
@@ -121,18 +134,19 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             view.addSubview(loginPrompt!);
             view.addSubview(loginButton!);
             return view;
-            }();
+        }();
 
-        registerStack = { [nameField, emailField, passwordField, reenterPasswordField, registerButton] in
+        registerStack = { [nameField, emailField, passwordField, reenterPasswordField, registerButton, errorPrompt] in
             let view = UIStackView();
             view.axis = .vertical;
+            view.addSubview(errorPrompt!);
             view.addSubview(nameField!);
             view.addSubview(emailField!);
             view.addSubview(passwordField!);
             view.addSubview(reenterPasswordField!);
             view.addSubview(registerButton!);
             return view;
-            }();
+        }();
 
         // Setup callback to hide keyboard on outside tap
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard));
@@ -140,7 +154,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap);
 
         // Delegate View Controller to respond to events
-        loginButton.addTarget(self, action: #selector(loginClicked(_:)), for: .touchUpInside);
+        loginButton.addTarget(self, action: #selector(exit(_:)), for: .touchUpInside);
+        registerButton.addTarget(self, action: #selector(register), for: .touchUpInside);
         nameField.delegate = self;
         emailField.delegate = self;
         passwordField.delegate = self;
@@ -193,6 +208,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             nameField.autoPinEdge(toSuperviewEdge: .leading);
             nameField.autoPinEdge(toSuperviewEdge: .trailing);
 
+            errorPrompt.autoPinEdge(.bottom, to: .top, of: nameField, withOffset: -registerStackVerticalPadding);
+            errorPrompt.autoPinEdge(toSuperviewEdge: .leading);
+            errorPrompt.autoPinEdge(toSuperviewEdge: .trailing);
+
             reenterPasswordField.autoPinEdge(.top, to: .bottom, of: passwordField, withOffset: registerStackVerticalPadding);
             reenterPasswordField.autoPinEdge(toSuperviewEdge: .leading);
             reenterPasswordField.autoPinEdge(toSuperviewEdge: .trailing);
@@ -208,25 +227,74 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     }
 
     // Login onclick function
-    @objc func loginClicked(_ sender: UIButton!) {
+    @objc func exit(_ sender: UIButton!) {
+        self.setError("");
         self.navigationController?.popViewController(animated: true);
+    }
+
+    @objc func register() {
+        if(emailField.text == nil || emailField.text == "" ||
+           nameField.text == nil || nameField.text == "" ||
+           passwordField.text == nil || passwordField.text == "" ||
+           reenterPasswordField.text == nil || reenterPasswordField.text == "") {
+            setError(emptyFieldError);
+            return;
+        }
+
+        if(passwordField.text != reenterPasswordField.text) {
+            setError(passwordNoMatchError);
+            return;
+        }
+
+        setError("");
+        let email = emailField.text!;
+        let name = nameField.text!;
+        let password = passwordField.text!;
+
+        let user = User(email: email, name: name, password: password);
+        UserService.shared.createUser(user, cb: { (error: String?, newUser: User?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.setError(error!);
+                };
+            }
+
+            return DispatchQueue.main.async {
+                self.clearFields();
+                self.exit(self.loginButton);
+            };
+        });
     }
 
     // Keyboard return callback
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch(textField) {
-        case nameField:
-            emailField.becomeFirstResponder();
-        case emailField:
-            passwordField.becomeFirstResponder();
-        case passwordField:
-            reenterPasswordField.becomeFirstResponder();
-        case reenterPasswordField:
-            fallthrough;
-        default:
-            reenterPasswordField.resignFirstResponder();
+            case nameField:
+                emailField.becomeFirstResponder();
+            case emailField:
+                passwordField.becomeFirstResponder();
+            case passwordField:
+                reenterPasswordField.becomeFirstResponder();
+            case reenterPasswordField:
+                fallthrough;
+            default:
+                register();
+                reenterPasswordField.resignFirstResponder();
         };
 
         return false;
+    }
+
+    func clearFields() {
+        emailField.text = "";
+        nameField.text = "";
+        passwordField.text = "";
+        reenterPasswordField.text = "";
+    }
+
+    func setError(_ error: String) {
+        errorPrompt.text = error;
+        self.view.setNeedsLayout();
+        self.view.layoutIfNeeded();
     }
 }

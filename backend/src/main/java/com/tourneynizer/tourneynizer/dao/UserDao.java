@@ -1,6 +1,7 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.error.EmailTakenException;
+import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class UserDao {
     private final JdbcTemplate jdbcTemplate;
@@ -85,6 +87,21 @@ public class UserDao {
         catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<User> getAll() throws SQLException {
+        String sql = "SELECT * FROM users;";
+        return this.jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public List<User> getAllRegisteredFor(Tournament tournament) {
+        String sql = "SELECT * FROM users WHERE id IN (SELECT user_id FROM user_participation WHERE tournament_id=?);";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, rowMapper);
+    }
+
+    public List<User> getAllUnregisteredFor(Tournament tournament) {
+        String sql = "SELECT * FROM users WHERE id NOT IN (SELECT user_id FROM user_participation WHERE tournament_id=?);";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, rowMapper);
     }
 }
 
