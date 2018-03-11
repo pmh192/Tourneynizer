@@ -10,6 +10,8 @@ class TournamentJoinPage extends Component{
 		super();
 		this.state={
 			address:'',
+			latitude:0,
+			longitude:0,
 			name:'',
 			id:0,
 			dataLoaded: false,
@@ -28,6 +30,8 @@ class TournamentJoinPage extends Component{
 					console.log(json);
 					this.setState({
 						address:json.address,
+						latitude:json.lat,
+						longitude:json.lng,
 						name:json.name,
 						id:json.id,
 						dataLoaded:true,
@@ -58,7 +62,7 @@ class TournamentJoinPage extends Component{
 							<Link to={'/Teams/view/' + this.state.id}><Button>Join a Team</Button></Link>
 							<Button>Create a team</Button>
 						</ButtonGroup>
-						<div><GoogleMapsView address={this.state.address}/></div>
+						<div><GoogleMapsView address={this.state.address} latitude={this.state.latitude} longitude={this.state.longitude}/></div>
 					</Jumbotron>
 				</div>
 			);

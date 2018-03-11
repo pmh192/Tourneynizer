@@ -8,7 +8,9 @@ class GooglePlacepicker extends React.Component {
 		this.state = { address: '' }
 		this.onChange = (address) => {
 			this.setState({address});
-			this.props.formStateSetter(address);
+			geocodeByAddress(address)
+			.then(results => getLatLng(results[0]))
+			.then(({ lat, lng }) => this.props.formStateSetter(lat, lng))
 		}
 	}
 

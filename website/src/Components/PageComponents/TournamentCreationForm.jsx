@@ -18,6 +18,8 @@ class TournamentCreationForm extends Component{
 			maxTeams: undefined,
 			tournamentType: 0,
 			address: '',
+			latitude:0,
+			longitude:0,
 			date: undefined,
 		}
 		this.handleChange = this.handleChange.bind(this);
@@ -42,11 +44,12 @@ class TournamentCreationForm extends Component{
     	let apiURL = API_URL + 'api/tournament/create';
     	let data = {
 			name: this.state.tournamentName,
-			address: this.state.address,
+			lat: this.state.latitude,
+			lng: this.state.longitude,
 			startTime: parseInt(this.state.date),
 			teamSize: parseInt(this.state.teamSize),
 			maxTeams: parseInt(this.state.maxTeams),
-			type: this.state.tournamentType,
+			type: 'VOLLEYBALL_BRACKET',
 			numCourts: 0,
     	}
 
@@ -73,9 +76,11 @@ class TournamentCreationForm extends Component{
 		e.preventDefault();
 	}
 
-	getGoogleLocation(loc){
+	//callback for getting location from placepicker
+	getGoogleLocation(lat, lng){
 		this.setState({
-			address:loc,
+			latitude:lat,
+			longitude:lng,
 		})
 	}
 
@@ -159,7 +164,6 @@ class TournamentCreationForm extends Component{
 						<ControlLabel>Date/Time:</ControlLabel>
 						<Col>
 							<DateTimePicker 
-								parse={str => new Date(str)}
 								onChange={this.getDateTime}
 							/>
 						</Col>

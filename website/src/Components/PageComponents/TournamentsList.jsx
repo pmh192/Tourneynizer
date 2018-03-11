@@ -57,9 +57,6 @@ class TournamentsList extends Component{
 				Header: 'Tourney Type',
 				accessor: 'type',
 			},{
-				Header: 'Address',
-				accessor: 'address',
-			},{
 				Header: 'See Details',
 				accessor: 'id',
 				Cell: row => (
