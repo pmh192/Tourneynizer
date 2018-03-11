@@ -100,6 +100,8 @@ class TeamsViewPage extends Component{
 		.then( response => {
 			if(response.status === 200){
 				console.log('Request Sent');
+			}else{
+				alert('You have already sent a request to this team.')
 			}
 		})
 		.catch(function (error) {

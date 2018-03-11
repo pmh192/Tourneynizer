@@ -9,6 +9,7 @@ class TeamCreationPage extends Component{
 			name:'',
 			tournament:undefined,
 			tournamentLoaded: false,
+			submitted: false,
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,7 +48,13 @@ class TeamCreationPage extends Component{
 			if(response.status === 200){
 				response.json().then( json => {
 					console.log(json);
+					alert('Created team: ' + this.state.name);
+					this.setState({
+						submitted: false,
+					})
 				})
+			}else{
+				alert('Error: Could not create team');
 			}
 		})
 		.catch(function (error) {
@@ -79,6 +86,9 @@ class TeamCreationPage extends Component{
 	}
 
 	render(){
+		if(this.state.submitted){
+			window.location.reload();
+		}
 		if(!this.state.tournamentLoaded){
 			return(
 				<div>

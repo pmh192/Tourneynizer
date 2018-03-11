@@ -20,6 +20,7 @@ class TournamentCreationForm extends Component{
 			latitude:0,
 			longitude:0,
 			date: undefined,
+			submitted: false,
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -39,7 +40,6 @@ class TournamentCreationForm extends Component{
 	}
 
 	handleSubmit(e){
-    	console.log('submitting')
     	let apiURL = API_URL + 'api/tournament/create';
     	let data = {
 			name: this.state.tournamentName,
@@ -66,6 +66,10 @@ class TournamentCreationForm extends Component{
 			if(response.status === 200){
 				response.json().then( json => {
 					console.log(json);
+					this.setState({
+						submitted: true,
+					})
+					alert('Tournament Created!');
 				})
 			}else{
 				alert('You must be logged in to create a Tournament');
@@ -96,6 +100,9 @@ class TournamentCreationForm extends Component{
 	render(){
 		Moment.locale('en');
 		momentLocalizer();
+		if(this.state.submitted){
+			window.location.reload();
+		}
 		return (
 			<div className='FormStyling'>
 				<Form horizontal='true' onSubmit={this.handleSubmit}>
