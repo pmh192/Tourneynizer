@@ -59,21 +59,15 @@ class MyTeamRequestsViewController : UIViewController {
         }
     }
 
-    // Ensures that the corresponding methods are only called once
-    var didUpdateConstraints = false;
-
-    // Sets constraints on all views
-    override func updateViewConstraints() {
-        super.updateViewConstraints();
-    }
-
     func loadTeamRequests() {
         TeamRequestService.shared.getRequestsForCurrentUser { (error: String?, teamRequests: [TeamRequest]?, tournaments: [Tournament]?, users: [User]?, teams: [Team]?) in
             if(error != nil) {
                 return;
             }
             
-            self.teamRequestView.setData(teamRequests: teamRequests!, tournaments: tournaments!, requesters: users!, teams: teams!);
+            DispatchQueue.main.async {
+                self.teamRequestView.setData(teamRequests: teamRequests!, tournaments: tournaments!, requesters: users!, teams: teams!);
+            }
         }
     }
 }

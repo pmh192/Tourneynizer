@@ -98,7 +98,7 @@ class RosterAddViewController : UIViewController {
 
         rosterButton = buttonGenerator();
         rosterButton.setTitle(rosterButtonText, for: .normal);
-        rosterButton.addTarget(self, action: #selector(addPlayer), for: .touchUpInside);
+        rosterButton.addTarget(self, action: #selector(openPlayerSelector), for: .touchUpInside);
 
         userListController.tableView.backgroundColor = Constants.color.lightGray;
         userListController.tableView.allowsSelection = false;
@@ -190,9 +190,10 @@ class RosterAddViewController : UIViewController {
         }
     }
 
-    @objc func addPlayer() {
+    @objc func openPlayerSelector() {
         let vc = UsersViewController();
-        vc.cb = addUser(_:);
+        vc.setCallback(cb: addUser(_:));
+        vc.setNavigatable(true);
         self.navigationController?.pushViewController(vc, animated: true);
     }
 

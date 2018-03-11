@@ -26,8 +26,11 @@ class TeamViewController : UIViewController {
     let pendingButtonText = "Pending Requests";
     let registeredMembersText = "Registered Members";
     let pendingMembersText = "Pending Members";
+    let dialogTitle = "User Request Sent";
+    let dialogBody = "You have successfully requested the user to join your team.";
+    let dialogButtonText = "Ok";
 
-    let actionsBarHeight: CGFloat = 50;
+    let actionsBarHeight: CGFloat = 35;
     let topTitlePadding: CGFloat = 20;
     let sideTitlePadding: CGFloat = 15;
     let buttonPadding: CGFloat = 10;
@@ -110,6 +113,7 @@ class TeamViewController : UIViewController {
             view.titleLabel?.lineBreakMode = .byCharWrapping;
             return view;
         }();
+        addUserButton.addTarget(self, action: #selector(openPlayerSelector), for: .touchUpInside);
 
         pendingRequestsButton = {
             let view = UIButton.newAutoLayout();
@@ -123,6 +127,7 @@ class TeamViewController : UIViewController {
             view.titleLabel?.lineBreakMode = .byCharWrapping;
             return view;
         }();
+        pendingRequestsButton.addTarget(self, action: #selector(openPendingRequests), for: .touchUpInside);
 
         memberSwitch = {
             let view = UISegmentedControl.newAutoLayout();
@@ -181,19 +186,19 @@ class TeamViewController : UIViewController {
     // Sets constraints on all views
     override func updateViewConstraints() {
         if(!didUpdateConstraints) {
-            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
-            statusBarCover.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight + actionsBarHeight);
+            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            statusBarCover.autoSetDimension(.height, toSize: actionsBarHeight);
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
             backView.autoSetDimension(.width, toSize: iconSize);
             backView.autoMatch(.height, to: .width, of: backView);
-            backView.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);
+            backView.autoPin(toTopLayoutGuideOf: self, withInset: 0);
             backView.autoPinEdge(toSuperviewEdge: .leading, withInset: buttonPadding);
 
             selectLabel.autoPinEdge(.leading, to: .trailing, of: backView, withOffset: sideTitlePadding);
             selectLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
-            selectLabel.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);
+            selectLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
 
             namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             namePrompt.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: promptTopPadding);
@@ -275,6 +280,41 @@ class TeamViewController : UIViewController {
             });
         }
 
+    }
+
+    @objc func openPlayerSelector() {
+        let vc = UsersViewController();
+        vc.setCallback(cb: addUser(_:));
+        vc.setNavigatable(true);
+        self.navigationController?.pushViewController(vc, animated: true);
+    }
+
+    func addUser(_ user: User) {
+        self.navigationController?.popViewController(animated: true);
+
+        TeamRequestService.shared.requestUserToJoinTeam(team: team, user: user) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                if(self.memberSwitch.selectedSegmentIndex == 1) {
+                    self.userListController.addUser(user);
+                }
+
+                let alert = UIAlertController(title: self.dialogTitle, message: self.dialogBody, preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: nil));
+                self.present(alert, animated: true, completion: nil);
+            }
+        }
+    }
+
+    @objc func openPendingRequests() {
+        let vc = PendingTeamRequestsViewController();
+        vc.setTeam(team);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 }
 
