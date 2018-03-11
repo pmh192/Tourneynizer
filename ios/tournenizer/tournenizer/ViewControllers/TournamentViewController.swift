@@ -212,7 +212,7 @@ class TournamentViewController : UIViewController {
 
         if(dashboard) {
             view.addSubview(startButton);
-            view.addSubview(approveButton);
+            //view.addSubview(approveButton);
         } else {
             if(!registered) {
                 view.addSubview(joinButton);
@@ -296,7 +296,7 @@ class TournamentViewController : UIViewController {
             logoLabel.autoPinEdge(toSuperviewEdge: .trailing);
 
             if(dashboard) {
-                let views: NSArray = [startButton, approveButton] as NSArray;
+                let views: NSArray = [startButton] as NSArray;
                 views.autoDistributeViews(along: .horizontal, alignedTo: .horizontal, withFixedSpacing: titlePadding, insetSpacing: true, matchedSizes: true);
                 startButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
                 mapViewContainer.autoPinEdge(.bottom, to: .top, of: startButton, withOffset: -mapPadding);

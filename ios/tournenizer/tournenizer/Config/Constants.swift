@@ -112,7 +112,7 @@ class Constants {
             }
 
             static func accept(_ id: CUnsignedLong) -> String {
-                return "/api/user/requests/\(id)/accept";
+                return "/api/requests/\(id)/accept";
             }
 
             static func reject(_ id: CUnsignedLong) -> String {

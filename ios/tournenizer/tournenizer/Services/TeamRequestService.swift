@@ -125,7 +125,7 @@ class TeamRequestService : Service {
     }
 
     func acceptRequest(_ teamRequest: TeamRequest, cb: @escaping ((String?) -> Void)) {
-        makeRequest(url: Constants.route.teamRequest.accept(teamRequest.id), type: .POST, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+        makeRequest(url: Constants.route.teamRequest.accept(teamRequest.id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             cb(error);
         }
     }
