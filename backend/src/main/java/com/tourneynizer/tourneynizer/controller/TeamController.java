@@ -37,11 +37,22 @@ public class TeamController {
     public ResponseEntity<?> findById(@PathVariable("id") long id,
                                       @CookieValue("session") String session,
                                       @RequestBody Map<String, String> values) {
+
+
         try {
             Tournament tournament = tournamentService.findById(id);
             User user = sessionService.findBySession(session);
-            Team team = teamService.createTeam(user, tournament, values);
+            Team team = null;
 
+            try {
+                team = teamService.getTeamForTournament(tournament, user);
+            } catch (BadRequestException e) {}
+
+            if(team != null) {
+                throw new BadRequestException("User is already part of a team for this tournament.");
+            }
+
+            team = teamService.createTeam(user, tournament, values);
             return new ResponseEntity<>(team, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
