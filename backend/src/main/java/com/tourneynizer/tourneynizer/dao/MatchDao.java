@@ -103,6 +103,10 @@ public class MatchDao {
     }
 
     public void startMatch(Match match) {
+        if (!match.getMatchStatus().equals(MatchStatus.CREATED)) {
+            throw new IllegalArgumentException("That match has already been started");
+        }
+
         String sql = "UPDATE matches SET status=? WHERE id=?";
         int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.STARTED.ordinal(), match.getId()},
                 new int[] {Types.SMALLINT, Types.BIGINT});
@@ -112,6 +116,14 @@ public class MatchDao {
     }
 
     public void endMatch(Match match, long score1, long score2) {
+        if (match.getMatchStatus().equals(MatchStatus.COMPLETED)) {
+            throw new IllegalArgumentException("That match has already ended");
+        }
+
+        if (match.getMatchStatus().equals(MatchStatus.CREATED)) {
+            throw new IllegalArgumentException("That match hasn't been started yet");
+        }
+
         String sql = "UPDATE matches SET status=?, score1=?, score2=? WHERE id=?;";
         int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.COMPLETED.ordinal(), score1, score2, match.getId()},
                 new int[] {Types.SMALLINT, Types.BIGINT, Types.BIGINT, Types.BIGINT});
@@ -124,6 +136,10 @@ public class MatchDao {
     }
 
     public void updateScore(Match match, long score1, long score2) {
+        if (!match.getMatchStatus().equals(MatchStatus.STARTED)) {
+            throw new IllegalArgumentException("Only matches in progress can have their scores updated");
+        }
+
         String sql = "UPDATE matches SET score1=?, score2=? WHERE id=?;";
         int updated = jdbcTemplate.update(sql, new Object[]{score1, score2, match.getId()},
                 new int[] {Types.BIGINT, Types.BIGINT, Types.BIGINT});
