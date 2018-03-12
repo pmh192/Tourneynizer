@@ -12,6 +12,7 @@ import LoginPage from '../PageComponents/LoginPage';
 import AccountCreationPage from '../PageComponents/AccountCreationPage';
 import TeamsViewPage from '../PageComponents/TeamsViewPage';
 import TeamCreationPage from '../PageComponents/TeamCreationPage';
+import TeamInformation from '../PageComponents/TeamInformation';
 
 
 class StateManager extends Component{
@@ -60,6 +61,7 @@ class StateManager extends Component{
 					<Route exact path="/Profile/view" component={ProfileAboutPage} />
 					<Route exact path="/Profile/current" component={ProfileCurrentPage} />
 					<Route exact path="/Profile/history" component={ProfileHistoryPage} />
+					<Route exact path="/Profile/view/team/:teamId" component={TeamInformation} />
 				</Switch>
 			</div>
 		);

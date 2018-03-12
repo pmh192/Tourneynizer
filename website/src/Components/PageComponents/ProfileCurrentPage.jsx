@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { API_URL } from '../../resources/constants.jsx';
 import ReactTable from 'react-table';
 
@@ -11,8 +12,9 @@ class ProfileCurrentPage extends Component{
 		super();
 		//loaded bools are set true when promise is fulfilled
 		this.state={
+
 			displayData: [],
-			matchesLoaded: true,
+			requestsLoaded: true,
 			tournamentsLoaded: true,
 			teamsLoaded: false,
 			matches: [],
@@ -23,7 +25,6 @@ class ProfileCurrentPage extends Component{
 	}
 
 	componentWillMount(){
-		this.getMatches();
 		this.getTournaments();
 		this.getTeams();
 	}
@@ -63,32 +64,34 @@ class ProfileCurrentPage extends Component{
     	});
 	}
 
+
+
 	//set user's current tournaments
 	getTournaments(){
 
 	}
 
-	//set user's current matches
-	getMatches(){
-
-	}
-
 	render(){
-		if(this.state.tournamentsLoaded && this.state.teamsLoaded && this.state.matchesLoaded){
+		if(this.state.tournamentsLoaded && this.state.teamsLoaded && this.state.requestsLoaded){
 			let columns= [{
 				Header: 'Name',
 				accessor: 'name',
+			},{
+				accessor: 'id',
+				Cell: row => (
+					<Link to={'/Profile/view/team/' + row.value}>Team information</Link>
+				)
 			}]
 
 			return(
 				<div>
 					<Jumbotron>
-						<h1>Current Tournaments/Matches/Teams</h1>
+						<h1>Current Tournaments/Requests/Teams</h1>
 							<ButtonToolbar>
 						  		<ToggleButtonGroup type="radio" name="options" defaultValue={2}>
 						   			<ToggleButton onChange={this.handleRadioChange} value={1}>Tournaments</ToggleButton>
 						      		<ToggleButton onChange={this.handleRadioChange} value={2}>Teams</ToggleButton>
-						      		<ToggleButton onChange={this.handleRadioChange} value={3}>Matches</ToggleButton>
+						      		<ToggleButton onChange={this.handleRadioChange} value={3}>Requests</ToggleButton>
 						    	</ToggleButtonGroup>
 							</ButtonToolbar>
 							<ReactTable
