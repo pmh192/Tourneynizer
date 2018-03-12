@@ -25,4 +25,8 @@ class Team : Codable {
         self.creatorId = creatorId;
         self.tournamentId = tournamentId;
     }
+
+    convenience init() {
+        self.init(id: 0, name: "", timeCreated: Date(), checkedIn: false, creatorId: 0, tournamentId: 0);
+    }
 }

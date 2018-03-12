@@ -1,8 +1,10 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.model.Team;
+import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -88,5 +90,21 @@ public class RosterDao {
     public List<User> getTeamMembers(Team team) throws SQLException {
         String sql = "SELECT * FROM users WHERE id IN (SELECT user_id FROM roster WHERE team_id=?);";
         return this.jdbcTemplate.query(sql, new Object[]{team.getId()}, UserDao.rowMapper);
+    }
+
+    public boolean isUserInTournament(User user, Tournament tournament) {
+        return isUserInTournament(user, tournament.getId());
+    }
+
+    public boolean isUserInTournament(User user, long tournamentId) {
+        String sql = "SELECT id FROM roster WHERE user_id=? AND tournament_id=?;";
+        try {
+            jdbcTemplate.queryForObject(sql, new Object[]{user.getId(), tournamentId}, idMapper);
+            return true;
+        }
+        catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+
     }
 }

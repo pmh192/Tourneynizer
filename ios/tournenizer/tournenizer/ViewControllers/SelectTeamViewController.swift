@@ -93,7 +93,7 @@ class SelectTeamViewController : UIViewController {
     }
 
     func select(_ team: Team) {
-        TeamRequestService.shared.requestToJoinTeam(team) { (error: String?) in
+        TeamRequestService.shared.requestToJoinTeam(team.id) { (error: String?) in
             if(error != nil) {
                 return DispatchQueue.main.async {
                     self.displayError(error!);
