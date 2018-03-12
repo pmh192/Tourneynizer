@@ -23,7 +23,7 @@ class PendingTeamRequestsViewController : UIViewController {
     let sideTitlePadding: CGFloat = 15;
     let buttonPadding: CGFloat = 10;
     let iconSize: CGFloat = 25;
-    let selectText = "User Team Requests";
+    let selectText = "Requests to Join";
 
     override func loadView() {
         view = UIView();
