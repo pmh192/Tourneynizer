@@ -95,9 +95,10 @@ public class MatchGenerator {
             else {                          team2 = node2.getValueId(); }
 
             MatchChildren children = new MatchChildren(team1, team2, match1, match2);
-            Match parent = new Match(tournament.getId(), children, order++, null, ScoreType.ONE_SET, (short)1);
+            int newHeight = Math.max(node1.height, node2.height) + 1;
+            Match parent = new Match(tournament.getId(), children, order++, null, ScoreType.ONE_SET, (short) newHeight);
             matchDao.insert(parent);
-            tree.add(new MatchNode(parent, orderInserted++, Math.max(node1.height, node2.height) + 1));
+            tree.add(new MatchNode(parent, orderInserted++, newHeight));
             matches.add(parent);
         }
 

@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -73,6 +74,14 @@ public class MatchGeneratorTest extends TestWithContext{
         MatchChildren expected = new MatchChildren(team1.getId(), team2.getId(), null, null);
 
         assertEquals(expected, children);
+
+        List<Short> rounds = matchDao.findByTournament(tournament)
+                .stream()
+                .map(Match::getRound)
+                .collect(Collectors.toList());
+
+        List<Short> expectedRounds = Arrays.asList((short) 1);
+        assertEquals(expectedRounds, rounds);
     }
 
     @Test
@@ -110,6 +119,14 @@ public class MatchGeneratorTest extends TestWithContext{
         expected = new MatchChildren(null, null, match1.getId(), match2.getId());
         assertEquals(expected, children);
 
+        List<Short> rounds = matchDao.findByTournament(tournament)
+                .stream()
+                .map(Match::getRound)
+                .collect(Collectors.toList());
+
+        List<Short> expectedRounds = Arrays.asList((short) 1, (short) 1, (short) 2);
+        assertEquals(expectedRounds, rounds);
+
     }
 
     @Test
@@ -132,6 +149,14 @@ public class MatchGeneratorTest extends TestWithContext{
         Match finalMatch = actual.get(1);
         MatchChildren children = finalMatch.getMatchChildren();
         assertTrue(children.getKnownTeamChildren().contains(team3.getId()));
+
+        List<Short> rounds = matchDao.findByTournament(tournament)
+                .stream()
+                .map(Match::getRound)
+                .collect(Collectors.toList());
+
+        List<Short> expectedRounds = Arrays.asList((short) 1, (short) 2);
+        assertEquals(expectedRounds, rounds);
     }
 
 }
