@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/joinTeam"
-            android:text="@string/requestToJoinTeam" />
+            android:text="@string/viewPendingTeams" />
 
         <Button
             android:layout_width="0dp"

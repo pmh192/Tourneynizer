@@ -3,8 +3,10 @@ package com.tourneynizer.tourneynizer.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.tourneynizer.tourneynizer.fragments.HomeFragment;
 import com.tourneynizer.tourneynizer.model.User;
 import com.tourneynizer.tourneynizer.fragments.CreateTournamentFragment;
 import com.tourneynizer.tourneynizer.fragments.RootFragment;
@@ -18,7 +20,7 @@ import java.sql.Time;
  * Created by ryanwiener on 2/9/18.
  */
 
-public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
+public class TabFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int NUM_TABS = 5;
 
@@ -35,7 +37,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         RootFragment rootFragment = RootFragment.newInstance();
         switch (position) {
             case 0:
-                rootFragment.setBaseFragment(TournamentListFragment.newInstance());
+                rootFragment.setBaseFragment(HomeFragment.newInstance());
                 return rootFragment;
             case 1:
                 rootFragment.setBaseFragment(TournamentListFragment.newInstance());
@@ -56,10 +58,10 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
         if (currentFragment != object) {
             currentFragment = ((RootFragment) object);
         }
-        super.setPrimaryItem(container, position, object);
     }
 
     public boolean popCurrent() {

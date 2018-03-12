@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tourneynizer.tourneynizer.fragments.TeamInfoFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/marginSize"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:id="@+id/logo"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/titleTextColor"
+            android:textSize="@dimen/largeTextSize"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/logo"
+            android:id="@+id/teamName"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/teamName"
+            android:layout_toEndOf="@id/logo"
+            android:textAlignment="center"
+            android:padding="@dimen/paddingSize"
+            android:id="@+id/creatorName" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/mediumTextSize"
+        android:textAlignment="center"
+        android:textColor="@color/titleTextColor"
+        android:text="@string/partOfTournament"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/paddingSize"
+        android:textSize="@dimen/mediumTextSize"
+        android:id="@+id/tournamentName"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginSize"
+        android:textAlignment="center"
+        android:textColor="@color/titleTextColor"
+        android:textSize="@dimen/mediumTextSize"
+        android:text="@string/teamMembers"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/buttons"
+            android:id="@+id/memberList"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:id="@+id/buttons">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/marginSize"
+                android:id="@+id/requestButton1"
+                android:text="@string/viewRequests"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/marginSize"
+                android:id="@+id/requestButton2"
+                android:text="@string/requestPlayers"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tourneynizer.tourneynizer.fragments.HomeFragment">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:paddingTop="@dimen/marginSize"
+            android:paddingBottom="@dimen/marginSize"
+            android:id="@+id/myTeams"
+            android:checked="true"
+            android:text="@string/myTeams"
+            android:textAlignment="center"/>
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/myTournaments"
+            android:paddingTop="@dimen/marginSize"
+            android:paddingBottom="@dimen/marginSize"
+            android:button="@null"
+            android:text="@string/myTournaments"
+            android:textAlignment="center"/>
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/myRequests"
+            android:paddingTop="@dimen/marginSize"
+            android:paddingBottom="@dimen/marginSize"
+            android:button="@null"
+            android:text="@string/myRequests"
+            android:textAlignment="center"/>
+
+    </RadioGroup>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeRefresher">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

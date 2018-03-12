@@ -227,32 +227,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/mediumTextSize"
-                    android:textColor="@color/titleTextColor"
-                    android:text="@string/numCourts"
-                    android:labelFor="@id/numCourts"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/mediumTextSize"
-                    android:id="@+id/numCourts"
-                    android:inputType="number"/>
-
-            </LinearLayout>
-
         </LinearLayout>
 
         <Button
