@@ -115,7 +115,11 @@ public class MatchDao {
         }
     }
 
-    public void endMatch(Match match, long score1, long score2) {
+    public void endMatch(Match match, Team winner, long score1, long score2) {
+        if (!match.getMatchChildren().getKnownTeamChildren().contains(winner.getId())) {
+            throw new IllegalArgumentException("That team isn't playing in this match");
+        }
+
         if (match.getMatchStatus().equals(MatchStatus.COMPLETED)) {
             throw new IllegalArgumentException("That match has already ended");
         }
@@ -166,5 +170,15 @@ public class MatchDao {
 
     public List<Match> getInProgress(Tournament tournament) {
         return getByStatus(tournament, MatchStatus.STARTED);
+    }
+
+    public Match getParentMatch(Match match) {
+        String sql = "SELECT * FROM matches WHERE match_child1=? OR match_child2=?;";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{match.getId(), match.getId()},
+                    new int[]{Types.BIGINT, Types.BIGINT}, rowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }

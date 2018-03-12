@@ -224,7 +224,7 @@ public class MatchDaoTest extends TestWithContext {
         assertEquals(match1.getMatchStatus(), MatchStatus.CREATED);
         matchDao.startMatch(match1);
         assertEquals(match1.getMatchStatus(), MatchStatus.STARTED);
-        matchDao.endMatch(match1, 5, 3);
+        matchDao.endMatch(match1, team1, 5, 3);
         assertEquals(match1.getMatchStatus(), MatchStatus.COMPLETED);
         assertEquals(match1.getScore1().longValue(), 5);
         assertEquals(match1.getScore2().longValue(), 3);
@@ -274,7 +274,7 @@ public class MatchDaoTest extends TestWithContext {
         actual = matchDao.getInProgress(tournament);
         assertEquals(expected, actual);
 
-        matchDao.endMatch(match1, 4, 5);
+        matchDao.endMatch(match1, team2, 4, 5);
 
         expected = Arrays.asList(match1);
         actual = matchDao.getCompleted(tournament);
@@ -303,5 +303,31 @@ public class MatchDaoTest extends TestWithContext {
         score2 = match1.getScore2();
         assertEquals(score1.longValue(), 5);
         assertEquals(score2.longValue(), 3);
+    }
+
+    @Test
+    public void getParent() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        User user4 = getUser(4);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(user1, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
+        Team team4 = getTeam(user4, tournament, 4);
+        List<Team> teams = Arrays.asList(team1, team2, team3, team4);
+
+        MatchGenerator matchGenerator = new MatchGenerator(matchDao);
+        matchGenerator.createTournamentMatches(teams, creator, tournament);
+
+        List<Match> matches = matchDao.getUnstarted(tournament);
+        Match match1 = matches.get(0);
+        Match parent = matchDao.getParentMatch(match1);
+        Match finalRound= matches.get(2);
+
+        assertEquals(finalRound, parent);
+        assertNull(matchDao.getParentMatch(finalRound));
     }
 }
