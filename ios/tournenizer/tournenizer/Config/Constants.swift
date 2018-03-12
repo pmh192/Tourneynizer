@@ -34,9 +34,9 @@ class Constants {
         static let small: CGFloat = 12;
     };
 
-    //static let statusBarCoverHeight: CGFloat = 50;
+    static let statusBarCoverHeight: CGFloat = 50;
     static let serverURL = "http://169.231.234.195:8080";
-    static let serverURL = "http://localhost:8080";
+    //static let serverURL = "http://localhost:8080";
 
     class error {
         static let serverError = "There was an error with the server.";
