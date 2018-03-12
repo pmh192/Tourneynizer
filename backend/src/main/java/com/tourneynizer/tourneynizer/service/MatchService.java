@@ -11,7 +11,7 @@ import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 public class MatchService {
 
@@ -63,13 +63,7 @@ public class MatchService {
         return matchDao.getCompleted(getTournament(tournamentId));
     }
 
-    public void startMatch(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException{
-        Match match = getMatch(matchId);
-
-        if (match.getTournamentId() != tournamentId) {
-            throw new BadRequestException("That match isn't part of this tournament");
-        }
-
+    private void mustBeRef(Match match, User user) throws BadRequestException, InternalErrorException {
         Team team;
         try { team = teamDao.findById(match.getRefId()); }
         catch (SQLException e) { throw new InternalErrorException(e); }
@@ -78,8 +72,48 @@ public class MatchService {
         if (team.getCreatorId() != user.getId()) {
             throw new BadRequestException("Only the creator of the referee team can start the match");
         }
+    }
+
+    public void startMatch(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException{
+        Match match = getMatch(matchId);
+
+        if (match.getTournamentId() != tournamentId) {
+            throw new BadRequestException("That match isn't part of this tournament");
+        }
+
+        mustBeRef(match, user);
 
         try { matchDao.startMatch(match); }
         catch (IllegalArgumentException e) { throw new BadRequestException(e.getMessage()); }
+    }
+
+    private static final String score1Key = "score1";
+    private static final String score2Key = "score2";
+    private static final Set<String> expectedParams = new HashSet<>(Arrays.asList(score1Key, score2Key));
+
+    public void updateScore(long tournamentId, long matchId, Map<String, String> body, User user) throws
+            BadRequestException, InternalErrorException  {
+
+        if (!body.keySet().containsAll(expectedParams)) {
+            throw new BadRequestException("Expected body to have values: " + expectedParams);
+        }
+
+        long score1, score2;
+        try {
+            score1 = Long.parseLong(body.get(score1Key));
+            score2 = Long.parseLong(body.get(score2Key));
+        } catch (NumberFormatException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+
+        Match match = getMatch(matchId);
+
+        if (match.getTournamentId() != tournamentId) {
+            throw new BadRequestException("That match isn't part of this tournament");
+        }
+
+        mustBeRef(match, user);
+
+        matchDao.updateScore(match, score1, score2);
     }
 }

@@ -13,10 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -72,7 +69,24 @@ public class MatchController {
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
+    @PostMapping("/api/tournament/{tournamentID}/match/{matchID}/updateScore")
+    public ResponseEntity<?> updateScore(@CookieValue("session") String session,
+                                         @PathVariable("tournamentID") long tournamentId,
+                                         @PathVariable("matchID") long matchId,
+                                         @RequestBody Map<String, String> body) {
+
+        try {
+            User user = sessionService.findBySession(session);
+            matchService.updateScore(tournamentId, matchId, body, user);
+            return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(),
+                    HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private static final Map<String, Object> toReturn = getToReturn();
