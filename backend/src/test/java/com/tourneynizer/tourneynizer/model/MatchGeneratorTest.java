@@ -9,11 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class MatchGeneratorTest extends TestWithContext{
 
@@ -66,22 +69,13 @@ public class MatchGeneratorTest extends TestWithContext{
 
         List<Team> teams = Arrays.asList(team1, team2);
 
-        List<Match> actual = generator.createTournamentMatches(teams, user, tournament);
-
-        assertEquals(1, actual.size());
-        Match match = actual.get(0);
-        MatchChildren children = match.getMatchChildren();
-        MatchChildren expected = new MatchChildren(team1.getId(), team2.getId(), null, null);
-
-        assertEquals(expected, children);
-
-        List<Short> rounds = matchDao.findByTournament(tournament)
-                .stream()
-                .map(Match::getRound)
-                .collect(Collectors.toList());
-
-        List<Short> expectedRounds = Arrays.asList((short) 1);
-        assertEquals(expectedRounds, rounds);
+        try {
+            generator.createTournamentMatches(teams, user, tournament);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Teams cannot ref their own game", e.getMessage());
+        }
     }
 
     @Test
@@ -107,6 +101,13 @@ public class MatchGeneratorTest extends TestWithContext{
         Match match1 = actual.get(0);
         Match match2 = actual.get(1);
         Match match3 = actual.get(2);
+
+        Set<Long> possibleRefs1 = new HashSet<>(Arrays.asList(team3.getId(), team4.getId()));
+        Set<Long> possibleRefs2 = new HashSet<>(Arrays.asList(team1.getId(), team2.getId()));
+
+        assertTrue(possibleRefs1.contains(match1.getRefId()));
+        assertTrue(possibleRefs2.contains(match2.getRefId()));
+
         MatchChildren children = match1.getMatchChildren();
         MatchChildren expected = new MatchChildren(team1.getId(), team2.getId(), null, null);
         assertEquals(expected, children);
@@ -146,6 +147,10 @@ public class MatchGeneratorTest extends TestWithContext{
         List<Match> actual = generator.createTournamentMatches(teams, user, tournament);
 
         assertEquals(2, actual.size());
+
+        Match match1 = actual.get(0);
+        assertEquals(match1.getRefId(), team3.getId());
+
         Match finalMatch = actual.get(1);
         MatchChildren children = finalMatch.getMatchChildren();
         assertTrue(children.getKnownTeamChildren().contains(team3.getId()));
