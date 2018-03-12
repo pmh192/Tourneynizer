@@ -5,10 +5,7 @@ import com.tourneynizer.tourneynizer.dao.TeamDao;
 import com.tourneynizer.tourneynizer.dao.TournamentDao;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
-import com.tourneynizer.tourneynizer.model.Match;
-import com.tourneynizer.tourneynizer.model.Team;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -118,7 +115,36 @@ public class MatchService {
         matchDao.updateScore(match, score1, score2);
     }
 
-    public Long[] getScore(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException{
+    public void endMatch(long tournamentId, long matchId, Map<String, String> body, User user)
+            throws BadRequestException, InternalErrorException {
+
+        if (!body.keySet().containsAll(expectedParams)) {
+            throw new BadRequestException("Expected body to have values: " + expectedParams);
+        }
+
+        long score1, score2;
+        try {
+            score1 = Long.parseLong(body.get(score1Key));
+            score2 = Long.parseLong(body.get(score2Key));
+        } catch (NumberFormatException e) {
+            throw new BadRequestException(e.getMessage());
+        }
+
+        if (score1 == score2) {
+            throw new BadRequestException("Game's cannot end on a tie");
+        }
+
+
+        Match match = getMatch(matchId, tournamentId);
+        MatchChildren children = match.getMatchChildren();
+        long winnerId = score1 > score2 ? children.getTeamChild1() : children.getTeamChild2();
+
+        mustBeRef(match, user);
+
+        matchDao.endMatch(match, winnerId, score1, score2);
+    }
+
+    public Long[] getScore(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException {
         Match match = getMatch(matchId, tournamentId);
 
         mustBeRef(match, user);

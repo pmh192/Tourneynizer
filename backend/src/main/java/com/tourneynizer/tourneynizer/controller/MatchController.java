@@ -105,6 +105,24 @@ public class MatchController {
         }
     }
 
+    @PostMapping("/api/tournament/{tournamentID}/match/{matchID}/end")
+    public ResponseEntity<?> endMatch(@CookieValue("session") String session,
+                                      @PathVariable("tournamentID") long tournamentId,
+                                      @PathVariable("matchID") long matchId,
+                                      @RequestBody Map<String, String> body) {
+
+        try {
+            User user = sessionService.findBySession(session);
+            matchService.endMatch(tournamentId, matchId, body, user);
+            return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(),
+                    HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private static final Map<String, Object> toReturn = getToReturn();
 
     private static Map<String, Object> getToReturn() {
