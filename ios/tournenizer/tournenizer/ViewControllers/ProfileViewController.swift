@@ -72,7 +72,7 @@ class ProfileViewController : UIViewController {
 
         titleLabel = {
             let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.header);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
             view.textColor = Constants.color.red;
             view.text = user.name;
             view.lineBreakMode = .byWordWrapping;

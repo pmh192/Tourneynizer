@@ -16,13 +16,21 @@ class TeamViewController : UIViewController {
     var backView: UIButton!;
     var namePrompt: UILabel!;
     var nameField: UILabel!;
-    var rosterPrompt: UILabel!;
+    var addUserButton: UIButton!;
+    var pendingRequestsButton: UIButton!;
+    var memberSwitch: UISegmentedControl!;
 
     let selectText = "Team Information";
     let namePromptText = "Name:";
-    let rosterPromptText = "Roster:";
+    let addButtonText = "Add User";
+    let pendingButtonText = "Pending Requests";
+    let registeredMembersText = "Registered Members";
+    let pendingMembersText = "Pending Members";
+    let dialogTitle = "User Request Sent";
+    let dialogBody = "You have successfully requested the user to join your team.";
+    let dialogButtonText = "Ok";
 
-    let actionsBarHeight: CGFloat = 50;
+    let actionsBarHeight: CGFloat = 35;
     let topTitlePadding: CGFloat = 20;
     let sideTitlePadding: CGFloat = 15;
     let buttonPadding: CGFloat = 10;
@@ -35,8 +43,11 @@ class TeamViewController : UIViewController {
     let buttonBorderWidth: CGFloat = 1;
     let buttonBorderRadius: CGFloat = 5;
     let buttonWidth: CGFloat = 100;
+    let mainButtonBorderRadius: CGFloat = 5;
+    let mainButtonBorderWidth: CGFloat = 5;
 
     var team: Team!;
+    var creator = false;
 
     let userListController = UserListViewController();
 
@@ -77,11 +88,59 @@ class TeamViewController : UIViewController {
             return view;
         }();
 
+        addUserButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle(addButtonText, for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = mainButtonBorderRadius;
+            view.layer.borderWidth = mainButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+
+        addUserButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle(addButtonText, for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = mainButtonBorderRadius;
+            view.layer.borderWidth = mainButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+        addUserButton.addTarget(self, action: #selector(openPlayerSelector), for: .touchUpInside);
+
+        pendingRequestsButton = {
+            let view = UIButton.newAutoLayout();
+            view.setTitle(pendingButtonText, for: .normal);
+            view.setTitleColor(Constants.color.white, for: .normal);
+            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+            view.layer.cornerRadius = mainButtonBorderRadius;
+            view.layer.borderWidth = mainButtonBorderWidth;
+            view.layer.borderColor = Constants.color.lightBlue.cgColor;
+            view.backgroundColor = Constants.color.lightBlue;
+            view.titleLabel?.lineBreakMode = .byCharWrapping;
+            return view;
+        }();
+        pendingRequestsButton.addTarget(self, action: #selector(openPendingRequests), for: .touchUpInside);
+
+        memberSwitch = {
+            let view = UISegmentedControl.newAutoLayout();
+            view.insertSegment(withTitle: registeredMembersText, at: 0, animated: false);
+            view.insertSegment(withTitle: pendingMembersText, at: 1, animated: false);
+            view.tintColor = Constants.color.navy;
+            view.selectedSegmentIndex = 0;
+            return view;
+        }();
+        memberSwitch.addTarget(self, action: #selector(selectorChanged), for: .valueChanged);
+
         namePrompt = promptGenerator();
         namePrompt.text = namePromptText;
-
-        rosterPrompt = promptGenerator();
-        rosterPrompt.text = rosterPromptText;
 
         nameField = promptGenerator();
         nameField.text = team.name;
@@ -93,12 +152,23 @@ class TeamViewController : UIViewController {
         userListController.tableView.allowsSelection = false;
         userListController.editable = false;
         userListController.separatorColor = Constants.color.white;
-        userListController.addUser(User(email: "ryanl.wiener@gmail.com", name: "Ryan Wiener", timeCreated: Date()));
+        userListController.setReloadCallback {
+            self.loadUsers();
+        }
+        loadUsers();
 
         addChildViewController(userListController);
         contentView.addSubview(userListController.view);
         userListController.view.frame = contentView.bounds;
         userListController.didMove(toParentViewController: self);
+
+        creator = UserService.shared.getCurrentUser()!.id == team.creatorId;
+
+        if(creator) {
+            view.addSubview(memberSwitch);
+            view.addSubview(addUserButton);
+            view.addSubview(pendingRequestsButton);
+        }
 
         view.addSubview(statusBarCover);
         view.addSubview(backView);
@@ -106,7 +176,6 @@ class TeamViewController : UIViewController {
         view.addSubview(contentView);
         view.addSubview(namePrompt);
         view.addSubview(nameField);
-        view.addSubview(rosterPrompt);
         view.addSubview(contentView);
         view.setNeedsUpdateConstraints();
     }
@@ -117,19 +186,19 @@ class TeamViewController : UIViewController {
     // Sets constraints on all views
     override func updateViewConstraints() {
         if(!didUpdateConstraints) {
-            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
-            statusBarCover.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight + actionsBarHeight);
+            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            statusBarCover.autoSetDimension(.height, toSize: actionsBarHeight);
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
             backView.autoSetDimension(.width, toSize: iconSize);
             backView.autoMatch(.height, to: .width, of: backView);
-            backView.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);
+            backView.autoPin(toTopLayoutGuideOf: self, withInset: 0);
             backView.autoPinEdge(toSuperviewEdge: .leading, withInset: buttonPadding);
 
             selectLabel.autoPinEdge(.leading, to: .trailing, of: backView, withOffset: sideTitlePadding);
             selectLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
-            selectLabel.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);
+            selectLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
 
             namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             namePrompt.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: promptTopPadding);
@@ -139,14 +208,26 @@ class TeamViewController : UIViewController {
             nameField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
             nameField.autoPinEdge(.leading, to: .trailing, of: namePrompt);
 
-            rosterPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
-            rosterPrompt.autoPinEdge(.top, to: .bottom, of: namePrompt, withOffset: promptTopPadding);
-            rosterPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
+            if(creator) {
+                memberSwitch.autoPinEdge(.top, to: .bottom, of: namePrompt, withOffset: promptTopPadding);
+                memberSwitch.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
+                memberSwitch.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
+                contentView.autoPinEdge(.top, to: .bottom, of: memberSwitch, withOffset: contentPadding);
+            } else {
+                contentView.autoPinEdge(.top, to: .bottom, of: namePrompt, withOffset: contentPadding);
+            }
 
-            contentView.autoPinEdge(.top, to: .bottom, of: rosterPrompt, withOffset: promptPadding);
             contentView.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             contentView.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
-            contentView.autoPinEdge(toSuperviewEdge: .bottom, withInset: promptPadding);
+
+            if(creator) {
+                let views: NSArray = [pendingRequestsButton, addUserButton] as NSArray;
+                views.autoDistributeViews(along: .horizontal, alignedTo: .horizontal, withFixedSpacing: promptPadding, insetSpacing: true, matchedSizes: true);
+                pendingRequestsButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: contentPadding);
+                contentView.autoPinEdge(.bottom, to: .top, of: pendingRequestsButton, withOffset: -promptPadding);
+            } else {
+                contentView.autoPinEdge(toSuperviewEdge: .bottom, withInset: promptPadding);
+            }
 
             didUpdateConstraints = true;
         }
@@ -162,6 +243,79 @@ class TeamViewController : UIViewController {
         self.team = team;
     }
 
+    @objc func selectorChanged() {
+        loadUsers();
+    }
+
+    func loadUsers() {
+        if(memberSwitch.selectedSegmentIndex == 0) {
+            TeamService.shared.getTeamMembers(team.id) { (error: String?, users: [User]?) in
+                if(error != nil) {
+                    return DispatchQueue.main.async {
+                        self.displayError(error!);
+                    }
+                }
+
+                return DispatchQueue.main.async {
+                    self.userListController.setUsers(users!);
+                }
+            }
+        } else {
+            TeamRequestService.shared.getRequestsByTeam(team.id, cb: { (error: String?, teamRequests: [TeamRequest]?, tournaments: [Tournament]?, users: [User]?, teams: [Team]?) in
+                if(error != nil) {
+                    return DispatchQueue.main.async {
+                        self.displayError(error!);
+                    }
+                }
+
+                if(teamRequests!.count > 0) {
+                    print("CurrentUser: " + self.team.creatorId.description);
+                    print("Requester: " + teamRequests![0].requesterId.description);
+                    print("Target: " + teamRequests![0].userId.description)
+                }
+
+                return DispatchQueue.main.async {
+                    self.userListController.setUsers(users!);
+                }
+            });
+        }
+
+    }
+
+    @objc func openPlayerSelector() {
+        let vc = UsersViewController();
+        vc.setCallback(cb: addUser(_:));
+        vc.setNavigatable(true);
+        self.navigationController?.pushViewController(vc, animated: true);
+    }
+
+    func addUser(_ user: User) {
+        self.navigationController?.popViewController(animated: true);
+
+        TeamRequestService.shared.requestUserToJoinTeam(team: team, user: user) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
+
+            return DispatchQueue.main.async {
+                if(self.memberSwitch.selectedSegmentIndex == 1) {
+                    self.userListController.addUser(user);
+                }
+
+                let alert = UIAlertController(title: self.dialogTitle, message: self.dialogBody, preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: self.dialogButtonText, style: .default, handler: nil));
+                self.present(alert, animated: true, completion: nil);
+            }
+        }
+    }
+
+    @objc func openPendingRequests() {
+        let vc = PendingTeamRequestsViewController();
+        vc.setTeam(team);
+        self.navigationController?.pushViewController(vc, animated: true);
+    }
 }
 
 
