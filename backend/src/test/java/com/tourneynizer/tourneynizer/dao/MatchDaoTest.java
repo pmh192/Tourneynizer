@@ -60,7 +60,7 @@ public class MatchDaoTest extends TestWithContext {
         Team team2 = getTeam(user2, tournament, 1);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match);
         assertTrue(match.isPersisted());
     }
@@ -74,13 +74,13 @@ public class MatchDaoTest extends TestWithContext {
         Team team2 = getTeam(user2, tournament, 1);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
-        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match1);
         matchDao.insert(match2);
 
         matchChildren = new MatchChildren(null, null, match1.getId(), match2.getId());
-        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match);
     }
 
@@ -95,11 +95,11 @@ public class MatchDaoTest extends TestWithContext {
         MatchChildren children;
 
         children = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match1 = new Match(-99L, children, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(-99L, children, 0, null, ScoreType.ONE_SET, (short)1);
         children = new MatchChildren(-99L, team2.getId(), null, null);
-        Match match2 = new Match(tournament.getId(), children, 0, null, ScoreType.ONE_SET);
+        Match match2 = new Match(tournament.getId(), children, 0, null, ScoreType.ONE_SET, (short)1);
         children = new MatchChildren(team1.getId(), -99L, null, null);
-        Match match3 = new Match(tournament.getId(), children, 0, null, ScoreType.ONE_SET);
+        Match match3 = new Match(tournament.getId(), children, 0, null, ScoreType.ONE_SET, (short)1);
 
         try { matchDao.insert(match1 ); fail(); } catch (IllegalArgumentException e ) { }
         try { matchDao.insert(match2); fail(); } catch (IllegalArgumentException e ) { }
@@ -112,7 +112,7 @@ public class MatchDaoTest extends TestWithContext {
         Tournament tournament = getTournament(user);
         Team team = getTeam(user, tournament, 1);
         MatchChildren matchChildren = new MatchChildren(team.getId(), team.getId(), null, null);
-        new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class MatchDaoTest extends TestWithContext {
         Team team2 = getTeam(user2, tournament, 2);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match);
 
         Match expected = matchDao.findById(match.getId());
@@ -141,13 +141,13 @@ public class MatchDaoTest extends TestWithContext {
         Team team2 = getTeam(user2, tournament, 2);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
-        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match1);
         matchDao.insert(match2);
 
         matchChildren = new MatchChildren(null, null, match1.getId(), match2.getId());
-        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match);
         Match expected = matchDao.findById(match.getId());
 
@@ -165,11 +165,11 @@ public class MatchDaoTest extends TestWithContext {
         Team team3 = getTeam(user3, tournament, 3);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match);
 
         Match expected = new Match(match.getId(), tournament.getId(), matchChildren, null,null, null, 0, 0, null, null,
-                ScoreType.ONE_SET, MatchStatus.CREATED);
+                ScoreType.ONE_SET, MatchStatus.CREATED, (short)1);
 
         assertEquals(expected, matchDao.findById(match.getId()));
     }
@@ -190,13 +190,13 @@ public class MatchDaoTest extends TestWithContext {
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
 
-        Match match1 = new Match(tournament1.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(tournament1.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match1);
 
-        Match match2 = new Match(tournament1.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match2 = new Match(tournament1.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match2);
 
-        Match match3 = new Match(tournament2.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match3 = new Match(tournament2.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match3);
 
         List<Match> expected1 = Arrays.asList(match1, match2);
@@ -218,7 +218,7 @@ public class MatchDaoTest extends TestWithContext {
         Team team2 = getTeam(user, tournament, 1);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match1);
         assertEquals(match1.getMatchStatus(), MatchStatus.CREATED);
         matchDao.startMatch(match1);
@@ -247,15 +247,15 @@ public class MatchDaoTest extends TestWithContext {
         Team team6 = getTeam(user5, tournament, 5);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match1);
 
         matchChildren = new MatchChildren(team3.getId(), team4.getId(), null, null);
-        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match2);
 
         matchChildren = new MatchChildren(team5.getId(), team6.getId(), null, null);
-        Match match3 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match3 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
         matchDao.insert(match3);
 
 
@@ -289,7 +289,7 @@ public class MatchDaoTest extends TestWithContext {
         Team team2 = getTeam(creator2, tournament, 1);
 
         MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
-        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
 
         matchDao.insert(match1);
         Long score1 = match1.getScore1();

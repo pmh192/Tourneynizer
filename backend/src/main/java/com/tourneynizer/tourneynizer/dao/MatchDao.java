@@ -30,8 +30,8 @@ public class MatchDao {
         }
 
         String sql = "INSERT INTO matches (tournament, team1_id, team2_id, match_child1, match_child2, " +
-                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber, status)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber, status, round)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -57,6 +57,7 @@ public class MatchDao {
                 preparedStatement.setInt(12, match.getMatchOrder());
                 preparedStatement.setInt(13, match.getCourtNumber());
                 preparedStatement.setShort(14, (short) match.getMatchStatus().ordinal());
+                preparedStatement.setShort(15, match.getRound());
 
                 return preparedStatement;
             }, keyHolder);
@@ -73,18 +74,19 @@ public class MatchDao {
             new MatchChildren(
                     getNullableLong(resultSet, 3),
                     getNullableLong(resultSet, 4),
-                    getNullableLong(resultSet, 16),
-                    getNullableLong(resultSet, 17)
+                    getNullableLong(resultSet, 14),
+                    getNullableLong(resultSet, 15)
                     ),
-            getNullableLong(resultSet, 12),
-            getNullableLong(resultSet, 7),
-            getNullableLong(resultSet, 8),
-            resultSet.getInt(13),
-            resultSet.getInt(14),
-            resultSet.getTimestamp(10),
-            resultSet.getTimestamp(11),
-            ScoreType.values()[resultSet.getInt(9)],
-            MatchStatus.values()[resultSet.getShort(18)]
+            getNullableLong(resultSet, 10),
+            getNullableLong(resultSet, 5),
+            getNullableLong(resultSet, 6),
+            resultSet.getInt(11),
+            resultSet.getInt(12),
+            resultSet.getTimestamp(8),
+            resultSet.getTimestamp(9),
+            ScoreType.values()[resultSet.getInt(7)],
+            MatchStatus.values()[resultSet.getShort(16)],
+            resultSet.getShort(17)
     );
 
     public Match findById(Long id) throws SQLException {
