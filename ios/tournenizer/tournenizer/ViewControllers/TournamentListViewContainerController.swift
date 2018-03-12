@@ -62,7 +62,17 @@ class TournamentListViewContainerController : UIViewController {
     func onSelect(_ tournament: Tournament) {
         let vc = TournamentViewController();
         vc.setTournament(tournament);
-        self.navigationController?.pushViewController(vc, animated: true);
+        vc.setDashboard(tournament.creatorId == UserService.shared.getCurrentUser()!.id);
+        TeamService.shared.getTeamForTournament(tournament.id) { (error: String?, team: Team?) in
+            if(team != nil) {
+                vc.setTeam(team!);
+                vc.setRegistered(true);
+            }
+
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(vc, animated: true);
+            }
+        }
     }
 
     var didUpdateConstraints = false;

@@ -89,6 +89,10 @@ class Constants {
             static func getMembers(_ id: CUnsignedLong) -> String {
                 return "/api/team/\(id)/getMembers";
             }
+
+            static func getForTournament(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/\(id)/getUserTeam";
+            }
         };
 
         class teamRequest {
@@ -112,7 +116,7 @@ class Constants {
             }
 
             static func accept(_ id: CUnsignedLong) -> String {
-                return "/api/user/requests/\(id)/accept";
+                return "/api/requests/\(id)/accept";
             }
 
             static func reject(_ id: CUnsignedLong) -> String {

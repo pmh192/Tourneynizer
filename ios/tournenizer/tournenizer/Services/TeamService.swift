@@ -106,8 +106,6 @@ class TeamService : Service {
     }
 
     func getTeamMembers(_ id: CUnsignedLong, cb: @escaping ((String?, [User]?) -> Void)) {
-        return cb(nil, [UserService.shared.getCurrentUser()!]);
-
         makeRequest(url: Constants.route.team.getMembers(id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             if(error != nil) {
                 return cb(error, nil);
@@ -119,6 +117,21 @@ class TeamService : Service {
             }
 
             return cb(nil, members);
+        }
+    }
+
+    func getTeamForTournament(_ tournamentId: CUnsignedLong, cb: @escaping ((String?, Team?) -> Void)) {
+        makeRequest(url: Constants.route.team.getForTournament(tournamentId), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            if(error != nil) {
+                return cb(error, nil);
+            }
+
+            let team: Team? = self.decode(data!);
+            if(team == nil) {
+                return cb(Constants.error.genericError, nil);
+            }
+
+            return cb(nil, team);
         }
     }
 };
