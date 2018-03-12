@@ -131,7 +131,7 @@ public class MatchService {
         }
 
         if (score1 == score2) {
-            throw new BadRequestException("Game's cannot end on a tie");
+            throw new BadRequestException("Game's cannot end in a tie");
         }
 
 
