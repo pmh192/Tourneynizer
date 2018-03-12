@@ -50,13 +50,13 @@ public class MatchChildren {
     }
 
     public void setTeamChild1(long teamChild1) {
-        if (this.teamChild1 != null) { knownTeamChildren.remove(teamChild1); }
+        if (this.teamChild1 != null) { knownTeamChildren.remove(this.teamChild1); }
         this.teamChild1 = teamChild1;
         knownTeamChildren.add(teamChild1);
     }
 
     public void setTeamChild2(long teamChild2) {
-        if (this.teamChild2 != null) { knownTeamChildren.remove(teamChild2); }
+        if (this.teamChild2 != null) { knownTeamChildren.remove(this.teamChild2); }
         this.teamChild2 = teamChild2;
         knownTeamChildren.add(teamChild2);
     }
