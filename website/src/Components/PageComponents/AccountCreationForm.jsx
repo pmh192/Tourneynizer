@@ -113,10 +113,11 @@ class AccountCreationForm extends Component{
 							validationState={this.getNameValidationState()}
 						>
 							<Col>
+							<ControlLabel>First Name</ControlLabel>
 							<FormControl
 								type="text"
 								value={this.state.firstName}
-								placeholder="First Name"
+								placeholder="Enter your first name..."
 								onChange={this.handleChange}
 							/>
 							<FormControl.Feedback />
@@ -126,10 +127,11 @@ class AccountCreationForm extends Component{
 							controlId="lastName"
 						>
 							<Col>
+							<ControlLabel>Last Name (Optional)</ControlLabel>
 							<FormControl
 								type="text"
 								value={this.state.lastName}
-								placeholder="Last Name"
+								placeholder="Enter your last name..."
 								onChange={this.handleChange}
 							/>
 							</Col>
@@ -139,10 +141,11 @@ class AccountCreationForm extends Component{
 							validationState={this.getEmailValidationState()}
 						>
 							<Col>
+							<ControlLabel>Email Address</ControlLabel>
 							<FormControl
 								type="email"
 								value={this.state.email}
-								placeholder="Email address"
+								placeholder="Enter a valid email address..."
 								onChange={this.handleChange}
 							/>
 							<FormControl.Feedback />
@@ -154,10 +157,11 @@ class AccountCreationForm extends Component{
 							validationState={this.getPasswordValidationState()}
 						>
 							<Col>
+							<ControlLabel>Password</ControlLabel>
 							<FormControl
 								type="password"
 								value={this.state.password}
-								placeholder="Enter Your Password"
+								placeholder="Enter a password"
 								onChange={this.handleChange}
 							/>
 							<FormControl.Feedback />
@@ -169,6 +173,7 @@ class AccountCreationForm extends Component{
 							validationState={this.getConfirmPasswordValidationState()}
 						>
 							<Col>
+							<ControlLabel>Confirm Password</ControlLabel>
 							<FormControl
 								type="Password"
 								value={this.state.confirmPassword}

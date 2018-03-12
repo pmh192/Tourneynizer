@@ -50,7 +50,7 @@ class TeamCreationPage extends Component{
 					console.log(json);
 					alert('Created team: ' + this.state.name);
 					this.setState({
-						submitted: false,
+						submitted: true,
 					})
 				})
 			}else{

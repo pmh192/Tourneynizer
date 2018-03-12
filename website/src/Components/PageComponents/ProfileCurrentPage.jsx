@@ -40,8 +40,8 @@ class ProfileCurrentPage extends Component{
 		}
 	}
 
-	//set user's current matches
-	getMatches(){
+	//set user's current Teams
+	getTeams(){
 		let apiURL = API_URL + 'api/team/getAll';
 		fetch(apiURL, {
 			method: 'GET',
@@ -53,6 +53,7 @@ class ProfileCurrentPage extends Component{
 					this.setState({
 						teams: json,
 						teamsLoaded:true,
+						displayData: json,
 					});
 				})
 			}
@@ -67,8 +68,8 @@ class ProfileCurrentPage extends Component{
 
 	}
 
-	//set user's current teams
-	getTeams(){
+	//set user's current matches
+	getMatches(){
 
 	}
 
@@ -84,7 +85,7 @@ class ProfileCurrentPage extends Component{
 					<Jumbotron>
 						<h1>Current Tournaments/Matches/Teams</h1>
 							<ButtonToolbar>
-						  		<ToggleButtonGroup type="radio" name="options" defaultValue={1}>
+						  		<ToggleButtonGroup type="radio" name="options" defaultValue={2}>
 						   			<ToggleButton onChange={this.handleRadioChange} value={1}>Tournaments</ToggleButton>
 						      		<ToggleButton onChange={this.handleRadioChange} value={2}>Teams</ToggleButton>
 						      		<ToggleButton onChange={this.handleRadioChange} value={3}>Matches</ToggleButton>
