@@ -81,4 +81,18 @@ public class TeamController {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/api/tournament/{id}/getUserTeam")
+    public ResponseEntity<?> getUserTeam(@PathVariable("id") long id, @CookieValue("session") String session) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
+            User user = sessionService.findBySession(session);
+            Team team = teamService.getTeamForTournament(tournament, user);
+            return new ResponseEntity<Object>(team, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -74,4 +74,14 @@ public class TeamService {
     public List<Team> getAllWith(User user) {
         return rosterDao.findByUser(user);
     }
+
+    public Team getTeamForTournament(Tournament tournament, User user) throws BadRequestException {
+        Team team = teamDao.getTeamForTournament(tournament, user);
+
+        if(team == null) {
+            throw new BadRequestException("The user isn't part of any team for this tournament.");
+        }
+
+        return team;
+    }
 }
