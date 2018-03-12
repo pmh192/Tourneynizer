@@ -124,10 +124,23 @@ public class MatchController {
     }
 
     @GetMapping("/api/tournament/{id}/match/valid")
-    public ResponseEntity<?> endMatch(@PathVariable("id") long tournamentId) {
+    public ResponseEntity<?> getValidMatches(@PathVariable("id") long tournamentId) {
         try {
             List<Match> matches = matchService.getValid(tournamentId);
             return new ResponseEntity<Object>(matches, new HttpHeaders(), HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/tournament/{id}/match/getRefereeMatch")
+    public ResponseEntity<?> getRefereeMatch(@CookieValue("session") String session, @PathVariable("id") long id) {
+        try {
+            User user = sessionService.findBySession(session);
+            Match match = matchService.getRefereeMatch(id, user);
+            return new ResponseEntity<Object>(match, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {

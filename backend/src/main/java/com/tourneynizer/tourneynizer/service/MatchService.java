@@ -158,4 +158,11 @@ public class MatchService {
 
         return matchDao.getValidMatches(tournament);
     }
+
+    public Match getRefereeMatch(long tournamentId, User user) throws BadRequestException, InternalErrorException {
+        Team team = teamDao.getTeamCreated(tournamentId, user);
+        if (team == null) { throw new BadRequestException("You are not the creator of any teams in this tournament"); }
+
+        return matchDao.getMatchToReferee(team);
+    }
 }

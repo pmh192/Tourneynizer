@@ -250,4 +250,18 @@ public class MatchDao {
             return null;
         }
     }
+
+    public Match getMatchToReferee(Team team) {
+        String sql = "SELECT * FROM matches WHERE refteam_id=? AND status=? LIMIT 1";
+        try {
+            return this.jdbcTemplate.queryForObject(sql,
+                    new Object[]{team.getId(), (short) TournamentStatus.CREATED.ordinal()},
+                    new int[]{Types.BIGINT, Types.SMALLINT},
+                    rowMapper
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }

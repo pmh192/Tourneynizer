@@ -424,4 +424,56 @@ public class MatchDaoTest extends TestWithContext {
         assertEquals(expected, valid);
     }
 
+    @Test
+    public void getMatchToReferee() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        User user4 = getUser(4);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(user1, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
+        Team team4 = getTeam(user4, tournament, 4);
+
+        MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        match1.setRefId(team3.getId());
+        matchDao.insert(match1);
+
+        matchChildren = new MatchChildren(team3.getId(), team4.getId(), null, null);
+        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        match2.setRefId(team1.getId());
+        matchDao.insert(match2);
+
+        matchChildren = new MatchChildren(null, null, match1.getId(), match2.getId());
+        Match match3 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        matchDao.insert(match3);
+
+        Match toRef = matchDao.getMatchToReferee(team3);
+        assertEquals(match1, toRef);
+
+        toRef = matchDao.getMatchToReferee(team1);
+        assertEquals(match2, toRef);
+
+        assertNull(matchDao.getMatchToReferee(team2));
+        assertNull(matchDao.getMatchToReferee(team4));
+
+        matchDao.startMatch(match1);
+        matchDao.endMatch(match1, team2, 16, 25);
+
+        matchDao.startMatch(match2);
+        matchDao.endMatch(match2, team3, 25, 19);
+
+        toRef = matchDao.getMatchToReferee(team1);
+        Match toRef2 = matchDao.getMatchToReferee(team4);
+
+        Long id1 = toRef != null ? toRef.getId() : null;
+        Long id2 = toRef2 != null ? toRef2.getId() : null;
+
+        assertTrue(match3.getId().equals(id1) || match3.getId().equals(id2));
+        assertTrue(toRef == null || toRef2 == null);
+
+    }
 }
