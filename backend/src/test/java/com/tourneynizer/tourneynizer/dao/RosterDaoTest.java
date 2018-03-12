@@ -8,7 +8,9 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class RosterDaoTest extends TestWithContext {
     private final UserDao userDao;
@@ -144,5 +146,17 @@ public class RosterDaoTest extends TestWithContext {
 
         expected = Arrays.asList(creator, user1, user2, user3);
         assertEquals(expected, rosterDao.getTeamMembers(team1));
+    }
+
+    @Test
+    public void isUserInTournament() throws Exception {
+        User creator = getUser(0);
+        Tournament tournament = getTournament(creator);
+
+        assertFalse(rosterDao.isUserInTournament(creator, tournament));
+
+        Team team1 = getTeam(creator, tournament);
+
+        assertTrue(rosterDao.isUserInTournament(creator, tournament));
     }
 }

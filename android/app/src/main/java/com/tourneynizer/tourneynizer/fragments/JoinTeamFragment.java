@@ -3,19 +3,30 @@ package com.tourneynizer.tourneynizer.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.adapters.TeamListAdapter;
+import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.services.TeamService;
 
-public class JoinTeamFragment extends Fragment {
+import java.util.List;
 
-    private static final String TOURNAMENT = "com.tourneynizer.tourneynizer.data.Tournament";
+public class JoinTeamFragment extends UIQueueFragment {
+
+    private static final String TEAMS = "com.tourneynizer.tourneynizer.model.Team[]";
+    private static final String TOURNAMENT = "com.tourneynizer.tourneynizer.model.Tournament";
 
     private Tournament tournament;
+    private TeamService teamService;
+    private TeamListAdapter listAdapter;
+    private SwipeRefreshLayout swipeRefresher;
 
     public JoinTeamFragment() {
         // Required empty public constructor
@@ -35,6 +46,18 @@ public class JoinTeamFragment extends Fragment {
         if (getArguments() != null) {
             tournament = getArguments().getParcelable(TOURNAMENT);
         }
+        teamService = new TeamService();
+        listAdapter = new TeamListAdapter(getActivity());
+        if (savedInstanceState != null) {
+            List<Team> teams = savedInstanceState.getParcelableArrayList(TEAMS);
+            if (teams != null) {
+                listAdapter.addAll(teams);
+            } else {
+                refresh();
+            }
+        } else {
+            refresh();
+        }
     }
 
     @Override
@@ -42,6 +65,20 @@ public class JoinTeamFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_join_team, container, false);
         ListView teamsList = view.findViewById(R.id.teamList);
+        swipeRefresher = view.findViewById(R.id.swipeRefresher);
+        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+        teamsList.setAdapter(listAdapter);
+        teamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                goToTeamInfo(listAdapter.getItem(i));
+            }
+        });
         return view;
     }
 
@@ -53,5 +90,39 @@ public class JoinTeamFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(TEAMS, listAdapter.getAll());
+    }
+
+    public void refresh() {
+        listAdapter.clear();
+        if (swipeRefresher != null) {
+            swipeRefresher.setRefreshing(true);
+        }
+        teamService.getPendingTeams(tournament, new TeamService.OnTeamsLoadedListener() {
+            @Override
+            public void onTeamsLoaded(final Team[] teams) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (teams != null) {
+                            listAdapter.addAll(teams);
+                        }
+                        if (swipeRefresher != null) {
+                            swipeRefresher.setRefreshing(false);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void goToTeamInfo(Team t) {
+        Fragment fragment = TeamInfoFragment.newInstance(t);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 }

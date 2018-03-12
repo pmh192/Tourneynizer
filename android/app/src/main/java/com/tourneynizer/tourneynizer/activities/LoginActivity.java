@@ -121,22 +121,23 @@ public class LoginActivity extends AppCompatActivity {
 			public void onComplete(@NonNull Task<Void> task) {
 				if (task.isSuccessful()) {
 					Log.d("Hype", "SAVE: OK");
-					return;
-				}
-				Exception err = task.getException();
-				if (err instanceof ResolvableApiException) {
-					// Try to resolve the save request. This will prompt the user if
-					// the credential is new.
-					ResolvableApiException rae = (ResolvableApiException) err;
-					try {
-						rae.startResolutionForResult(LoginActivity.this, RESOLVE_CODE_WRITE);
-					} catch (IntentSender.SendIntentException e) {
-						// Could not resolve the request
-						Log.e("Error", "Failed to send resolution.", e);
-					}
 				} else {
-					// Request has no resolution
-				}
+                    Exception err = task.getException();
+                    if (err instanceof ResolvableApiException) {
+                        // Try to resolve the save request. This will prompt the user if
+                        // the credential is new.
+                        ResolvableApiException rae = (ResolvableApiException) err;
+                        try {
+                            rae.startResolutionForResult(LoginActivity.this, RESOLVE_CODE_WRITE);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Could not resolve the request
+                            Log.e("Error", "Failed to send resolution.", e);
+                        }
+                    } else {
+                        Log.e("Error", "Failed to send resolution.", err);
+                        // Request has no resolution
+                    }
+                }
 			}
 		});
 	}

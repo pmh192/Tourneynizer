@@ -12,6 +12,7 @@ import GooglePlacePicker;
 
 class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, GMSPlacePickerViewControllerDelegate {
     var titleLabel: UILabel!;
+    var descriptionPrompt: UILabel!;
     var namePrompt: UILabel!;
     var startTimePrompt: UILabel!;
     var teamSizePrompt: UILabel!;
@@ -27,6 +28,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var place: GMSPlace!;
 
     var nameField: UITextField!;
+    var descriptionField: UITextField!;
     var startTimeField: UITextField!;
     var teamSizeField: UITextField!;
     var maxTeamsField: UITextField!;
@@ -35,7 +37,8 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     var nextButton: UIButton!;
     var clearButton: UIButton!;
 
-    var titleText = "Create A Tournament";
+    let titleText = "Create A Tournament";
+    let descriptionPromptText = "Description:";
     let namePromptText = "Name:";
     let addressPromptText = "Address:";
     let startTimePromptText = "Start Time:";
@@ -124,6 +127,9 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         namePrompt = promptGenerator();
         namePrompt.text = namePromptText;
 
+        descriptionPrompt = promptGenerator();
+        descriptionPrompt.text = descriptionPromptText;
+
         startTimePrompt = promptGenerator();
         startTimePrompt.text = startTimePromptText;
 
@@ -140,6 +146,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         locationPrompt.text = locationPromptText;
 
         nameField = fieldGenerator();
+        descriptionField = fieldGenerator();
 
         startTimePicker = UIDatePicker();
         startTimePicker.addTarget(self, action: #selector(updateTextField(sender:)), for: .editingDidBegin);
@@ -191,12 +198,14 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         view.addSubview(statusBarCover);
         view.addSubview(titleLabel);
         view.addSubview(namePrompt);
+        view.addSubview(descriptionPrompt);
         view.addSubview(startTimePrompt);
         view.addSubview(teamSizePrompt);
         view.addSubview(maxTeamsPrompt);
         view.addSubview(typePrompt);
         view.addSubview(locationPrompt);
         view.addSubview(nameField);
+        view.addSubview(descriptionField);
         view.addSubview(startTimeField);
         view.addSubview(teamSizeField);
         view.addSubview(maxTeamsField);
@@ -227,8 +236,12 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             namePrompt.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: promptTopPadding);
             namePrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
 
+            descriptionPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
+            descriptionPrompt.autoPinEdge(.top, to: .bottom, of: namePrompt, withOffset: promptTopPadding);
+            descriptionPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
+
             startTimePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
-            startTimePrompt.autoPinEdge(.top, to: .bottom, of: namePrompt, withOffset: promptTopPadding);
+            startTimePrompt.autoPinEdge(.top, to: .bottom, of: descriptionPrompt, withOffset: promptTopPadding);
             startTimePrompt.autoMatch(.width, to: .width, of: view, withMultiplier: leftPercentWidth);
 
             teamSizePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
@@ -250,6 +263,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             nameField.autoAlignAxis(.baseline, toSameAxisOf: namePrompt);
             nameField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
             nameField.autoPinEdge(.leading, to: .trailing, of: namePrompt);
+
+            descriptionField.autoAlignAxis(.baseline, toSameAxisOf: descriptionPrompt);
+            descriptionField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
+            descriptionField.autoPinEdge(.leading, to: .trailing, of: descriptionPrompt);
 
             startTimeField.autoAlignAxis(.baseline, toSameAxisOf: startTimePrompt);
             startTimeField.autoPinEdge(toSuperviewEdge: .trailing, withInset: promptPadding);
@@ -293,6 +310,8 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if(textField == nameField) {
+            descriptionField.becomeFirstResponder();
+        } else if(textField == descriptionField) {
             startTimeField.becomeFirstResponder();
         } else if(textField == teamSizeField) {
             maxTeamsField.becomeFirstResponder();
@@ -401,7 +420,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         return Tournament(
             id: 0,
             name: name,
-            description: nil,
+            description: descriptionField?.text,
             lat: place.coordinate.latitude,
             lng: place.coordinate.longitude,
             startTime: startTimePicker.date,
@@ -465,6 +484,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         startTimePicker.date = Date();
 
         nameField.text = "";
+        descriptionField.text = "";
         startTimeField.text = "";
         teamSizeField.text = "";
         maxTeamsField.text = "";

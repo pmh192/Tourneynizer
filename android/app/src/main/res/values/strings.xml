@@ -20,8 +20,8 @@
     <string name="chooseLocation">Choose Location</string>
     <string name="selectTournamentType">Select the type of Tournament</string>
     <string name="teamToEnterTournament">To enter a tournament, you must be part of a team</string>
-    <string name="requestToJoinTeam">Request to join a pending team</string>
-    <string name="createOwnTeam">Create your own team</string>
+    <string name="viewPendingTeams">View Open Teams</string>
+    <string name="createOwnTeam">Create New Team</string>
     <string name="createTeam">Create Team</string>
     <string name="teamName">Team Name:</string>
     <string name="createTournamentTeam">Create team for the tournament</string>
@@ -36,4 +36,14 @@
     <string name="locationPrompt">Location</string>
     <string name="numCourts">Num Courts</string>
     <string name="logOut">Log Out</string>
+    <string name="myTeams">My Teams</string>
+    <string name="myTournaments">My Tournaments</string>
+    <string name="myRequests">My Requests</string>
+    <string name="partOfTournament">Part of Tournament</string>
+    <string name="teamMembers">Members</string>
+    <string name="requestToJoin">Request to join</string>
+    <string name="teamRequests">Team Requests</string>
+    <string name="viewRequests">View Requests</string>
+    <string name="requestPlayers">Find Players</string>
+    <string name="requestPlayer">Request Player</string>
 </resources>

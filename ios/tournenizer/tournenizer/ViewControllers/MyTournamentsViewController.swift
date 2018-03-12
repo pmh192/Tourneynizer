@@ -32,9 +32,18 @@ class MyTournamentsViewController : UIViewController {
 
     func selectTournament(_ tournament: Tournament) {
         let vc = TournamentViewController();
-        vc.setJoinable(false);
         vc.setTournament(tournament);
-        self.navigationController?.pushViewController(vc, animated: true);
+        vc.setDashboard(tournament.creatorId == UserService.shared.getCurrentUser()!.id);
+        TeamService.shared.getTeamForTournament(tournament.id) { (error: String?, team: Team?) in
+            if(team != nil) {
+                vc.setTeam(team!);
+                vc.setRegistered(true);
+            }
+
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(vc, animated: true);
+            }
+        }
     }
 
     // Ensures that the corresponding methods are only called once

@@ -46,8 +46,7 @@ public class TournamentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTournamentLoaded(null);
             }
         });
@@ -85,9 +84,64 @@ public class TournamentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTournamentsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getAllCreatedTournaments(final OnTournamentsLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "tournament/getAllCreated";
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        Request request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                //parse response and return tournament
+                Log.d("Response", response.toString());
+                final JSONObject[] responses = new JSONObject[response.length()];
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        responses[i] = response.getJSONObject(i);
+                    } catch (JSONException e) {
+                        responses[i] = null;
+                    }
+                }
+                // Do on a seperate thread since the geocoder in the parse function takes a long time
+                Thread parser = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Tournament[] tournaments = new Tournament[responses.length];
+                        for (int i = 0; i < responses.length; i++) {
+                            tournaments[i] = JSONConverter.getInstance().convertJSONToTournament(responses[i]);
+                        }
+                        listener.onTournamentsLoaded(tournaments);
+                    }
+                });
+                parser.start();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
+                listener.onTournamentsLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void startTournament(Tournament t) {
+        String url = HTTPService.DOMAIN + "tournament/" + t.getID() + "/start";
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        Request request = cookieRequestFactory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("Success", "Tournament has been started");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
@@ -106,8 +160,7 @@ public class TournamentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onTournamentLoaded(null);
             }
         });
