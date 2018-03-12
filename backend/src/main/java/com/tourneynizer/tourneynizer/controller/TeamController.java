@@ -3,6 +3,7 @@ package com.tourneynizer.tourneynizer.controller;
 import com.tourneynizer.tourneynizer.error.BadRequestException;
 import com.tourneynizer.tourneynizer.error.InternalErrorException;
 import com.tourneynizer.tourneynizer.model.*;
+import com.tourneynizer.tourneynizer.service.RosterService;
 import com.tourneynizer.tourneynizer.service.SessionService;
 import com.tourneynizer.tourneynizer.service.TeamService;
 import com.tourneynizer.tourneynizer.service.TournamentService;
@@ -22,12 +23,14 @@ public class TeamController {
     private final TeamService teamService;
     private final TournamentService tournamentService;
     private final SessionService sessionService;
+    private final RosterService rosterService;
 
     @Autowired
-    public TeamController(TeamService teamService, TournamentService tournamentService, SessionService sessionService) {
+    public TeamController(TeamService teamService, TournamentService tournamentService, SessionService sessionService, RosterService rosterService) {
         this.teamService = teamService;
         this.tournamentService = tournamentService;
         this.sessionService = sessionService;
+        this.rosterService = rosterService;
     }
 
     @PostMapping("/api/tournament/{id}/team/create")
@@ -63,6 +66,17 @@ public class TeamController {
         try {
             Team team = teamService.findById(id);
             return new ResponseEntity<Object>(team, new HttpHeaders(), HttpStatus.OK);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/team/{id}/getMembers")
+    public ResponseEntity<?> getMembers(@PathVariable("id") long id) {
+        try {
+            Team team = teamService.findById(id);
+            List<User> members = rosterService.getTeamMembers(team);
+            return new ResponseEntity<Object>(members, new HttpHeaders(), HttpStatus.OK);
         } catch (InternalErrorException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
