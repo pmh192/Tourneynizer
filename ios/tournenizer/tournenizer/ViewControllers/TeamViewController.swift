@@ -30,7 +30,7 @@ class TeamViewController : UIViewController {
     let dialogBody = "You have successfully requested the user to join your team.";
     let dialogButtonText = "Ok";
 
-    let actionsBarHeight: CGFloat = 35;
+    let actionsBarHeight: CGFloat = 50;
     let topTitlePadding: CGFloat = 20;
     let sideTitlePadding: CGFloat = 15;
     let buttonPadding: CGFloat = 10;
@@ -45,6 +45,7 @@ class TeamViewController : UIViewController {
     let buttonWidth: CGFloat = 100;
     let mainButtonBorderRadius: CGFloat = 5;
     let mainButtonBorderWidth: CGFloat = 5;
+    let titlePadding: CGFloat = 10;
 
     var team: Team!;
     var creator = false;
@@ -186,19 +187,19 @@ class TeamViewController : UIViewController {
     // Sets constraints on all views
     override func updateViewConstraints() {
         if(!didUpdateConstraints) {
-            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: 0);
-            statusBarCover.autoSetDimension(.height, toSize: actionsBarHeight);
+            statusBarCover.autoPin(toTopLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
+            statusBarCover.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight + actionsBarHeight);
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
             backView.autoSetDimension(.width, toSize: iconSize);
             backView.autoMatch(.height, to: .width, of: backView);
-            backView.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            backView.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);
             backView.autoPinEdge(toSuperviewEdge: .leading, withInset: buttonPadding);
 
-            selectLabel.autoPinEdge(.leading, to: .trailing, of: backView, withOffset: sideTitlePadding);
-            selectLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
-            selectLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            selectLabel.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -titlePadding);
+            selectLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+            selectLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
             namePrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: promptPadding);
             namePrompt.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: promptTopPadding);

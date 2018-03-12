@@ -29,7 +29,6 @@ class TournamentViewController : UIViewController {
     var teamViewContainer: UIView!;
     var actionsBar: UIView!;
     var startButton: UIButton!;
-    var approveButton: UIButton!;
     var teamViewController: TeamListViewController!;
 
     let iconSize: CGFloat = 25;
@@ -45,7 +44,7 @@ class TournamentViewController : UIViewController {
     let buttonPadding: CGFloat = 10;
     let teamContainerHeight: CGFloat = 68;
     let logoText = "Tournament Information";
-    let joinButtonText = "Join Existing Team";
+    let joinButtonText = "Join Team";
     let createButtonText = "Create Team";
     let startButtonText = "Start Tournament";
     let approveButtonText = "Approve Teams";
@@ -141,20 +140,6 @@ class TournamentViewController : UIViewController {
         }();
         startButton.addTarget(self, action: #selector(start), for: .touchUpInside);
 
-        approveButton = {
-            let view = UIButton.newAutoLayout();
-            view.setTitle(approveButtonText, for: .normal);
-            view.setTitleColor(Constants.color.white, for: .normal);
-            view.titleLabel?.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
-            view.layer.cornerRadius = signupButtonBorderRadius;
-            view.layer.borderWidth = signupButtonBorderWidth;
-            view.layer.borderColor = Constants.color.lightBlue.cgColor;
-            view.backgroundColor = Constants.color.lightBlue;
-            view.titleLabel?.lineBreakMode = .byCharWrapping;
-            return view;
-        }();
-        approveButton.addTarget(self, action: #selector(approve), for: .touchUpInside);
-
         teamSizeLabel = UILabel.newAutoLayout();
         descriptionLabel = UILabel.newAutoLayout();
         startTimeLabel = UILabel.newAutoLayout();
@@ -192,10 +177,11 @@ class TournamentViewController : UIViewController {
         mapViewContainer = UIView.newAutoLayout();
 
         if(registered) {
+            teamViewContainer = UIView.newAutoLayout();
             teamViewController = TeamListViewController();
             teamViewController.setData(teams: [team], tournaments: [tournament]);
-            teamViewContainer = UIView.newAutoLayout();
             teamViewController.tableView.isScrollEnabled = false;
+            teamViewController.setSelectCallback(selectTeam(_:));
         }
 
         view.addSubview(statusBarCover);
@@ -348,12 +334,14 @@ class TournamentViewController : UIViewController {
         self.navigationController?.popViewController(animated: true);
     }
 
-    @objc func approve() {
+    @objc func start() {
 
     }
 
-    @objc func start() {
-
+    func selectTeam(_ team: Team) {
+        let vc = TeamViewController();
+        vc.setTeam(team);
+        self.navigationController?.pushViewController(vc, animated: true);
     }
 
     func setRegistered(_ registered: Bool) {
