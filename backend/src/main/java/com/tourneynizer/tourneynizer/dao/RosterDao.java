@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -82,5 +83,10 @@ public class RosterDao {
 
     public void registerUser(long userId, Team team) {
         registerUser(userId, team, jdbcTemplate);
+    }
+
+    public List<User> getTeamMembers(Team team) throws SQLException {
+        String sql = "SELECT * FROM users WHERE id IN (SELECT user_id FROM roster WHERE team_id=?);";
+        return this.jdbcTemplate.query(sql, new Object[]{team.getId()}, UserDao.rowMapper);
     }
 }

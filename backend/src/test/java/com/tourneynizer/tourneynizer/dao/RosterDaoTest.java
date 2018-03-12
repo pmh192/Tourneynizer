@@ -119,4 +119,30 @@ public class RosterDaoTest extends TestWithContext {
         assertEquals(expected2, actual2);
 
     }
+
+    @Test
+    public void getMembers() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(creator, tournament);
+
+        List<User> expected = Arrays.asList(creator);
+
+        assertEquals(expected, rosterDao.getTeamMembers(team1));
+
+        rosterDao.registerUser(user1, team1);
+
+        expected = Arrays.asList(creator, user1);
+
+        assertEquals(expected, rosterDao.getTeamMembers(team1));
+
+        rosterDao.registerUser(user2, team1);
+        rosterDao.registerUser(user3, team1);
+
+        expected = Arrays.asList(creator, user1, user2, user3);
+        assertEquals(expected, rosterDao.getTeamMembers(team1));
+    }
 }
