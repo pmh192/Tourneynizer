@@ -13,18 +13,22 @@ public class Match {
     private int order, courtNumber;
     private Timestamp timeStart, timeEnd;
     private ScoreType scoreType;
+    private MatchStatus matchStatus;
+    private short round;
 
 
-    public Match(long tournamentId, MatchChildren children, int order, Timestamp timeStart, ScoreType type) {
+    public Match(long tournamentId, MatchChildren children, int order, Timestamp timeStart, ScoreType type, short round) {
         setTournamentId(tournamentId);
         setMatchChildren(children);
         setOrder(order);
         setTimeStart(timeStart);
         setScoreType(type);
+        setMatchStatus(MatchStatus.CREATED);
+        setRound(round);
     }
 
     public Match(long id, long tournament_id, MatchChildren children, Long refId, Long score1, Long score2, int order,
-                 int courtNumber, Timestamp timeStart, Timestamp timeEnd, ScoreType scoreType) {
+                 int courtNumber, Timestamp timeStart, Timestamp timeEnd, ScoreType scoreType, MatchStatus status, short round) {
         persist(id);
         setTournamentId(tournament_id);
         setMatchChildren(children);
@@ -36,6 +40,8 @@ public class Match {
         setTimeStart(timeStart);
         setTimeEnd(timeEnd);
         setScoreType(scoreType);
+        setMatchStatus(status);
+        setRound(round);
     }
 
     public void setTournamentId(long tournament_id) {
@@ -156,5 +162,21 @@ public class Match {
 
     public MatchChildren getMatchChildren() {
         return matchChildren;
+    }
+
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
+    }
+
+    public void setMatchStatus(MatchStatus matchStatus) {
+        this.matchStatus = matchStatus;
+    }
+
+    public short getRound() {
+        return round;
+    }
+
+    public void setRound(short round) {
+        this.round = round;
     }
 }

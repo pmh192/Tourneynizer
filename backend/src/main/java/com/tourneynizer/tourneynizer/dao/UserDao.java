@@ -1,6 +1,7 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.error.EmailTakenException;
+import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
 import org.springframework.dao.DataIntegrityViolationException;

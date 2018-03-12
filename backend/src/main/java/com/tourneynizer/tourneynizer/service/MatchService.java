@@ -20,7 +20,7 @@ public class MatchService {
         this.tournamentDao = tournamentDao;
     }
 
-    public List<Match> findByTournament(long tournamentId) throws BadRequestException, InternalErrorException{
+    private Tournament getTournament(long tournamentId) throws BadRequestException, InternalErrorException {
         Tournament tournament;
         try {
             tournament = tournamentDao.findById(tournamentId);
@@ -32,6 +32,29 @@ public class MatchService {
             throw new BadRequestException("No tournament found with id: " + tournamentId);
         }
 
-        return matchDao.findByTournament(tournament);
+        return tournament;
+    }
+
+    private Match getMatch(long matchId) throws BadRequestException, InternalErrorException {
+        Match match;
+        try {
+            match = matchDao.findById(matchId);
+        } catch (SQLException e) {
+            throw new InternalErrorException(e);
+        }
+
+        if (match == null) {
+            throw new BadRequestException("No match found with id: " + matchId);
+        }
+
+        return match;
+    }
+
+    public List<Match> findByTournament(long tournamentId) throws BadRequestException, InternalErrorException{
+        return matchDao.findByTournament(getTournament(tournamentId));
+    }
+
+    public List<Match> getAllCompleted(long tournamentId) throws BadRequestException, InternalErrorException {
+        return matchDao.getCompleted(getTournament(tournamentId));
     }
 }

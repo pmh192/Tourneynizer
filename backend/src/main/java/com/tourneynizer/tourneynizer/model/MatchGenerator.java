@@ -4,8 +4,10 @@ import com.tourneynizer.tourneynizer.dao.MatchDao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 public class MatchGenerator {
 
@@ -73,12 +75,26 @@ public class MatchGenerator {
             return this.orderInserted - o.orderInserted;
         }
     }
+
+    private List<Long> randomizedIds(List<Team> teams) {
+        List<Long> randomizedIds = teams.stream()
+                .map(Team::getId)
+                .collect(Collectors.toList());
+
+        Collections.shuffle(randomizedIds);
+
+        return randomizedIds;
+    }
+
     private List<Match> createBracketMatches(List<Team> teams, Tournament tournament, User user) throws SQLException {
         PriorityQueue<MatchNode> tree = new PriorityQueue<>();
         int orderInserted = 0;
         for (Team team : teams) {
             tree.add(new MatchNode(team, orderInserted++, 0));
         }
+
+        List<Long> randomizedIds = randomizedIds(teams);
+        int refIndex = 0;
 
         int order = 0;
         List<Match> matches = new ArrayList<>();
@@ -94,10 +110,24 @@ public class MatchGenerator {
             if (node2.getMatch() != null) { match2 = node2.getValueId(); }
             else {                          team2 = node2.getValueId(); }
 
+            int newHeight = Math.max(node1.height, node2.height) + 1;
+
             MatchChildren children = new MatchChildren(team1, team2, match1, match2);
-            Match parent = new Match(tournament.getId(), children, order++, null, ScoreType.ONE_SET);
-            matchDao.insert(parent, user);
-            tree.add(new MatchNode(parent, orderInserted++, Math.max(node1.height, node2.height) + 1));
+            Match parent = new Match(tournament.getId(), children, order++, null, ScoreType.ONE_SET, (short) newHeight);
+
+            if (children.getKnownTeamChildren().size() == 2) { // assign ref
+                Long refId = randomizedIds.get(refIndex % randomizedIds.size());
+
+                for (int i = 0; i < 2 && children.getKnownTeamChildren().contains(refId); i++) {
+                    refIndex++;
+                    refId = randomizedIds.get(refIndex % randomizedIds.size());
+                }
+                parent.setRefId(refId);
+
+            }
+
+            matchDao.insert(parent);
+            tree.add(new MatchNode(parent, orderInserted++, newHeight));
             matches.add(parent);
         }
 

@@ -16,11 +16,17 @@ class ProfileViewController : UIViewController {
 
     var titleLabel: UILabel!;
     var emailLabel: UILabel!;
-    var teamsTitleLabel: UILabel!;
     var statusBarCover: UIView!;
-    var contentView: UIView!;
     var logoutButton: UIButton!;
     var backView: UIButton!;
+    var winsPrompt: UILabel!;
+    var lossesPrompt: UILabel!;
+    var tournamentsPrompt: UILabel!;
+    var matchesPrompt: UILabel!;
+    var winsContent: UILabel!;
+    var lossesContent: UILabel!;
+    var tournamentsContent: UILabel!;
+    var matchesContent: UILabel!;
 
     let topTitlePadding: CGFloat = 20;
     let sideTitlePadding: CGFloat = 15;
@@ -34,12 +40,31 @@ class ProfileViewController : UIViewController {
     let buttonPadding: CGFloat = 10;
     let iconSize: CGFloat = 25;
     let iconPadding: CGFloat = 15;
+    let statisticsClusterOffset: CGFloat = 50;
 
     let teamsTitle = "Past Teams:";
     let logoutText = "Sign Out";
+    let winsPromptText = "Wins:";
+    let lossesPromptText = "Losses:";
+    let tournamentsPromptText = "Tournaments:";
+    let matchesPromptText = "Matches:";
     let dialogBody = Constants.error.serverError;
 
-    var profileList: TeamListViewController!;
+    func promptGenerator() -> UILabel {
+        let view = UILabel.newAutoLayout();
+        view.font = UIFont(name: Constants.font.normal, size: Constants.fontSize.normal);
+        view.textColor = Constants.color.navy;
+        view.lineBreakMode = .byWordWrapping;
+        view.numberOfLines = 0;
+        view.textAlignment = .right;
+        return view;
+    }
+
+    func centerPromptGenerator() -> UILabel {
+        let temp = promptGenerator();
+        temp.textAlignment = .center;
+        return temp;
+    }
 
     override func loadView() {
         view = UIView();
@@ -47,7 +72,7 @@ class ProfileViewController : UIViewController {
 
         titleLabel = {
             let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.header);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
             view.textColor = Constants.color.red;
             view.text = user.name;
             view.lineBreakMode = .byWordWrapping;
@@ -65,21 +90,11 @@ class ProfileViewController : UIViewController {
             return view;
         }();
 
-        teamsTitleLabel = {
-            let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.smallHeader);
-            view.textColor = Constants.color.navy;
-            view.text = teamsTitle;
-            return view;
-        }();
-
         statusBarCover = {
             let view = UIView.newAutoLayout();
             view.backgroundColor = Constants.color.navy;
             return view;
         }();
-
-        contentView = UIView.newAutoLayout();
 
         logoutButton = {
             let view = UIButton.newAutoLayout();
@@ -106,13 +121,29 @@ class ProfileViewController : UIViewController {
         }();
         backView.addTarget(self, action: #selector(back), for: .touchUpInside);
 
+        winsPrompt = promptGenerator();
+        winsPrompt.text = winsPromptText;
 
-        profileList = TeamListViewController();
+        lossesPrompt = promptGenerator();
+        lossesPrompt.text = lossesPromptText;
 
-        addChildViewController(profileList);
-        contentView.addSubview(profileList.view);
-        profileList.view.frame = contentView.bounds;
-        profileList.didMove(toParentViewController: self);
+        tournamentsPrompt = promptGenerator();
+        tournamentsPrompt.text = tournamentsPromptText;
+
+        matchesPrompt = promptGenerator();
+        matchesPrompt.text = matchesPromptText;
+
+        winsContent = centerPromptGenerator();
+        winsContent.text = 0.description;
+
+        lossesContent = centerPromptGenerator();
+        lossesContent.text = 0.description;
+
+        tournamentsContent = centerPromptGenerator();
+        tournamentsContent.text = 0.description;
+
+        matchesContent = centerPromptGenerator();
+        matchesContent.text = 0.description;
 
         view.addSubview(titleLabel);
         view.addSubview(statusBarCover);
@@ -124,8 +155,16 @@ class ProfileViewController : UIViewController {
         if(navigatable) {
             view.addSubview(backView);
         }
-        view.addSubview(teamsTitleLabel);
-        view.addSubview(contentView);
+
+        view.addSubview(winsPrompt);
+        view.addSubview(lossesPrompt);
+        view.addSubview(tournamentsPrompt);
+        view.addSubview(matchesPrompt);
+        view.addSubview(winsContent);
+        view.addSubview(lossesContent);
+        view.addSubview(tournamentsContent);
+        view.addSubview(matchesContent);
+
         view.setNeedsUpdateConstraints();
     }
 
@@ -147,14 +186,37 @@ class ProfileViewController : UIViewController {
             emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
             emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
 
-            teamsTitleLabel.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: topTeamsPadding);
-            teamsTitleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: teamsPadding);
-            teamsTitleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: teamsPadding);
+            winsPrompt.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: statisticsClusterOffset);
+            winsPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
+            winsPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: 0.35);
 
-            contentView.autoPinEdge(.top, to: .bottom, of: teamsTitleLabel, withOffset: teamsPadding);
-            contentView.autoPinEdge(toSuperviewEdge: .bottom, withInset: teamsPadding);
-            contentView.autoPinEdge(toSuperviewEdge: .trailing, withInset: teamsPadding);
-            contentView.autoPinEdge(toSuperviewEdge: .leading, withInset: teamsPadding);
+            lossesPrompt.autoPinEdge(.top, to: .bottom, of: winsPrompt, withOffset: topTitlePadding);
+            lossesPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
+            lossesPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: 0.35);
+
+            tournamentsPrompt.autoPinEdge(.top, to: .bottom, of: lossesPrompt, withOffset: topTitlePadding);
+            tournamentsPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
+            tournamentsPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: 0.35);
+
+            matchesPrompt.autoPinEdge(.top, to: .bottom, of: tournamentsPrompt, withOffset: topTitlePadding);
+            matchesPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: sideTitlePadding);
+            matchesPrompt.autoMatch(.width, to: .width, of: view, withMultiplier: 0.35);
+
+            winsContent.autoPinEdge(.leading, to: .trailing, of: winsPrompt);
+            winsContent.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
+            winsContent.autoAlignAxis(.baseline, toSameAxisOf: winsPrompt);
+
+            lossesContent.autoPinEdge(.leading, to: .trailing, of: lossesPrompt);
+            lossesContent.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
+            lossesContent.autoAlignAxis(.baseline, toSameAxisOf: lossesPrompt);
+
+            tournamentsContent.autoPinEdge(.leading, to: .trailing, of: tournamentsPrompt);
+            tournamentsContent.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
+            tournamentsContent.autoAlignAxis(.baseline, toSameAxisOf: tournamentsPrompt);
+
+            matchesContent.autoPinEdge(.leading, to: .trailing, of: matchesPrompt);
+            matchesContent.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
+            matchesContent.autoAlignAxis(.baseline, toSameAxisOf: matchesPrompt);
 
             if(currentProfile) {
                 logoutButton.autoPinEdge(.bottom, to: .bottom, of: statusBarCover, withOffset: -buttonPadding);

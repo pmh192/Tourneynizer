@@ -13,16 +13,26 @@ class UsersViewController : UIViewController, UITextFieldDelegate {
     var statusBarCover: UIView!;
     var contentView: UIView!;
     var searchField: UITextField!;
+    var backButton: UIButton!;
 
     let searchHeight: CGFloat = 30;
     let searchPadding: CGFloat = 10;
     let playerPadding: CGFloat = 5;
+    let iconPadding: CGFloat = 20;
 
     var userListController: UserListViewController!;
     let searchFieldPrompt = "Search...";
     var cb: ((User) -> Void)?;
     var users: [User] = [];
+    var navigatable = false;
 
+    func setNavigatable(_ navigatable: Bool) {
+        self.navigatable = navigatable;
+    }
+
+    func setCallback(cb: @escaping ((User) -> Void)) {
+        self.cb = cb;
+    }
 
     override func loadView() {
         view = UIView();
@@ -49,6 +59,17 @@ class UsersViewController : UIViewController, UITextFieldDelegate {
         searchField.delegate = self;
         searchField.addTarget(self, action: #selector(filterUsers), for: .editingChanged);
 
+        backButton = {
+            let view = UIButton.newAutoLayout();
+            let image = UIImage(named: "arrowright")?.withRenderingMode(.alwaysTemplate);
+            view.setImage(image, for: UIControlState.normal);
+            view.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1);
+            view.imageView?.tintColor = Constants.color.navy;
+            view.contentMode = .scaleAspectFit;
+            return view;
+        }();
+        backButton.addTarget(self, action: #selector(back), for: .touchUpInside);
+
         userListController = UserListViewController();
         userListController.setReloadCallback {
             self.loadUsers();
@@ -71,6 +92,10 @@ class UsersViewController : UIViewController, UITextFieldDelegate {
         }
 
         view.addSubview(statusBarCover);
+
+        if(navigatable) {
+            view.addSubview(backButton);
+        }
         view.addSubview(searchField);
         view.addSubview(contentView);
         view.setNeedsUpdateConstraints();
@@ -95,14 +120,26 @@ class UsersViewController : UIViewController, UITextFieldDelegate {
             statusBarCover.autoPinEdge(toSuperviewEdge: .left);
             statusBarCover.autoPinEdge(toSuperviewEdge: .right);
 
-            searchField.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: searchPadding);
-            searchField.autoSetDimension(.height, toSize: searchHeight);
-            searchField.autoPinEdge(toSuperviewEdge: .leading, withInset: searchPadding);
-            searchField.autoPinEdge(toSuperviewEdge: .trailing, withInset: searchPadding);
+            if(navigatable) {
+                backButton.autoSetDimension(.width, toSize: searchHeight);
+                backButton.autoMatch(.height, to: .width, of: backButton);
+                backButton.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: searchPadding);
+                backButton.autoPinEdge(toSuperviewEdge: .leading, withInset: searchPadding);
+
+                searchField.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: searchPadding);
+                searchField.autoSetDimension(.height, toSize: searchHeight);
+                searchField.autoPinEdge(.leading, to: .trailing, of: backButton, withOffset: searchPadding);
+                searchField.autoPinEdge(toSuperviewEdge: .trailing, withInset: searchPadding);
+            } else {
+                searchField.autoPinEdge(.top, to: .bottom, of: statusBarCover, withOffset: searchPadding);
+                searchField.autoSetDimension(.height, toSize: searchHeight);
+                searchField.autoPinEdge(toSuperviewEdge: .leading, withInset: searchPadding);
+                searchField.autoPinEdge(toSuperviewEdge: .trailing, withInset: searchPadding);
+            }
 
             contentView.autoPinEdge(.top, to: .bottom, of: searchField, withOffset: searchPadding);
-            contentView.autoPinEdge(toSuperviewEdge: .leading, withInset: playerPadding);
-            contentView.autoPinEdge(toSuperviewEdge: .trailing, withInset: playerPadding)
+            contentView.autoPinEdge(toSuperviewEdge: .leading, withInset: searchPadding);
+            contentView.autoPinEdge(toSuperviewEdge: .trailing, withInset: searchPadding)
             contentView.autoPinEdge(toSuperviewEdge: .bottom, withInset: playerPadding)
 
             didUpdateConstraints = true;
@@ -145,5 +182,9 @@ class UsersViewController : UIViewController, UITextFieldDelegate {
                 self.filterUsers();
             }
         }
+    }
+
+    @objc func back() {
+        self.navigationController?.popViewController(animated: true);
     }
 }

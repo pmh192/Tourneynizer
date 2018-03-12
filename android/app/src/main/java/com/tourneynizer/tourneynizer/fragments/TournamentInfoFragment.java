@@ -17,16 +17,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.model.Tournament;
+import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.services.TournamentService;
+import com.tourneynizer.tourneynizer.services.UserService;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class TournamentInfoFragment extends Fragment implements OnMapReadyCallback {
+public class TournamentInfoFragment extends UIQueueFragment implements OnMapReadyCallback {
 
 	private final int MAP_ZOOM = 15;
 	private static final String TOURNAMENT = "com.tourneynizer.tourneynizer.Tournament";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.getDefault());
 
 	private Tournament tournament;
+	private User creator;
+	private UserService userService;
+	private TextView creatorLabel;
 	private MapView map;
 
 	public TournamentInfoFragment() {
@@ -47,7 +54,7 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		if (getArguments() != null) {
 			tournament = getArguments().getParcelable(TOURNAMENT);
 		}
-
+        userService = new UserService();
 	}
 
 	@Override
@@ -119,14 +126,34 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
         View view = inflater.inflate(R.layout.fragment_tournament_info, container, false);
 		((TextView) view.findViewById(R.id.tournamentName)).setText(tournament.getName());
         ((TextView) view.findViewById(R.id.tournamentType)).setText(tournament.getTournamentType().toString());
-        ((TextView) view.findViewById(R.id.description)).setText(tournament.getDescription());
+        TextView descriptionField =  view.findViewById(R.id.description);
+        descriptionField.setText(tournament.getDescription());
+        if (descriptionField.getText().toString().equals("")) {
+        	descriptionField.setVisibility(View.GONE);
+		}
 		map = view.findViewById(R.id.map);
 		map.onCreate(savedInstanceState);
 		map.getMapAsync(this);
 		// replace with name of user later
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.getDefault());
-		((TextView) view.findViewById(R.id.creatorName)).setText(String.format(Locale.getDefault(), "Created by %d at " + dateFormat.format(tournament.getTimeCreated()), tournament.getCreatorUserID()));
-		((TextView) view.findViewById(R.id.timeRange)).setText(String.format(Locale.getDefault(), "There are %d spots left and will start at " + dateFormat.format(tournament.getStartTime()), tournament.getMaxTeams() - tournament.getCurrentTeams()));
+		creatorLabel = view.findViewById(R.id.creatorName);
+		userService.getUserFromID(tournament.getCreatorUserID(), new UserService.OnUserLoadedListener() {
+            @Override
+            public void onUserLoaded(final User user) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        creatorLabel.setText(String.format(Locale.getDefault(), "Created by %s at %s", user.getName(), DATE_FORMAT.format(tournament.getTimeCreated())));
+                    }
+                });
+                creatorLabel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        goToUserInfo(user);
+                    }
+                });
+            }
+        });
+		((TextView) view.findViewById(R.id.timeRange)).setText(String.format(Locale.getDefault(), "There are %d spots left and will start at %s", tournament.getMaxTeams() - tournament.getCurrentTeams(), DATE_FORMAT.format(tournament.getStartTime())));
 		if (tournament.getLogo() != null) {
 			((ImageView) view.findViewById(R.id.logo)).setImageBitmap(tournament.getLogo());
 		}
@@ -166,4 +193,9 @@ public class TournamentInfoFragment extends Fragment implements OnMapReadyCallba
 		Fragment createTeamFragment = CreateTeamFragment.newInstance(tournament);
 		((RootFragment) getParentFragment()).pushFragment(createTeamFragment);
 	}
+
+	public void goToUserInfo(User user) {
+	    Fragment fragment = UserProfileFragment.newInstance(user);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
 }

@@ -101,6 +101,10 @@ public class TournamentDao {
     }
 
     public void startTournament(Tournament tournament) {
+        if (!tournament.getStatus().equals(TournamentStatus.CREATED)) {
+            throw new IllegalArgumentException("That tournament has already been started");
+        }
+
         String sql = "UPDATE tournaments SET status=? WHERE id=?";
 
         this.jdbcTemplate.update(connection -> {

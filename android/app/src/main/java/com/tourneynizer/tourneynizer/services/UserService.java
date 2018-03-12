@@ -30,6 +30,10 @@ public class UserService {
         public void onUserLoaded(User user);
     }
 
+    public interface OnUsersLoadedListener {
+        public void onUsersLoaded(User[] users);
+    }
+
     public void getUserFromEmail(String email, final OnUserLoadedListener listener) {
         String url = HTTPService.DOMAIN + "user/find?email=" + email;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -41,8 +45,26 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getSelf(final OnUserLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "user/get";
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        final Request request = cookieRequestFactory.makeJsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                listener.onUserLoaded(JSONConverter.getInstance().convertJSONToUser(response));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onUserLoaded(null);
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
@@ -59,36 +81,35 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void getUsers(int pageNum, int pageSize, final OnUserLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "user/getAll";
-        JSONArray pageination = new JSONArray();
-        pageination.put(pageNum);
-        pageination.put(pageSize);
+    public void getAll(final OnUsersLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "user/all";
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 // parse response
                 Log.d("Response", response.toString());
+                User[] users = new User[response.length()];
                 for (int i = 0; i < response.length(); i++) {
                     try {
-                        listener.onUserLoaded(JSONConverter.getInstance().convertJSONToUser(response.getJSONObject(i)));
+                        users[i] = JSONConverter.getInstance().convertJSONToUser(response.getJSONObject(i));
                     } catch (JSONException e) {
+                        users[i] = null;
                     }
                 }
+                listener.onUsersLoaded(users);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Response", error.toString());
-                listener.onUserLoaded(null);
+                listener.onUsersLoaded(null);
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);
@@ -113,8 +134,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", "" + error.toString());
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -142,15 +162,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //awww shucks
-                Log.e("Error", error.toString());
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    try {
-                        Log.d("Error", new String(error.networkResponse.data, "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-
-                    }
-                }
+                HTTPService.errorPrinterHelper(error);
                 listener.onUserLoaded(null);
             }
         });
@@ -167,7 +179,7 @@ public class UserService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.toString());
+                HTTPService.errorPrinterHelper(error);
             }
         });
         HTTPService.getInstance().getRequestQueue().add(request);

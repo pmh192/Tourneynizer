@@ -36,7 +36,10 @@ public class TeamRequestService {
 
     public void requestTeam(long id, User requester) throws BadRequestException, InternalErrorException {
         Team team = getTeam(id);
-        // TODO don't allow requests for users already on a team
+
+        if (rosterDao.isUserInTournament(requester, team.getTournamentId())) {
+            throw new BadRequestException("This user is already on a team for this tournament");
+        }
 
         try {
             this.teamRequestDao.requestTeam(requester, team);
@@ -47,6 +50,10 @@ public class TeamRequestService {
 
     public void requestUser(long teamId, User requested, User user) throws BadRequestException, InternalErrorException {
         Team team = getTeam(teamId);
+
+        if (rosterDao.isUserInTournament(requested, team.getTournamentId())) {
+            throw new BadRequestException("This user is already on a team for this tournament");
+        }
 
         try {
             this.teamRequestDao.requestUser(requested, team, user);
@@ -71,7 +78,7 @@ public class TeamRequestService {
         }
 
         teamRequestDao.removeRequest(teamRequest);
-        rosterDao.registerUser(user, team);
+        rosterDao.registerUser(teamRequest.getUserId(), team);
     }
 
     public void acceptTeamRequest(long requestId, User user) throws BadRequestException, InternalErrorException {
@@ -151,5 +158,24 @@ public class TeamRequestService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());
         }
+    }
+
+    public void acceptRequest(User user, long id) throws BadRequestException, InternalErrorException {
+        TeamRequest request = findById(id);
+
+        if(request.getRequesterId() == request.getUserId()) {
+            acceptUserRequest(user, request.getTeamId(), request.getId());
+        } else {
+            acceptTeamRequest(request.getId(), user);
+        }
+    }
+
+    public TeamRequest findById(long id) throws BadRequestException {
+        TeamRequest teamRequest = teamRequestDao.findById(id);
+        if (teamRequest == null) {
+            throw new BadRequestException("The team request does not exist.");
+        }
+
+        return teamRequest;
     }
 }
