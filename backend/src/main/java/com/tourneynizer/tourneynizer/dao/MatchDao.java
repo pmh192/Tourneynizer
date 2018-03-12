@@ -30,8 +30,8 @@ public class MatchDao {
         }
 
         String sql = "INSERT INTO matches (tournament, team1_id, team2_id, match_child1, match_child2, " +
-                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber, status)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "score1, score2, scoreType, timeStart, timeEnd, refTeam_id, matchOrder, courtNumber, status, round)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -57,6 +57,7 @@ public class MatchDao {
                 preparedStatement.setInt(12, match.getMatchOrder());
                 preparedStatement.setInt(13, match.getCourtNumber());
                 preparedStatement.setShort(14, (short) match.getMatchStatus().ordinal());
+                preparedStatement.setShort(15, match.getRound());
 
                 return preparedStatement;
             }, keyHolder);
@@ -73,18 +74,19 @@ public class MatchDao {
             new MatchChildren(
                     getNullableLong(resultSet, 3),
                     getNullableLong(resultSet, 4),
-                    getNullableLong(resultSet, 16),
-                    getNullableLong(resultSet, 17)
+                    getNullableLong(resultSet, 14),
+                    getNullableLong(resultSet, 15)
                     ),
-            getNullableLong(resultSet, 12),
-            getNullableLong(resultSet, 7),
-            getNullableLong(resultSet, 8),
-            resultSet.getInt(13),
-            resultSet.getInt(14),
-            resultSet.getTimestamp(10),
-            resultSet.getTimestamp(11),
-            ScoreType.values()[resultSet.getInt(9)],
-            MatchStatus.values()[resultSet.getShort(18)]
+            getNullableLong(resultSet, 10),
+            getNullableLong(resultSet, 5),
+            getNullableLong(resultSet, 6),
+            resultSet.getInt(11),
+            resultSet.getInt(12),
+            resultSet.getTimestamp(8),
+            resultSet.getTimestamp(9),
+            ScoreType.values()[resultSet.getInt(7)],
+            MatchStatus.values()[resultSet.getShort(16)],
+            resultSet.getShort(17)
     );
 
     public Match findById(Long id) throws SQLException {
@@ -103,6 +105,10 @@ public class MatchDao {
     }
 
     public void startMatch(Match match) {
+        if (!match.getMatchStatus().equals(MatchStatus.CREATED)) {
+            throw new IllegalArgumentException("That match has already been started");
+        }
+
         String sql = "UPDATE matches SET status=? WHERE id=?";
         int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.STARTED.ordinal(), match.getId()},
                 new int[] {Types.SMALLINT, Types.BIGINT});
@@ -111,7 +117,21 @@ public class MatchDao {
         }
     }
 
-    public void endMatch(Match match, long score1, long score2) {
+    public void endMatch(Match match, Team winner, long score1, long score2) {
+        if (!match.getMatchChildren().getKnownTeamChildren().contains(winner.getId())) {
+            throw new IllegalArgumentException("That team isn't playing in this match");
+        }
+
+        if (match.getMatchStatus().equals(MatchStatus.COMPLETED)) {
+            throw new IllegalArgumentException("That match has already ended");
+        }
+
+        if (match.getMatchStatus().equals(MatchStatus.CREATED)) {
+            throw new IllegalArgumentException("That match hasn't been started yet");
+        }
+
+        Match parentMatch = getParentMatch(match);
+
         String sql = "UPDATE matches SET status=?, score1=?, score2=? WHERE id=?;";
         int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.COMPLETED.ordinal(), score1, score2, match.getId()},
                 new int[] {Types.SMALLINT, Types.BIGINT, Types.BIGINT, Types.BIGINT});
@@ -120,10 +140,35 @@ public class MatchDao {
             match.setMatchStatus(MatchStatus.COMPLETED);
             match.setScore1(score1);
             match.setScore2(score2);
+
+            if (parentMatch != null) {
+                updateParent(parentMatch, match, winner);
+            }
         }
     }
 
+    private void updateParent(Match parentMatch, Match childMatch, Team winner) {
+        MatchChildren children = parentMatch.getMatchChildren();
+
+        String toUpdate;
+        if (childMatch.getId().equals(children.getMatchChild1())) {
+            toUpdate = "team1_id";
+            children.setTeamChild1(winner.getId());
+        }
+        else {
+            children.setTeamChild2(winner.getId());
+            toUpdate = "team2_id";
+        }
+        String sql = "UPDATE matches SET " + toUpdate + "=? WHERE id=?;";
+        jdbcTemplate.update(sql, new Object[]{winner.getId(), parentMatch.getId()},
+                new int[] {Types.BIGINT, Types.BIGINT});
+    }
+
     public void updateScore(Match match, long score1, long score2) {
+        if (!match.getMatchStatus().equals(MatchStatus.STARTED)) {
+            throw new IllegalArgumentException("Only matches in progress can have their scores updated");
+        }
+
         String sql = "UPDATE matches SET score1=?, score2=? WHERE id=?;";
         int updated = jdbcTemplate.update(sql, new Object[]{score1, score2, match.getId()},
                 new int[] {Types.BIGINT, Types.BIGINT, Types.BIGINT});
@@ -150,5 +195,15 @@ public class MatchDao {
 
     public List<Match> getInProgress(Tournament tournament) {
         return getByStatus(tournament, MatchStatus.STARTED);
+    }
+
+    public Match getParentMatch(Match match) {
+        String sql = "SELECT * FROM matches WHERE match_child1=? OR match_child2=?;";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{match.getId(), match.getId()},
+                    new int[]{Types.BIGINT, Types.BIGINT}, rowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }

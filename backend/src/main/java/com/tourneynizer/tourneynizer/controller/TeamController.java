@@ -34,7 +34,7 @@ public class TeamController {
     }
 
     @PostMapping("/api/tournament/{id}/team/create")
-    public ResponseEntity<?> findById(@PathVariable("id") long id,
+    public ResponseEntity<?> create(@PathVariable("id") long id,
                                       @CookieValue("session") String session,
                                       @RequestBody Map<String, String> values) {
 
