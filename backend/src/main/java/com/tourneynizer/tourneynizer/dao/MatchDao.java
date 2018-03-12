@@ -220,6 +220,11 @@ public class MatchDao {
         return getByStatus(tournament, MatchStatus.STARTED);
     }
 
+    public List<Match> getValidMatches(Tournament tournament) {
+        String sql = "SELECT * FROM matches WHERE tournament=? AND team1_id IS NOT NULL AND team2_id IS NOT NULL;";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
+    }
+
     public Match getParentMatch(Match match) {
         String sql = "SELECT * FROM matches WHERE match_child1=? OR match_child2=?;";
         try {

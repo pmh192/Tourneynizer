@@ -54,9 +54,9 @@ public class MatchController {
         }
     }
 
-    @PostMapping("/api/tournament/{tournamentID}/match/{matchID}/start")
+    @PostMapping("/api/tournament/{tournamentId}/match/{matchID}/start")
     public ResponseEntity<?> startMatch(@CookieValue("session") String session,
-                                        @PathVariable("tournamentID") long tournamentId,
+                                        @PathVariable("tournamentId") long tournamentId,
                                         @PathVariable("matchID") long matchId) {
 
         try {
@@ -71,9 +71,9 @@ public class MatchController {
         }
     }
 
-    @PostMapping("/api/tournament/{tournamentID}/match/{matchID}/updateScore")
+    @PostMapping("/api/tournament/{tournamentId}/match/{matchID}/updateScore")
     public ResponseEntity<?> updateScore(@CookieValue("session") String session,
-                                         @PathVariable("tournamentID") long tournamentId,
+                                         @PathVariable("tournamentId") long tournamentId,
                                          @PathVariable("matchID") long matchId,
                                          @RequestBody Map<String, String> body) {
 
@@ -89,9 +89,9 @@ public class MatchController {
         }
     }
 
-    @GetMapping("/api/tournament/{tournamentID}/match/{matchID}/getScore")
+    @GetMapping("/api/tournament/{tournamentId}/match/{matchID}/getScore")
     public ResponseEntity<?> getScore(@CookieValue("session") String session,
-                                      @PathVariable("tournamentID") long tournamentId,
+                                      @PathVariable("tournamentId") long tournamentId,
                                       @PathVariable("matchID") long matchId) {
 
         try {
@@ -105,9 +105,9 @@ public class MatchController {
         }
     }
 
-    @PostMapping("/api/tournament/{tournamentID}/match/{matchID}/end")
+    @PostMapping("/api/tournament/{tournamentId}/match/{matchID}/end")
     public ResponseEntity<?> endMatch(@CookieValue("session") String session,
-                                      @PathVariable("tournamentID") long tournamentId,
+                                      @PathVariable("tournamentId") long tournamentId,
                                       @PathVariable("matchID") long matchId,
                                       @RequestBody Map<String, String> body) {
 
@@ -116,6 +116,18 @@ public class MatchController {
             matchService.endMatch(tournamentId, matchId, body, user);
             return new ResponseEntity<Object>(Collections.singletonMap("status", "success"), new HttpHeaders(),
                     HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } catch (InternalErrorException e) {
+            return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/tournament/{id}/match/valid")
+    public ResponseEntity<?> endMatch(@PathVariable("id") long tournamentId) {
+        try {
+            List<Match> matches = matchService.getValid(tournamentId);
+            return new ResponseEntity<Object>(matches, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } catch (InternalErrorException e) {

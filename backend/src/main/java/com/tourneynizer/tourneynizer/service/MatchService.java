@@ -152,4 +152,10 @@ public class MatchService {
         return matchDao.getScore(match);
 
     }
+
+    public List<Match> getValid(long tournamentId) throws BadRequestException, InternalErrorException {
+        Tournament tournament = getTournament(tournamentId);
+
+        return matchDao.getValidMatches(tournament);
+    }
 }

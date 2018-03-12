@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -383,5 +384,44 @@ public class MatchDaoTest extends TestWithContext {
         assertEquals(finalRound.getRefId(), team4.getId());
     }
 
+    @Test
+    public void getValidMatches() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        User user4 = getUser(4);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(user1, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
+        Team team4 = getTeam(user4, tournament, 4);
+        List<Team> teams = Arrays.asList(team1, team2, team3, team4);
+
+        MatchGenerator matchGenerator = new MatchGenerator(matchDao);
+        matchGenerator.createTournamentMatches(teams, creator, tournament);
+
+        List<Match> matches = matchDao.getUnstarted(tournament);
+        Match match1 = matches.get(0);
+        Match match2 = matches.get(1);
+        Match finalRound= matches.get(2);
+
+        Set<Long> expected = new HashSet<>(Arrays.asList(match1.getId(), match2.getId()));
+        Set<Long> valid = matchDao.getValidMatches(tournament).stream().map(Match::getId).collect(Collectors.toSet());
+        assertEquals(expected, valid);
+
+        matchDao.startMatch(match1);
+        matchDao.endMatch(match1, team2, 3, 25);
+
+        valid = matchDao.getValidMatches(tournament).stream().map(Match::getId).collect(Collectors.toSet());
+        assertEquals(expected, valid);
+
+        matchDao.startMatch(match2);
+        matchDao.endMatch(match2, team3, 25, 13);
+
+        expected = new HashSet<>(Arrays.asList(match1.getId(), match2.getId(), finalRound.getId()));
+        valid = matchDao.getValidMatches(tournament).stream().map(Match::getId).collect(Collectors.toSet());
+        assertEquals(expected, valid);
+    }
 
 }
