@@ -76,7 +76,7 @@ public class MatchService {
         if (team == null) { throw new InternalErrorException("Couldn't find team that refId references"); }
 
         if (team.getCreatorId() != user.getId()) {
-            throw new BadRequestException("Only the creator of the referee team can start the match");
+            throw new BadRequestException("You must be a the creator of the team refereeing to do that");
         }
     }
 
