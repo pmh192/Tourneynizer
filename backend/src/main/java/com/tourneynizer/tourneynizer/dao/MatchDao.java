@@ -156,12 +156,31 @@ public class MatchDao {
             children.setTeamChild1(winner.getId());
         }
         else {
-            children.setTeamChild2(winner.getId());
             toUpdate = "team2_id";
+            children.setTeamChild2(winner.getId());
         }
         String sql = "UPDATE matches SET " + toUpdate + "=? WHERE id=?;";
         jdbcTemplate.update(sql, new Object[]{winner.getId(), parentMatch.getId()},
                 new int[] {Types.BIGINT, Types.BIGINT});
+
+        if (children.getKnownTeamChildren().size() == 2) {
+            updateParentWithReferee(parentMatch, childMatch, winner);
+        }
+    }
+
+    private void updateParentWithReferee(Match parent, Match childMatch, Team winner) {
+        MatchChildren teamsPlayed = childMatch.getMatchChildren();
+
+        long loserTeamId;
+        if (teamsPlayed.getTeamChild1().equals(winner.getId())) {
+            loserTeamId = teamsPlayed.getTeamChild2();
+        }
+        else {
+            loserTeamId = teamsPlayed.getTeamChild1();
+        }
+
+        String sql = "UPDATE matches SET refteam_id=? WHERE id=?;";
+        jdbcTemplate.update(sql, new Object[]{loserTeamId, parent.getId()}, new int[] {Types.BIGINT, Types.BIGINT});
     }
 
     public void updateScore(Match match, long score1, long score2) {

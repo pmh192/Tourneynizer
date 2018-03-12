@@ -373,6 +373,8 @@ public class MatchDaoTest extends TestWithContext {
 
         Set<Long> set = new HashSet<>(Arrays.asList(team2.getId(), team3.getId()));
         assertEquals(set, finalRound.getMatchChildren().getKnownTeamChildren());
+
+        assertEquals(finalRound.getRefId(), team4.getId());
     }
 
 
