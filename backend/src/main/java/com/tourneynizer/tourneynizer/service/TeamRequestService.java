@@ -36,7 +36,10 @@ public class TeamRequestService {
 
     public void requestTeam(long id, User requester) throws BadRequestException, InternalErrorException {
         Team team = getTeam(id);
-        // TODO don't allow requests for users already on a team
+
+        if (rosterDao.isUserInTournament(requester, team.getTournamentId())) {
+            throw new BadRequestException("This user is already on a team for this tournament");
+        }
 
         try {
             this.teamRequestDao.requestTeam(requester, team);
@@ -47,6 +50,10 @@ public class TeamRequestService {
 
     public void requestUser(long teamId, User requested, User user) throws BadRequestException, InternalErrorException {
         Team team = getTeam(teamId);
+
+        if (rosterDao.isUserInTournament(requested, team.getTournamentId())) {
+            throw new BadRequestException("This user is already on a team for this tournament");
+        }
 
         try {
             this.teamRequestDao.requestUser(requested, team, user);
