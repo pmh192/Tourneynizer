@@ -55,6 +55,15 @@ public class MatchService {
         return match;
     }
 
+    private Match getMatch(long matchId, long tournamentId) throws BadRequestException, InternalErrorException{
+        Match match = getMatch(matchId);
+        if (match.getTournamentId() != tournamentId) {
+            throw new BadRequestException("That match isn't part of this tournament");
+        }
+
+        return match;
+    }
+
     public List<Match> findByTournament(long tournamentId) throws BadRequestException, InternalErrorException{
         return matchDao.findByTournament(getTournament(tournamentId));
     }
@@ -75,11 +84,7 @@ public class MatchService {
     }
 
     public void startMatch(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException{
-        Match match = getMatch(matchId);
-
-        if (match.getTournamentId() != tournamentId) {
-            throw new BadRequestException("That match isn't part of this tournament");
-        }
+        Match match = getMatch(matchId, tournamentId);
 
         mustBeRef(match, user);
 
@@ -106,14 +111,19 @@ public class MatchService {
             throw new BadRequestException(e.getMessage());
         }
 
-        Match match = getMatch(matchId);
-
-        if (match.getTournamentId() != tournamentId) {
-            throw new BadRequestException("That match isn't part of this tournament");
-        }
+        Match match = getMatch(matchId, tournamentId);
 
         mustBeRef(match, user);
 
         matchDao.updateScore(match, score1, score2);
+    }
+
+    public Long[] getScore(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException{
+        Match match = getMatch(matchId, tournamentId);
+
+        mustBeRef(match, user);
+
+        return matchDao.getScore(match);
+
     }
 }

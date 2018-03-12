@@ -225,4 +225,20 @@ public class MatchDao {
             return null;
         }
     }
+
+    private final RowMapper<Long[]> scoreMapper = (resultSet, rowNum) -> new Long[] {
+            getNullableLong(resultSet, 1),
+            getNullableLong(resultSet, 2),
+    };
+
+    public Long[] getScore(Match match) {
+        String sql = "SELECT score1, score2 FROM matches WHERE id=?";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{match.getId()}, new int[]{Types.BIGINT},
+                    scoreMapper);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }

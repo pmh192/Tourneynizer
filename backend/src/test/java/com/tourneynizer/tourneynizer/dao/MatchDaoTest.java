@@ -281,7 +281,7 @@ public class MatchDaoTest extends TestWithContext {
     }
 
     @Test
-    public void updateScore() throws Exception {
+    public void updateAndGetScore() throws Exception {
         User creator = getUser(0);
         User creator2 = getUser(1);
         Tournament tournament = getTournament(creator);
@@ -297,12 +297,18 @@ public class MatchDaoTest extends TestWithContext {
         assertNull(score1);
         assertNull(score2);
 
+        Long[] score = matchDao.getScore(match1);
+        assertEquals(new Long[]{null, null}, score);
+
         matchDao.startMatch(match1);
         matchDao.updateScore(match1, 5, 3);
         score1 = match1.getScore1();
         score2 = match1.getScore2();
         assertEquals(score1.longValue(), 5);
         assertEquals(score2.longValue(), 3);
+
+        score = matchDao.getScore(match1);
+        assertEquals(new Long[]{5L, 3L}, score);
     }
 
     @Test
