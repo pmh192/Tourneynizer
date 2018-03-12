@@ -94,7 +94,9 @@ public class TournamentService {
             throw new BadRequestException("You are not the creator of that tournament");
         }
 
-        tournamentDao.startTournament(tournament);
+
+        try { tournamentDao.startTournament(tournament); }
+        catch (IllegalArgumentException e) { throw new BadRequestException(e.getMessage()); }
 
         List<Team> teams = teamDao.findByTournament(tournament, true);
         try { matchGenerator.createTournamentMatches(teams, user, tournament); }
