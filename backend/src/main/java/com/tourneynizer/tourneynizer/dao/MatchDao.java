@@ -128,6 +128,8 @@ public class MatchDao {
             throw new IllegalArgumentException("That match hasn't been started yet");
         }
 
+        Match parentMatch = getParentMatch(match);
+
         String sql = "UPDATE matches SET status=?, score1=?, score2=? WHERE id=?;";
         int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.COMPLETED.ordinal(), score1, score2, match.getId()},
                 new int[] {Types.SMALLINT, Types.BIGINT, Types.BIGINT, Types.BIGINT});
@@ -136,7 +138,28 @@ public class MatchDao {
             match.setMatchStatus(MatchStatus.COMPLETED);
             match.setScore1(score1);
             match.setScore2(score2);
+
+            if (parentMatch != null) {
+                updateParent(parentMatch, match, winner);
+            }
         }
+    }
+
+    private void updateParent(Match parentMatch, Match childMatch, Team winner) {
+        MatchChildren children = parentMatch.getMatchChildren();
+
+        String toUpdate;
+        if (childMatch.getId().equals(children.getMatchChild1())) {
+            toUpdate = "team1_id";
+            children.setTeamChild1(winner.getId());
+        }
+        else {
+            children.setTeamChild2(winner.getId());
+            toUpdate = "team2_id";
+        }
+        String sql = "UPDATE matches SET " + toUpdate + "=? WHERE id=?;";
+        jdbcTemplate.update(sql, new Object[]{winner.getId(), parentMatch.getId()},
+                new int[] {Types.BIGINT, Types.BIGINT});
     }
 
     public void updateScore(Match match, long score1, long score2) {

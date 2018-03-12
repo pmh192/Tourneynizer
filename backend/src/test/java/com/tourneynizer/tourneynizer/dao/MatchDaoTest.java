@@ -5,8 +5,7 @@ import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -298,6 +297,7 @@ public class MatchDaoTest extends TestWithContext {
         assertNull(score1);
         assertNull(score2);
 
+        matchDao.startMatch(match1);
         matchDao.updateScore(match1, 5, 3);
         score1 = match1.getScore1();
         score2 = match1.getScore2();
@@ -324,10 +324,56 @@ public class MatchDaoTest extends TestWithContext {
 
         List<Match> matches = matchDao.getUnstarted(tournament);
         Match match1 = matches.get(0);
+        Match match2 = matches.get(0);
         Match parent = matchDao.getParentMatch(match1);
         Match finalRound= matches.get(2);
 
         assertEquals(finalRound, parent);
+
+        parent = matchDao.getParentMatch(match2);
+        assertEquals(finalRound, parent);
+
         assertNull(matchDao.getParentMatch(finalRound));
     }
+
+    @Test
+    public void endMatch() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        User user4 = getUser(4);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(user1, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
+        Team team4 = getTeam(user4, tournament, 4);
+        List<Team> teams = Arrays.asList(team1, team2, team3, team4);
+
+        MatchGenerator matchGenerator = new MatchGenerator(matchDao);
+        matchGenerator.createTournamentMatches(teams, creator, tournament);
+
+        List<Match> matches = matchDao.getUnstarted(tournament);
+        Match match1 = matches.get(0);
+        Match match2 = matches.get(1);
+        Match finalRound= matches.get(2);
+
+        matchDao.startMatch(match1);
+        matchDao.endMatch(match1, team2, 3, 25);
+
+        // refresh
+        finalRound = matchDao.findById(finalRound.getId());
+
+        assertTrue(finalRound.getMatchChildren().getKnownTeamChildren().contains(team2.getId()));
+
+        matchDao.startMatch(match2);
+        matchDao.endMatch(match2, team3, 25, 13);
+
+        finalRound = matchDao.findById(finalRound.getId());
+
+        Set<Long> set = new HashSet<>(Arrays.asList(team2.getId(), team3.getId()));
+        assertEquals(set, finalRound.getMatchChildren().getKnownTeamChildren());
+    }
+
+
 }
