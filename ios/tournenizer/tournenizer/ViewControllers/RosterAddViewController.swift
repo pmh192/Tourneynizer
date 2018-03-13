@@ -166,25 +166,7 @@ class RosterAddViewController : UIViewController {
     }
 
     @objc func exit() {
-        let vcIndex = self.navigationController!.viewControllers.count-3;
-        let tournamentVc = self.navigationController!.viewControllers[vcIndex] as! TournamentViewController;
-        let vc = TournamentViewController();
-        vc.setTournament(tournamentVc.tournament);
-        vc.setDashboard(tournamentVc.tournament.creatorId == UserService.shared.getCurrentUser()!.id);
-        vc.setTeam(team);
-        vc.setRegistered(true);
-
-        var viewControllers = Array(self.navigationController!.viewControllers[0...vcIndex-1]);
-        viewControllers.append(vc);
-
-        let animation = CATransition();
-        animation.type = kCATransitionPush;
-        animation.subtype = kCATransitionFromLeft;
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut);
-        animation.duration = CFTimeInterval(0.45);
-        let window = UIApplication.shared.keyWindow;
-        window?.layer.add(animation, forKey: nil);
-        self.navigationController?.setViewControllers(viewControllers, animated: false);
+        self.navigationController?.popViewController(animated: true);
     }
 
     func addUser(_ user: User) {

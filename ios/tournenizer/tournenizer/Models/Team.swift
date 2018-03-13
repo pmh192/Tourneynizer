@@ -14,10 +14,10 @@ class Team : Codable {
     var name: String;
     var timeCreated: Date;
     var checkedIn: Bool;
-    var creatorId: Int;
+    var creatorId: CUnsignedLong;
     var tournamentId: CUnsignedLong;
 
-    init(id: CUnsignedLong, name: String, timeCreated: Date, checkedIn: Bool, creatorId: Int, tournamentId: CUnsignedLong) {
+    init(id: CUnsignedLong, name: String, timeCreated: Date, checkedIn: Bool, creatorId: CUnsignedLong, tournamentId: CUnsignedLong) {
         self.id = id;
         self.name = name;
         self.timeCreated = timeCreated;
