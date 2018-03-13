@@ -5,9 +5,7 @@ import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -96,9 +94,8 @@ public class UserParticipationDaoTest extends TestWithContext {
 
         Team team2 = getTeam(user3, tournament1, 2);
 
-
-        List<Long> expected = Arrays.asList(user1.getId(), user2.getId(), user3.getId(), user4.getId());
-        List<Long> actual = userParticipationDao.usersParticipatingIn(tournament1);
+        Set<Long> expected = new HashSet<>(Arrays.asList(user1.getId(), user2.getId(), user3.getId(), user4.getId()));
+        Set<Long> actual = new HashSet<>(userParticipationDao.usersParticipatingIn(tournament1));
         assertEquals(expected, actual);
     }
 

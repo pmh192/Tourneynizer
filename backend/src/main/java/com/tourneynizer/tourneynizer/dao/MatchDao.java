@@ -150,7 +150,30 @@ public class MatchDao {
             if (parentMatch != null) {
                 updateParent(parentMatch, match, winnerId);
             }
+            else {
+                finishTournament(match);
+            }
         }
+    }
+
+    private void finishTournament(Match match) {
+        String sql = "UPDATE tournaments SET status=? WHERE id=?";
+        jdbcTemplate.update(sql, new Object[]{(short) TournamentStatus.FINISHED.ordinal(), match.getTournamentId()},
+                new int[]{Types.SMALLINT, Types.BIGINT});
+    }
+
+    private long getLoserTeamId(Match match, long winnerId) {
+        MatchChildren teamsPlayed = match.getMatchChildren();
+        if (teamsPlayed.getTeamChild1().equals(winnerId)) {
+            return teamsPlayed.getTeamChild2();
+        }
+        else {
+            return teamsPlayed.getTeamChild1();
+        }
+    }
+
+    private void updateParent(Match parentMatch, Match childMatch, Team winner) {
+        updateParent(parentMatch, childMatch, winner.getId());
     }
 
     private void updateParent(Match parentMatch, Match childMatch, long winnerId) {
@@ -179,16 +202,6 @@ public class MatchDao {
 
         String sql = "UPDATE matches SET refteam_id=? WHERE id=?;";
         jdbcTemplate.update(sql, new Object[]{loserTeamId, parent.getId()}, new int[] {Types.BIGINT, Types.BIGINT});
-    }
-
-    private long getLoserTeamId(Match match, long winnerId) {
-        MatchChildren teamsPlayed = match.getMatchChildren();
-        if (teamsPlayed.getTeamChild1().equals(winnerId)) {
-            return teamsPlayed.getTeamChild2();
-        }
-        else {
-            return teamsPlayed.getTeamChild1();
-        }
     }
 
     private void updateUserInfo(Match match, long winnerId) {
