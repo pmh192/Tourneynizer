@@ -96,7 +96,6 @@ public class UserParticipationDaoTest extends TestWithContext {
 
         Team team2 = getTeam(user3, tournament1, 2);
 
-
         List<Long> expected = Arrays.asList(user1.getId(), user2.getId(), user4.getId(), user3.getId());
         List<Long> actual = userParticipationDao.usersParticipatingIn(tournament1);
         assertEquals(expected, actual);

@@ -382,6 +382,12 @@ public class MatchDaoTest extends TestWithContext {
         assertEquals(set, finalRound.getMatchChildren().getKnownTeamChildren());
 
         assertEquals(finalRound.getRefId(), team4.getId());
+
+        matchDao.startMatch(finalRound);
+        matchDao.endMatch(finalRound, team3, 3, 25);
+        tournament = tournamentDao.findById(tournament.getId());
+
+        assertEquals(TournamentStatus.FINISHED, tournament.getStatus());
     }
 
     @Test
