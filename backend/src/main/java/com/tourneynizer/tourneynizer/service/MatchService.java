@@ -147,8 +147,6 @@ public class MatchService {
     public Long[] getScore(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException {
         Match match = getMatch(matchId, tournamentId);
 
-        mustBeRef(match, user);
-
         return matchDao.getScore(match);
 
     }
