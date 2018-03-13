@@ -19,7 +19,7 @@ class TournamentListViewContainerController : UIViewController {
 
     override func loadView() {
         view = UIView();
-        view.backgroundColor = UIColor.lightGray;
+        view.backgroundColor = Constants.color.gray;
 
         logoLabel = {
             let view = UILabel.newAutoLayout();
@@ -60,19 +60,29 @@ class TournamentListViewContainerController : UIViewController {
     }
 
     func onSelect(_ tournament: Tournament) {
-        let vc = TournamentViewController();
-        vc.setTournament(tournament);
-        vc.setDashboard(tournament.creatorId == UserService.shared.getCurrentUser()!.id);
-        TeamService.shared.getTeamForTournament(tournament.id) { (error: String?, team: Team?) in
-            if(team != nil) {
-                vc.setTeam(team!);
-                vc.setRegistered(true);
-            }
-
-            DispatchQueue.main.async {
+        switch(tournament.status!) {
+            case .FINISHED:
+                fallthrough;
+            case .STARTED:
+                let vc = TournamentCurrentViewController();
+                vc.setTournament(tournament: tournament);
                 self.navigationController?.pushViewController(vc, animated: true);
-            }
+            case .CREATED:
+                let vc = TournamentViewController();
+                vc.setTournament(tournament);
+                vc.setDashboard(tournament.creatorId == UserService.shared.getCurrentUser()!.id);
+                TeamService.shared.getTeamForTournament(tournament.id) { (error: String?, team: Team?) in
+                    if(team != nil) {
+                        vc.setTeam(team!);
+                        vc.setRegistered(true);
+                    }
+
+                    DispatchQueue.main.async {
+                        self.navigationController?.pushViewController(vc, animated: true);
+                    }
+                }
         }
+
     }
 
     var didUpdateConstraints = false;

@@ -32,7 +32,7 @@ class Service {
                 guard let error = try? JSONDecoder().decode(ServerError.self, from: data) else {
                     return cb(Constants.error.genericError, nil);
                 }
-
+                print("Error \(response.statusCode): " + error.message + " for " + Constants.serverURL + url);
                 return cb(error.message, nil);
             }
 

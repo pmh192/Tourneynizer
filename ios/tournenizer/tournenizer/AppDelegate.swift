@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let viewController = LoginViewContainerController();
         self.window!.rootViewController = viewController;
         self.window!.makeKeyAndVisible();
-
         return true;
     }
 

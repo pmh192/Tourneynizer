@@ -166,9 +166,7 @@ class RosterAddViewController : UIViewController {
     }
 
     @objc func exit() {
-        let vcIndex = self.navigationController!.viewControllers.count-3;
-        let vc = self.navigationController?.viewControllers[vcIndex];
-        self.navigationController?.popToViewController(vc!, animated: true);
+        self.navigationController?.popViewController(animated: true);
     }
 
     func addUser(_ user: User) {

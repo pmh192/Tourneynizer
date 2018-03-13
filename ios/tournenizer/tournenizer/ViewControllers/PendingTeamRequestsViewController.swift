@@ -18,7 +18,7 @@ class PendingTeamRequestsViewController : UIViewController {
     var selectLabel: UILabel!;
     var topBackBackground: UIView!;
 
-    let actionsBarHeight: CGFloat = 35;
+    let actionsBarHeight: CGFloat = 50;
     let topTitlePadding: CGFloat = 20;
     let sideTitlePadding: CGFloat = 15;
     let buttonPadding: CGFloat = 10;
@@ -113,17 +113,17 @@ class PendingTeamRequestsViewController : UIViewController {
         if(!didUpdateConstraints) {
             topBackBackground.autoPinEdge(toSuperviewEdge: .leading);
             topBackBackground.autoPinEdge(toSuperviewEdge: .trailing);
-            topBackBackground.autoPin(toTopLayoutGuideOf: self, withInset: 0);
-            topBackBackground.autoSetDimension(.height, toSize: actionsBarHeight);
+            topBackBackground.autoPin(toTopLayoutGuideOf: self, withInset: -Constants.statusBarCoverHeight);
+            topBackBackground.autoSetDimension(.height, toSize: Constants.statusBarCoverHeight + actionsBarHeight);
 
             backView.autoSetDimension(.width, toSize: iconSize);
             backView.autoMatch(.height, to: .width, of: backView);
-            backView.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            backView.autoPinEdge(.bottom, to: .bottom, of: topBackBackground, withOffset: -buttonPadding);
             backView.autoPinEdge(toSuperviewEdge: .leading, withInset: buttonPadding);
 
             selectLabel.autoPinEdge(.leading, to: .trailing, of: backView, withOffset: sideTitlePadding);
             selectLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: sideTitlePadding);
-            selectLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            selectLabel.autoPinEdge(.bottom, to: .bottom, of: topBackBackground, withOffset: -buttonPadding);
 
             contentView.autoPinEdge(.top, to: .bottom, of: topBackBackground);
             contentView.autoPinEdge(toSuperviewEdge: .trailing);

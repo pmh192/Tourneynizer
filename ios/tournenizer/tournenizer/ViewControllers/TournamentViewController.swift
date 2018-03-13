@@ -55,6 +55,7 @@ class TournamentViewController : UIViewController {
     var dashboard = false;
 
     override func loadView() {
+        print(tournament.status.debugDescription);
         view = UIView();
         view.backgroundColor = Constants.color.white;
 
@@ -248,6 +249,11 @@ class TournamentViewController : UIViewController {
             backView.autoPinEdge(.bottom, to: .bottom, of: actionsBar, withOffset: -buttonPadding);
             backView.autoPinEdge(toSuperviewEdge: .leading, withInset: buttonPadding);
 
+            logoLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
+            logoLabel.autoSetDimension(.height, toSize: logoLabelHeight);
+            logoLabel.autoPinEdge(toSuperviewEdge: .leading);
+            logoLabel.autoPinEdge(toSuperviewEdge: .trailing);
+
             titleLabel.autoPinEdge(.top, to: .bottom, of: actionsBar, withOffset: titlePadding);
             titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
             titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
@@ -275,11 +281,6 @@ class TournamentViewController : UIViewController {
             mapViewContainer.autoPinEdge(.top, to: .bottom, of: maxTeamsLabel, withOffset: mapPadding);
             mapViewContainer.autoPinEdge(toSuperviewEdge: .leading, withInset: mapPadding);
             mapViewContainer.autoPinEdge(toSuperviewEdge: .trailing, withInset: mapPadding);
-
-            logoLabel.autoPin(toTopLayoutGuideOf: self, withInset: 0);
-            logoLabel.autoSetDimension(.height, toSize: logoLabelHeight);
-            logoLabel.autoPinEdge(toSuperviewEdge: .leading);
-            logoLabel.autoPinEdge(toSuperviewEdge: .trailing);
 
             if(dashboard) {
                 startButton.autoPinEdge(toSuperviewEdge: .bottom, withInset: padding);
@@ -335,7 +336,25 @@ class TournamentViewController : UIViewController {
     }
 
     @objc func start() {
+        TournamentService.shared.startTournament(tournament.id) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
 
+            return DispatchQueue.main.async {
+                let vcSize = self.navigationController!.viewControllers.count;
+                var viewControllers = Array(self.navigationController!.viewControllers[0...vcSize-2]);
+
+                let vc = TournamentCurrentViewController();
+                self.tournament.status = .STARTED;
+                vc.setTournament(tournament: self.tournament);
+                viewControllers.append(vc);
+
+                self.navigationController?.setViewControllers(viewControllers, animated: false);
+            }
+        }
     }
 
     func selectTeam(_ team: Team) {

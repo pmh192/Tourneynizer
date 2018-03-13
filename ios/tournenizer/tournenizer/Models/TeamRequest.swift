@@ -6,7 +6,7 @@
 //  Copyright © 2018 Ankush Rayabhari. All rights reserved.
 //
 
-import Foundation
+import Foundation;
 
 class TeamRequest : Codable {
     var id: CUnsignedLong;

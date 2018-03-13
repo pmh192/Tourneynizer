@@ -206,9 +206,22 @@ class CreateTeamViewController : UIViewController, UITextFieldDelegate {
             }
 
             return DispatchQueue.main.async {
+                let vcSize = self.navigationController!.viewControllers.count;
+                var viewControllers = Array(self.navigationController!.viewControllers[0...vcSize-3]);
+
+                let tournamentVc = TournamentViewController();
+                tournamentVc.setTournament(self.tournament);
+                tournamentVc.setDashboard(self.tournament.creatorId == UserService.shared.getCurrentUser()!.id);
+                tournamentVc.setTeam(team!);
+                tournamentVc.setRegistered(true);
+
                 let vc = RosterAddViewController();
                 vc.setTeam(team!);
-                self.navigationController?.pushViewController(vc, animated: true);
+
+                viewControllers.append(tournamentVc);
+                viewControllers.append(vc);
+
+                self.navigationController?.setViewControllers(viewControllers, animated: true);
             }
         }
     }

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Ankush Rayabhari. All rights reserved.
 //
 
-import Foundation
+import Foundation;
 
 enum TournamentType : String, Codable {
     case VOLLEYBALL_POOLED, VOLLEYBALL_BRACKET;

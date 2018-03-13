@@ -66,11 +66,10 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
     let logoLabelHeight: CGFloat = 50;
 
     let pickerOptions = [
-        "Pool",
         "Bracket"
     ];
 
-    var type: TournamentType = TournamentType.VOLLEYBALL_POOLED;
+    var type = TournamentType.VOLLEYBALL_BRACKET;
 
     private func promptGenerator() -> UILabel {
         let view = UILabel.newAutoLayout();
@@ -336,11 +335,7 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         typeField.text = pickerOptions[row];
-        if(row == 0) {
-            type = TournamentType.VOLLEYBALL_POOLED;
-        } else {
-            type = TournamentType.VOLLEYBALL_BRACKET;
-        }
+        type = TournamentType.VOLLEYBALL_BRACKET;
     };
 
     @objc func nextField(sender: UIBarButtonItem) {
@@ -430,7 +425,8 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
             tournamentType: type,
             creatorId: 0,
             cancelled: false,
-            teamSize: teamSize
+            teamSize: teamSize,
+            status: nil
         );
     }
 
@@ -469,6 +465,9 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         viewController.dismiss(animated: true, completion: nil);
         self.place = place;
         locationField.text = place.formattedAddress;
+        if(place.formattedAddress == nil) {
+            locationField.text = "\(place.coordinate.latitude) \(place.coordinate.longitude)";
+        }
 
         locationField.resignFirstResponder();
     }

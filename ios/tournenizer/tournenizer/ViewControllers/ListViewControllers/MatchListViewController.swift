@@ -1,32 +1,37 @@
 //
-//  TournamentListViewController.swift
+//  MatchListViewController.swift
 //  tournenizer
 //
-//  Created by Ankush Rayabhari on 2/7/18.
+//  Created by Ankush Rayabhari on 3/13/18.
 //  Copyright © 2018 Ankush Rayabhari. All rights reserved.
 //
 
 import UIKit;
 import PureLayout;
 
-class TournamentListViewController : UITableViewController {
-    var tournaments: [Tournament] = [];
-    let cellIdentifier = "TournamentCell";
+class MatchListViewController : UITableViewController {
+    var teams: [[Team]] = [];
+    var referees: [User] = [];
+    var matches: [Match] = [];
+    let cellIdentifier = "MatchCell";
     let cellSpacingHeight: CGFloat = 5;
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-    }
 
     override func loadView() {
         super.loadView();
 
         view.backgroundColor = Constants.color.lightGray;
-
+        tableView.allowsSelection = true;
         tableView.separatorStyle = .none;
-        tableView.register(TournamentTableCellView.self, forCellReuseIdentifier: cellIdentifier);
+        tableView.register(MatchCellView.self, forCellReuseIdentifier: cellIdentifier);
         tableView.rowHeight = UITableViewAutomaticDimension;
         tableView.estimatedRowHeight = 50;
+    }
+
+    func setData(matches: [Match], referees: [User], teams: [[Team]]) {
+        self.teams = teams;
+        self.referees = referees;
+        self.matches = matches;
+        self.tableView.reloadData();
     }
 
     // Ensures that the corresponding methods are only called once
@@ -43,7 +48,7 @@ class TournamentListViewController : UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return tournaments.count;
+        return teams.count;
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,11 +65,22 @@ class TournamentListViewController : UITableViewController {
         return headerView;
     }
 
+    var cb: ((Match, [Team], User) -> Void)?;
+
+    func setSelectCallback(_ cb: @escaping ((Match, [Team], User) -> Void)) {
+        self.cb = cb;
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cb?(matches[indexPath.section], teams[indexPath.section], referees[indexPath.section]);
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: TournamentTableCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? TournamentTableCellView;
-        cell?.setTournament(tournaments[indexPath.section]);
-        cell?.setNeedsUpdateConstraints()
-        cell?.updateConstraintsIfNeeded()
+        let cell: MatchCellView? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? MatchCellView;
+        cell?.setData(team1: teams[indexPath.section][0], team2: teams[indexPath.section][1], referee: referees[indexPath.section])
+
+        cell?.setNeedsUpdateConstraints();
+        cell?.updateConstraintsIfNeeded();
 
         if(cell != nil) {
             return cell!;
@@ -73,24 +89,10 @@ class TournamentListViewController : UITableViewController {
         }
     }
 
-    var cb: ((Tournament) -> Void)?;
     var reloadCallback: (() -> Void)?;
-
-    func setSelectCallback(_ cb: @escaping ((Tournament) -> Void)) {
-        self.cb = cb;
-    }
 
     func setReloadCallback(_ cb: @escaping (() -> Void)) {
         self.reloadCallback = cb;
-    }
-
-    func setTournaments(_ tournaments: [Tournament]) {
-        self.tournaments = tournaments;
-        self.tableView.reloadData();
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        cb?(tournaments[indexPath.section]);
     }
 
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -98,4 +100,5 @@ class TournamentListViewController : UITableViewController {
             reloadCallback?();
         }
     }
+
 }
