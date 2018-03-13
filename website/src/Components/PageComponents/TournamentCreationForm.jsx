@@ -17,8 +17,10 @@ class TournamentCreationForm extends Component{
 			teamSize: undefined,
 			maxTeams: undefined,
 			tournamentType: 0,
-			address: '',
+			latitude:0,
+			longitude:0,
 			date: undefined,
+			submitted: false,
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleRadioChange = this.handleRadioChange.bind(this);
@@ -38,15 +40,15 @@ class TournamentCreationForm extends Component{
 	}
 
 	handleSubmit(e){
-    	console.log('submitting')
     	let apiURL = API_URL + 'api/tournament/create';
     	let data = {
 			name: this.state.tournamentName,
-			address: this.state.address,
+			lat: this.state.latitude,
+			lng: this.state.longitude,
 			startTime: parseInt(this.state.date),
 			teamSize: parseInt(this.state.teamSize),
 			maxTeams: parseInt(this.state.maxTeams),
-			type: this.state.tournamentType,
+			type: 'VOLLEYBALL_BRACKET',
 			numCourts: 0,
     	}
 
@@ -64,7 +66,13 @@ class TournamentCreationForm extends Component{
 			if(response.status === 200){
 				response.json().then( json => {
 					console.log(json);
+					this.setState({
+						submitted: true,
+					})
+					alert('Tournament Created!');
 				})
+			}else{
+				alert('You must be logged in to create a Tournament');
 			}
 		})
 		.catch(function (error) {
@@ -73,9 +81,11 @@ class TournamentCreationForm extends Component{
 		e.preventDefault();
 	}
 
-	getGoogleLocation(loc){
+	//callback for getting location from placepicker
+	getGoogleLocation(lat, lng){
 		this.setState({
-			address:loc,
+			latitude:lat,
+			longitude:lng,
 		})
 	}
 
@@ -90,86 +100,89 @@ class TournamentCreationForm extends Component{
 	render(){
 		Moment.locale('en');
 		momentLocalizer();
+		if(this.state.submitted){
+			window.location.href='/Tournaments/view';
+		}
 		return (
-			<div className='FormStyling'>
-				<Form horizontal='true' onSubmit={this.handleSubmit}>
-					<FormGroup
-						controlId='tournamentName'
-					>
+			<center>
+				<div className='FormStyling'>
+					<Form horizontal='true' onSubmit={this.handleSubmit}>
+						<FormGroup
+							controlId='tournamentName'
+						>
+							<Col>
+								<ControlLabel>Tournament Name:</ControlLabel>
+								<FormControl
+									type="text"
+									value={this.state.tournamentName}
+									placeholder="Tournament Name"
+									onChange={this.handleChange}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup
+							controlId='teamSize'
+						>
+							<Col>
+								<ControlLabel>Team Size:</ControlLabel>
+								<FormControl
+									type="text"
+									value={this.state.teamSize}
+									placeholder="Team Size"
+									onChange={this.handleChange}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup
+							controlId='maxTeams'
+						>
+							<Col>
+								<ControlLabel>Max Number of Teams:</ControlLabel>
+								<FormControl
+									type="text"
+									value={this.state.maxTeams}
+									placeholder="Max Teams"
+									onChange={this.handleChange}
+								/>
+							</Col>
+						</FormGroup>
+						<FormGroup
+							controlId='tournamentName'
+						>
+							<Col>
+								<ControlLabel>Tournament Type:</ControlLabel>
+								<ButtonToolbar>
+									<ToggleButtonGroup type="radio" name="options" defaultValue={0} >
+									<ToggleButton value={0} onChange={this.handleRadioChange}>Pool</ToggleButton>
+									<ToggleButton value={1} onChange={this.handleRadioChange}>Bracket</ToggleButton>
+									</ToggleButtonGroup>
+								</ButtonToolbar>
+							</Col>
+						</FormGroup>
+						<FormGroup
+							controlId='address'
+						>
+							<ControlLabel>Address:</ControlLabel>
+							<Col>
+								<GooglePlacepicker formStateSetter={this.getGoogleLocation}/>
+							</Col>
+						</FormGroup>
+						<FormGroup
+							controlId='date'
+						>
+							<ControlLabel>Date/Time:</ControlLabel>
+							<Col>
+								<DateTimePicker 
+									onChange={this.getDateTime}
+								/>
+							</Col>
+						</FormGroup>
 						<Col>
-							<ControlLabel>Tournament Name:</ControlLabel>
-							<FormControl
-								type="text"
-								value={this.state.tournamentName}
-								placeholder="Tournament Name"
-								onChange={this.handleChange}
-							/>
+							<Button type="submit">Create Tournament</Button>
 						</Col>
-					</FormGroup>
-					<FormGroup
-						controlId='teamSize'
-					>
-						<Col>
-							<ControlLabel>Team Size:</ControlLabel>
-							<FormControl
-								type="text"
-								value={this.state.teamSize}
-								placeholder="Team Size"
-								onChange={this.handleChange}
-							/>
-						</Col>
-					</FormGroup>
-					<FormGroup
-						controlId='maxTeams'
-					>
-						<Col>
-							<ControlLabel>Max Number of Teams:</ControlLabel>
-							<FormControl
-								type="text"
-								value={this.state.maxTeams}
-								placeholder="Max Teams"
-								onChange={this.handleChange}
-							/>
-						</Col>
-					</FormGroup>
-					<FormGroup
-						controlId='tournamentName'
-					>
-						<Col>
-							<ControlLabel>Tournament Type:</ControlLabel>
-							<ButtonToolbar>
-								<ToggleButtonGroup type="radio" name="options" defaultValue={0} >
-								<ToggleButton value={0} onChange={this.handleRadioChange}>Pool</ToggleButton>
-								<ToggleButton value={1} onChange={this.handleRadioChange}>Bracket</ToggleButton>
-								</ToggleButtonGroup>
-							</ButtonToolbar>
-						</Col>
-					</FormGroup>
-					<FormGroup
-						controlId='address'
-					>
-						<ControlLabel>Address:</ControlLabel>
-						<Col>
-							<GooglePlacepicker formStateSetter={this.getGoogleLocation}/>
-						</Col>
-					</FormGroup>
-					<FormGroup
-						controlId='date'
-					>
-						<ControlLabel>Date/Time:</ControlLabel>
-						<Col>
-							<DateTimePicker 
-								parse={str => new Date(str)}
-								onChange={this.getDateTime}
-							/>
-						</Col>
-					</FormGroup>
-					<Col>
-						<Button type="submit">Create Tournament</Button>
-					</Col>
-				</Form>
-			</div>
-
+					</Form>
+				</div>
+			</center>
 		);
 
 

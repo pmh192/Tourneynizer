@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Jumbotron } from 'react-bootstrap';
+import { Jumbotron, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import { API_URL } from '../../resources/constants.jsx';
+import { Link } from 'react-router-dom';
 
 class TeamsViewPage extends Component{
 	constructor(){
 		super();
 		this.state={
+			user: null,
 			teams: [],
 			tournament: undefined,
 			creator: undefined,
@@ -14,6 +16,7 @@ class TeamsViewPage extends Component{
 			tournamentLoaded: false,
 			creatorLoaded: false,
 		}
+		this.requestJoin = this.requestJoin.bind(this);
 	}
 
 	getTeams(){
@@ -57,6 +60,7 @@ class TeamsViewPage extends Component{
     	});
 	}
 
+	//creator of tournament UPDATE
 	getCreator(){
 		let apiURL = API_URL + this.props.match.params.tourneyId;
 		fetch(apiURL, {
@@ -82,18 +86,35 @@ class TeamsViewPage extends Component{
 		this.getTournament();
 	}
 
+	//called when requesting to join a team
+	requestJoin(id){
+		let apiURL = API_URL + 'api/team/' + id + '/request';
+		fetch(apiURL,{
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+ 			credentials: 'include',
+			
+		})
+		.then( response => {
+			if(response.status === 200){
+				alert('Request Sent!');
+			}else{
+				alert('Error: You are already a part of this team or join request is pending.')
+			}
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+	}
+
 	render(){
 		const data = this.state.teams;
 		const columns = [{
 			Header: 'Name',
 			accessor: 'name',
-		},{
-			Header: 'Creator',
-			Cell: row => (
-				<div>
-					{this.getCreator()}
-				</div>
-			)
 		},{
 			Header: 'Tournament',
 			Cell: row => (
@@ -102,14 +123,13 @@ class TeamsViewPage extends Component{
 				</div>
 			)
 		},{
-			Header: 'Checked in',
-			accessor: 'checkedIn',
-		},{
-			Header: 'See Details',
+			Header: 'Request to join',
 			accessor: 'id',
 			Cell: row => (
 				<div>
-
+					<center>
+						<Button onClick={()=>this.requestJoin(row.value)}>Join</Button>
+					</center>
 				</div>
 			)
 		}]
@@ -119,14 +139,16 @@ class TeamsViewPage extends Component{
 			);
 		}else{
 			return(
-				<div>
-					<Jumbotron><h1>Join a Team</h1></Jumbotron>
-					<ReactTable
-					    data={data}
-    					columns={columns}
-    					className="-striped -highlight"
-    				/>
-				</div>
+				<center>
+					<div>
+						<Jumbotron><h1>Join a Team</h1></Jumbotron>
+						<ReactTable
+						    data={data}
+	    					columns={columns}
+	    					className="-striped -highlight"
+	    				/>
+					</div>
+				</center>
 			);
 		}
 	}

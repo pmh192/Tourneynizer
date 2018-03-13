@@ -6,12 +6,14 @@ import TournamentCreationForm from './TournamentCreationForm';
 class TournamentCreatePage extends Component{
 	render(){
 		return(
-			<div className='MarginSpacer'>
-				<Jumbotron>
-					<h1>Create a Tournament</h1>
-					<TournamentCreationForm />
-				</Jumbotron>
-			</div>
+			<center>
+				<div className='MarginSpacer'>
+					<Jumbotron>
+						<h1>Create a Tournament</h1>
+						<TournamentCreationForm />
+					</Jumbotron>
+				</div>
+			</center>
 		);
 	}
 }

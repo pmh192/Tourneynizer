@@ -41,6 +41,26 @@ class TournamentsList extends Component{
 
 	componentWillMount(){
 		this.getTournaments();
+		this.getUser();
+	}
+
+	getUser(){
+		let apiURL = API_URL + 'api/user/get';
+		fetch(apiURL, {
+			method: 'GET',
+			credentials: 'include',
+		})
+		.then((response) => {
+			if(response.ok){
+				
+			}else{
+				alert('You must be logged in to view this page.');
+				window.location.href='/LoginPage';
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});
 	}
 
 	render(){
@@ -53,12 +73,6 @@ class TournamentsList extends Component{
 			},{
 				Header: 'Start Time',
 				accessor: 'startTime',
-			},{
-				Header: 'Tourney Type',
-				accessor: 'type',
-			},{
-				Header: 'Address',
-				accessor: 'address',
 			},{
 				Header: 'See Details',
 				accessor: 'id',

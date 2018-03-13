@@ -15,10 +15,12 @@ class LoginPage extends Component {
 		return (
 			<div className='MarginSpacer'>
 				<div>
-					<Jumbotron>
-						<h1>Login</h1>
-						<LoginPageForm getUserInfo={this.props.getUserInfo}/>
-					</Jumbotron>
+					<center>
+						<Jumbotron>
+							<h1>Login</h1>
+							<LoginPageForm getUserInfo={this.props.getUserInfo}/>
+						</Jumbotron>
+					</center>
 				</div>
 			</div>
 		);

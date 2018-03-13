@@ -13,9 +13,10 @@ class AccountCreationForm extends Component{
 			confirmPassword: '',
 			firstName: '',
 			lastName: '',
+			submitted: false,
 		};
 
-		this.onSubmit.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	handleChange(e) {
@@ -33,7 +34,7 @@ class AccountCreationForm extends Component{
 
 	getPasswordValidationState(){
 		const length = this.state.password.length;
-		if(length >= 6 && this.validityTesterHelper(this.state.password)){
+		if(length >= 0 && this.validityTesterHelper(this.state.password)){
 			return 'success';
 		}else{
 			return 'error';
@@ -42,7 +43,7 @@ class AccountCreationForm extends Component{
 
 	getConfirmPasswordValidationState(){
 		const length = this.state.password.length;
-		if(length >= 6 && this.validityTesterHelper(this.state.password) && this.state.password === this.state.confirmPassword){
+		if(length >= 0 && this.validityTesterHelper(this.state.password) && this.state.password === this.state.confirmPassword){
 			return 'success';
 		}else{
 			return 'error';
@@ -58,17 +59,17 @@ class AccountCreationForm extends Component{
 	}
 
 	validityTesterHelper(passwordString){
-		return /\d/.test(passwordString);
+		return true;
 	}
 
 	onSubmit(e){
+
 		//send user creation request to server
 		if(
 			this.getConfirmPasswordValidationState() === 'success' && 
 			this.getPasswordValidationState() === 'success' && 
 			this.getEmailValidationState() === 'success'
 		){
-			let shouldRefresh = false;
 			let fullName = this.state.firstName + ' ' + this.state.lastName;
 			var data = {
 				email: this.state.email,
@@ -77,33 +78,34 @@ class AccountCreationForm extends Component{
 			};
 			fetch(API_URL + 'api/user/create', {
 					method: 'POST',
-					mode: 'cors',
 					body: JSON.stringify(data),
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
 					},
-				})
-				.then(function (response) {
-					if(response.status === 200){
-						shouldRefresh = true;
-						alert('Account created!');
-					}else{
-						alert('Error with account creation');
-					}
-				})
-				.catch(function (error) {
-					console.log(error);
-				})
-			if(!shouldRefresh){
-				console.log('shouldn\'t refresh');
-				e.preventDefault();
-			}
+					include:'credentials',
+			})
+			.then((response) => {
+				if(response.status === 200){
+					//if server successfully creates the account
+					alert('Account created!');
+					this.setState({
+						submitted: true,
+					})
+				}else{
+					alert('Error with account creation');
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
 		}
+		e.preventDefault();
 	}
 
 	render(){
-		return(
+		if(!this.state.submitted){
+			return(
 				<div  className='FormStyling'>
 					<Form horizontal='true' onSubmit={(e) => this.onSubmit(e)}>
 						<FormGroup
@@ -111,10 +113,11 @@ class AccountCreationForm extends Component{
 							validationState={this.getNameValidationState()}
 						>
 							<Col>
+							<ControlLabel>First Name</ControlLabel>
 							<FormControl
 								type="text"
 								value={this.state.firstName}
-								placeholder="First Name"
+								placeholder="Enter your first name..."
 								onChange={this.handleChange}
 							/>
 							<FormControl.Feedback />
@@ -124,10 +127,11 @@ class AccountCreationForm extends Component{
 							controlId="lastName"
 						>
 							<Col>
+							<ControlLabel>Last Name (Optional)</ControlLabel>
 							<FormControl
 								type="text"
 								value={this.state.lastName}
-								placeholder="Last Name"
+								placeholder="Enter your last name..."
 								onChange={this.handleChange}
 							/>
 							</Col>
@@ -137,10 +141,11 @@ class AccountCreationForm extends Component{
 							validationState={this.getEmailValidationState()}
 						>
 							<Col>
+							<ControlLabel>Email Address</ControlLabel>
 							<FormControl
 								type="email"
 								value={this.state.email}
-								placeholder="Email address"
+								placeholder="Enter a valid email address..."
 								onChange={this.handleChange}
 							/>
 							<FormControl.Feedback />
@@ -152,10 +157,11 @@ class AccountCreationForm extends Component{
 							validationState={this.getPasswordValidationState()}
 						>
 							<Col>
+							<ControlLabel>Password</ControlLabel>
 							<FormControl
 								type="password"
 								value={this.state.password}
-								placeholder="Enter Your Password"
+								placeholder="Enter a password"
 								onChange={this.handleChange}
 							/>
 							<FormControl.Feedback />
@@ -167,6 +173,7 @@ class AccountCreationForm extends Component{
 							validationState={this.getConfirmPasswordValidationState()}
 						>
 							<Col>
+							<ControlLabel>Confirm Password</ControlLabel>
 							<FormControl
 								type="Password"
 								value={this.state.confirmPassword}
@@ -180,7 +187,10 @@ class AccountCreationForm extends Component{
 						<Button type="submit">Sign up</Button>
 					</Form>
 				</div>
-		);
+			);
+		}else{
+			window.location.href='/LoginPage';
+		}
 	}
 }
 

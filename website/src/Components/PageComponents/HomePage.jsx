@@ -8,22 +8,17 @@ import HomePageContent from './HomePageContent.jsx'
 class HomePage extends Component {
 
 	render() {
-		let data = this.props.update();
-		let welcome = null;
-		if(data.loggedIn){
-			welcome = <div>Welcome, {data.name}!</div>;
-		}else{
-			welcome = <div>Please sign in</div>;
-		}
-
-
+		let welcome = <div>Welcome to Tourneynizer</div>;
+		window.location.href='/Tournaments/view';
 		return (
 			<div>
-				<Jumbotron>
-				<h1>HomePage</h1>
-				<h4>{welcome}</h4>
-				</Jumbotron>
-				<HomePageContent />
+				
+				<center>
+					<Jumbotron>
+					<h1>Welcome to tourneynizer</h1>
+					<h3>View the list of tournaments to get started!</h3>
+					</Jumbotron>
+				</center>
 			</div>
 		);
 	}
