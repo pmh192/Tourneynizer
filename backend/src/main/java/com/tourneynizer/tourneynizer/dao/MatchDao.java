@@ -176,16 +176,6 @@ public class MatchDao {
         updateParent(parentMatch, childMatch, winner.getId());
     }
 
-    private void updateUserInfo(Match match, long winnerId) {
-        String sqlWins = "UPDATE users SET wins=wins+1, matches=matches+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
-        String sqlLosses = "UPDATE users SET losses=losses+1, matches=matches+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
-
-        long loserId = getLoserTeamId(match, winnerId);
-
-        jdbcTemplate.update(sqlWins, new Object[]{winnerId},  new int[]{Types.BIGINT});
-        jdbcTemplate.update(sqlLosses, new Object[]{loserId}, new int[]{Types.BIGINT});
-    }
-
     private void updateParent(Match parentMatch, Match childMatch, long winnerId) {
         MatchChildren children = parentMatch.getMatchChildren();
 
@@ -212,16 +202,6 @@ public class MatchDao {
 
         String sql = "UPDATE matches SET refteam_id=? WHERE id=?;";
         jdbcTemplate.update(sql, new Object[]{loserTeamId, parent.getId()}, new int[] {Types.BIGINT, Types.BIGINT});
-    }
-
-    private long getLoserTeamId(Match match, long winnerId) {
-        MatchChildren teamsPlayed = match.getMatchChildren();
-        if (teamsPlayed.getTeamChild1().equals(winnerId)) {
-            return teamsPlayed.getTeamChild2();
-        }
-        else {
-            return teamsPlayed.getTeamChild1();
-        }
     }
 
     private void updateUserInfo(Match match, long winnerId) {
