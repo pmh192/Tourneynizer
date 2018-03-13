@@ -4,15 +4,15 @@ public class UserInfo {
 
     public int wins, losses, tournaments, matches;
 
-    public UserInfo(int wins, int losses, int matches, int tournaments) {
+    public UserInfo(int wins, int losses, int tournaments) {
         this.wins = wins;
         this.losses = losses;
         this.tournaments = tournaments;
-        this.matches = matches;
+        this.matches = wins + losses;
     }
 
     public UserInfo() {
-        this(0, 0, 0, 0);
+        this(0, 0, 0);
     }
 
     @Override

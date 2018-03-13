@@ -37,8 +37,8 @@ public class UserDao {
             throw new IllegalArgumentException("User is already persisted");
         }
 
-        String sql = "INSERT INTO users (email, name, password, timeCreated, wins, losses, matches, tournaments)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO users (email, name, password, timeCreated, wins, losses, tournaments)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?);";
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -51,8 +51,7 @@ public class UserDao {
                 preparedStatement.setTimestamp(4, now);
                 preparedStatement.setInt(5, user.getUserInfo().wins);
                 preparedStatement.setInt(6, user.getUserInfo().losses);
-                preparedStatement.setInt(7, user.getUserInfo().matches);
-                preparedStatement.setInt(8, user.getUserInfo().tournaments);
+                preparedStatement.setInt(7, user.getUserInfo().tournaments);
 
                 return preparedStatement;
             }, keyHolder);
@@ -74,8 +73,7 @@ public class UserDao {
             new UserInfo(
                     resultSet.getInt(6),
                     resultSet.getInt(7),
-                    resultSet.getInt(8),
-                    resultSet.getInt(9)
+                    resultSet.getInt(8)
             ),
             resultSet.getTimestamp(5)
     );

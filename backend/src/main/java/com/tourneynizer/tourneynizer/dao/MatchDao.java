@@ -164,8 +164,8 @@ public class MatchDao {
     }
 
     private void updateUserInfo(Match match, long winnerId) {
-        String sqlWins = "UPDATE users SET wins=wins+1, matches=matches+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
-        String sqlLosses = "UPDATE users SET losses=losses+1, matches=matches+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
+        String sqlWins = "UPDATE users SET wins=wins+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
+        String sqlLosses = "UPDATE users SET losses=losses+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
 
         long loserId = getLoserTeamId(match, winnerId);
 

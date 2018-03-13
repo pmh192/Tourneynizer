@@ -78,7 +78,7 @@ public class UserDaoTest extends TestWithContext {
     public void retrieve() throws Exception {
         User user = new User("person@place.com", "Name", "");
         user.setPlaintextPassword("HI");
-        user.setUserInfo(new UserInfo(5, 4, 3, 6));
+        user.setUserInfo(new UserInfo(5, 4, 6));
         userDao.insert(user);
 
         User user2 = userDao.findById(user.getId());
