@@ -118,7 +118,11 @@ public class MatchDao {
     }
 
     public void endMatch(Match match, Team winner, long score1, long score2) {
-        if (!match.getMatchChildren().getKnownTeamChildren().contains(winner.getId())) {
+        endMatch(match, winner.getId(), score1, score2);
+    }
+
+    public void endMatch(Match match, long winnerId, long score1, long score2) {
+        if (!match.getMatchChildren().getKnownTeamChildren().contains(winnerId)) {
             throw new IllegalArgumentException("That team isn't playing in this match");
         }
 
@@ -142,37 +146,37 @@ public class MatchDao {
             match.setScore2(score2);
 
             if (parentMatch != null) {
-                updateParent(parentMatch, match, winner);
+                updateParent(parentMatch, match, winnerId);
             }
         }
     }
 
-    private void updateParent(Match parentMatch, Match childMatch, Team winner) {
+    private void updateParent(Match parentMatch, Match childMatch, long winnerId) {
         MatchChildren children = parentMatch.getMatchChildren();
 
         String toUpdate;
         if (childMatch.getId().equals(children.getMatchChild1())) {
             toUpdate = "team1_id";
-            children.setTeamChild1(winner.getId());
+            children.setTeamChild1(winnerId);
         }
         else {
             toUpdate = "team2_id";
-            children.setTeamChild2(winner.getId());
+            children.setTeamChild2(winnerId);
         }
         String sql = "UPDATE matches SET " + toUpdate + "=? WHERE id=?;";
-        jdbcTemplate.update(sql, new Object[]{winner.getId(), parentMatch.getId()},
+        jdbcTemplate.update(sql, new Object[]{winnerId, parentMatch.getId()},
                 new int[] {Types.BIGINT, Types.BIGINT});
 
         if (children.getKnownTeamChildren().size() == 2) {
-            updateParentWithReferee(parentMatch, childMatch, winner);
+            updateParentWithReferee(parentMatch, childMatch, winnerId);
         }
     }
 
-    private void updateParentWithReferee(Match parent, Match childMatch, Team winner) {
+    private void updateParentWithReferee(Match parent, Match childMatch, long winnerId) {
         MatchChildren teamsPlayed = childMatch.getMatchChildren();
 
         long loserTeamId;
-        if (teamsPlayed.getTeamChild1().equals(winner.getId())) {
+        if (teamsPlayed.getTeamChild1().equals(winnerId)) {
             loserTeamId = teamsPlayed.getTeamChild2();
         }
         else {
@@ -216,12 +220,47 @@ public class MatchDao {
         return getByStatus(tournament, MatchStatus.STARTED);
     }
 
+    public List<Match> getValidMatches(Tournament tournament) {
+        String sql = "SELECT * FROM matches WHERE tournament=? AND team1_id IS NOT NULL AND team2_id IS NOT NULL;";
+        return this.jdbcTemplate.query(sql, new Object[]{tournament.getId()}, new int[]{Types.BIGINT}, rowMapper);
+    }
+
     public Match getParentMatch(Match match) {
         String sql = "SELECT * FROM matches WHERE match_child1=? OR match_child2=?;";
         try {
             return this.jdbcTemplate.queryForObject(sql, new Object[]{match.getId(), match.getId()},
                     new int[]{Types.BIGINT, Types.BIGINT}, rowMapper);
         } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    private final RowMapper<Long[]> scoreMapper = (resultSet, rowNum) -> new Long[] {
+            getNullableLong(resultSet, 1),
+            getNullableLong(resultSet, 2),
+    };
+
+    public Long[] getScore(Match match) {
+        String sql = "SELECT score1, score2 FROM matches WHERE id=?";
+        try {
+            return this.jdbcTemplate.queryForObject(sql, new Object[]{match.getId()}, new int[]{Types.BIGINT},
+                    scoreMapper);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public Match getMatchToReferee(Team team) {
+        String sql = "SELECT * FROM matches WHERE refteam_id=? AND status=? ORDER BY round ASC LIMIT 1";
+        try {
+            return this.jdbcTemplate.queryForObject(sql,
+                    new Object[]{team.getId(), (short) TournamentStatus.CREATED.ordinal()},
+                    new int[]{Types.BIGINT, Types.SMALLINT},
+                    rowMapper
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
             return null;
         }
     }

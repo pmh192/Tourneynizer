@@ -86,7 +86,7 @@ public class TournamentDao {
     }
 
     public List<Tournament> getAll() throws SQLException {
-        String sql = "SELECT * FROM tournaments;";
+        String sql = "SELECT * FROM tournaments ORDER BY id DESC;";
         return this.jdbcTemplate.query(sql, rowMapper);
     }
 

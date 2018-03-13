@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -281,7 +282,7 @@ public class MatchDaoTest extends TestWithContext {
     }
 
     @Test
-    public void updateScore() throws Exception {
+    public void updateAndGetScore() throws Exception {
         User creator = getUser(0);
         User creator2 = getUser(1);
         Tournament tournament = getTournament(creator);
@@ -297,12 +298,18 @@ public class MatchDaoTest extends TestWithContext {
         assertNull(score1);
         assertNull(score2);
 
+        Long[] score = matchDao.getScore(match1);
+        assertEquals(new Long[]{null, null}, score);
+
         matchDao.startMatch(match1);
         matchDao.updateScore(match1, 5, 3);
         score1 = match1.getScore1();
         score2 = match1.getScore2();
         assertEquals(score1.longValue(), 5);
         assertEquals(score2.longValue(), 3);
+
+        score = matchDao.getScore(match1);
+        assertEquals(new Long[]{5L, 3L}, score);
     }
 
     @Test
@@ -377,5 +384,96 @@ public class MatchDaoTest extends TestWithContext {
         assertEquals(finalRound.getRefId(), team4.getId());
     }
 
+    @Test
+    public void getValidMatches() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        User user4 = getUser(4);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(user1, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
+        Team team4 = getTeam(user4, tournament, 4);
+        List<Team> teams = Arrays.asList(team1, team2, team3, team4);
 
+        MatchGenerator matchGenerator = new MatchGenerator(matchDao);
+        matchGenerator.createTournamentMatches(teams, creator, tournament);
+
+        List<Match> matches = matchDao.getUnstarted(tournament);
+        Match match1 = matches.get(0);
+        Match match2 = matches.get(1);
+        Match finalRound= matches.get(2);
+
+        Set<Long> expected = new HashSet<>(Arrays.asList(match1.getId(), match2.getId()));
+        Set<Long> valid = matchDao.getValidMatches(tournament).stream().map(Match::getId).collect(Collectors.toSet());
+        assertEquals(expected, valid);
+
+        matchDao.startMatch(match1);
+        matchDao.endMatch(match1, team2, 3, 25);
+
+        valid = matchDao.getValidMatches(tournament).stream().map(Match::getId).collect(Collectors.toSet());
+        assertEquals(expected, valid);
+
+        matchDao.startMatch(match2);
+        matchDao.endMatch(match2, team3, 25, 13);
+
+        expected = new HashSet<>(Arrays.asList(match1.getId(), match2.getId(), finalRound.getId()));
+        valid = matchDao.getValidMatches(tournament).stream().map(Match::getId).collect(Collectors.toSet());
+        assertEquals(expected, valid);
+    }
+
+    @Test
+    public void getMatchToReferee() throws Exception {
+        User creator = getUser(0);
+        User user1 = getUser(1);
+        User user2 = getUser(2);
+        User user3 = getUser(3);
+        User user4 = getUser(4);
+        Tournament tournament = getTournament(creator);
+        Team team1 = getTeam(user1, tournament, 1);
+        Team team2 = getTeam(user2, tournament, 2);
+        Team team3 = getTeam(user3, tournament, 3);
+        Team team4 = getTeam(user4, tournament, 4);
+
+        MatchChildren matchChildren = new MatchChildren(team1.getId(), team2.getId(), null, null);
+        Match match1 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        match1.setRefId(team3.getId());
+        matchDao.insert(match1);
+
+        matchChildren = new MatchChildren(team3.getId(), team4.getId(), null, null);
+        Match match2 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        match2.setRefId(team1.getId());
+        matchDao.insert(match2);
+
+        matchChildren = new MatchChildren(null, null, match1.getId(), match2.getId());
+        Match match3 = new Match(tournament.getId(), matchChildren, 0, null, ScoreType.ONE_SET, (short)1);
+        matchDao.insert(match3);
+
+        Match toRef = matchDao.getMatchToReferee(team3);
+        assertEquals(match1, toRef);
+
+        toRef = matchDao.getMatchToReferee(team1);
+        assertEquals(match2, toRef);
+
+        assertNull(matchDao.getMatchToReferee(team2));
+        assertNull(matchDao.getMatchToReferee(team4));
+
+        matchDao.startMatch(match1);
+        matchDao.endMatch(match1, team2, 16, 25);
+
+        matchDao.startMatch(match2);
+        matchDao.endMatch(match2, team3, 25, 19);
+
+        toRef = matchDao.getMatchToReferee(team1);
+        Match toRef2 = matchDao.getMatchToReferee(team4);
+
+        Long id1 = toRef != null ? toRef.getId() : null;
+        Long id2 = toRef2 != null ? toRef2.getId() : null;
+
+        assertTrue(match3.getId().equals(id1) || match3.getId().equals(id2));
+        assertTrue(toRef == null || toRef2 == null);
+
+    }
 }
