@@ -170,7 +170,19 @@ export default class TeamInformation extends Component{
 	}
 
 	removeRequest(id) {
-	    this.setState(prevState => ({ teamRequests: prevState.teamRequests.filter(request => request.id !== id) }))
+		let result = this.state.requesters.filter(obj => {
+			return obj.requestId === id;
+		});
+		let fakeUser = {
+			name: result.userName,
+			email: result.userEmail,
+		}
+		let arr = this.state.teamMembers.slice();
+		arr.append(fakeUser);
+	    this.setState(prevState => ({ 
+	    	requesters: prevState.requesters.filter(request => request.requestId !== id), 
+	    	teamMembers: arr,
+	    }), () => console.log(this.state.teamMembers));
 	}
 
 	rejectTeamRequest(id){
@@ -193,7 +205,7 @@ export default class TeamInformation extends Component{
 				id: 'button',
 				Cell: (original) => (
 					<ButtonGroup>
-						<Button onClick={()=>this.acceptTeamRequest(original.row._original.id)}>Accept</Button>
+						<Button onClick={()=>this.acceptTeamRequest(original.row._original.requestId)}>Accept</Button>
 						<Button>Reject</Button>
 					</ButtonGroup>
 				)

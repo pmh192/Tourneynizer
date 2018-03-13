@@ -85,21 +85,23 @@ class ProfileCurrentPage extends Component{
 
 			return(
 				<div>
-					<Jumbotron>
-						<h1>Current Tournaments/Requests/Teams</h1>
-							<ButtonToolbar>
-						  		<ToggleButtonGroup type="radio" name="options" defaultValue={2}>
-						   			<ToggleButton onChange={this.handleRadioChange} value={1}>Tournaments</ToggleButton>
-						      		<ToggleButton onChange={this.handleRadioChange} value={2}>Teams</ToggleButton>
-						      		<ToggleButton onChange={this.handleRadioChange} value={3}>Requests</ToggleButton>
-						    	</ToggleButtonGroup>
-							</ButtonToolbar>
-							<ReactTable
-							    data={this.state.displayData}
-		    					columns={columns}
-		    					className="-striped -highlight"
-		    				/>
-					</Jumbotron>
+					<center>
+						<Jumbotron>
+							<h1>Current Tournaments/Requests/Teams</h1>
+								<ButtonToolbar>
+							  		<ToggleButtonGroup type="radio" name="options" defaultValue={2}>
+							   			<ToggleButton onChange={this.handleRadioChange} value={1}>Tournaments</ToggleButton>
+							      		<ToggleButton onChange={this.handleRadioChange} value={2}>Teams</ToggleButton>
+							      		<ToggleButton onChange={this.handleRadioChange} value={3}>Requests</ToggleButton>
+							    	</ToggleButtonGroup>
+								</ButtonToolbar>
+								<ReactTable
+								    data={this.state.displayData}
+			    					columns={columns}
+			    					className="-striped -highlight"
+			    				/>
+						</Jumbotron>
+					</center>
 				</div>
 			);
 		}else{
