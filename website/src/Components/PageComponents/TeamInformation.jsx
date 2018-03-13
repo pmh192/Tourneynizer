@@ -16,8 +16,7 @@ export default class TeamInformation extends Component{
 			teamCreatorLoaded: false,
 			teamMembers: [],
 			teamMembersLoaded: false,
-			teamRequests: [],
-			teamRequestsLoaded: false,
+			requesters: [],
 		}
 		this.acceptTeamRequest = this.acceptTeamRequest.bind(this);
 		this.removeRequest = this.removeRequest.bind(this);
@@ -102,12 +101,46 @@ export default class TeamInformation extends Component{
 			credentials: 'include',
 		})
 		.then((response) => {
+			let reqs = [];
 			if(response.ok){
 				response.json().then(json => {
-					this.setState({
-						teamRequests: json,
-						teamRequestsLoaded: true,
-					});
+					reqs = json;
+					const userPromises = json.map(request => {
+						let apiURLUser = API_URL + 'api/user/' + request.requesterId;
+						return (
+							fetch(apiURLUser, {
+								method: 'GET',
+								credentials: 'include',
+							})
+						)
+					})
+					Promise.all(userPromises).then((responses) => {
+						Promise.all(responses.map(res => res.json())).then(json => {
+							let userReqs = [];
+
+							//get requestIds and users together in object form
+							for(let i = 0; i < reqs.length; i++){
+								//if a match is found stop trying to find match and move on to next pair
+								let found = false;
+								console.log(reqs[i]);
+								for(let j = 0; j < json.length && !found; j++){
+									if(reqs[i].requesterId === json[j].id){
+										let requestEntry = {
+											requestId: reqs[i].id,
+											userEmail: json[j].email,
+											userName: json[j].name,
+										} 
+										userReqs.push(requestEntry);
+										found = true;
+									}
+								}
+							}
+							console.log(userReqs);
+							this.setState({
+								requesters: userReqs,
+							})
+						})
+					})
 				})
 			}
 		})
@@ -148,12 +181,14 @@ export default class TeamInformation extends Component{
 	//ADD COLLAPSIBLE PANELS HERE FOR SEEING TEAM LEADER, TEAM MEMBERS, TEAM REQUESTS
 	//-------------------------------------------------------------------------------
 	render(){
-		if(this.state.teamLoaded && this.state.teamCreatorLoaded && this.state.teamMembersLoaded && this.state.teamRequestsLoaded){
+		if(this.state.teamLoaded && this.state.teamCreatorLoaded && this.state.teamMembersLoaded){
 			let columns = [{
 				accessor: 'name',
 			}]
 			let requestColumns = [{
-				accessor: 'requesterId',
+				accessor: 'userName',
+			},{
+				accessor: 'userEmail',
 			},{ //This column can be turned into a separate component
 				id: 'button',
 				Cell: (original) => (
@@ -192,7 +227,7 @@ export default class TeamInformation extends Component{
 								<Panel.Heading><h3>Pending Requests</h3></Panel.Heading>
 								<Panel.Body>
 									<ReactTable 
-										data={this.state.teamRequests} 
+										data={this.state.requesters} 
 										columns={requestColumns}
 										className='-highlight'
 										defaultPageSize={10}
