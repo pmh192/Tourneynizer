@@ -81,7 +81,7 @@ class NavBar extends React.Component {
 			loggedInData = (
 				<NavItem>
 					<Navbar.Collapse>
-						<Navbar.Text>
+						<Navbar.Text onClick={ () => window.location.href='/Profile/view'}>
 					    	Signed in as: {this.state.user.name}
 					    </Navbar.Text>
 					    <Button onClick={this.handleClick}>

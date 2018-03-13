@@ -98,29 +98,31 @@ class TeamCreationPage extends Component{
 		}else{
 			return(
 				<div>
-					<Jumbotron>
-						<h1>Create a Team for {this.state.tournament.name}</h1>
-						<div className='FormStyling'>
-							<Form horizontal='true' onSubmit={this.handleSubmit}>
-								<FormGroup
-									controlId='name'
-								>
+					<center>
+						<Jumbotron>
+							<h1>Create a Team for {this.state.tournament.name}</h1>
+							<div className='FormStyling'>
+								<Form horizontal='true' onSubmit={this.handleSubmit}>
+									<FormGroup
+										controlId='name'
+									>
+										<Col>
+											<ControlLabel>Team Name:</ControlLabel>
+											<FormControl
+												type="text"
+												value={this.state.name}
+												placeholder="Enter a team name..."
+												onChange={this.handleChange}
+											/>
+										</Col>
+									</FormGroup>
 									<Col>
-										<ControlLabel>Team Name:</ControlLabel>
-										<FormControl
-											type="text"
-											value={this.state.name}
-											placeholder="Enter a team name..."
-											onChange={this.handleChange}
-										/>
+										<Button type="submit">Create Team</Button>
 									</Col>
-								</FormGroup>
-								<Col>
-									<Button type="submit">Create Team</Button>
-								</Col>
-							</Form>
-						</div>
-					</Jumbotron>
+								</Form>
+							</div>
+						</Jumbotron>
+					</center>
 				</div>
 			);
 		}

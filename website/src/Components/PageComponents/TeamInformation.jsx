@@ -164,42 +164,44 @@ export default class TeamInformation extends Component{
 				)
 			}]
 			return(
-				<div>
-					<Jumbotron><h1>Now Viewing Team: {this.state.team.name}</h1></Jumbotron>
-					<div className='TeamCreator:'>
-						<Panel>
-							<Panel.Heading>
-								<h3>Team Creator: {this.state.teamCreator.name}</h3>
-							</Panel.Heading>
-						</Panel>
+				<center>
+					<div>
+						<Jumbotron><h1>Now Viewing Team: {this.state.team.name}</h1></Jumbotron>
+						<div className='TeamCreator:'>
+							<Panel>
+								<Panel.Heading>
+									<h3>Team Creator: {this.state.teamCreator.name}</h3>
+								</Panel.Heading>
+							</Panel>
+						</div>
+						<div className='Members'>
+							<Panel>
+								<Panel.Heading><h3>Team Members</h3></Panel.Heading>
+								<Panel.Body>
+									<ReactTable 
+										data={this.state.teamMembers} 
+										columns={columns}
+										className='-highlight'
+										defaultPageSize={10}
+									/>
+								</Panel.Body>
+							</Panel>
+						</div>
+						<div className='Members'>
+							<Panel>
+								<Panel.Heading><h3>Pending Requests</h3></Panel.Heading>
+								<Panel.Body>
+									<ReactTable 
+										data={this.state.teamRequests} 
+										columns={requestColumns}
+										className='-highlight'
+										defaultPageSize={10}
+									/>
+								</Panel.Body>
+							</Panel>
+						</div>
 					</div>
-					<div className='Members'>
-						<Panel>
-							<Panel.Heading><h3>Team Members</h3></Panel.Heading>
-							<Panel.Body>
-								<ReactTable 
-									data={this.state.teamMembers} 
-									columns={columns}
-									className='-highlight'
-									defaultPageSize={10}
-								/>
-							</Panel.Body>
-						</Panel>
-					</div>
-					<div className='Members'>
-						<Panel>
-							<Panel.Heading><h3>Pending Requests</h3></Panel.Heading>
-							<Panel.Body>
-								<ReactTable 
-									data={this.state.teamRequests} 
-									columns={requestColumns}
-									className='-highlight'
-									defaultPageSize={10}
-								/>
-							</Panel.Body>
-						</Panel>
-					</div>
-				</div>
+				</center>
 			);
 		}else{
 			return(

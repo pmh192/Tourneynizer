@@ -139,14 +139,16 @@ class TeamsViewPage extends Component{
 			);
 		}else{
 			return(
-				<div>
-					<Jumbotron><h1>Join a Team</h1></Jumbotron>
-					<ReactTable
-					    data={data}
-    					columns={columns}
-    					className="-striped -highlight"
-    				/>
-				</div>
+				<center>
+					<div>
+						<Jumbotron><h1>Join a Team</h1></Jumbotron>
+						<ReactTable
+						    data={data}
+	    					columns={columns}
+	    					className="-striped -highlight"
+	    				/>
+					</div>
+				</center>
 			);
 		}
 	}
