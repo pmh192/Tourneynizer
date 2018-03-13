@@ -85,7 +85,7 @@ class TournamentListViewController : UITableViewController {
     }
 
     func setTournaments(_ tournaments: [Tournament]) {
-        self.tournaments = tournaments.reversed();
+        self.tournaments = tournaments;
         self.tableView.reloadData();
     }
 

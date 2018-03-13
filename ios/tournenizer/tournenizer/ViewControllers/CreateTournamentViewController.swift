@@ -469,6 +469,9 @@ class CreateTournamentViewController : UIViewController, UITextFieldDelegate, UI
         viewController.dismiss(animated: true, completion: nil);
         self.place = place;
         locationField.text = place.formattedAddress;
+        if(place.formattedAddress == nil) {
+            locationField.text = "\(place.coordinate.latitude) \(place.coordinate.longitude)";
+        }
 
         locationField.resignFirstResponder();
     }
