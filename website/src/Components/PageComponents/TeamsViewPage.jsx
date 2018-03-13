@@ -8,6 +8,7 @@ class TeamsViewPage extends Component{
 	constructor(){
 		super();
 		this.state={
+			user: null,
 			teams: [],
 			tournament: undefined,
 			creator: undefined,

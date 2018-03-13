@@ -92,7 +92,6 @@ class AccountCreationForm extends Component{
 					this.setState({
 						submitted: true,
 					})
-					window.location.href='/Tournaments/view';
 				}else{
 					alert('Error with account creation');
 				}
@@ -190,7 +189,7 @@ class AccountCreationForm extends Component{
 				</div>
 			);
 		}else{
-			window.location.reload();
+			window.location.href='/LoginPage';
 		}
 	}
 }

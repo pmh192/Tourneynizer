@@ -3,6 +3,10 @@
     width: 500px;
 }
 
+.stats {
+	width: 10%;
+}
+
 .MarginSpacer {
 	margin-left: 5px;
 }

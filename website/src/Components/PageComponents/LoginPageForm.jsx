@@ -87,7 +87,7 @@ class LoginPageForm extends Component{
 				</div>
 			);
 		}else{
-			window.location.reload();
+			
 		}
 	}
 }

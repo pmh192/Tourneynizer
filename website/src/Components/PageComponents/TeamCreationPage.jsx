@@ -87,7 +87,7 @@ class TeamCreationPage extends Component{
 
 	render(){
 		if(this.state.submitted){
-			window.location.reload();
+			window.location.href='/Tournaments/view';
 		}
 		if(!this.state.tournamentLoaded){
 			return(

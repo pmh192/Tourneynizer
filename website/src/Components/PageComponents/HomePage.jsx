@@ -9,9 +9,10 @@ class HomePage extends Component {
 
 	render() {
 		let welcome = <div>Welcome to Tourneynizer</div>;
-
+		window.location.href='/Tournaments/view';
 		return (
 			<div>
+				
 				<center>
 					<Jumbotron>
 					<h1>Welcome to tourneynizer</h1>

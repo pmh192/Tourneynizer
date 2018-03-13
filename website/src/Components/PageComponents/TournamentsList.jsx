@@ -41,6 +41,26 @@ class TournamentsList extends Component{
 
 	componentWillMount(){
 		this.getTournaments();
+		this.getUser();
+	}
+
+	getUser(){
+		let apiURL = API_URL + 'api/user/get';
+		fetch(apiURL, {
+			method: 'GET',
+			credentials: 'include',
+		})
+		.then((response) => {
+			if(response.ok){
+				
+			}else{
+				alert('You must be logged in to view this page.');
+				window.location.href='/LoginPage';
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});
 	}
 
 	render(){
