@@ -74,6 +74,24 @@
                 android:layout_marginTop="@dimen/marginSize"
                 android:textAlignment="center" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button1"
+                android:text="@string/viewPendingTeams" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:text="@string/createOwnTeam"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/startTournament"
+                android:text="@string/startTournament"/>
+
         </LinearLayout>
 
     </ScrollView>
@@ -85,20 +103,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/marginSize"
         android:orientation="horizontal">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/joinTeam"
-            android:text="@string/viewPendingTeams" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/createTeam"
-            android:text="@string/createOwnTeam"/>
 
     </LinearLayout>
 

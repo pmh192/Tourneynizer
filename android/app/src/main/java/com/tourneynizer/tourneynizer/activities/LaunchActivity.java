@@ -69,7 +69,7 @@ public class LaunchActivity extends AppCompatActivity {
     }
 
     private void onCredentialRetrieved(final Credential credential) {
-        // credential.getId() is email
+        // credential.getID() is email
         if (credential.getPassword() != null) {
             // This an account that we stored
             userService.getUserFromEmailAndPassword(credential.getId(), credential.getPassword(), new UserService.OnUserLoadedListener() {

@@ -48,4 +48,8 @@
     <string name="requestPlayer">Request Player</string>
     <string name="startTournament">Start Tournament</string>
     <string name="matches">Matches</string>
+    <string name="viewYourTeam">View Your Team</string>
+    <string name="viewTeams">View Teams</string>
+    <string name="teams">Teams</string>
+    <string name="viewMatches">View Matches</string>
 </resources>

@@ -6,6 +6,7 @@ import android.media.MediaRouter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.tourneynizer.tourneynizer.services.TeamService;
 import com.tourneynizer.tourneynizer.services.TournamentService;
 import com.tourneynizer.tourneynizer.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +50,7 @@ public class TeamInfoFragment extends UIQueueFragment {
     private TextView requestButton2;
     private UserListAdapter listAdapter;
     private TeamRequestService teamRequestService;
+    private SwipeRefreshLayout swipeRefresher;
 
     public TeamInfoFragment() {
         // Required empty public constructor
@@ -94,91 +97,98 @@ public class TeamInfoFragment extends UIQueueFragment {
         logoView.setImageBitmap(team.getLogo());
         TextView teamName = view.findViewById(R.id.teamName);
         teamName.setText(team.getName());
+        swipeRefresher = view.findViewById(R.id.swipeRefresher);
+        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
         requestButton1 = view.findViewById(R.id.requestButton1);
         requestButton2 = view.findViewById(R.id.requestButton2);
         creatorLabel = view.findViewById(R.id.creatorName);
-        userService.getUserFromID(team.getCreatorID(), new UserService.OnUserLoadedListener() {
-            @Override
-            public void onUserLoaded(final User user) {
-                userService.getSelf(new UserService.OnUserLoadedListener() {
-                    @Override
-                    public void onUserLoaded(final User self) {
-                        if (self.equals(user)) {
-                            requestButton1.setText(R.string.viewRequests);
-                            requestButton1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    goToTeamRequests();
-                                }
-                            });
-                            requestButton2.setVisibility(View.VISIBLE);
-                            requestButton2.setText(R.string.requestPlayers);
-                            requestButton2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    goToUserList();
-                                }
-                            });
-                        } else {
-                            requestButton1.setText(R.string.requestToJoin);
-                            requestButton1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    teamRequestService.sendRequestToTeam(team, new TeamRequestService.OnRequestCompletedListener() {
-                                        @Override
-                                        public void onRequestCompleted(VolleyError error) {
-                                            if (error == null) {
-                                                Toast.makeText(getContext(), "Request sent to " + team.getName(), Toast.LENGTH_SHORT).show();
-                                                requestButton1.setVisibility(View.GONE);
-                                            } else {
-                                                showErrorDialogue();
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                            requestButton2.setVisibility(View.GONE);
+        if (creator == null) {
+            userService.getUserFromID(team.getCreatorID(), new UserService.OnUserLoadedListener() {
+                @Override
+                public void onUserLoaded(User user) {
+                    creator = user;
+                    userService.getSelf(new UserService.OnUserLoadedListener() {
+                        @Override
+                        public void onUserLoaded(User self) {
+                            setCreatorFields(self);
                         }
-                    }
-                });
-                performUITask(new Runnable() {
-                    @Override
-                    public void run() {
-                        creatorLabel.setText(String.format(Locale.getDefault(), "Created by %s", user.getName()));
-                    }
-                });
-                creatorLabel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        goToUserInfo(user);
-                    }
-                });
-            }
-        });
+                    });
+                    performUITask(new Runnable() {
+                        @Override
+                        public void run() {
+                            creatorLabel.setText(String.format(Locale.getDefault(), "Created by %s", creator.getName()));
+                        }
+                    });
+                    creatorLabel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            goToUserInfo(creator);
+                        }
+                    });
+                }
+            });
+        }
         tournamentLabel = view.findViewById(R.id.tournamentName);
-        tournamentService.getFromId(team.getTournamentID(), new TournamentService.OnTournamentLoadedListener() {
-            @Override
-            public void onTournamentLoaded(final Tournament tournament) {
-                performUITask(new Runnable() {
-                    @Override
-                    public void run() {
-                        tournamentLabel.setText(tournament.getName());
-
+        if (tournament == null) {
+            tournamentService.getFromId(team.getTournamentID(), new TournamentService.OnTournamentLoadedListener() {
+                @Override
+                public void onTournamentLoaded(Tournament t) {
+                    tournament = t;
+                    if (!tournament.hasStarted()) {
+                        requestButton1.setVisibility(View.GONE);
+                        requestButton2.setVisibility(View.GONE);
+                    } else {
+                        teamService.getTeamForTournament(tournament, new TeamService.OnTeamLoadedListener() {
+                            @Override
+                            public void onTeamLoaded(Team team) {
+                                if (team != null) {
+                                    requestButton1.setVisibility(View.GONE);
+                                    requestButton2.setVisibility(View.GONE);
+                                }
+                            }
+                        });
                     }
-                });
-                tournamentLabel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        goToTournamentInfo(tournament);
-                    }
-                });
-            }
-        });
+                    performUITask(new Runnable() {
+                        @Override
+                        public void run() {
+                            tournamentLabel.setText(tournament.getName());
+                        }
+                    });
+                    tournamentLabel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            goToTournamentInfo(tournament);
+                        }
+                    });
+                }
+            });
+        }
         return view;
     }
 
     public void refresh() {
-
+        if (swipeRefresher != null) {
+            swipeRefresher.setRefreshing(true);
+        }
+        teamService.getTeamMembers(team, new TeamService.OnUsersLoadedListener() {
+            @Override
+            public void onUsersLoaded(final User[] users) {
+                performUITask(new Runnable() {
+                    @Override
+                    public void run() {
+                        listAdapter.addAll(users);
+                        if (swipeRefresher != null) {
+                            swipeRefresher.setRefreshing(false);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void goToUserInfo(User u) {
@@ -199,6 +209,47 @@ public class TeamInfoFragment extends UIQueueFragment {
     public void goToUserList() {
         Fragment fragment = SearchFragment.newInstance(team);
         ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
+    public void setCreatorFields(User self) {
+        if (self.equals(creator)) {
+            requestButton1.setVisibility(View.VISIBLE);
+            requestButton1.setText(R.string.viewRequests);
+            requestButton1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToTeamRequests();
+                }
+            });
+            requestButton2.setVisibility(View.VISIBLE);
+            requestButton2.setText(R.string.requestPlayers);
+            requestButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToUserList();
+                }
+            });
+        } else {
+            requestButton1.setVisibility(View.VISIBLE);
+            requestButton1.setText(R.string.requestToJoin);
+            requestButton1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    teamRequestService.sendRequestToTeam(team, new TeamRequestService.OnRequestCompletedListener() {
+                        @Override
+                        public void onRequestCompleted(VolleyError error) {
+                            if (error == null) {
+                                Toast.makeText(getContext(), "Request sent to " + team.getName(), Toast.LENGTH_SHORT).show();
+                                requestButton1.setVisibility(View.GONE);
+                            } else {
+                                showErrorDialogue();
+                            }
+                        }
+                    });
+                }
+            });
+            requestButton2.setVisibility(View.GONE);
+        }
     }
 
     private void showErrorDialogue() {

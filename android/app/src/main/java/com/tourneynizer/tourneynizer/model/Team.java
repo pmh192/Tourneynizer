@@ -60,7 +60,7 @@ public class Team implements Parcelable {
         }
     };
 
-    public long getId() {
+    public long getID() {
         return id;
     }
 

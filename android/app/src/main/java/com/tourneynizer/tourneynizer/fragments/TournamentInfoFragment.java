@@ -18,8 +18,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.services.TeamService;
 import com.tourneynizer.tourneynizer.services.TournamentService;
 import com.tourneynizer.tourneynizer.services.UserService;
 
@@ -35,12 +37,15 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 
 	private Tournament tournament;
 	private User creator;
+	private Team team;
 	private UserService userService;
 	private TournamentService tournamentService;
+	private TeamService teamService;
 	private TextView creatorLabel;
 	private MapView map;
 	private TextView button1;
 	private TextView button2;
+	private TextView startButton;
 
 	public TournamentInfoFragment() {
 		// Required empty public constructor
@@ -65,6 +70,7 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 		}
         userService = new UserService();
 		tournamentService = new TournamentService();
+		teamService = new TeamService();
 	}
 
 	@Override
@@ -145,8 +151,18 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 		map = view.findViewById(R.id.map);
 		map.onCreate(savedInstanceState);
 		map.getMapAsync(this);
-		button1 = view.findViewById(R.id.joinTeam);
-		button2 = view.findViewById(R.id.createTeam);
+		button1 = view.findViewById(R.id.button1);
+		button2 = view.findViewById(R.id.button2);
+		if (team == null) {
+            teamService.getTeamForTournament(tournament, new TeamService.OnTeamLoadedListener() {
+                @Override
+                public void onTeamLoaded(Team t) {
+                    team = t;
+                    setTeamFields();
+                }
+            });
+        }
+        startButton = view.findViewById(R.id.startTournament);
 		creatorLabel = view.findViewById(R.id.creatorName);
 		if (creator == null) {
 			userService.getUserFromID(tournament.getCreatorUserID(), new UserService.OnUserLoadedListener() {
@@ -183,30 +199,22 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 				performUITask(new Runnable() {
 					@Override
 					public void run() {
-						if (creator.equals(self)) {
-							button1.setText(R.string.startTournament);
-							button1.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									startTournament();
-								}
-							});
-							button2.setVisibility(View.GONE);
+						if (creator.equals(self) && !tournament.hasStarted()) {
+						    startButton.setText(R.string.startTournament);
+                            startButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    startTournament();
+                                }
+                            });
 						} else {
-							button1.setText(R.string.viewPendingTeams);
-							button1.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									goToJoinTeam();
-								}
-							});
-							button2.setVisibility(View.VISIBLE);
-							button2.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									goToCreateTeam();
-								}
-							});
+						    startButton.setText(R.string.viewMatches);
+                            startButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    goToMatchList();
+                                }
+                            });
 						}
 					}
 				});
@@ -226,8 +234,53 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 		});
 	}
 
-	public void goToJoinTeam() {
-	    Fragment joinTeamFragment = JoinTeamFragment.newInstance(tournament);
+	public void setTeamFields() {
+	    if (team != null) {
+            button1.setVisibility(View.VISIBLE);
+	        button1.setText(R.string.viewYourTeam);
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToTeamInfo();
+                }
+            });
+            button2.setText(R.string.viewTeams);
+            button2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToTeamList(true);
+                }
+            });
+        } else if (!tournament.hasStarted()) {
+            button1.setVisibility(View.VISIBLE);
+	        button1.setText(R.string.viewPendingTeams);
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToTeamList(false);
+                }
+            });
+            button2.setText(R.string.createOwnTeam);
+            button2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToCreateTeam();
+                }
+            });
+        } else {
+	        button1.setVisibility(View.GONE);
+            button2.setText(R.string.viewTeams);
+            button2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goToTeamList(true);
+                }
+            });
+        }
+    }
+
+	public void goToTeamList(boolean complete) {
+	    Fragment joinTeamFragment = TeamListFragment.newInstance(tournament, complete);
         ((RootFragment) getParentFragment()).pushFragment(joinTeamFragment);
     }
 
@@ -241,16 +294,25 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
         ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 
+    public void goToTeamInfo() {
+	    Fragment fragment = TeamInfoFragment.newInstance(team);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
+    public void goToMatchList() {
+        Fragment fragment = MatchListFragment.newInstance(tournament);
+        ((RootFragment) getParentFragment()).pushFragment(fragment);
+    }
+
     public void startTournament() {
 		tournamentService.startTournament(tournament, new TournamentService.OnErrorListener() {
 			@Override
 			public void onError(VolleyError error) {
 				if (error == null) {
 					Toast.makeText(getContext(), "The tournament has started!", Toast.LENGTH_SHORT).show();
-					Fragment fragment = MatchListFragment.newInstance(tournament);
-					((RootFragment) getParentFragment()).pushFragment(fragment);
+					goToMatchList();
 				} else {
-					//TODO: make AlertDialogueFactory in utiol package to make displaying an alert dialogue much easier
+					//TODO: make AlertDialogueFactory in util package to make displaying an alert dialogue much easier
 				}
 			}
 		});

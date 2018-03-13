@@ -126,6 +126,14 @@ public class Match implements Parcelable {
         return score1;
     }
 
+    public void setScore1(Long score1) {
+        this.score1 = score1;
+    }
+
+    public void setScore2(Long score2) {
+        this.score2 = score2;
+    }
+
     public Long getScore2() {
         return score2;
     }

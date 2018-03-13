@@ -107,7 +107,7 @@ public class MatchListFragment extends UIQueueFragment {
         if (swipeRefresher != null) {
 			swipeRefresher.setRefreshing(true);
 		}
-		matchService.getAllMatches(tournament, new MatchService.OnMatchesLoadedListener() {
+        MatchService.OnMatchesLoadedListener listener = new MatchService.OnMatchesLoadedListener() {
 			@Override
 			public void onMatchesLoaded(final Match[] matches) {
 			    performUITask(new Runnable() {
@@ -122,6 +122,7 @@ public class MatchListFragment extends UIQueueFragment {
                     }
                 });
 			}
-		});
+		};
+        matchService.getAllValidMatches(tournament, listener);
 	}
 }
