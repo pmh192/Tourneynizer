@@ -8,7 +8,6 @@ class HomePageContent extends Component{
 	render(){
 		return(
 			<div>
-				<ConstructionMessage />
 			</div>
 		);
 	}

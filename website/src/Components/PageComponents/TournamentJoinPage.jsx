@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button, ButtonGroup } from 'react-bootstrap';
+import { Jumbotron, Button, ButtonGroup, ButtonToolbar} from 'react-bootstrap';
 import { GoogleMapsView } from '../CustomStyleComponents/GoogleMapsView';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../resources/constants.jsx'
@@ -54,17 +54,23 @@ class TournamentJoinPage extends Component{
 			return(<div><h1>Data wasn't available</h1></div>);
 		}else{
 			return(
-				<div>
-					<Jumbotron>
-						<h1>Tournament Details</h1>
-						<h3>You are viewing Tournament: "{this.state.name}"</h3>
-						<ButtonGroup>
-							<Link to={'/Teams/view/' + this.state.id}><Button>Join a Team</Button></Link>
-							<Link to={'/Teams/create/' + this.state.id}><Button>Create a team</Button></Link>
-						</ButtonGroup>
-						<div><GoogleMapsView address={this.state.address} latitude={this.state.latitude} longitude={this.state.longitude}/></div>
-					</Jumbotron>
-				</div>
+				<center>
+					<div>
+						<Jumbotron>
+							<h1>Tournament Details</h1>
+							<h3>You are viewing Tournament: "{this.state.name}"</h3>
+							<div>
+								<ButtonGroup>
+									<Link to={'/Teams/view/' + this.state.id}><Button>Join a Team</Button></Link>
+								</ButtonGroup>
+								<ButtonGroup>
+									<Link to={'/Teams/create/' + this.state.id}><Button>Create a team</Button></Link>
+								</ButtonGroup>
+							</div>
+							<div><GoogleMapsView address={this.state.address} latitude={this.state.latitude} longitude={this.state.longitude}/></div>
+						</Jumbotron>
+					</div>
+				</center>
 			);
 		}
 	}

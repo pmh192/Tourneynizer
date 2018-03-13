@@ -13,12 +13,14 @@ class TournamentViewPage extends Component{
 	render(){
 		return (
 			<div className='MarginSpacer'>
-				<Jumbotron>
-					<h1>Tournaments</h1>
-					<div className='TournamentList'>
-						<TournamentsList />
-					</div>
-				</Jumbotron>
+				<center>
+					<Jumbotron>
+						<h1>Tournaments</h1>
+						<div className='TournamentList'>
+							<TournamentsList />
+						</div>
+					</Jumbotron>
+				</center>
 			</div>
 		);
 	}

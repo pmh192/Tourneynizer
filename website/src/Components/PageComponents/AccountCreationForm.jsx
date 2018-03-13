@@ -34,7 +34,7 @@ class AccountCreationForm extends Component{
 
 	getPasswordValidationState(){
 		const length = this.state.password.length;
-		if(length >= 6 && this.validityTesterHelper(this.state.password)){
+		if(length >= 0 && this.validityTesterHelper(this.state.password)){
 			return 'success';
 		}else{
 			return 'error';
@@ -43,7 +43,7 @@ class AccountCreationForm extends Component{
 
 	getConfirmPasswordValidationState(){
 		const length = this.state.password.length;
-		if(length >= 6 && this.validityTesterHelper(this.state.password) && this.state.password === this.state.confirmPassword){
+		if(length >= 0 && this.validityTesterHelper(this.state.password) && this.state.password === this.state.confirmPassword){
 			return 'success';
 		}else{
 			return 'error';
@@ -59,7 +59,7 @@ class AccountCreationForm extends Component{
 	}
 
 	validityTesterHelper(passwordString){
-		return /\d/.test(passwordString);
+		return true;
 	}
 
 	onSubmit(e){
@@ -92,6 +92,7 @@ class AccountCreationForm extends Component{
 					this.setState({
 						submitted: true,
 					})
+					window.location.href='/Tournaments/view';
 				}else{
 					alert('Error with account creation');
 				}

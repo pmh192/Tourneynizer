@@ -39,11 +39,10 @@ class LoginPageForm extends Component{
 		.then( response => {
 			if(response.status === 200){
 				response.json().then( json => {
-					this.props.getUserInfo(json);
-					this.setState({
-						submitted: true,
-					})
+					window.location.href='/Tournaments/view';
 				})
+			}else{
+				alert('Could not login... check your username and password')
 			}
 		})
 		.catch(function (error) {

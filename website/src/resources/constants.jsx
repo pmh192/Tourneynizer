@@ -6,5 +6,5 @@
 //TEST URL
 //'http://localhost:8080/'
 
-export const API_URL = 'http://localhost:8080/'
+export const API_URL = 'http://169.231.234.195:8080/'
 

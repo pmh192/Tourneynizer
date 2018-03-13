@@ -20,6 +20,7 @@ export default class TeamInformation extends Component{
 			teamRequestsLoaded: false,
 		}
 		this.acceptTeamRequest = this.acceptTeamRequest.bind(this);
+		this.removeRequest = this.removeRequest.bind(this);
 	}
 
 
@@ -124,6 +125,8 @@ export default class TeamInformation extends Component{
 		.then((response) => {
 			if(response.ok){
 				console.log('request' + id + ' accepted');
+				this.removeRequest(id);
+
 			}else{
 				alert('You are not the team creator');
 			}
@@ -131,6 +134,10 @@ export default class TeamInformation extends Component{
 		.catch((error) => {
     		console.error(error);
     	});	
+	}
+
+	removeRequest(id) {
+	    this.setState(prevState => ({ teamRequests: prevState.teamRequests.filter(request => request.id !== id) }))
 	}
 
 	rejectTeamRequest(id){
@@ -158,7 +165,7 @@ export default class TeamInformation extends Component{
 			}]
 			return(
 				<div>
-					<Jumbotron><h1>Now Viewing Team:</h1></Jumbotron>
+					<Jumbotron><h1>Now Viewing Team: {this.state.team.name}</h1></Jumbotron>
 					<div className='TeamCreator:'>
 						<Panel>
 							<Panel.Heading>

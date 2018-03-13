@@ -12,11 +12,12 @@ class HomePage extends Component {
 
 		return (
 			<div>
-				<Jumbotron>
-				<h1>HomePage</h1>
-				<h4>{welcome}</h4>
-				</Jumbotron>
-				<HomePageContent />
+				<center>
+					<Jumbotron>
+					<h1>Welcome to tourneynizer</h1>
+					<h3>View the list of tournaments to get started!</h3>
+					</Jumbotron>
+				</center>
 			</div>
 		);
 	}

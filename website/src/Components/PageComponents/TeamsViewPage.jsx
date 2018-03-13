@@ -99,9 +99,9 @@ class TeamsViewPage extends Component{
 		})
 		.then( response => {
 			if(response.status === 200){
-				console.log('Request Sent');
+				alert('Request Sent!');
 			}else{
-				alert('You have already sent a request to this team.')
+				alert('Error: You are already a part of this team or join request is pending.')
 			}
 		})
 		.catch(function (error) {

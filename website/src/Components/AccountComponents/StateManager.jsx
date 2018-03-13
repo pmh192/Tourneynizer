@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, IndexRedirect } from 'react-router-dom';
 import TournamentViewPage from '../PageComponents/TournamentViewPage';
 import TournamentCreatePage from '../PageComponents/TournamentCreatePage';
 import TournamentJoinPage from '../PageComponents/TournamentJoinPage';
