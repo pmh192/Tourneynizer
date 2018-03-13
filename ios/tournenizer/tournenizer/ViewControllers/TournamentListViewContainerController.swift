@@ -61,6 +61,8 @@ class TournamentListViewContainerController : UIViewController {
 
     func onSelect(_ tournament: Tournament) {
         switch(tournament.status!) {
+            case .FINISHED:
+                fallthrough;
             case .STARTED:
                 let vc = TournamentCurrentViewController();
                 vc.setTournament(tournament: tournament);
@@ -79,8 +81,6 @@ class TournamentListViewContainerController : UIViewController {
                         self.navigationController?.pushViewController(vc, animated: true);
                     }
                 }
-            default:
-                break;
         }
 
     }

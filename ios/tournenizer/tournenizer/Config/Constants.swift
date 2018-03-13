@@ -92,6 +92,26 @@ class Constants {
             static func allMatches(_ id: CUnsignedLong) -> String {
                 return "/api/tournament/\(id)/match/getAll";
             }
+
+            static func completedMatches(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/\(id)/match/getCompleted";
+            }
+
+            static func getScore(tournamentId: CUnsignedLong, matchId: CUnsignedLong) -> String {
+                return "/api/tournament/\(tournamentId)/match/\(matchId)/getScore";
+            }
+
+            static func start(tournamentId: CUnsignedLong, matchId: CUnsignedLong) -> String {
+                return "/api/tournament/\(tournamentId)/match/\(matchId)/start";
+            }
+
+            static func end(tournamentId: CUnsignedLong, matchId: CUnsignedLong) -> String {
+                return "/api/tournament/\(tournamentId)/match/\(matchId)/end";
+            }
+
+            static func updateScore(tournamentId: CUnsignedLong, matchId: CUnsignedLong) -> String {
+                return "/api/tournament/\(tournamentId)/match/\(matchId)/updateScore";
+            }
         };
 
         class team {

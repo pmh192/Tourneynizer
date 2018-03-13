@@ -29,7 +29,6 @@ class ProfileViewController : UIViewController {
     var matchesContent: UILabel!;
 
     let topTitlePadding: CGFloat = 20;
-    let sideTitlePadding: CGFloat = 15;
     let emailPadding: CGFloat = 10;
     let topTeamsPadding: CGFloat = 20;
     let teamsPadding: CGFloat = 7.5;
@@ -41,6 +40,7 @@ class ProfileViewController : UIViewController {
     let iconSize: CGFloat = 25;
     let iconPadding: CGFloat = 15;
     let statisticsClusterOffset: CGFloat = 50;
+    let sideTitlePadding: CGFloat = 15;
 
     let teamsTitle = "Past Teams:";
     let logoutText = "Sign Out";

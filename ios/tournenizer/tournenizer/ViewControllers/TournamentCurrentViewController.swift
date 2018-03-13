@@ -19,6 +19,7 @@ class TournamentCurrentViewController : UIViewController {
     var logoLabel: UILabel!;
     var titleLabel: UILabel!;
     var matchListView: UIView!;
+    var matchSwitch: UISegmentedControl!;
     var matchesPrompt: UILabel!;
 
     let logoLabelHeight: CGFloat = 50;
@@ -63,20 +64,33 @@ class TournamentCurrentViewController : UIViewController {
             return view;
         }();
 
-        matchesPrompt = {
-            let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
-            view.textColor = Constants.color.navy;
-            view.text = matchesText;
-            return view;
-        }();
-
         titleLabel = {
             let view = UILabel.newAutoLayout();
-            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.smallHeader);
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.mediumHeader);
             view.textAlignment = .center;
             view.textColor = Constants.color.navy;
             view.text = tournament.name;
+            view.lineBreakMode = .byWordWrapping;
+            view.numberOfLines = 0;
+            return view;
+        }();
+
+        matchSwitch = {
+            let view = UISegmentedControl.newAutoLayout();
+            view.insertSegment(withTitle: "In Progress/Future Matches", at: 0, animated: false);
+            view.insertSegment(withTitle: "Completed Matches", at: 1, animated: false);
+            view.tintColor = Constants.color.navy;
+            view.selectedSegmentIndex = 0;
+            return view;
+        }();
+        matchSwitch.addTarget(self, action: #selector(selectorChanged), for: .valueChanged);
+
+        matchesPrompt = {
+            let view = UILabel.newAutoLayout();
+            view.font = UIFont(name: Constants.font.medium, size: Constants.fontSize.normal);
+            view.textAlignment = .center;
+            view.textColor = Constants.color.navy;
+            view.text = "Matches";
             view.lineBreakMode = .byWordWrapping;
             view.numberOfLines = 0;
             return view;
@@ -100,7 +114,13 @@ class TournamentCurrentViewController : UIViewController {
         view.addSubview(logoLabel);
         view.addSubview(titleLabel);
         view.addSubview(matchListView);
-        view.addSubview(matchesPrompt);
+
+        if(tournament.status! == .FINISHED) {
+            view.addSubview(matchesPrompt);
+        } else {
+            view.addSubview(matchSwitch);
+        }
+
         view.setNeedsUpdateConstraints();
     }
 
@@ -134,11 +154,18 @@ class TournamentCurrentViewController : UIViewController {
             titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
             titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
 
-            matchesPrompt.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: titlePadding);
-            matchesPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
-            matchesPrompt.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
+            if(tournament.status! == .FINISHED) {
+                matchesPrompt.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: titlePadding);
+                matchesPrompt.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+                matchesPrompt.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
+                matchListView.autoPinEdge(.top, to: .bottom, of: matchesPrompt, withOffset: titlePadding);
+            } else {
+                matchSwitch.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: titlePadding);
+                matchSwitch.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
+                matchSwitch.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
+                matchListView.autoPinEdge(.top, to: .bottom, of: matchSwitch, withOffset: titlePadding);
+            }
 
-            matchListView.autoPinEdge(.top, to: .bottom, of: matchesPrompt, withOffset: titlePadding);
             matchListView.autoPinEdge(toSuperviewEdge: .leading, withInset: titlePadding);
             matchListView.autoPinEdge(toSuperviewEdge: .trailing, withInset: titlePadding);
             matchListView.autoPinEdge(toSuperviewEdge: .bottom, withInset: titlePadding);
@@ -153,21 +180,47 @@ class TournamentCurrentViewController : UIViewController {
     }
 
     func loadMatches() {
-        MatchService.shared.getValidMatches(tournament.id) { (error: String?, matches: [Match]?, teams: [[Team]]?, refs: [User]?) in
-            if(error != nil) {
+        if(tournament.status! == .FINISHED || matchSwitch.selectedSegmentIndex == 1) {
+            MatchService.shared.getCompletedMatches(tournament.id) { (error: String?, matches: [Match]?, teams: [[Team]]?, refs: [User]?) in
+                if(error != nil) {
+                    return DispatchQueue.main.async {
+                        self.displayError(error!);
+                    }
+                }
+
                 return DispatchQueue.main.async {
-                    self.displayError(error!);
+                    self.matchList.setData(matches: matches!, referees: refs!, teams: teams!);
                 }
             }
+        } else {
+            MatchService.shared.getValidMatches(tournament.id) { (error: String?, matches: [Match]?, teams: [[Team]]?, refs: [User]?) in
+                if(error != nil) {
+                    return DispatchQueue.main.async {
+                        self.displayError(error!);
+                    }
+                }
 
-            return DispatchQueue.main.async {
-                self.matchList.setData(matches: matches!, referees: refs!, teams: teams!);
+                return DispatchQueue.main.async {
+                    self.matchList.setData(matches: matches!, referees: refs!, teams: teams!);
+                }
             }
         }
     }
 
     func selectMatch(match: Match, teams: [Team], ref: User) {
-        
+        if(ref.id == UserService.shared.getCurrentUser()!.id && match.matchStatus != .COMPLETED) {
+            let vc = RefereeMatchViewController();
+            vc.setData(match: match, team1: teams[0], team2: teams[1], ref: ref, tournament: tournament);
+            self.navigationController?.pushViewController(vc, animated: true);
+        } else {
+            let vc = MatchViewController();
+            vc.setData(match: match, team1: teams[0], team2: teams[1], ref: ref, tournament: tournament);
+            self.navigationController?.pushViewController(vc, animated: true);
+        }
+    }
+
+    @objc func selectorChanged() {
+        loadMatches();
     }
 
     @objc func exit() {
