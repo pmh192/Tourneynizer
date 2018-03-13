@@ -252,7 +252,7 @@ public class MatchDao {
     }
 
     public Match getMatchToReferee(Team team) {
-        String sql = "SELECT * FROM matches WHERE refteam_id=? AND status=? LIMIT 1";
+        String sql = "SELECT * FROM matches WHERE refteam_id=? AND status=? ORDER BY round ASC LIMIT 1";
         try {
             return this.jdbcTemplate.queryForObject(sql,
                     new Object[]{team.getId(), (short) TournamentStatus.CREATED.ordinal()},
