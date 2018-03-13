@@ -14,6 +14,7 @@ import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,12 +48,12 @@ public class JSONConverter {
         return jsonConverter;
     }
 
-    private Object nullableRetrieverHelper(JSONObject j, String name) {
+    private Long nullableLongRetriever(JSONObject j, String name) {
         if (j.isNull(name)) {
             return null;
         }
         try {
-            return j.get(name);
+            return j.getLong(name);
         } catch (JSONException e) {
             return null;
         }
@@ -127,27 +128,47 @@ public class JSONConverter {
     public Match convertJSONToMatch(JSONObject mJSON) {
         Match m;
         try {
-            Long refereeID = (Long) nullableRetrieverHelper(mJSON, "getRefId");
+            Long refereeID = nullableLongRetriever(mJSON, "refId");
             JSONObject children = mJSON.getJSONObject("matchChildren");
-            JSONObject teams = children.getJSONObject("teams");
-            JSONObject matches = children.getJSONObject("matches");
-            Long team1ID = (Long) nullableRetrieverHelper(teams, "id");
-            Long team2ID = (Long) nullableRetrieverHelper(teams, "id");
-            Long child1ID = (Long) nullableRetrieverHelper(teams, "id");
-            Long child2ID = (Long) nullableRetrieverHelper(teams, "id");
-            Long score1 = (Long) nullableRetrieverHelper(mJSON, "score1");
-            Long score2 = (Long) nullableRetrieverHelper(mJSON, "score2");
-            Long time1 = (Long) nullableRetrieverHelper(mJSON, "timeStart");
+            JSONArray teams = children.getJSONArray("teams");
+            JSONArray matches = children.getJSONArray("matches");
+            Long team1ID;
+            if (teams.isNull(0)) {
+                team1ID = null;
+            } else {
+                team1ID = nullableLongRetriever(teams.getJSONObject(0), "id");
+            }
+            Long team2ID;
+            if (teams.isNull(1)) {
+                team2ID = null;
+            } else {
+                team2ID = nullableLongRetriever(teams.getJSONObject(1), "id");
+            }
+            Long child1ID;
+            if (matches.isNull(0)) {
+                child1ID = null;
+            } else {
+                child1ID = nullableLongRetriever(matches.getJSONObject(0), "id");
+            }
+            Long child2ID;
+            if (matches.isNull(1)) {
+                child2ID = null;
+            } else {
+                child2ID = nullableLongRetriever(matches.getJSONObject(1), "id");
+            }
+            Long score1 = nullableLongRetriever(mJSON, "score1");
+            Long score2 = nullableLongRetriever(mJSON, "score2");
+            Long time1 = nullableLongRetriever(mJSON, "timeStart");
             Time startTime = null;
             if (time1 != null) {
                 startTime = new Time(time1);
             }
-            Long time2 = (Long) nullableRetrieverHelper(mJSON, "timeEnd");
+            Long time2 = nullableLongRetriever(mJSON, "timeEnd");
             Time endTime = null;
             if (time2 != null) {
                 endTime = new Time(time2);
             }
-            m = new Match(mJSON.getLong("id"), mJSON.getLong("tournamentId"), mJSON.getInt("matchOrder"), refereeID,  team1ID, team2ID, score1, score1, child1ID, child2ID, mJSON.getString("scoreType"), startTime, endTime);
+            m = new Match(mJSON.getLong("id"), mJSON.getLong("tournamentId"), mJSON.getInt("matchOrder"), refereeID,  team1ID, team2ID, score1, score2, child1ID, child2ID, mJSON.getString("scoreType"), startTime, endTime);
         } catch (JSONException e) {
             m = null;
         }
@@ -157,7 +178,12 @@ public class JSONConverter {
     public TeamRequest convertJSONToTeamRequest(JSONObject tRequestJSON) {
         TeamRequest tRequest;
         try {
-            Boolean accepted = (Boolean) nullableRetrieverHelper(tRequestJSON, "accepted");
+            Boolean accepted;
+            if (tRequestJSON.isNull("accepted")) {
+                accepted = null;
+            } else {
+                accepted = tRequestJSON.getBoolean("accepted");
+            }
             tRequest = new TeamRequest(tRequestJSON.getLong("id"), tRequestJSON.getLong("teamId"), tRequestJSON.getLong("userId"), tRequestJSON.getLong("requesterId"), accepted, new Time(tRequestJSON.getLong("timeRequested")));
         } catch (JSONException e) {
             tRequest = null;

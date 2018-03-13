@@ -65,7 +65,7 @@ public class MatchService {
     }
 
     public void getAllValidMatches(Tournament tournament, final OnMatchesLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "tournament/" + tournament.getID() + "/match/getCompleted";
+        String url = HTTPService.DOMAIN + "tournament/" + tournament.getID() + "/match/valid";
         Request request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -91,7 +91,7 @@ public class MatchService {
     }
 
     public void getAllCompletedMatches(Tournament tournament, final OnMatchesLoadedListener listener) {
-        String url = HTTPService.DOMAIN + "tournament/" + tournament.getID() + "/match/getValid";
+        String url = HTTPService.DOMAIN + "tournament/" + tournament.getID() + "/match/getCompleted";
         Request request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
