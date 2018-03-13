@@ -361,6 +361,9 @@ public class MatchDaoTest extends TestWithContext {
         matchDao.startMatch(match1);
         matchDao.endMatch(match1, team2, 3, 25);
 
+        assertEquals(1, userDao.findById(user2.getId()).getUserInfo().wins);
+        assertEquals(1, userDao.findById(user2.getId()).getUserInfo().matches);
+
         // refresh
         finalRound = matchDao.findById(finalRound.getId());
 

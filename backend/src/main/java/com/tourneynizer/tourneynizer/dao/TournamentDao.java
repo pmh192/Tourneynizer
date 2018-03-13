@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.List;
 
 public class TournamentDao {
@@ -115,5 +116,9 @@ public class TournamentDao {
         });
 
         tournament.setStatus(TournamentStatus.STARTED);
+
+        String sql2 = "UPDATE users SET tournaments=tournaments+1 WHERE id IN " +
+                "(SELECT user_id FROM roster WHERE tournament_id=?);";
+        this.jdbcTemplate.update(sql2, new Object[]{tournament.getId()}, new int[]{Types.BIGINT});
     }
 }
