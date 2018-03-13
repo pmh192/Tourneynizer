@@ -54,7 +54,7 @@ public class SessionController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-//        headers.set(HttpHeaders.SET_COOKIE, "session");
+        headers.set(HttpHeaders.SET_COOKIE, "session");
         return new ResponseEntity<>(null, headers, HttpStatus.NO_CONTENT);
     }
 }
