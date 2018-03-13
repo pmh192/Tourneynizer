@@ -45,12 +45,12 @@ public class UserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void persist1() throws Exception {
-        new User(null, "person@place.com", "name", "hashedPassword", new Timestamp(1L));
+        new User(null, "person@place.com", "name", "hashedPassword",  new UserInfo(), new Timestamp(1L));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void persist2() throws Exception {
-        new User(0L, "person@place.com", "name", "hashedPassword", null);
+        new User(0L, "person@place.com", "name", "hashedPassword", new UserInfo(), null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -97,7 +97,7 @@ public class UserTest {
         User user = new User("person@place.com", "name", "hashedPassword");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(user);
-        String expected = "{\"id\":null,\"email\":\"person@place.com\",\"name\":\"name\",\"timeCreated\":null}";
+        String expected = "{\"id\":null,\"email\":\"person@place.com\",\"name\":\"name\",\"timeCreated\":null,\"userInfo\":{\"wins\":0,\"losses\":0,\"tournaments\":0,\"matches\":0}}";
 
         assertEquals(expected, json);
     }

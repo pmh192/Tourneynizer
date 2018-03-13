@@ -76,11 +76,14 @@ public class UserDaoTest extends TestWithContext {
 
     @Test
     public void retrieve() throws Exception {
-        User user1 = getUser(0);
+        User user = new User("person@place.com", "Name", "");
+        user.setPlaintextPassword("HI");
+        user.setUserInfo(new UserInfo(5, 4, 3, 6));
+        userDao.insert(user);
 
-        User user2 = userDao.findById(user1.getId());
+        User user2 = userDao.findById(user.getId());
 
-        assertTrue(user1.equals(user2));
+        assertEquals(user, user2);
     }
 
     @Test
