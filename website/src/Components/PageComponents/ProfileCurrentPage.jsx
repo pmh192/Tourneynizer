@@ -14,7 +14,8 @@ class ProfileCurrentPage extends Component{
 		this.state={
 
 			displayData: [],
-			requestsLoaded: true,
+			showing: 'teams',
+			requests:[],
 			tournamentsLoaded: true,
 			teamsLoaded: false,
 			matches: [],
@@ -30,9 +31,16 @@ class ProfileCurrentPage extends Component{
 	}
 
 	handleRadioChange(e){
+		console.log(e.target.value);
 		if(parseInt(e.target.value) === 2){
 			this.setState({
 				displayData: this.state.teams,
+				showing: 'teams',
+			})
+		}else if(parseInt(e.target.value) === 3){
+			this.setState({
+				displayData: this.state.requests,
+				showing: 'requests',
 			})
 		}else{
 			this.setState({
@@ -64,7 +72,60 @@ class ProfileCurrentPage extends Component{
     	});
 	}
 
+	getRequests(){		
+		let apiURL = API_URL + '/api/user/requests/pending';
+		fetch(apiURL, {
+			method: 'GET',
+			credentials: 'include',
+		})
+		.then((response) => {
+			let reqs = [];
+			if(response.ok){
+				response.json().then(json => {
+					reqs = json;
+					const userPromises = json.map(request => {
+						let apiURLUser = API_URL + 'api/user/' + request.requesterId;
+						return (
+							fetch(apiURLUser, {
+								method: 'GET',
+								credentials: 'include',
+							})
+						)
+					})
+					Promise.all(userPromises).then((responses) => {
+						Promise.all(responses.map(res => res.json())).then(json => {
+							let userReqs = [];
 
+							//get requestIds and users together in object form
+							for(let i = 0; i < reqs.length; i++){
+								//if a match is found stop trying to find match and move on to next pair
+								let found = false;
+								console.log(reqs[i]);
+								for(let j = 0; j < json.length && !found; j++){
+									if(reqs[i].requesterId === json[j].id){
+										let requestEntry = {
+											requestId: reqs[i].id,
+											userEmail: json[j].email,
+											userName: json[j].name,
+										} 
+										userReqs.push(requestEntry);
+										found = true;
+									}
+								}
+							}
+							console.log(userReqs);
+							this.setState({
+								requests: userReqs,
+							})
+						})
+					})
+				})
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});	
+	}
 
 	//set user's current tournaments
 	getTournaments(){
@@ -72,16 +133,25 @@ class ProfileCurrentPage extends Component{
 	}
 
 	render(){
-		if(this.state.tournamentsLoaded && this.state.teamsLoaded && this.state.requestsLoaded){
-			let columns= [{
-				Header: 'Name',
-				accessor: 'name',
-			},{
-				accessor: 'id',
-				Cell: row => (
-					<Link to={'/Profile/view/team/' + row.value}>Team information</Link>
-				)
-			}]
+		if(this.state.tournamentsLoaded && this.state.teamsLoaded){
+				let columns = [];
+				if(this.state.showing === 'teams'){
+					columns= [{
+						Header: 'Name',
+						accessor: 'name',
+					},{
+						accessor: 'id',
+						Cell: row => (
+							<Link to={'/Profile/view/team/' + row.value}>Team information</Link>
+						)
+					}]
+				}else if(this.state.showing === 'requests'){
+					columns = [{
+						accessor: 'userName',
+					},{
+						accessor: 'userEmail',
+					}]
+				}
 
 			return(
 				<div>

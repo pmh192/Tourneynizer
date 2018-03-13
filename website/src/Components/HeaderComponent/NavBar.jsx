@@ -129,7 +129,7 @@ class NavBar extends React.Component {
 						      	<MenuItem eventKey="2">View Your Tournament History</MenuItem>
 						      </LinkContainer>
 						      <LinkContainer to="/Profile/current">
-						      	<MenuItem eventKey="3">View Current Matches/Teams/Tournaments</MenuItem>
+						      	<MenuItem eventKey="3">View Current Matches/Teams/Requests</MenuItem>
 						      </LinkContainer>
 			    			</NavDropdown>
 						</NavItem>
