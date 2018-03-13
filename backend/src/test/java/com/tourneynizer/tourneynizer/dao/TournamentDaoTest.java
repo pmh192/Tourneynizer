@@ -1,10 +1,7 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.helper.TestWithContext;
-import com.tourneynizer.tourneynizer.model.Tournament;
-import com.tourneynizer.tourneynizer.model.TournamentStatus;
-import com.tourneynizer.tourneynizer.model.TournamentType;
-import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,10 +15,32 @@ public class TournamentDaoTest extends TestWithContext {
 
     private final UserDao userDao;
     private final TournamentDao tournamentDao;
+    private final TeamDao teamDao;
 
     public TournamentDaoTest() {
         userDao = super.context.getBean("UserDao", UserDao.class);
         tournamentDao = super.context.getBean("TournamentDao", TournamentDao.class);
+        teamDao = super.context.getBean("TeamDao", TeamDao.class);
+    }
+
+    private User getUser(int i) throws Exception {
+        User user = new User("person" + i + "@place.com", "Name", "");
+        user.setPlaintextPassword("HI");
+        userDao.insert(user);
+        return user;
+    }
+
+    private Tournament getTournament(User user) throws Exception {
+        Tournament tournament = new Tournament("name", 3.4, 2.3, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET,
+                user.getId(), TournamentStatus.CREATED);
+        tournamentDao.insert(tournament, user);
+        return tournament;
+    }
+
+    private Team getTeam(User user, Tournament tournament, int i) throws Exception {
+        Team team = new Team("name" + i, user.getId(), tournament.getId());
+        teamDao.insert(team, user);
+        return team;
     }
 
     @Before
@@ -31,9 +50,7 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Test
     public void insert() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        user.setPlaintextPassword("HI");
-        userDao.insert(user);
+        User user = getUser(0);
 
         Timestamp beforeInsert = new Timestamp(System.currentTimeMillis());
         Tournament tournament = new Tournament("name", 5.4, 3.4, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
@@ -45,9 +62,7 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Test(expected = IllegalArgumentException.class)
     public void insertBadUserId() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        user.setPlaintextPassword("HI");
-        userDao.insert(user);
+        User user = getUser(0);
 
         Tournament tournament = new Tournament("name", 5.4, 3.4, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId()-1, TournamentStatus.CREATED);
         tournamentDao.insert(tournament, user);
@@ -55,8 +70,7 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Test
     public void insertEquality() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        userDao.insert(user);
+        User user = getUser(0);
         Tournament tournament1 = new Tournament("name", 5.4, 3.4, null, 1, 1,
                 TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
 
@@ -68,8 +82,7 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Test
     public void retrieve() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        userDao.insert(user);
+        User user = getUser(0);
         Tournament tournament1 = new Tournament("name", 5.4, 3.4, null, 1, 1,
                 TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
 
@@ -86,9 +99,7 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Test
     public void getAll() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        user.setPlaintextPassword("HI");
-        userDao.insert(user);
+        User user = getUser(0);
 
         Tournament tournament1 = new Tournament("name1", 5.4, 3.4, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
         Tournament tournament2 = new Tournament("name2", 5.4, 3.4, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
@@ -105,13 +116,8 @@ public class TournamentDaoTest extends TestWithContext {
 
     @Test
     public void ownedBy() throws Exception {
-        User user = new User("person@place.com", "Name", "");
-        user.setPlaintextPassword("HI");
-        userDao.insert(user);
-
-        User user2 = new User("person2@place.com", "Name", "");
-        user2.setPlaintextPassword("HI");
-        userDao.insert(user2);
+        User user = getUser(0);
+        User user2 = getUser(1);
 
         Tournament tournament1 = new Tournament("name1", 2.3, 4.5, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
         Tournament tournament2 = new Tournament("name2", 2.3, 4.5, null, 1, 1, TournamentType.VOLLEYBALL_BRACKET, user.getId(), TournamentStatus.CREATED);
@@ -148,5 +154,17 @@ public class TournamentDaoTest extends TestWithContext {
 
         assertEquals(tournamentDao.findById(tournament1.getId()).getStatus(), TournamentStatus.STARTED);
         assertEquals(tournamentDao.findById(tournament2.getId()).getStatus(), TournamentStatus.CREATED);
+    }
+
+    @Test
+    public void startTournament2() throws Exception {
+        User user = getUser(0);
+        Tournament tournament = getTournament(user);
+        getTeam(user, tournament, 0);
+
+        tournamentDao.startTournament(tournament);
+
+        user = userDao.findById(user.getId());
+        assertEquals(1, user.getUserInfo().tournaments);
     }
 }

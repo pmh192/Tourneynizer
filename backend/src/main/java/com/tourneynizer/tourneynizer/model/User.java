@@ -11,6 +11,7 @@ public class User {
     private Long id;
     private String email, name, hashedPassword;
     private Timestamp timeCreated;
+    private UserInfo userInfo;
 
     private final static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -21,11 +22,13 @@ public class User {
     public User(String email, String name, String hashedPassword) {
         setEmail(email);
         setName(name);
+        setUserInfo(new UserInfo());
         this.hashedPassword = hashedPassword;
     }
 
-    public User(Long id, String email, String name, String hashedPassword, Timestamp timeCreated) {
+    public User(Long id, String email, String name, String hashedPassword, UserInfo userInfo, Timestamp timeCreated) {
         this(email, name, hashedPassword);
+        setUserInfo(userInfo);
         persist(id, timeCreated);
     }
 
@@ -54,6 +57,10 @@ public class User {
         this.name = name;
     }
 
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
     @JsonIgnore
     public boolean isPersisted() {
         return id != null;
@@ -65,6 +72,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
     @JsonIgnore
@@ -101,6 +112,7 @@ public class User {
             return equalsHelper(this.id, o.id) &&
                     equalsHelper(this.email, o.email) &&
                     equalsHelper(this.name, o.name) &&
+                    equalsHelper(this.userInfo, o.userInfo) &&
                     // Hashed passwords are salted (randomly), we will not compare them
                     equalsHelper(this.timeCreated, o.timeCreated);
         }
@@ -112,6 +124,7 @@ public class User {
         return "id: " + id + "\n" +
                 "email: " + email + "\n" +
                 "name: " + name + "\n" +
+                "userInfo: " + userInfo + "\n" +
                 "hashedPassword: " + hashedPassword + "\n" +
                 "timeCreated: " + timeCreated + "\n";
     }
