@@ -108,7 +108,7 @@ public class TournamentDaoTest extends TestWithContext {
         tournamentDao.insert(tournament2, user);
         tournamentDao.insert(tournament3, user);
 
-        List<Tournament> expected = Arrays.asList(tournament1, tournament2, tournament3);
+        List<Tournament> expected = Arrays.asList(tournament3, tournament2, tournament1);
         List<Tournament> actual = tournamentDao.getAll();
 
         assertEquals(expected, actual);
