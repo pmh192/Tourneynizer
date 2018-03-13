@@ -20,6 +20,8 @@ export default class TeamInformation extends Component{
 		}
 		this.acceptTeamRequest = this.acceptTeamRequest.bind(this);
 		this.removeRequest = this.removeRequest.bind(this);
+		this.removeRequestAddTeam = this.removeRequestAddTeam.bind(this);
+		this.rejectTeamRequest = this.rejectTeamRequest.bind(this);
 	}
 
 
@@ -158,6 +160,47 @@ export default class TeamInformation extends Component{
 		.then((response) => {
 			if(response.ok){
 				console.log('request' + id + ' accepted');
+				this.removeRequestAddTeam(id);
+
+			}else{
+				alert('You are not the team creator');
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});	
+	}
+
+	removeRequestAddTeam(id) {
+		let result = this.state.requesters.find(o => o.requestId === id);
+		let fakeUser = {
+			name: result.userName,
+			email: result.userEmail,
+		}
+		console.log(this.state.teamMembers);
+		let arr = this.state.teamMembers.slice();
+		arr.push(fakeUser);
+	    this.setState(prevState => ({ 
+	    	teamMembers: arr, 
+	    }));
+	    this.removeRequest(id);
+	}
+
+	removeRequest(id) {
+		this.setState(prevState => ({ 
+	    	requesters: prevState.requesters.filter(request => request.requestId !== id), 
+	    }));
+	}
+
+	rejectTeamRequest(id){
+		let apiURL = API_URL + 'api/requests/' + id;
+		fetch(apiURL, {
+			method: 'DELETE',
+			credentials: 'include',
+		})
+		.then((response) => {
+			if(response.ok){
+				console.log('request' + id + ' rejected');
 				this.removeRequest(id);
 
 			}else{
@@ -169,32 +212,13 @@ export default class TeamInformation extends Component{
     	});	
 	}
 
-	removeRequest(id) {
-		let result = this.state.requesters.filter(obj => {
-			return obj.requestId === id;
-		});
-		let fakeUser = {
-			name: result.userName,
-			email: result.userEmail,
-		}
-		let arr = this.state.teamMembers.slice();
-		arr.append(fakeUser);
-	    this.setState(prevState => ({ 
-	    	requesters: prevState.requesters.filter(request => request.requestId !== id), 
-	    	teamMembers: arr,
-	    }), () => console.log(this.state.teamMembers));
-	}
-
-	rejectTeamRequest(id){
-
-	}
-
 	//-------------------------------------------------------------------------------
 	//ADD COLLAPSIBLE PANELS HERE FOR SEEING TEAM LEADER, TEAM MEMBERS, TEAM REQUESTS
 	//-------------------------------------------------------------------------------
 	render(){
 		if(this.state.teamLoaded && this.state.teamCreatorLoaded && this.state.teamMembersLoaded){
 			let columns = [{
+				id: 'userNames',
 				accessor: 'name',
 			}]
 			let requestColumns = [{
@@ -206,7 +230,7 @@ export default class TeamInformation extends Component{
 				Cell: (original) => (
 					<ButtonGroup>
 						<Button onClick={()=>this.acceptTeamRequest(original.row._original.requestId)}>Accept</Button>
-						<Button>Reject</Button>
+						<Button onClick={()=>this.rejectTeamRequest(original.row._original.requestId)}>Reject</Button>
 					</ButtonGroup>
 				)
 			}]
