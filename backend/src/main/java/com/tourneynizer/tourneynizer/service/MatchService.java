@@ -144,7 +144,7 @@ public class MatchService {
         matchDao.endMatch(match, winnerId, score1, score2);
     }
 
-    public Long[] getScore(long tournamentId, long matchId, User user) throws BadRequestException, InternalErrorException {
+    public Long[] getScore(long tournamentId, long matchId) throws BadRequestException, InternalErrorException {
         Match match = getMatch(matchId, tournamentId);
 
         return matchDao.getScore(match);

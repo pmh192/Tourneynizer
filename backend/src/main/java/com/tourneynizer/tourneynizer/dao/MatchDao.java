@@ -140,6 +140,8 @@ public class MatchDao {
         int updated = jdbcTemplate.update(sql, new Object[]{MatchStatus.COMPLETED.ordinal(), score1, score2, match.getId()},
                 new int[] {Types.SMALLINT, Types.BIGINT, Types.BIGINT, Types.BIGINT});
 
+        updateUserInfo(match, winnerId);
+
         if (updated == 1) {
             match.setMatchStatus(MatchStatus.COMPLETED);
             match.setScore1(score1);
@@ -206,19 +208,32 @@ public class MatchDao {
     }
 
     private void updateParentWithReferee(Match parent, Match childMatch, long winnerId) {
-        MatchChildren teamsPlayed = childMatch.getMatchChildren();
-
-        long loserTeamId;
-        if (teamsPlayed.getTeamChild1().equals(winnerId)) {
-            loserTeamId = teamsPlayed.getTeamChild2();
-        }
-        else {
-            loserTeamId = teamsPlayed.getTeamChild1();
-        }
+        long loserTeamId = getLoserTeamId(childMatch, winnerId);
 
         String sql = "UPDATE matches SET refteam_id=? WHERE id=?;";
         jdbcTemplate.update(sql, new Object[]{loserTeamId, parent.getId()}, new int[] {Types.BIGINT, Types.BIGINT});
     }
+
+    private long getLoserTeamId(Match match, long winnerId) {
+        MatchChildren teamsPlayed = match.getMatchChildren();
+        if (teamsPlayed.getTeamChild1().equals(winnerId)) {
+            return teamsPlayed.getTeamChild2();
+        }
+        else {
+            return teamsPlayed.getTeamChild1();
+        }
+    }
+
+    private void updateUserInfo(Match match, long winnerId) {
+        String sqlWins = "UPDATE users SET wins=wins+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
+        String sqlLosses = "UPDATE users SET losses=losses+1 WHERE id IN (SELECT user_id FROM roster WHERE team_id=?)";
+
+        long loserId = getLoserTeamId(match, winnerId);
+
+        jdbcTemplate.update(sqlWins, new Object[]{winnerId},  new int[]{Types.BIGINT});
+        jdbcTemplate.update(sqlLosses, new Object[]{loserId}, new int[]{Types.BIGINT});
+    }
+
 
     public void updateScore(Match match, long score1, long score2) {
         if (!match.getMatchStatus().equals(MatchStatus.STARTED)) {

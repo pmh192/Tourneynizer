@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 public class TeamRequestDao {
     private final JdbcTemplate jdbcTemplate;
@@ -61,7 +62,7 @@ public class TeamRequestDao {
             throw new IllegalArgumentException("Only the creator of a team can request other users");
         }
 
-        if (requested.getId() == requester.getId()) {
+        if (Objects.equals(requested.getId(), requester.getId())) {
             throw new IllegalArgumentException("You can't request yourself to join the team.");
         }
 
@@ -95,22 +96,22 @@ public class TeamRequestDao {
     }
 
     public List<TeamRequest> getRequestsForTeam(Team team) {
-        String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id<>?;";
+        String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id<>? AND accepted IS NULL;";
         return getRequestsHelper(teamRequestRowMapper, sql, new Long[]{team.getId(), team.getCreatorId()});
     }
 
     public List<TeamRequest> getRequestsByTeam(Team team) {
-        String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id=?;";
+        String sql = "SELECT * FROM teamRequest WHERE team_id=? AND requester_id=? AND accepted IS NULL;;";
         return getRequestsHelper(teamRequestRowMapper, sql, new Long[]{team.getId(), team.getCreatorId()});
     }
 
     public List<TeamRequest> getRequestsForUser(User user) {
-        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id<>user_id;";
+        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id<>user_id AND accepted IS NULL;;";
         return getRequestsHelper(teamRequestRowMapper, sql, user.getId());
     }
 
     public List<TeamRequest> getRequestsByUser(User user) {
-        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id=user_id;";
+        String sql = "SELECT * FROM teamRequest WHERE user_id=? AND requester_id=user_id AND accepted IS NULL;;";
         return getRequestsHelper(teamRequestRowMapper, sql, user.getId());
     }
 

@@ -90,13 +90,11 @@ public class MatchController {
     }
 
     @GetMapping("/api/tournament/{tournamentId}/match/{matchID}/getScore")
-    public ResponseEntity<?> getScore(@CookieValue("session") String session,
-                                      @PathVariable("tournamentId") long tournamentId,
+    public ResponseEntity<?> getScore(@PathVariable("tournamentId") long tournamentId,
                                       @PathVariable("matchID") long matchId) {
 
         try {
-            User user = sessionService.findBySession(session);
-            Long[] score = matchService.getScore(tournamentId, matchId, user);
+            Long[] score = matchService.getScore(tournamentId, matchId);
             return new ResponseEntity<Object>(score, new HttpHeaders(), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<Object>(new ErrorMessage(e), new HttpHeaders(), HttpStatus.BAD_REQUEST);

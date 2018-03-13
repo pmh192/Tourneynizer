@@ -1,9 +1,9 @@
 package com.tourneynizer.tourneynizer.dao;
 
 import com.tourneynizer.tourneynizer.error.EmailTakenException;
-import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.model.User;
+import com.tourneynizer.tourneynizer.model.UserInfo;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,8 +37,8 @@ public class UserDao {
             throw new IllegalArgumentException("User is already persisted");
         }
 
-        String sql = "INSERT INTO users (email, name, password, timeCreated)" +
-                " VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO users (email, name, password, timeCreated, wins, losses, tournaments)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?);";
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -49,6 +49,9 @@ public class UserDao {
                 preparedStatement.setString(2, user.getName());
                 preparedStatement.setString(3, user.getHashedPassword());
                 preparedStatement.setTimestamp(4, now);
+                preparedStatement.setInt(5, user.getUserInfo().wins);
+                preparedStatement.setInt(6, user.getUserInfo().losses);
+                preparedStatement.setInt(7, user.getUserInfo().tournaments);
 
                 return preparedStatement;
             }, keyHolder);
@@ -67,6 +70,11 @@ public class UserDao {
             resultSet.getString(2),
             resultSet.getString(3),
             resultSet.getString(4),
+            new UserInfo(
+                    resultSet.getInt(6),
+                    resultSet.getInt(7),
+                    resultSet.getInt(8)
+            ),
             resultSet.getTimestamp(5)
     );
 
