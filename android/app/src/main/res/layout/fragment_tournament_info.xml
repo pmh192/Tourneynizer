@@ -90,6 +90,7 @@ android:layout_height="match_parent">
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:id="@+id/button1"
                 android:text="@string/viewPendingTeams" />
 
@@ -97,6 +98,7 @@ android:layout_height="match_parent">
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:id="@+id/button2"
                 android:text="@string/createOwnTeam"/>
 
@@ -107,6 +109,7 @@ android:layout_height="match_parent">
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/marginSize"
             android:text="@string/startTournament"
+            android:visibility="gone"
             android:id="@+id/startTournament"/>
 
     </LinearLayout>

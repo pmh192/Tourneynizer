@@ -108,4 +108,9 @@ public class Team implements Parcelable {
         parcel.writeByte((byte) (approved ? 1 : 0));
         parcel.writeParcelable(logo, i);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return id == ((Team) other).id;
+    }
 }

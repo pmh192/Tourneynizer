@@ -13,6 +13,7 @@ import com.tourneynizer.tourneynizer.R;
 import com.tourneynizer.tourneynizer.adapters.MatchListAdapter;
 import com.tourneynizer.tourneynizer.adapters.TournamentListAdapter;
 import com.tourneynizer.tourneynizer.model.Match;
+import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.Tournament;
 import com.tourneynizer.tourneynizer.services.MatchService;
 import com.tourneynizer.tourneynizer.services.TournamentService;

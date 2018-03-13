@@ -168,7 +168,7 @@ public class JSONConverter {
             if (time2 != null) {
                 endTime = new Time(time2);
             }
-            m = new Match(mJSON.getLong("id"), mJSON.getLong("tournamentId"), mJSON.getInt("matchOrder"), refereeID,  team1ID, team2ID, score1, score2, child1ID, child2ID, mJSON.getString("scoreType"), startTime, endTime);
+            m = new Match(mJSON.getLong("id"), mJSON.getLong("tournamentId"), mJSON.getInt("matchOrder"), refereeID,  team1ID, team2ID, score1, score2, child1ID, child2ID, mJSON.getString("scoreType"), startTime, endTime, mJSON.getString("matchStatus"));
         } catch (JSONException e) {
             m = null;
         }

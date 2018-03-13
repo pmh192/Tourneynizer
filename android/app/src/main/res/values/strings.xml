@@ -52,4 +52,8 @@
     <string name="viewTeams">View Teams</string>
     <string name="teams">Teams</string>
     <string name="viewMatches">View Matches</string>
+    <string name="match">Match</string>
+    <string name="startMatch">Start Match</string>
+    <string name="endMatch">End Match</string>
+    <string name="refreshScores">Refresh Scores</string>
 </resources>

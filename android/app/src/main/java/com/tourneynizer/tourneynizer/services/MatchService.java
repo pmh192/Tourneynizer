@@ -131,6 +131,7 @@ public class MatchService {
                 listener.onError(error);
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void updateScore(Match match, long score1, long score2, final OnErrorListener listener) {
@@ -138,7 +139,7 @@ public class MatchService {
         JSONObject body = new JSONObject();
         try {
             body.put("score1", score1);
-            body.put("score1", score2);
+            body.put("score2", score2);
         } catch (JSONException e) {
             body = null;
         }
@@ -155,9 +156,10 @@ public class MatchService {
                 listener.onError(error);
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
-    public void getScore(Match match, final OnScoresLoadedListener listener) {
+    public void getScores(Match match, final OnScoresLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + match.getTournamentID() + "/match/" + match.getID() + "/getScore";
         Request request = cookieRequestFactory.makeJsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -182,13 +184,21 @@ public class MatchService {
                 listener.onScoresLoaded(null);
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 
     public void endMatch(Match match, final OnErrorListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + match.getTournamentID() + "/match/" + match.getID() + "/end";
-        Request request = cookieRequestFactory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        JSONObject body = new JSONObject();
+        try {
+            body.put("score1", match.getScore1());
+            body.put("score2", match.getScore2());
+        } catch (JSONException e) {
+            body = null;
+        }
+        Request request = cookieRequestFactory.makeJsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 Log.d("Success", "Match has ended");
                 listener.onError(null);
             }
@@ -199,5 +209,6 @@ public class MatchService {
                 listener.onError(error);
             }
         });
+        HTTPService.getInstance().getRequestQueue().add(request);
     }
 }

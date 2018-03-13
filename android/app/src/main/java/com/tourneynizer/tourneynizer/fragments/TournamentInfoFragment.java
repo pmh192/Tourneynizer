@@ -134,7 +134,7 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 	public void onMapReady(GoogleMap map) {
 		LatLng coordinates = new LatLng(tournament.getAddress().getLatitude(), tournament.getAddress().getLongitude());
 		map.addMarker(new MarkerOptions().position(coordinates).title(tournament.getAddress().toString()));
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, MAP_ZOOM)); // used magic number for map zoom, can change if needed
+		map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, MAP_ZOOM));
 	}
 
 	@Override
@@ -161,6 +161,8 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
                     setTeamFields();
                 }
             });
+        } else {
+		    setTeamFields();
         }
         startButton = view.findViewById(R.id.startTournament);
 		creatorLabel = view.findViewById(R.id.creatorName);
@@ -200,6 +202,7 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
 					@Override
 					public void run() {
 						if (creator.equals(self) && !tournament.hasStarted()) {
+                            startButton.setVisibility(View.VISIBLE);
 						    startButton.setText(R.string.startTournament);
                             startButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -207,7 +210,8 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
                                     startTournament();
                                 }
                             });
-						} else {
+						} else if (tournament.hasStarted()) {
+                            startButton.setVisibility(View.VISIBLE);
 						    startButton.setText(R.string.viewMatches);
                             startButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -215,7 +219,9 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
                                     goToMatchList();
                                 }
                             });
-						}
+						} else {
+						    startButton.setVisibility(View.GONE);
+                        }
 					}
 				});
 			}
@@ -244,6 +250,7 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
                     goToTeamInfo();
                 }
             });
+            button2.setVisibility(View.VISIBLE);
             button2.setText(R.string.viewTeams);
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -260,6 +267,7 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
                     goToTeamList(false);
                 }
             });
+            button2.setVisibility(View.VISIBLE);
             button2.setText(R.string.createOwnTeam);
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -269,6 +277,7 @@ public class TournamentInfoFragment extends UIQueueFragment implements OnMapRead
             });
         } else {
 	        button1.setVisibility(View.GONE);
+	        button2.setVisibility(View.VISIBLE);
             button2.setText(R.string.viewTeams);
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override

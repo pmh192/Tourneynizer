@@ -8,6 +8,6 @@
         android:layout_height="match_parent"
         android:id="@+id/title"
         android:textColor="@color/titleTextColor"
-        android:textSize="@dimen/largeTextSize" />
+        android:textSize="@dimen/mediumTextSize" />
 
 </FrameLayout>

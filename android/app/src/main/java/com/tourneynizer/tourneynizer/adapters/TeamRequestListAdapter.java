@@ -21,7 +21,10 @@ import com.tourneynizer.tourneynizer.services.TeamRequestService;
 import com.tourneynizer.tourneynizer.services.TeamService;
 import com.tourneynizer.tourneynizer.services.UserService;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -31,49 +34,107 @@ import java.util.Queue;
 public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
 
     private TeamRequestService teamRequestService;
+    private UserService userService;
+    private TeamService teamService;
     private User self;
-    Queue<Runnable> selfLoadedTasks;
+    private final Queue<Runnable> selfLoadedTasks;
+    private List<Team> teams;
+    private List<User> users;
 
     public TeamRequestListAdapter(Context c) {
         super(c, R.layout.team_request_list_item_layout);
         selfLoadedTasks = new LinkedList<>();
         teamRequestService = new TeamRequestService();
-        new UserService().getSelf(new UserService.OnUserLoadedListener() {
+        userService = new UserService();
+        teamService = new TeamService();
+        userService.getSelf(new UserService.OnUserLoadedListener() {
             @Override
             public void onUserLoaded(User user) {
                 self = user;
                 synchronized (selfLoadedTasks) {
                     while (!selfLoadedTasks.isEmpty()) {
-                        if (getContext() instanceof Activity) {
-                            ((Activity) getContext()).runOnUiThread(selfLoadedTasks.poll());
-                        }
+                        selfLoadedTasks.poll().run();
                     }
                 }
             }
         });
+        users = new ArrayList<>();
+        teams = new ArrayList<>();
     }
 
     @Override
-    public @NonNull View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public @NonNull View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        if (users.size() <= position) {
+            users.addAll(Collections.nCopies(position - users.size() + 1, (User) null));
+            teams.addAll(Collections.nCopies(position - teams.size() + 1, (Team) null));
+        }
         final TeamRequest teamRequest = getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.team_request_list_item_layout, parent, false);
         }
-        final TextView description = convertView.findViewById(R.id.description);
+        final TextView descriptionField = convertView.findViewById(R.id.description);
+        final ImageView accept = convertView.findViewById(R.id.accept);
+        final ImageView decline = convertView.findViewById(R.id.decline);
         if (self == null) {
             synchronized (selfLoadedTasks) {
                 selfLoadedTasks.add(new Runnable() {
                     @Override
                     public void run() {
-                        description.setText(getDescriptionField(teamRequest));
+                        loadFields(descriptionField, accept, decline, teamRequest, position);
                     }
                 });
             }
         } else {
-            description.setText(getDescriptionField(teamRequest));
+            loadFields(descriptionField, accept, decline, teamRequest, position);
         }
-        ImageView accept = convertView.findViewById(R.id.accept);
+        accept.setImageResource(R.drawable.green_check_mark);
+        decline.setImageResource(R.drawable.red_x);
+        return convertView;
+    }
+
+    private void loadFields(final TextView descriptionField, final ImageView accept, final ImageView decline, final TeamRequest teamRequest, final int i) {
+        if (users.get(i) == null) {
+            userService.getUserFromID(teamRequest.getRequesterID(), new UserService.OnUserLoadedListener() {
+                @Override
+                public void onUserLoaded(User user) {
+                    users.set(i, user);
+                    setFields(descriptionField, accept, decline, teamRequest, i);
+                }
+            });
+        } else {
+            setFields(descriptionField, accept, decline, teamRequest, i);
+        }
+        if (teams.get(i) == null) {
+            teamService.getTeamFromID(teamRequest.getTeamID(), new TeamService.OnTeamLoadedListener() {
+                @Override
+                public void onTeamLoaded(Team team) {
+                    teams.set(i, team);
+                    setFields(descriptionField, accept, decline, teamRequest, i);
+                }
+            });
+        } else {
+            setFields(descriptionField, accept, decline, teamRequest, i);
+        }
+    }
+
+    private void setFields(final TextView descriptionField, ImageView accept, ImageView decline, final TeamRequest teamRequest, final int i) {
+        if (users.get(i) == null || teams.get(i) == null) {
+            return;
+        }
+        String text = null;
+        if (self.getID() == users.get(i).getID()) {
+            text = String.format("%s requested you to join %s", users.get(i).getName(), teams.get(i).getName());
+        } else {
+            text = String.format("%s requested to join %s", users.get(i).getName(), teams.get(i).getName());
+        }
+        final CharSequence charSequence = text;
+        ((Activity) getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                descriptionField.setText(charSequence);
+            }
+        });
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +142,7 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
                     @Override
                     public void onRequestCompleted(VolleyError error) {
                         if (error == null) {
-                            onAccept(teamRequest);
+                            onAccept(teamRequest, i);
                         } else {
                             showAcceptErrorDialogue();
                         }
@@ -89,8 +150,6 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
                 });
             }
         });
-        accept.setImageResource(R.drawable.green_check_mark);
-        ImageView decline = convertView.findViewById(R.id.decline);
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +157,7 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
                     @Override
                     public void onRequestCompleted(VolleyError error) {
                         if (error == null) {
-                            onDecline(teamRequest);
+                            onDecline(teamRequest, i);
                         } else {
                             showDeclineErrorDialogue();
                         }
@@ -106,19 +165,14 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
                 });
             }
         });
-        decline.setImageResource(R.drawable.red_x);
-        return convertView;
     }
 
-    private String getDescriptionField(TeamRequest teamRequest) {
-        if (self.getId() == teamRequest.getUserID()) {
-            return teamRequest.getRequesterID() + " requested you to join " + teamRequest.getTeamID();
+    private void onAccept(final TeamRequest teamRequest, int i) {
+        String message = String.format("You are now a member of %s!", teams.get(i).getName());
+        if (teamRequest.getRequesterID() == teamRequest.getUserID()) {
+            message = String.format("%s is now a member of your team!", users.get(i).getName());
         }
-        return teamRequest.getRequesterID() + " requested to join " + teamRequest.getTeamID();
-    }
-
-    private void onAccept(final TeamRequest teamRequest) {
-        Toast.makeText(getContext(), "You are now a member of " + teamRequest.getTeamID() + "!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         if (getContext() instanceof Activity) {
             ((Activity) getContext()).runOnUiThread(new Runnable() {
                 @Override
@@ -129,8 +183,8 @@ public class TeamRequestListAdapter extends ListAdapter<TeamRequest> {
         }
     }
 
-    private void onDecline(final TeamRequest teamRequest) {
-        Toast.makeText(getContext(), "You declined " + teamRequest.getUserID() + "'s request", Toast.LENGTH_SHORT).show();
+    private void onDecline(final TeamRequest teamRequest, int i) {
+        Toast.makeText(getContext(), String.format("You declined %s's request", users.get(i).getName()), Toast.LENGTH_SHORT).show();
         if (getContext() instanceof Activity) {
             ((Activity) getContext()).runOnUiThread(new Runnable() {
                 @Override

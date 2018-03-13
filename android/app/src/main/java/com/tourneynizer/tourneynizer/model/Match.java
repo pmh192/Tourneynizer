@@ -25,8 +25,9 @@ public class Match implements Parcelable {
     private String scoreType;
     private Time startTime;
     private Time endTime;
+    private String status;
 
-    public Match(long id, long tournamentID, int order, Long refereeID, Long team1ID, Long team2ID, Long score1, Long score2, Long child1ID, Long child2ID, String scoreType, Time startTime, Time endTime) {
+    public Match(long id, long tournamentID, int order, Long refereeID, Long team1ID, Long team2ID, Long score1, Long score2, Long child1ID, Long child2ID, String scoreType, Time startTime, Time endTime, String status) {
         this.id = id;
         this.tournamentID = tournamentID;
         this.order = order;
@@ -40,6 +41,7 @@ public class Match implements Parcelable {
         this.scoreType = scoreType;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.status = status;
     }
 
     private Match(Parcel in) {
@@ -84,6 +86,7 @@ public class Match implements Parcelable {
         scoreType = in.readString();
         startTime = (Time) in.readSerializable();
         endTime = (Time) in.readSerializable();
+        status = in.readString();
     }
 
     public static final Creator<Match> CREATOR = new Creator<Match>() {
@@ -122,7 +125,10 @@ public class Match implements Parcelable {
         return team2ID;
     }
 
-    public Long getScore1() {
+    public long getScore1() {
+        if (score1 == null) {
+            return 0;
+        }
         return score1;
     }
 
@@ -134,7 +140,10 @@ public class Match implements Parcelable {
         this.score2 = score2;
     }
 
-    public Long getScore2() {
+    public long getScore2() {
+        if (score2 == null) {
+            return 0;
+        }
         return score2;
     }
 
@@ -160,6 +169,22 @@ public class Match implements Parcelable {
 
     public boolean isReady() {
         return team1ID != null && team2ID != null && startTime != null;
+    }
+
+    public boolean hasStarted() {
+        return !status.equals("CREATED");
+    }
+
+    public boolean hasFinished() {
+        return status.equals("COMPLETED");
+    }
+
+    public void start() {
+        status = "STARTED";
+    }
+
+    public void end() {
+        status = "COMPLETED";
     }
 
     @Override
@@ -217,5 +242,6 @@ public class Match implements Parcelable {
         parcel.writeString(scoreType);
         parcel.writeSerializable(startTime);
         parcel.writeSerializable(endTime);
+        parcel.writeString(status);
     }
 }

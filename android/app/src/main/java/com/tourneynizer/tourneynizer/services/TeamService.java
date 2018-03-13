@@ -193,7 +193,26 @@ public class TeamService {
     public void getTeamForTournament(Tournament tournament, final OnTeamLoadedListener listener) {
         String url = HTTPService.DOMAIN + "tournament/" + tournament.getID() + "/getUserTeam";
         CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
-        JsonObjectRequest request = cookieRequestFactory.makeJsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = cookieRequestFactory.makeJsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Team team = JSONConverter.getInstance().convertJSONToTeam(response);
+                listener.onTeamLoaded(team);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HTTPService.errorPrinterHelper(error);
+                listener.onTeamLoaded(null);
+            }
+        });
+        HTTPService.getInstance().getRequestQueue().add(request);
+    }
+
+    public void getTeamFromID(long id, final OnTeamLoadedListener listener) {
+        String url = HTTPService.DOMAIN + "team/" + id;
+        CookieRequestFactory cookieRequestFactory = new CookieRequestFactory();
+        JsonObjectRequest request = cookieRequestFactory.makeJsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Team team = JSONConverter.getInstance().convertJSONToTeam(response);

@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,8 +39,10 @@ public class TeamInfoFragment extends UIQueueFragment {
     private static final String USERS = "com.tourneynizer.tourneynizer.model.User[]";
 
     private Team team;
+    private Team selfTeam;
     private Tournament tournament;
     private User creator;
+    private User self;
     private ListView listView;
     private UserService userService;
     private TournamentService tournamentService;
@@ -93,6 +96,12 @@ public class TeamInfoFragment extends UIQueueFragment {
         View view = inflater.inflate(R.layout.fragment_team_info, container, false);
         listView = view.findViewById(R.id.memberList);
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                goToUserInfo(listAdapter.getItem(i));
+            }
+        });
         ImageView logoView = view.findViewById(R.id.logo);
         logoView.setImageBitmap(team.getLogo());
         TextView teamName = view.findViewById(R.id.teamName);
@@ -107,66 +116,53 @@ public class TeamInfoFragment extends UIQueueFragment {
         requestButton1 = view.findViewById(R.id.requestButton1);
         requestButton2 = view.findViewById(R.id.requestButton2);
         creatorLabel = view.findViewById(R.id.creatorName);
+        tournamentLabel = view.findViewById(R.id.tournamentName);
         if (creator == null) {
             userService.getUserFromID(team.getCreatorID(), new UserService.OnUserLoadedListener() {
                 @Override
                 public void onUserLoaded(User user) {
                     creator = user;
-                    userService.getSelf(new UserService.OnUserLoadedListener() {
-                        @Override
-                        public void onUserLoaded(User self) {
-                            setCreatorFields(self);
-                        }
-                    });
-                    performUITask(new Runnable() {
-                        @Override
-                        public void run() {
-                            creatorLabel.setText(String.format(Locale.getDefault(), "Created by %s", creator.getName()));
-                        }
-                    });
-                    creatorLabel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            goToUserInfo(creator);
-                        }
-                    });
+                    setCreatorFields();
+                    setButtons();
                 }
             });
+        } else {
+            setCreatorFields();
+            setButtons();
         }
-        tournamentLabel = view.findViewById(R.id.tournamentName);
         if (tournament == null) {
             tournamentService.getFromId(team.getTournamentID(), new TournamentService.OnTournamentLoadedListener() {
                 @Override
                 public void onTournamentLoaded(Tournament t) {
                     tournament = t;
-                    if (!tournament.hasStarted()) {
-                        requestButton1.setVisibility(View.GONE);
-                        requestButton2.setVisibility(View.GONE);
-                    } else {
+                    setTournamentFields();
+                    if (selfTeam == null) {
                         teamService.getTeamForTournament(tournament, new TeamService.OnTeamLoadedListener() {
                             @Override
-                            public void onTeamLoaded(Team team) {
-                                if (team != null) {
-                                    requestButton1.setVisibility(View.GONE);
-                                    requestButton2.setVisibility(View.GONE);
-                                }
+                            public void onTeamLoaded(Team otherTeam) {
+                                selfTeam = otherTeam;
+                                setButtons();
                             }
                         });
+                    } else {
+                        setButtons();
                     }
-                    performUITask(new Runnable() {
-                        @Override
-                        public void run() {
-                            tournamentLabel.setText(tournament.getName());
-                        }
-                    });
-                    tournamentLabel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            goToTournamentInfo(tournament);
-                        }
-                    });
                 }
             });
+        } else {
+            setTournamentFields();
+            setButtons();
+        }
+        if (self == null) {
+            userService.getSelf(new UserService.OnUserLoadedListener() {
+                @Override
+                public void onUserLoaded(User user) {
+                    self = user;
+                    setButtons();
+                }
+            });
+        } else {
+            setButtons();
         }
         return view;
     }
@@ -211,7 +207,18 @@ public class TeamInfoFragment extends UIQueueFragment {
         ((RootFragment) getParentFragment()).pushFragment(fragment);
     }
 
-    public void setCreatorFields(User self) {
+    // I don't believe this needs to be synchronized, but double check if you like
+    public void setButtons() {
+        if (tournament == null) {
+            return;
+        }
+        if (tournament.hasStarted()) {
+            requestButton1.setVisibility(View.GONE);
+            requestButton2.setVisibility(View.GONE);
+        }
+        if (self == null) {
+            return;
+        }
         if (self.equals(creator)) {
             requestButton1.setVisibility(View.VISIBLE);
             requestButton1.setText(R.string.viewRequests);
@@ -229,6 +236,9 @@ public class TeamInfoFragment extends UIQueueFragment {
                     goToUserList();
                 }
             });
+        } else if (selfTeam != null) {
+            requestButton1.setVisibility(View.GONE);
+            requestButton2.setVisibility(View.GONE);
         } else {
             requestButton1.setVisibility(View.VISIBLE);
             requestButton1.setText(R.string.requestToJoin);
@@ -250,6 +260,36 @@ public class TeamInfoFragment extends UIQueueFragment {
             });
             requestButton2.setVisibility(View.GONE);
         }
+    }
+
+    public void setCreatorFields() {
+        performUITask(new Runnable() {
+            @Override
+            public void run() {
+                creatorLabel.setText(String.format(Locale.getDefault(), "Created by %s", creator.getName()));
+            }
+        });
+        creatorLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUserInfo(creator);
+            }
+        });
+    }
+
+    public void setTournamentFields() {
+        performUITask(new Runnable() {
+            @Override
+            public void run() {
+                tournamentLabel.setText(tournament.getName());
+            }
+        });
+        tournamentLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToTournamentInfo(tournament);
+            }
+        });
     }
 
     private void showErrorDialogue() {

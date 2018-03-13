@@ -49,7 +49,7 @@ public class TeamRequestService {
     }
 
     public void sendRequestToUser(Team t, User u, final OnRequestCompletedListener listener) {
-        String url = HTTPService.DOMAIN + "user/" + u.getId() + "/request/team/" + t.getID();
+        String url = HTTPService.DOMAIN + "user/" + u.getID() + "/request/team/" + t.getID();
         CookieRequestFactory factory = new CookieRequestFactory();
         StringRequest request = factory.makeStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -72,7 +72,7 @@ public class TeamRequestService {
         userService.getSelf(new UserService.OnUserLoadedListener() {
             @Override
             public void onUserLoaded(User user) {
-                if (user.getId() == teamRequest.getUserID()) {
+                if (user.getID() == teamRequest.getUserID()) {
                     acceptRequestForUser(teamRequest, listener);
                 } else {
                     acceptRequestForTeam(teamRequest, listener);
