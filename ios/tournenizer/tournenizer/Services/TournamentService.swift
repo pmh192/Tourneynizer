@@ -75,4 +75,16 @@ class TournamentService : Service  {
             return cb(nil, tournament!);
         }
     }
+
+    func startTournament(_ id: CUnsignedLong, cb: @escaping (String?) -> Void) {
+        makeRequest(url: Constants.route.tournament.start(id), type: .POST, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            return cb(error);
+        }
+    }
+
+    func getTournamentStatusValues() {
+        makeRequest(url: "/api/enum/tournament/status", type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
+            
+        }
+    }
 };

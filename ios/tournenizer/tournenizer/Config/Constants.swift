@@ -78,6 +78,20 @@ class Constants {
             static func createTeam(_ id: CUnsignedLong) -> String {
                 return "/api/tournament/\(id)/team/create";
             }
+
+            static func start(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/\(id)/start";
+            }
+        };
+
+        class match {
+            static func validMatches(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/\(id)/match/valid";
+            }
+
+            static func allMatches(_ id: CUnsignedLong) -> String {
+                return "/api/tournament/\(id)/match/getAll";
+            }
         };
 
         class team {

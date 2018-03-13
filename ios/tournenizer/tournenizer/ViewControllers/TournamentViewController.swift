@@ -55,6 +55,7 @@ class TournamentViewController : UIViewController {
     var dashboard = false;
 
     override func loadView() {
+        print(tournament.status.debugDescription);
         view = UIView();
         view.backgroundColor = Constants.color.white;
 
@@ -335,7 +336,15 @@ class TournamentViewController : UIViewController {
     }
 
     @objc func start() {
+        TournamentService.shared.startTournament(tournament.id) { (error: String?) in
+            if(error != nil) {
+                return DispatchQueue.main.async {
+                    self.displayError(error!);
+                }
+            }
 
+            // replace view controller with tournament dashboard
+        }
     }
 
     func selectTeam(_ team: Team) {
