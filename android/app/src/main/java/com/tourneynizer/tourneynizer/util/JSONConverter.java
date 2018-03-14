@@ -108,7 +108,8 @@ public class JSONConverter {
     public User convertJSONToUser(JSONObject uJSON) {
         User u;
         try {
-            u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);
+            JSONObject info = uJSON.getJSONObject("userInfo");
+            u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), info.getInt("wins"), info.getInt("losses"), info.getInt("tournaments")); // there is also info.getInt("matches")
         } catch (JSONException e) {
             u = null;
         }
