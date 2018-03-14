@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.tourneynizer.tourneynizer.R;
+import com.tourneynizer.tourneynizer.adapters.ExpandableMatchListAdapter;
 import com.tourneynizer.tourneynizer.adapters.MatchListAdapter;
 import com.tourneynizer.tourneynizer.adapters.TournamentListAdapter;
 import com.tourneynizer.tourneynizer.model.Match;
@@ -25,7 +28,7 @@ public class MatchListFragment extends UIQueueFragment {
 	private final static String TOURNAMENT = "com.tourneynizer.tourneynizer.model.Tournament";
 	private final static String MATCHES = "com.tourneynizer.tourneynizer.model.Match[]";
 
-	private MatchListAdapter listAdapter;
+	private ExpandableMatchListAdapter listAdapter;
 	private SwipeRefreshLayout swipeRefresher;
 	private MatchService matchService;
 	private Tournament tournament;
@@ -46,7 +49,7 @@ public class MatchListFragment extends UIQueueFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		matchService = new MatchService();
-		listAdapter = new MatchListAdapter(getActivity());
+		listAdapter = new ExpandableMatchListAdapter(getContext());
 		if (getArguments() != null) {
 			tournament = getArguments().getParcelable(TOURNAMENT);
 		}
@@ -76,13 +79,14 @@ public class MatchListFragment extends UIQueueFragment {
 				refresh();
 			}
 		});
-		ListView listView = view.findViewById(R.id.tournamentList);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				goToInfo(listAdapter.getItem(i));
-			}
-		});
+		ExpandableListView listView = view.findViewById(R.id.tournamentList);
+		listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                goToInfo(listAdapter.getChild(groupPosition, childPosition));
+                return false;
+            }
+        });
         listView.setAdapter(listAdapter);
 		return view;
 	}
