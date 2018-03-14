@@ -4,6 +4,7 @@ import { API_URL } from '../../resources/constants.jsx';
 import { Panel } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import { Redirect } from 'react-router';
+import InputGetter from './InputGetter';
 
 
 export default class TeamInformation extends Component{
@@ -17,6 +18,7 @@ export default class TeamInformation extends Component{
 			teamMembers: [],
 			teamMembersLoaded: false,
 			requesters: [],
+			prompting: false,
 		}
 		this.acceptTeamRequest = this.acceptTeamRequest.bind(this);
 		this.removeRequest = this.removeRequest.bind(this);
@@ -219,7 +221,11 @@ export default class TeamInformation extends Component{
 		if(this.state.teamLoaded && this.state.teamCreatorLoaded && this.state.teamMembersLoaded){
 			let columns = [{
 				id: 'userNames',
+				Header: 'Name',
 				accessor: 'name',
+			},{
+				Header: 'Email',
+				accessor: 'email',
 			}]
 			let requestColumns = [{
 				accessor: 'userName',
@@ -255,6 +261,7 @@ export default class TeamInformation extends Component{
 										className='-highlight'
 										defaultPageSize={10}
 									/>
+									<InputGetter getInput={(value)=> console.log(value)} displayMessage='Invite a Player'/>
 								</Panel.Body>
 							</Panel>
 						</div>
@@ -268,6 +275,7 @@ export default class TeamInformation extends Component{
 										className='-highlight'
 										defaultPageSize={10}
 									/>
+
 								</Panel.Body>
 							</Panel>
 						</div>
