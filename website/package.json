@@ -25,6 +25,7 @@
     "redux": "^3.7.2",
     "redux-form": "^6.0.0-rc.3",
     "redux-thunk": "^2.2.0",
+    "universal-cookie": "^2.1.2",
     "webpack": "^3.10.0"
   },
   "scripts": {

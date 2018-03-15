@@ -89,19 +89,19 @@ class ProfileAboutPage extends Component{
 									<tbody>
 									<tr>
 										<td>Wins:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.wins}</td>
 									</tr>
 									<tr>
 										<td>Losses:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.losses}</td>
 									</tr>
 									<tr>
 										<td>Matches:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.matches}</td>
 									</tr>
 									<tr>
 										<td>Tournaments:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.tournaments}</td>
 									</tr>
 									</tbody>
 								</Table>;

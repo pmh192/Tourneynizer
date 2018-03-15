@@ -261,7 +261,11 @@ export default class TeamInformation extends Component{
 										className='-highlight'
 										defaultPageSize={10}
 									/>
-									<InputGetter getInput={(value)=> console.log(value)} displayMessage='Invite a Player'/>
+									<InputGetter 
+										getInput={(value)=> console.log(value)} 
+										displayMessage='Invite a Player'
+										teamId={this.state.team.id}
+									/>
 								</Panel.Body>
 							</Panel>
 						</div>

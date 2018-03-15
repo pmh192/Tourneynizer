@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, Router, Redirect } from 'react-router-dom';
 import { Navbar, MenuItem, Nav, NavItem, NavDropdown, Button, DropdownButton, ButtonGroup, SplitButton } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { API_URL } from '../../resources/constants.jsx'
+import { API_URL } from '../../resources/constants.jsx';
 
 class NavBar extends React.Component {
 	constructor(){
@@ -13,6 +13,7 @@ class NavBar extends React.Component {
 			loggedOut: false,
 		}
 		this.handleClick = this.handleClick.bind(this);
+
 	}
 
 	componentWillMount(){
@@ -45,24 +46,16 @@ class NavBar extends React.Component {
 		})
 		.then((response) => {
 			if(response.ok){
-				this.setState({
-						user: null,
-						userLoaded: false,
-						loggedOut: true,
-				});
+				window.location.href='/LoginPage'
 			}
 		})
 		.catch((error) => {
     		console.error(error);
     	});
+
 	}
 
 	render() {
-
-		if(this.state.loggedOut === true){
-			window.location.href='/LoginPage';
-		}
-
 		let loggedInData = null;
 		if(this.state.user === null){
 			loggedInData = (
