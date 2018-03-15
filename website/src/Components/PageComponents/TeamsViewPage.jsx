@@ -132,6 +132,15 @@ class TeamsViewPage extends Component{
 					</center>
 				</div>
 			)
+		},{
+			Header: 'See Team Details',
+			Cell: original => (
+				<div>
+					<center>
+						<Link to={'/Profile/view/team/' + original.row._original.id}><Button>Details</Button></Link>
+					</center>
+				</div>
+			)
 		}]
 		if(!(this.state.teamsLoaded && this.state.tournamentLoaded)){
 			return(
@@ -145,7 +154,7 @@ class TeamsViewPage extends Component{
 						<ReactTable
 						    data={data}
 	    					columns={columns}
-	    					className="-striped -highlight"
+	    					className="-highlight"
 	    				/>
 					</div>
 				</center>

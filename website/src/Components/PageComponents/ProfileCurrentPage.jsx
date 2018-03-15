@@ -193,17 +193,21 @@ class ProfileCurrentPage extends Component{
 				let columns = [];
 				if(this.state.showing === 'teams'){
 					columns= [{
+						Header: 'Name',
 						accessor: 'name',
 					},{
+						Header: 'See Team Details',
 						accessor: 'id',
 						Cell: row => (
-							<Link to={'/Profile/view/team/' + row.value}>Team information</Link>
+							<Link to={'/Profile/view/team/' + row.value}><Button>Team information</Button></Link>
 						)
 					}]
 				}else if(this.state.showing === 'requests'){
 					columns = [{
+						Header: 'Name',
 						accessor: 'userName',
 					},{
+						Header: 'Email',
 						accessor: 'userEmail',
 					},{
 						Cell: original => (

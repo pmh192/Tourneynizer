@@ -16,11 +16,11 @@ class TournamentJoinPage extends Component{
 			id:0,
 			dataLoaded: false,
 		}
+		this.startTournament = this.startTournament.bind(this);
 	}
 
 	getTournament(){
 		let apiURL = API_URL + 'api/tournament/' + this.props.match.params.tourneyId;
-		console.log("executing 'getTournaments()'");
 		fetch(apiURL, {
 			method: 'GET'
 		})
@@ -48,6 +48,24 @@ class TournamentJoinPage extends Component{
 		this.getTournament();
 	}
 
+	startTournament(){
+		let apiURL = 'api/tournament/' + this.props.match.params.tourneyId + '/start';
+		fetch(apiURL, {
+			method: 'GET'
+		})
+		.then((response) => {
+			if(response.ok){
+				window.location.href='/Tournaments/matches/' + this.props.match.params.tourneyId
+			}else{
+				alert('Could not start Tournament. Make sure you are the creator and that the tournament has not started yet.');
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});
+    	
+	}
+
 	render(){
 		console.log(this.props.match.params.tourneyId);
 		if(!this.state.dataLoaded){
@@ -65,6 +83,9 @@ class TournamentJoinPage extends Component{
 								</ButtonGroup>
 								<ButtonGroup>
 									<Link to={'/Teams/create/' + this.state.id}><Button>Create a team</Button></Link>
+								</ButtonGroup>
+								<ButtonGroup>
+									<Button onClick={this.startTournament}>Start Tournament</Button>
 								</ButtonGroup>
 							</div>
 							<div><GoogleMapsView address={this.state.address} latitude={this.state.latitude} longitude={this.state.longitude}/></div>
