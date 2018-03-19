@@ -13,7 +13,7 @@ Have NodeJS and NPM installed. You can download both as a bundle here: https://n
 2. The website should automatically open in your default web browser. If it doesn't, open your browser and navigate to `http://localhost:3000` or whatever port you started the server on.
 
 ## Current Issues
-* Login does not persist past page refresh
+* Logout sometimes does not work correctly
 
 ## Important Files
 * `public/index.html` is the page template
