@@ -1,3 +1,6 @@
+# iOS
+This is the iOS front end of the application.
+
 ## Pre-Requisites
 Have the latest XCode installed with MacOS Sierra or later
 
