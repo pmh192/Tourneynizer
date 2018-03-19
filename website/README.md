@@ -20,9 +20,11 @@ Try the following:
 1. npm install -g npm@latest (don't worry if this fails its to update npm)
 2. rm -rf node_modules (to remove the existing modules.)
 3. npm install (to re-install the project dependencies.)
+4. development was done on google chrome. Not all features might be supported on other browsers. Please use Google chrome
 
 ## Current Issues
 * Logout sometimes does not work correctly
+  * Logout will redirect to the login page and you can still change accounts. If you want to create a new account close the terminal and run npm start again OR clear your cookies. The problem stems from cookies not being destroyed correctly on logout api call.
 
 ## Important Files
 * `public/index.html` is the page template
