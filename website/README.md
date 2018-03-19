@@ -12,6 +12,12 @@ Have NodeJS and NPM installed. You can download both as a bundle here: https://n
 1. Now you may run the app with command `npm start`. This will start the server on port 3000. If you need to change the start port, run `PORT=[myport] npm start`.
 2. The website should automatically open in your default web browser. If it doesn't, open your browser and navigate to `http://localhost:3000` or whatever port you started the server on.
 
+## Trouble running the app?
+Try the following:
+1. npm install -g npm@latest (don't worry if this fails its to update npm)
+2. rm -rf node_modules (to remove the existing modules.)
+3. npm install (to re-install the project dependencies.)
+
 ## Current Issues
 * Logout sometimes does not work correctly
 
