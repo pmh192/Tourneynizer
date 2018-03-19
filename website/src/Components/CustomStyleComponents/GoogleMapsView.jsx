@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import Geocode from "react-geocode";
+//import Geocode from "react-geocode";
 
 export class GoogleMapsView extends Component{
 	constructor(props){
