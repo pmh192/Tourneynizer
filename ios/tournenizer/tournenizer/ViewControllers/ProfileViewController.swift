@@ -134,16 +134,16 @@ class ProfileViewController : UIViewController {
         matchesPrompt.text = matchesPromptText;
 
         winsContent = centerPromptGenerator();
-        winsContent.text = 0.description;
+        winsContent.text = user.userInfo?.wins.description;
 
         lossesContent = centerPromptGenerator();
-        lossesContent.text = 0.description;
+        lossesContent.text = user.userInfo?.losses.description;
 
         tournamentsContent = centerPromptGenerator();
-        tournamentsContent.text = 0.description;
+        tournamentsContent.text = user.userInfo?.tournaments.description;
 
         matchesContent = centerPromptGenerator();
-        matchesContent.text = 0.description;
+        matchesContent.text = user.userInfo?.matches.description;
 
         view.addSubview(titleLabel);
         view.addSubview(statusBarCover);

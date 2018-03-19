@@ -81,6 +81,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             view.textColor = Constants.color.navy;
             view.keyboardType = .emailAddress;
             view.returnKeyType = .next;
+            view.autocapitalizationType = .none;
             return view;
         }();
 
