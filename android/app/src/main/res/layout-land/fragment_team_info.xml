@@ -69,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/marginSize"
                 android:id="@+id/requestButton1"
                 android:text="@string/viewRequests"/>
@@ -77,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/marginSize"
                 android:id="@+id/requestButton2"
                 android:text="@string/requestPlayers"/>
@@ -100,10 +102,17 @@
             android:textSize="@dimen/mediumTextSize"
             android:text="@string/teamMembers"/>
 
-        <ListView
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/memberList"/>
+            android:id="@+id/swipeRefresher">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/memberList"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

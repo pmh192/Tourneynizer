@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="@dimen/paddingSize">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/title"
+        android:textColor="@color/titleTextColor"
+        android:textSize="@dimen/mediumTextSize" />
+
+</FrameLayout>

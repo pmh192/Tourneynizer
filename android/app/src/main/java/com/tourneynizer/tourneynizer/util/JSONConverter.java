@@ -4,7 +4,9 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
+import android.util.Pair;
 
+import com.tourneynizer.tourneynizer.model.Match;
 import com.tourneynizer.tourneynizer.model.Team;
 import com.tourneynizer.tourneynizer.model.TeamRequest;
 import com.tourneynizer.tourneynizer.model.Tournament;
@@ -12,6 +14,7 @@ import com.tourneynizer.tourneynizer.model.TournamentDef;
 import com.tourneynizer.tourneynizer.model.TournamentType;
 import com.tourneynizer.tourneynizer.model.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +48,17 @@ public class JSONConverter {
         return jsonConverter;
     }
 
+    private Long nullableLongRetriever(JSONObject j, String name) {
+        if (j.isNull(name)) {
+            return null;
+        }
+        try {
+            return j.getLong(name);
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
     public Tournament convertJSONToTournament(JSONObject tJSON) {
         Tournament t;
         try {
@@ -65,7 +79,7 @@ public class JSONConverter {
                 address.setLatitude(10);
                 address.setLongitude(100);
             }
-            t = new Tournament(tJSON.getLong("id"), tJSON.getString("name"), address, new Time(tJSON.getLong("startTime")), tJSON.getInt("maxTeams"), 0/*ioooootJSON.getInt("currentTeams")*/, new Time(tJSON.getLong("timeCreated")), TournamentType.valueOf(tJSON.getString("type")), tJSON.getLong("creatorId"));
+            t = new Tournament(tJSON.getLong("id"), tJSON.getString("name"), address, new Time(tJSON.getLong("startTime")), tJSON.getInt("maxTeams"), 0/*ioooootJSON.getInt("currentTeams")*/, new Time(tJSON.getLong("timeCreated")), TournamentType.valueOf(tJSON.getString("type")), tJSON.getLong("creatorId"), tJSON.getString("status"));
         } catch (JSONException e) {
             e.printStackTrace();
             t = null;
@@ -94,7 +108,8 @@ public class JSONConverter {
     public User convertJSONToUser(JSONObject uJSON) {
         User u;
         try {
-            u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), 0 /*uJSON.getInt("wins")*/, 0 /*uJSON.getInt("losses")*/, 0 /*uJSON.get("tournamentsParticipated")*/);
+            JSONObject info = uJSON.getJSONObject("userInfo");
+            u = new User(uJSON.getLong("id"), uJSON.getString("email"), uJSON.getString("name"), new Time(uJSON.getLong("timeCreated")), info.getInt("wins"), info.getInt("losses"), info.getInt("tournaments")); // there is also info.getInt("matches")
         } catch (JSONException e) {
             u = null;
         }
@@ -111,11 +126,63 @@ public class JSONConverter {
         return t;
     }
 
+    public Match convertJSONToMatch(JSONObject mJSON) {
+        Match m;
+        try {
+            Long refereeID = nullableLongRetriever(mJSON, "refId");
+            JSONObject children = mJSON.getJSONObject("matchChildren");
+            JSONArray teams = children.getJSONArray("teams");
+            JSONArray matches = children.getJSONArray("matches");
+            Long team1ID;
+            if (teams.isNull(0)) {
+                team1ID = null;
+            } else {
+                team1ID = nullableLongRetriever(teams.getJSONObject(0), "id");
+            }
+            Long team2ID;
+            if (teams.isNull(1)) {
+                team2ID = null;
+            } else {
+                team2ID = nullableLongRetriever(teams.getJSONObject(1), "id");
+            }
+            Long child1ID;
+            if (matches.isNull(0)) {
+                child1ID = null;
+            } else {
+                child1ID = nullableLongRetriever(matches.getJSONObject(0), "id");
+            }
+            Long child2ID;
+            if (matches.isNull(1)) {
+                child2ID = null;
+            } else {
+                child2ID = nullableLongRetriever(matches.getJSONObject(1), "id");
+            }
+            Long score1 = nullableLongRetriever(mJSON, "score1");
+            Long score2 = nullableLongRetriever(mJSON, "score2");
+            Long time1 = nullableLongRetriever(mJSON, "timeStart");
+            Time startTime = null;
+            if (time1 != null) {
+                startTime = new Time(time1);
+            }
+            Long time2 = nullableLongRetriever(mJSON, "timeEnd");
+            Time endTime = null;
+            if (time2 != null) {
+                endTime = new Time(time2);
+            }
+            m = new Match(mJSON.getLong("id"), mJSON.getLong("tournamentId"), mJSON.getInt("matchOrder"), refereeID,  team1ID, team2ID, score1, score2, child1ID, child2ID, mJSON.getString("scoreType"), startTime, endTime, mJSON.getString("matchStatus"));
+        } catch (JSONException e) {
+            m = null;
+        }
+        return m;
+    }
+
     public TeamRequest convertJSONToTeamRequest(JSONObject tRequestJSON) {
         TeamRequest tRequest;
         try {
-            Boolean accepted = null;
-            if (!tRequestJSON.isNull("accepted")) {
+            Boolean accepted;
+            if (tRequestJSON.isNull("accepted")) {
+                accepted = null;
+            } else {
                 accepted = tRequestJSON.getBoolean("accepted");
             }
             tRequest = new TeamRequest(tRequestJSON.getLong("id"), tRequestJSON.getLong("teamId"), tRequestJSON.getLong("userId"), tRequestJSON.getLong("requesterId"), accepted, new Time(tRequestJSON.getLong("timeRequested")));

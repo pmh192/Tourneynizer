@@ -18,24 +18,27 @@ import com.tourneynizer.tourneynizer.services.TeamService;
 
 import java.util.List;
 
-public class JoinTeamFragment extends UIQueueFragment {
+public class TeamListFragment extends UIQueueFragment {
 
     private static final String TEAMS = "com.tourneynizer.tourneynizer.model.Team[]";
     private static final String TOURNAMENT = "com.tourneynizer.tourneynizer.model.Tournament";
+    private static final String COMPLETE = "java.boolean";
 
     private Tournament tournament;
     private TeamService teamService;
     private TeamListAdapter listAdapter;
     private SwipeRefreshLayout swipeRefresher;
+    private boolean complete;
 
-    public JoinTeamFragment() {
+    public TeamListFragment() {
         // Required empty public constructor
     }
 
-    public static JoinTeamFragment newInstance(Tournament t) {
-        JoinTeamFragment fragment = new JoinTeamFragment();
+    public static TeamListFragment newInstance(Tournament t, boolean c) {
+        TeamListFragment fragment = new TeamListFragment();
         Bundle args = new Bundle();
         args.putParcelable(TOURNAMENT, t);
+        args.putBoolean(COMPLETE, c);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,6 +48,7 @@ public class JoinTeamFragment extends UIQueueFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             tournament = getArguments().getParcelable(TOURNAMENT);
+            complete = getArguments().getBoolean(COMPLETE);
         }
         teamService = new TeamService();
         listAdapter = new TeamListAdapter(getActivity());
@@ -63,7 +67,7 @@ public class JoinTeamFragment extends UIQueueFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_join_team, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_team, container, false);
         ListView teamsList = view.findViewById(R.id.teamList);
         swipeRefresher = view.findViewById(R.id.swipeRefresher);
         swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -103,7 +107,7 @@ public class JoinTeamFragment extends UIQueueFragment {
         if (swipeRefresher != null) {
             swipeRefresher.setRefreshing(true);
         }
-        teamService.getPendingTeams(tournament, new TeamService.OnTeamsLoadedListener() {
+        TeamService.OnTeamsLoadedListener listener = new TeamService.OnTeamsLoadedListener() {
             @Override
             public void onTeamsLoaded(final Team[] teams) {
                 performUITask(new Runnable() {
@@ -118,7 +122,12 @@ public class JoinTeamFragment extends UIQueueFragment {
                     }
                 });
             }
-        });
+        };
+        if (complete) {
+            teamService.getCompleteTeams(tournament, listener);
+        } else {
+            teamService.getPendingTeams(tournament, listener);
+        }
     }
 
     public void goToTeamInfo(Team t) {

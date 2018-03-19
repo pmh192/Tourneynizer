@@ -84,25 +84,33 @@ android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/requestButtons"
-            android:layout_marginBottom="@dimen/marginSize"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/joinTeam"
+                android:visibility="gone"
+                android:id="@+id/button1"
                 android:text="@string/viewPendingTeams" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/createTeam"
+                android:visibility="gone"
+                android:id="@+id/button2"
                 android:text="@string/createOwnTeam"/>
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/marginSize"
+            android:text="@string/startTournament"
+            android:visibility="gone"
+            android:id="@+id/startTournament"/>
 
     </LinearLayout>
 

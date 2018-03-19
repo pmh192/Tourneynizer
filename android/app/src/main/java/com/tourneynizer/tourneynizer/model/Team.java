@@ -60,7 +60,7 @@ public class Team implements Parcelable {
         }
     };
 
-    public long getId() {
+    public long getID() {
         return id;
     }
 
@@ -107,5 +107,10 @@ public class Team implements Parcelable {
         parcel.writeByte((byte) (checkedIn ? 1 : 0));
         parcel.writeByte((byte) (approved ? 1 : 0));
         parcel.writeParcelable(logo, i);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return id == ((Team) other).id;
     }
 }

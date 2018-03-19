@@ -57,6 +57,8 @@ public class HTTPService {
             } catch (UnsupportedEncodingException error) {
                 Log.e("Error", "Can't print network response error");
             }
+        } else {
+            Log.e("Error", "Can't print network response error", e);
         }
     }
 }

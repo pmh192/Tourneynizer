@@ -80,7 +80,7 @@ public class User implements Parcelable {
         parcel.writeInt(tournamentsParticipated);
     }
 
-    public long getId() {
+    public long getID() {
         return id;
     }
 

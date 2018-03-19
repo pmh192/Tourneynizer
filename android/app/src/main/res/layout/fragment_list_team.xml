@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tourneynizer.tourneynizer.fragments.TeamListFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginSize"
+        android:textColor="@color/titleTextColor"
+        android:textSize="@dimen/largeTextSize"
+        android:textAlignment="center"
+        android:text="@string/teams"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeRefresher">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/teamList"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>
