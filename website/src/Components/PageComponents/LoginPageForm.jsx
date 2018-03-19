@@ -38,9 +38,7 @@ class LoginPageForm extends Component{
 		})
 		.then( response => {
 			if(response.status === 200){
-				response.json().then( json => {
-					window.location.href='/Tournaments/view';
-				})
+				window.location.href='/Tournaments/view';
 			}else{
 				alert('Could not login... check your username and password')
 			}

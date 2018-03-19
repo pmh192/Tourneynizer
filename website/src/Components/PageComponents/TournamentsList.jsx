@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tournament from './Tournament'
 import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
+import { Button } from 'react-bootstrap';
 import 'react-table/react-table.css';
 import { API_URL } from '../../resources/constants.jsx';
 
@@ -79,7 +80,7 @@ class TournamentsList extends Component{
 				Cell: row => (
 					<div>
 						<Link to={'/Tournaments/join/' + row.value}>
-							<center>Details</center>
+							<center><Button>Details</Button></center>
 						</Link>
 					</div>
 				)
@@ -89,7 +90,7 @@ class TournamentsList extends Component{
 					<ReactTable
 					    data={data}
     					columns={columns}
-    					className="-striped -highlight"
+    					className="-highlight"
 					/>
 				</div>
 			);

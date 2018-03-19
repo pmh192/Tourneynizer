@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Table } from 'react-bootstrap';
+import { Jumbotron, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../resources/constants.jsx';
 
@@ -78,7 +78,7 @@ class ProfileAboutPage extends Component{
 				<center>
 					<div>
 						<Jumbotron>
-							<h1>{this.state.user.name}'s Profile</h1>
+							<h2>{this.state.user.name}'s Profile</h2>
 							<div className='stats'>
 								<Table condensed hover>
 									<thead>
@@ -89,22 +89,24 @@ class ProfileAboutPage extends Component{
 									<tbody>
 									<tr>
 										<td>Wins:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.wins}</td>
 									</tr>
 									<tr>
 										<td>Losses:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.losses}</td>
 									</tr>
 									<tr>
 										<td>Matches:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.matches}</td>
 									</tr>
 									<tr>
 										<td>Tournaments:</td>
-										<td>0</td>
+										<td>{this.state.user.userInfo.tournaments}</td>
 									</tr>
 									</tbody>
-								</Table>;
+									<center><Link to='/Profile/current'><Button>See your active teams and requests</Button></Link></center>
+								</Table>
+		
 							</div>
 						</Jumbotron>
 					</div>

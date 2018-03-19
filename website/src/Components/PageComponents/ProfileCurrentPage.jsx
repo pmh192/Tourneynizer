@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Jumbotron, ButtonToolbar, ToggleButton, ToggleButtonGroup, ButtonGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../resources/constants.jsx';
 import ReactTable from 'react-table';
@@ -16,6 +16,7 @@ class ProfileCurrentPage extends Component{
 			displayData: [],
 			showing: 'teams',
 			requests:[],
+			requestTeam: '',
 			tournamentsLoaded: true,
 			teamsLoaded: false,
 			matches: [],
@@ -23,16 +24,21 @@ class ProfileCurrentPage extends Component{
 			tournaments: [],
 		}
 		this.handleRadioChange = this.handleRadioChange.bind(this);
+		this.acceptTeam = this.acceptTeam.bind(this);
+		this.rejectTeam = this.rejectTeam.bind(this);
+		this.removeRequest = this.removeRequest.bind(this);
 	}
 
 	componentWillMount(){
 		this.getTournaments();
 		this.getTeams();
+		this.getRequests();
 	}
 
 	handleRadioChange(e){
 		console.log(e.target.value);
 		if(parseInt(e.target.value) === 2){
+			this.getTeams();
 			this.setState({
 				displayData: this.state.teams,
 				showing: 'teams',
@@ -72,8 +78,8 @@ class ProfileCurrentPage extends Component{
     	});
 	}
 
-	getRequests(){		
-		let apiURL = API_URL + '/api/user/requests/pending';
+	getRequests(){	
+		let apiURL = API_URL + 'api/user/requests/pending';
 		fetch(apiURL, {
 			method: 'GET',
 			credentials: 'include',
@@ -95,7 +101,6 @@ class ProfileCurrentPage extends Component{
 					Promise.all(userPromises).then((responses) => {
 						Promise.all(responses.map(res => res.json())).then(json => {
 							let userReqs = [];
-
 							//get requestIds and users together in object form
 							for(let i = 0; i < reqs.length; i++){
 								//if a match is found stop trying to find match and move on to next pair
@@ -132,6 +137,57 @@ class ProfileCurrentPage extends Component{
 
 	}
 
+	rejectTeam(request){
+		console.log(request);
+		let apiURL = API_URL + 'api/requests/' + request;
+		fetch(apiURL, {
+			method: 'DELETE',
+			credentials: 'include',
+		})
+		.then((response) => {
+			if(!response.ok){
+				response.json().then(json => {
+					alert(json.message)
+				})
+			}else{
+    			this.removeRequest(request);
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});
+
+	}
+
+	acceptTeam(request){
+		console.log(request);
+		let apiURL = API_URL +  'api/requests/' + request + '/accept';
+		fetch(apiURL, {
+			method: 'GET',
+			credentials: 'include',
+		})
+		.then((response) => {
+			if(!response.ok){
+				response.json().then(json => {
+					alert(json.message)
+				})
+			}else{
+				this.removeRequest(request);
+			}
+		})
+		.catch((error) => {
+    		console.error(error);
+    	});
+	}
+
+	removeRequest(id){
+		console.log(id)
+		this.setState(prevState => ({ 
+	    	requests: prevState.requests.filter(request => request.requestId !== id), 
+	    	displayData: prevState.requests.filter(request => request.requestId !== id),
+	    }));
+	}
+
 	render(){
 		if(this.state.tournamentsLoaded && this.state.teamsLoaded){
 				let columns = [];
@@ -140,16 +196,28 @@ class ProfileCurrentPage extends Component{
 						Header: 'Name',
 						accessor: 'name',
 					},{
+						Header: 'See Team Details',
 						accessor: 'id',
 						Cell: row => (
-							<Link to={'/Profile/view/team/' + row.value}>Team information</Link>
+							<Link to={'/Profile/view/team/' + row.value}><Button>Team information</Button></Link>
 						)
 					}]
 				}else if(this.state.showing === 'requests'){
 					columns = [{
+						Header: 'Name',
 						accessor: 'userName',
 					},{
+						Header: 'Email',
 						accessor: 'userEmail',
+					},{
+						Cell: original => (
+							<div>
+								<ButtonGroup>
+									<Button onClick={() => this.acceptTeam(original.row._original.requestId)}>Accept</Button>
+									<Button onClick={() => this.rejectTeam(original.row._original.requestId)}>Reject</Button>
+								</ButtonGroup>
+							</div>
+						)
 					}]
 				}
 
@@ -168,7 +236,7 @@ class ProfileCurrentPage extends Component{
 								<ReactTable
 								    data={this.state.displayData}
 			    					columns={columns}
-			    					className="-striped -highlight"
+			    					className="-highlight"
 			    				/>
 						</Jumbotron>
 					</center>

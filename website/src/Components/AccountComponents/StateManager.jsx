@@ -13,6 +13,7 @@ import AccountCreationPage from '../PageComponents/AccountCreationPage';
 import TeamsViewPage from '../PageComponents/TeamsViewPage';
 import TeamCreationPage from '../PageComponents/TeamCreationPage';
 import TeamInformation from '../PageComponents/TeamInformation';
+import TournamentMatchPage from '../PageComponents/TournamentMatchPage';
 
 
 class StateManager extends Component{
@@ -55,6 +56,7 @@ class StateManager extends Component{
 					<Route exact path="/Tournaments/view" component={TournamentViewPage} />
 					<Route exact path="/Tournaments/create" component={TournamentCreatePage} />
 					<Route exact path="/Tournaments/join/:tourneyId" component={TournamentJoinPage} />
+					<Route exact path="/Tournaments/matches/:tourneyId" component={TournamentMatchPage} />
 					<Route exact path="/Tournaments/rules" component={TournamentRulesPage} />
 					<Route exact path="/Teams/view/:tourneyId" component={TeamsViewPage} />
 					<Route exact path="/Teams/create/:tourneyId" component={TeamCreationPage} />
