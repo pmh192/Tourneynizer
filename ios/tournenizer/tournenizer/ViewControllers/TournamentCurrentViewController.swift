@@ -77,8 +77,7 @@ class TournamentCurrentViewController : UIViewController {
 
         matchSwitch = {
             let view = UISegmentedControl.newAutoLayout();
-            view.insertSegment(withTitle: "In Progress/Future Matches", at: 0, animated: false);
-            view.insertSegment(withTitle: "Completed Matches", at: 1, animated: false);
+            view.insertSegment(withTitle: "Matches", at: 0, animated: false);
             view.tintColor = Constants.color.navy;
             view.selectedSegmentIndex = 0;
             return view;

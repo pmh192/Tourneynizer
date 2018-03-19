@@ -15,6 +15,7 @@ class User : Codable {
     var name: String;
     var password: String?;
     var timeCreated: Date;
+    var userInfo: PlayerStatistics?;
 
     init(email: String, name: String, password: String? = nil, timeCreated: Date = Date(), id: CUnsignedLong = 0) {
         self.email = email;

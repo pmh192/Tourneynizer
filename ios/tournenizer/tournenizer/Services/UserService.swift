@@ -101,7 +101,6 @@ class UserService : Service {
     }
 
     func getUser(_ id: CUnsignedLong, cb: @escaping (String?, User?) -> Void) {
-
         makeRequest(url: Constants.route.user.get(id), type: .GET, body: Data(base64Encoded: "")) { (error: String?, data: Data?) in
             if(error != nil) {
                 return cb(error, nil);

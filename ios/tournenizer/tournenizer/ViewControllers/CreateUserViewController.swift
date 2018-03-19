@@ -90,6 +90,7 @@ class CreateUserViewController: UIViewController, UITextFieldDelegate {
             view.textColor = Constants.color.navy;
             view.returnKeyType = .next;
             view.keyboardType = .emailAddress;
+            view.autocapitalizationType = .none;
             return view;
         }();
 
