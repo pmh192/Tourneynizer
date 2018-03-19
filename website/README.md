@@ -1,3 +1,6 @@
+# Web
+This is website front end for the application.
+
 ## Pre-Requisites
 Have NodeJS and NPM installed. You can download both as a bundle here: https://nodejs.org/en/download/ . Download the version appropriate for your OS. Node v6.12.3 and its associated NPM are the minimum version.
 
